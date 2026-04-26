@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Momo Paper Showcase Gallery</title>
+    <link rel="stylesheet" href="./showcase.css" />
+  </head>
+  <body>
+    <main class="page-shell">
+      <section class="frame gallery-hero reveal">
+        <div class="eyebrow">Momo Paper / Routed Showcase</div>
+        <h1 class="hero-title">A routed design system for documents and visual narratives.</h1>
+        <p class="hero-copy">
+          Momo Paper 通过 `document type -> route -> template` 的路径来组织文档和可视叙事。下面这些样张不是不同品牌，而是同一套视觉语言下的公开入口、内部 route 与样张资产。
+        </p>
+
+        <div class="summary-strip">
+          <article class="summary-item">
+            <span class="summary-label">公开类型</span>
+            <span class="summary-value">15 类</span>
+            <div class="summary-note">从 one-pager、long doc 到 equity report、changelog、infographic，Momo Paper 现在提供 15 个公开 document type 入口。</div>
+          </article>
+          <article class="summary-item">
+            <span class="summary-label">已公开样张</span>
+            <span class="summary-value">5 类</span>
+            <div class="summary-note">当前样张覆盖 `one_pager`、`infographic`、`process_flow`、`timeline`、`resume`，其余入口通过模板与 route reference 对外开放。</div>
+          </article>
+          <article class="summary-item">
+            <span class="summary-label">图示原语</span>
+            <span class="summary-value">14 个</span>
+            <div class="summary-note">架构图、流程图、象限图、K 线、瀑布图等都已进入 `assets/diagrams/`，作为文档内的 diagram primitives 使用。</div>
+          </article>
+        </div>
+
+        <div class="gallery-grid">
+          <a class="gallery-card reveal delay-1" href="./showcase-page.html">
+            <div>
+              <div class="card-index">01 / one_pager</div>
+              <h3>说明型网页</h3>
+              <p>适合系统介绍、叙事性页面、可滚动报告和结构化着陆页，同时默认保持 print-safe 文档秩序。</p>
+            </div>
+            <div class="preview-slab">
+              <div class="preview-line short"></div>
+              <div class="preview-line medium"></div>
+              <div class="preview-line long"></div>
+              <div class="preview-boxes">
+                <div class="preview-box"></div>
+                <div class="preview-box"></div>
+                <div class="preview-box"></div>
+              </div>
+            </div>
+          </a>
+
+          <a class="gallery-card alt reveal delay-1" href="./infographic-showcase.html">
+            <div>
+              <div class="card-index">02 / infographic</div>
+              <h3>信息图与指标集群</h3>
+              <p>适合排行榜、对比矩阵、核心数字拆解、单页传播型内容。</p>
+            </div>
+            <div class="preview-slab">
+              <div class="preview-line short"></div>
+              <div class="preview-boxes">
+                <div class="preview-box"></div>
+                <div class="preview-box"></div>
+                <div class="preview-box"></div>
+              </div>
+            </div>
+          </a>
+
+          <a class="gallery-card reveal delay-2" href="./process-flow-showcase.html">
+            <div>
+              <div class="card-index">03 / process_flow</div>
+              <h3>流程图与工作流</h3>
+              <p>适合 agent pipeline、运营流程、交付路径、阶段化执行说明。</p>
+            </div>
+            <div class="preview-slab">
+              <div class="preview-flow">
+                <div class="preview-node"></div>
+                <div class="preview-arrow"></div>
+                <div class="preview-node"></div>
+                <div class="preview-arrow"></div>
+              </div>
+            </div>
+          </a>
+
+          <a class="gallery-card alt reveal delay-2" href="./timeline-showcase.html">
+            <div>
+              <div class="card-index">04 / timeline</div>
+              <h3>时间线与里程碑</h3>
+              <p>适合 roadmap、项目进展、产品演进、履历历程和事件脉络。</p>
+            </div>
+            <div class="preview-slab">
+              <div class="preview-timeline">
+                <div class="preview-timeline-item">
+                  <div class="preview-line short"></div>
+                </div>
+                <div class="preview-timeline-item">
+                  <div class="preview-line medium"></div>
+                </div>
+                <div class="preview-timeline-item">
+                  <div class="preview-line short"></div>
+                </div>
+              </div>
+            </div>
+          </a>
+
+          <a class="gallery-card reveal delay-3" href="./resume-showcase.html">
+            <div>
+              <div class="card-index">05 / resume</div>
+              <h3>简历与人物档案</h3>
+              <p>适合个人履历、专家卡、演讲者介绍、作者页和顾问档案。</p>
+            </div>
+            <div class="preview-slab">
+              <div class="preview-line short"></div>
+              <div class="preview-line medium"></div>
+              <div class="preview-boxes" style="grid-template-columns: 1fr 2fr;">
+                <div class="preview-box" style="height: 120px;"></div>
+                <div class="preview-box" style="height: 120px;"></div>
+              </div>
+            </div>
+          </a>
+
+          <article class="gallery-card alt reveal delay-3">
+            <div>
+              <div class="card-index">06 / Registry</div>
+              <h3>已收编与候选项</h3>
+              <p>`faq_page`、`case_study`、`research_summary` 已正式进入 document shape；`comparison_matrix`、`topic_cover` 仍保留为 pattern candidate。</p>
+            </div>
+            <div class="preview-slab">
+              <div class="preview-line long"></div>
+              <div class="preview-line short"></div>
+              <div class="preview-boxes">
+                <div class="preview-box"></div>
+                <div class="preview-box"></div>
+                <div class="preview-box"></div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <footer>
+        <span>Momo Paper / A routed design system for documents and visual narratives.</span>
+        <span>Document types · Routes · Templates · Diagrams</span>
+      </footer>
+    </main>
+  </body>
+</html>

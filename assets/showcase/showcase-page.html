@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Momo Paper Showcase</title>
+    <style>
+      :root {
+        --ink: #172033;
+        --ink-subtle: #4c566a;
+        --paper: #faf8f4;
+        --canvas: #f2efe8;
+        --line: #d8d2c4;
+        --brand: #244c7a;
+        --brand-muted: #dce7f2;
+        --accent: #b65c3a;
+        --accent-muted: #f2e1d9;
+        --success: #2f6b4f;
+        --shadow-soft: 0 8px 24px rgba(23, 32, 51, 0.08);
+        --shadow-raised: 0 14px 32px rgba(23, 32, 51, 0.12);
+        --radius-sm: 4px;
+        --radius-md: 8px;
+        --radius-lg: 12px;
+        --space-2: 8px;
+        --space-3: 12px;
+        --space-4: 16px;
+        --space-5: 24px;
+        --space-6: 32px;
+        --space-7: 40px;
+        --space-8: 48px;
+        --space-9: 64px;
+        --space-10: 80px;
+        --max-page: 1280px;
+        --max-copy: 840px;
+        --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+        --serif: "Noto Serif SC", "Source Han Serif SC", "Songti SC", serif;
+        --sans: "Inter", "Noto Sans SC", "PingFang SC", sans-serif;
+        --data: "IBM Plex Sans", "Inter", sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        font-family: var(--sans);
+        color: var(--ink);
+        background:
+          radial-gradient(circle at top left, rgba(36, 76, 122, 0.08), transparent 28%),
+          radial-gradient(circle at 85% 20%, rgba(182, 92, 58, 0.08), transparent 22%),
+          linear-gradient(180deg, #f7f4ee 0%, var(--paper) 100%);
+      }
+
+      .page-shell {
+        width: min(calc(100% - 48px), var(--max-page));
+        margin: 0 auto;
+        padding: 32px 0 96px;
+      }
+
+      .frame {
+        position: relative;
+        overflow: hidden;
+        border: 1px solid rgba(216, 210, 196, 0.8);
+        border-radius: 24px;
+        background: rgba(250, 248, 244, 0.9);
+        box-shadow: var(--shadow-raised);
+      }
+
+      .frame::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background:
+          linear-gradient(135deg, rgba(255, 255, 255, 0.38), transparent 32%),
+          linear-gradient(180deg, rgba(36, 76, 122, 0.03), transparent 32%);
+        pointer-events: none;
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1.1fr) minmax(300px, 0.9fr);
+        gap: var(--space-9);
+        padding: var(--space-10);
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--space-2);
+        margin-bottom: var(--space-5);
+        padding: 6px 10px;
+        border-radius: 999px;
+        border: 1px solid rgba(36, 76, 122, 0.16);
+        background: rgba(220, 231, 242, 0.82);
+        color: var(--brand);
+        font-size: 12px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .hero h1,
+      .section-title,
+      .quote strong {
+        font-family: var(--serif);
+      }
+
+      .hero h1 {
+        margin: 0 0 var(--space-5);
+        max-width: 11ch;
+        font-size: clamp(3rem, 5vw, 4.5rem);
+        line-height: 1.02;
+        letter-spacing: -0.04em;
+      }
+
+      .hero p {
+        max-width: 62ch;
+        margin: 0 0 var(--space-6);
+        color: var(--ink-subtle);
+        font-size: 17px;
+        line-height: 1.72;
+      }
+
+      .summary-strip {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: var(--space-4);
+        margin-top: var(--space-7);
+      }
+
+      .summary-item {
+        padding: var(--space-4) 0 0;
+        border-top: 1px solid rgba(23, 32, 51, 0.12);
+      }
+
+      .summary-item .label {
+        color: var(--ink-subtle);
+        font-size: 12px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .summary-item .value {
+        display: block;
+        margin-top: 10px;
+        font-family: var(--data);
+        font-size: 28px;
+        font-weight: 600;
+      }
+
+      .summary-item .note {
+        margin-top: 8px;
+        color: var(--ink-subtle);
+        font-size: 13px;
+        line-height: 1.55;
+      }
+
+      .hero-panel {
+        display: grid;
+        gap: var(--space-5);
+        align-content: start;
+      }
+
+      .panel-card {
+        position: relative;
+        padding: var(--space-5);
+        border: 1px solid rgba(216, 210, 196, 0.9);
+        border-radius: var(--radius-lg);
+        background: rgba(242, 239, 232, 0.72);
+        box-shadow: var(--shadow-soft);
+      }
+
+      .panel-card h2,
+      .panel-card h3,
+      .section-title {
+        margin: 0;
+        font-size: 14px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .mini-chart {
+        display: grid;
+        gap: 14px;
+        margin-top: var(--space-4);
+      }
+
+      .bar {
+        display: grid;
+        grid-template-columns: 92px minmax(0, 1fr) 44px;
+        gap: 14px;
+        align-items: center;
+        font-size: 13px;
+        color: var(--ink-subtle);
+      }
+
+      .bar-track {
+        overflow: hidden;
+        height: 10px;
+        border-radius: 999px;
+        background: rgba(23, 32, 51, 0.08);
+      }
+
+      .bar-fill {
+        height: 100%;
+        border-radius: inherit;
+      }
+
+      .bar-fill.brand {
+        background: linear-gradient(90deg, var(--brand), #5c7fa3);
+      }
+
+      .bar-fill.accent {
+        background: linear-gradient(90deg, var(--accent), #d19377);
+      }
+
+      .bar-fill.success {
+        background: linear-gradient(90deg, var(--success), #5d8f74);
+      }
+
+      .metric-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: var(--space-4);
+      }
+
+      .metric {
+        padding: var(--space-5);
+        border: 1px solid rgba(216, 210, 196, 0.9);
+        border-radius: var(--radius-lg);
+        background: rgba(250, 248, 244, 0.92);
+      }
+
+      .metric .tag {
+        color: var(--ink-subtle);
+        font-size: 12px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .metric .num {
+        display: block;
+        margin-top: var(--space-3);
+        font-family: var(--data);
+        font-size: clamp(1.9rem, 3vw, 2.7rem);
+        font-weight: 600;
+        letter-spacing: -0.04em;
+      }
+
+      .metric .delta {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: var(--space-4);
+        color: var(--ink-subtle);
+        font-size: 13px;
+      }
+
+      .delta::before {
+        content: "";
+        width: 8px;
+        height: 8px;
+        border-radius: 999px;
+        background: var(--accent);
+      }
+
+      section {
+        margin-top: var(--space-8);
+      }
+
+      .editorial-block {
+        display: grid;
+        grid-template-columns: minmax(0, 0.92fr) minmax(280px, 0.68fr);
+        gap: var(--space-8);
+        padding: var(--space-9);
+      }
+
+      .section-header {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: var(--space-5);
+        margin-bottom: var(--space-6);
+      }
+
+      .section-title {
+        font-size: clamp(1.8rem, 3vw, 2.6rem);
+        letter-spacing: -0.03em;
+        text-transform: none;
+      }
+
+      .section-kicker {
+        max-width: 240px;
+        color: var(--ink-subtle);
+        font-size: 12px;
+        line-height: 1.6;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+
+      .prose p {
+        margin: 0 0 var(--space-5);
+        color: var(--ink-subtle);
+        font-size: 16px;
+        line-height: 1.78;
+      }
+
+      .quote {
+        padding: var(--space-6);
+        border-left: 3px solid var(--brand);
+        background: linear-gradient(180deg, rgba(220, 231, 242, 0.44), rgba(220, 231, 242, 0.16));
+      }
+
+      .quote strong {
+        display: block;
+        margin-bottom: var(--space-3);
+        font-size: 1.45rem;
+        line-height: 1.4;
+      }
+
+      .quote p,
+      .method-note p {
+        margin: 0;
+        color: var(--ink-subtle);
+        font-size: 14px;
+        line-height: 1.7;
+      }
+
+      .cards-row {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: var(--space-5);
+        margin-top: var(--space-6);
+      }
+
+      .fact-card {
+        padding: var(--space-5);
+        border: 1px solid rgba(216, 210, 196, 0.9);
+        border-radius: var(--radius-lg);
+        background: rgba(250, 248, 244, 0.88);
+      }
+
+      .fact-card .index {
+        color: var(--brand);
+        font-family: var(--data);
+        font-size: 12px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+
+      .fact-card h3 {
+        margin: var(--space-3) 0 var(--space-3);
+        font-size: 1.1rem;
+      }
+
+      .fact-card p {
+        margin: 0;
+        color: var(--ink-subtle);
+        font-size: 14px;
+        line-height: 1.7;
+      }
+
+      .data-block {
+        display: grid;
+        grid-template-columns: minmax(0, 0.72fr) minmax(280px, 0.55fr);
+        gap: var(--space-6);
+        padding: var(--space-8);
+        background:
+          linear-gradient(180deg, rgba(36, 76, 122, 0.035), transparent 36%),
+          rgba(250, 248, 244, 0.9);
+      }
+
+      .chart-card,
+      .insight-card,
+      .method-note {
+        padding: var(--space-5);
+        border: 1px solid rgba(216, 210, 196, 0.9);
+        border-radius: var(--radius-lg);
+        background: rgba(250, 248, 244, 0.94);
+      }
+
+      .chart-header,
+      .insight-card h3,
+      .method-note h3 {
+        margin: 0 0 var(--space-4);
+        font-size: 14px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .line-chart {
+        height: 280px;
+        border-radius: var(--radius-md);
+        background:
+          linear-gradient(rgba(23, 32, 51, 0.05) 1px, transparent 1px) 0 0 / 100% 25%,
+          linear-gradient(90deg, rgba(23, 32, 51, 0.05) 1px, transparent 1px) 0 0 / 20% 100%;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .line-chart svg {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+      }
+
+      .legend {
+        display: flex;
+        gap: 18px;
+        margin-top: var(--space-4);
+        color: var(--ink-subtle);
+        font-size: 13px;
+      }
+
+      .legend span {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .legend i {
+        width: 20px;
+        height: 3px;
+        border-radius: 999px;
+      }
+
+      .insight-card {
+        align-self: start;
+      }
+
+      .insight-card .headline {
+        margin: 0 0 var(--space-4);
+        font-family: var(--serif);
+        font-size: 1.6rem;
+        line-height: 1.3;
+      }
+
+      .insight-card p {
+        margin: 0;
+        color: var(--ink-subtle);
+        font-size: 15px;
+        line-height: 1.75;
+      }
+
+      .closing {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: var(--space-6);
+        align-items: end;
+        padding: var(--space-8);
+      }
+
+      .closing h2 {
+        margin: 0 0 var(--space-3);
+        font-family: var(--serif);
+        font-size: clamp(2rem, 3vw, 3rem);
+        line-height: 1.06;
+        letter-spacing: -0.04em;
+      }
+
+      .closing p,
+      footer {
+        color: var(--ink-subtle);
+      }
+
+      .closing p {
+        max-width: 56ch;
+        margin: 0;
+        font-size: 15px;
+        line-height: 1.75;
+      }
+
+      .stamp {
+        padding: var(--space-4) var(--space-5);
+        border: 1px solid rgba(36, 76, 122, 0.18);
+        border-radius: 999px;
+        background: rgba(220, 231, 242, 0.65);
+        color: var(--brand);
+        font-size: 12px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+
+      footer {
+        display: flex;
+        justify-content: space-between;
+        gap: var(--space-4);
+        margin-top: var(--space-5);
+        padding: 0 var(--space-2);
+        font-size: 12px;
+      }
+
+      .reveal {
+        opacity: 0;
+        transform: translateY(24px);
+        animation: rise 0.7s var(--ease) forwards;
+      }
+
+      .reveal.delay-1 {
+        animation-delay: 0.08s;
+      }
+
+      .reveal.delay-2 {
+        animation-delay: 0.16s;
+      }
+
+      .reveal.delay-3 {
+        animation-delay: 0.24s;
+      }
+
+      @keyframes rise {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @media (max-width: 980px) {
+        .hero,
+        .editorial-block,
+        .data-block,
+        .closing {
+          grid-template-columns: 1fr;
+        }
+
+        .summary-strip,
+        .cards-row,
+        .metric-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .page-shell {
+          width: min(calc(100% - 28px), var(--max-page));
+          padding-top: 14px;
+        }
+
+        .hero,
+        .editorial-block,
+        .data-block,
+        .closing {
+          padding: var(--space-7);
+        }
+
+        .section-header {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page-shell">
+      <section class="frame hero reveal">
+        <div>
+          <div class="eyebrow">Momo Paper / web_dual.explainer</div>
+          <h1>结论优先，然后才是风格。</h1>
+          <p>
+            这是一个按新设计系统落地的单页示范。它不追求炫技，而是用统一的色彩、版式、文字气质与数据表达，把网页、PPT、信息图和报告的共同视觉基因压到同一条轨道上。
+          </p>
+          <div class="summary-strip">
+            <article class="summary-item">
+              <span class="label">系统目标</span>
+              <span class="value">5 类产物</span>
+              <div class="note">页面、PPT、信息图、文章、统计报告共用一套风格源。</div>
+            </article>
+            <article class="summary-item">
+              <span class="label">约束方式</span>
+              <span class="value">Preset + Token</span>
+              <div class="note">先选模板，再调用设计 token，不允许临时发明视觉语言。</div>
+            </article>
+            <article class="summary-item">
+              <span class="label">默认气质</span>
+              <span class="value">理性编辑型</span>
+              <div class="note">克制、可信、结构清晰，视觉服务信息，而不是反过来。</div>
+            </article>
+          </div>
+        </div>
+
+        <aside class="hero-panel reveal delay-1">
+          <div class="panel-card">
+            <h2>Pattern Fit</h2>
+            <div class="mini-chart">
+              <div class="bar">
+                <span>网页</span>
+                <div class="bar-track"><div class="bar-fill brand" style="width: 92%"></div></div>
+                <strong>92</strong>
+              </div>
+              <div class="bar">
+                <span>PPT</span>
+                <div class="bar-track"><div class="bar-fill accent" style="width: 84%"></div></div>
+                <strong>84</strong>
+              </div>
+              <div class="bar">
+                <span>信息图</span>
+                <div class="bar-track"><div class="bar-fill success" style="width: 76%"></div></div>
+                <strong>76</strong>
+              </div>
+            </div>
+          </div>
+
+          <div class="metric-grid">
+            <article class="metric">
+              <span class="tag">Typography</span>
+              <span class="num">2 + 1</span>
+              <span class="delta">2 套主字体 + 1 套数据字体系</span>
+            </article>
+            <article class="metric">
+              <span class="tag">Component Set</span>
+              <span class="num">12</span>
+              <span class="delta">只保留高频结构组件，避免风格漂移</span>
+            </article>
+          </div>
+        </aside>
+      </section>
+
+      <section class="frame editorial-block reveal delay-1">
+        <div>
+          <div class="section-header">
+            <h2 class="section-title">统一风格，不等于所有东西长一样。</h2>
+            <div class="section-kicker">Shared DNA / Variant by Medium</div>
+          </div>
+          <div class="prose">
+            <p>
+              这套系统的核心不是模板套模板，而是先把不该变化的部分收紧。颜色只来自固定 token，标题和正文各自有明确的字体职责，图表只允许使用少数几种结构，组件也按媒介白名单管理。
+            </p>
+            <p>
+              在这个前提下，不同媒介再去做自己的事。网页强调滚动节奏，PPT 强调单页结论，信息图强调路径引导，文章强调阅读舒适度，数据报告强调方法与证据透明。家族相似，但不是机械复制。
+            </p>
+          </div>
+          <div class="cards-row">
+            <article class="fact-card">
+              <div class="index">01 / Type</div>
+              <h3>标题是判断器</h3>
+              <p>标题必须先交代主题或结论，不能拿情绪口号代替结构。</p>
+            </article>
+            <article class="fact-card">
+              <div class="index">02 / Color</div>
+              <h3>色彩是编码，不是装饰</h3>
+              <p>主色负责结构，强调色负责提醒，语义色只在语义场景出现。</p>
+            </article>
+            <article class="fact-card">
+              <div class="index">03 / Density</div>
+              <h3>密度按任务切换</h3>
+              <p>同一品牌下允许 calm、standard、dense 三档，但不能随意失控。</p>
+            </article>
+          </div>
+        </div>
+
+        <aside class="quote">
+          <strong>“先让 agent 定 route，再让它写内容。”</strong>
+          <p>
+            如果系统只是一份文档，agent 依旧会在每次生成时临场发挥。真正稳定的做法，是让 token、route registry、prompt contract 和 checklist 一起成为生产链的一部分。
+          </p>
+        </aside>
+      </section>
+
+      <section class="frame data-block reveal delay-2">
+        <div class="chart-card">
+          <div class="chart-header">Consistency Trend</div>
+          <div class="line-chart" aria-label="style consistency chart">
+            <svg viewBox="0 0 800 280" preserveAspectRatio="none">
+              <polyline
+                fill="rgba(36, 76, 122, 0.10)"
+                stroke="none"
+                points="0,240 0,196 114,188 228,171 342,144 456,118 570,101 684,74 800,52 800,280 0,280"
+              ></polyline>
+              <polyline
+                fill="none"
+                stroke="#244C7A"
+                stroke-width="4"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                points="0,196 114,188 228,171 342,144 456,118 570,101 684,74 800,52"
+              ></polyline>
+              <polyline
+                fill="none"
+                stroke="#B65C3A"
+                stroke-width="3"
+                stroke-dasharray="8 10"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                points="0,214 114,208 228,198 342,189 456,178 570,170 684,164 800,158"
+              ></polyline>
+              <g fill="#244C7A">
+                <circle cx="114" cy="188" r="5"></circle>
+                <circle cx="342" cy="144" r="5"></circle>
+                <circle cx="570" cy="101" r="5"></circle>
+                <circle cx="800" cy="52" r="6"></circle>
+              </g>
+            </svg>
+          </div>
+          <div class="legend">
+            <span><i style="background:#244C7A"></i> 系统化输出一致性</span>
+            <span><i style="background:#B65C3A"></i> 无规范时的漂移风险</span>
+          </div>
+        </div>
+
+        <div class="hero-panel">
+          <article class="insight-card">
+            <h3>Key Takeaway</h3>
+            <p class="headline">当风格约束进入生成流程后，一致性会上升得很快。</p>
+            <p>
+              真正起作用的不是“设计说明”，而是结构化约束是否进入了调用链。只要 agent 仍然能自由换色、换字、换模块，结果就会继续乱飘。
+            </p>
+          </article>
+          <article class="method-note">
+            <h3>Method Note</h3>
+            <p>
+              本页示范使用 Momo Paper 的 `web_dual.explainer` route，采用 `standard`
+              密度、serif 标题、sans 正文、单主色 + 单强调色，并保持浏览器阅读与 print-safe 文档秩序。
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="frame closing reveal delay-3">
+        <div>
+          <h2>这页不是模板本身，而是模板应该长出的样子。</h2>
+          <p>
+            如果你认可这个方向，下一步就应该把这套系统继续接到你的 agent
+            工作流里，让页面、PPT、文章和图表都按同一条规则生成，而不是每次重新“设计一次”。
+          </p>
+        </div>
+        <div class="stamp">Agent Style Preview</div>
+      </section>
+
+      <footer>
+        <span>Momo Paper / A routed design system for documents and visual narratives.</span>
+        <span>one_pager · long_doc · slides · infographic · more</span>
+      </footer>
+    </main>
+  </body>
+</html>

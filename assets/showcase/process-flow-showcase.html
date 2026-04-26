@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Momo Paper · Process Flow Showcase</title>
+    <link rel="stylesheet" href="./showcase.css" />
+  </head>
+  <body>
+    <main class="page-shell">
+      <section class="frame hero reveal">
+        <div>
+          <a class="back-link" href="./showcase-gallery.html">← Back to Gallery</a>
+          <div class="eyebrow">Momo Paper / web_dual.process_flow</div>
+          <h1 class="hero-title">流程图适合把 agent 的执行链路讲清楚。</h1>
+          <p class="hero-copy">
+            这类页面最容易掉进“画得很复杂、看不出重点”的坑。系统化做法是只保留关键节点、明确输入输出、把主路径与异常处理分层，而不是把所有细节同时铺平。
+          </p>
+        </div>
+
+        <aside class="panel-stack reveal delay-1">
+          <article class="panel-card">
+            <div class="micro-label">Best Use</div>
+            <div class="stat-big">Pipeline / SOP</div>
+            <div class="meta-note">适合 agent 工作流、内容交付流程、业务操作链路和审批路径。</div>
+          </article>
+          <article class="panel-card alt">
+            <div class="micro-label">Flow Rule</div>
+            <div class="stat-big">4 步主链</div>
+            <div class="meta-note">核心链路建议控制在 4 到 6 个节点，异常分支另外展开。</div>
+          </article>
+        </aside>
+      </section>
+
+      <section class="frame section reveal delay-1">
+        <div class="section-body">
+          <div class="section-header">
+            <h2 class="section-title">一个适合 agent 的内容生成流程</h2>
+            <div class="section-kicker">Input -> Select -> Render -> Review</div>
+          </div>
+          <div class="flow-grid">
+            <article class="flow-step">
+              <div class="step-no">Step 01</div>
+              <h3>接收任务输入</h3>
+              <p>读取主题、surface、document shape、受众、数据形态和目标，先确定当前 route 是否被系统正式支持。</p>
+            </article>
+            <article class="flow-step">
+              <div class="step-no">Step 02</div>
+              <h3>匹配 route 规则</h3>
+              <p>从白名单中锁定 `web_dual.process_flow`，继承 print-safe 约束、组件集合和固定 section recipe。</p>
+            </article>
+            <article class="flow-step">
+              <div class="step-no">Step 03</div>
+              <h3>填充固定结构</h3>
+              <p>按 `lead -> core flow -> branch / variation -> operational takeaway -> meta` 写入标题、节点和说明。</p>
+            </article>
+            <article class="flow-step">
+              <div class="step-no">Step 04</div>
+              <h3>执行双重校验</h3>
+              <p>检查颜色、字体、组件、图表和语气是否越界，并确认页面在浏览器和打印导出时都能保持结构清晰。</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="frame section reveal delay-2">
+        <div class="section-body">
+          <div class="section-header">
+            <h2 class="section-title">流程图里还可以展示什么</h2>
+            <div class="section-kicker">Variations</div>
+          </div>
+          <div class="card-grid-4">
+            <article class="process-card">
+              <div class="card-index">A / SOP</div>
+              <h3>标准作业流</h3>
+              <p>适合连续动作说明，例如“从需求到交付”的流程页。</p>
+            </article>
+            <article class="process-card">
+              <div class="card-index">B / Decision</div>
+              <h3>分支决策流</h3>
+              <p>适合多条件路径，例如是否需要图表、是否需要外部资料。</p>
+            </article>
+            <article class="process-card">
+              <div class="card-index">C / Ownership</div>
+              <h3>角色分工流</h3>
+              <p>适合展示谁负责输入、谁负责审校、谁负责最终发布。</p>
+            </article>
+            <article class="process-card">
+              <div class="card-index">D / Feedback</div>
+              <h3>闭环反馈流</h3>
+              <p>适合强调修改、复盘、训练和模板优化的迭代路径。</p>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

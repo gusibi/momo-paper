@@ -1,0 +1,1228 @@
+{
+  "meta": {
+    "name": "momo-paper",
+    "title": "Momo Paper",
+    "tagline": "A routed design system for documents and visual narratives.",
+    "version": "3.0.0",
+    "registryModel": "document_type -> surface.document_shape",
+    "defaultRule": "Resolve document_type first, then surface.document_shape.",
+    "fallback": "none"
+  },
+  "brand": {
+    "title": "Momo Paper",
+    "tagline": "A routed design system for documents and visual narratives."
+  },
+  "legacyAliases": {
+    "artifact_type": {
+      "web_page": {
+        "surface": "web_dual",
+        "document_shape": "explainer"
+      },
+      "ppt_slide": {
+        "surface": "slides",
+        "document_shape": "explainer"
+      },
+      "infographic": {
+        "surface": "visual_sheet",
+        "document_shape": "infographic"
+      },
+      "article": {
+        "surface": "web_dual",
+        "document_shape": "editorial_article"
+      },
+      "stats_report": {
+        "surface": "web_dual",
+        "document_shape": "stats_report"
+      }
+    }
+  },
+  "patternCandidates": [
+    "comparison_matrix",
+    "topic_cover"
+  ],
+  "documentTypeMap": {
+    "one_pager": {
+      "route": "web_dual.explainer",
+      "surface": "web_dual",
+      "document_shape": "explainer",
+      "phrases": [
+        "one-pager",
+        "one pager",
+        "方案",
+        "执行摘要",
+        "exec summary"
+      ]
+    },
+    "long_doc": {
+      "route": "web_dual.editorial_article",
+      "surface": "web_dual",
+      "document_shape": "editorial_article",
+      "phrases": [
+        "white paper",
+        "白皮书",
+        "长文",
+        "年度总结",
+        "technical report"
+      ]
+    },
+    "letter": {
+      "route": "web_dual.letter",
+      "surface": "web_dual",
+      "document_shape": "letter",
+      "phrases": [
+        "formal letter",
+        "信件",
+        "辞职信",
+        "推荐信",
+        "memo"
+      ]
+    },
+    "portfolio": {
+      "route": "web_dual.portfolio",
+      "surface": "web_dual",
+      "document_shape": "portfolio",
+      "phrases": [
+        "portfolio",
+        "作品集",
+        "case studies"
+      ]
+    },
+    "resume": {
+      "route": "web_dual.resume_profile",
+      "surface": "web_dual",
+      "document_shape": "resume_profile",
+      "phrases": [
+        "resume",
+        "cv",
+        "简历"
+      ]
+    },
+    "slides": {
+      "route": "slides.explainer",
+      "surface": "slides",
+      "document_shape": "explainer",
+      "phrases": [
+        "slides",
+        "ppt",
+        "deck",
+        "演示"
+      ]
+    },
+    "equity_report": {
+      "route": "web_dual.equity_report",
+      "surface": "web_dual",
+      "document_shape": "equity_report",
+      "phrases": [
+        "个股研报",
+        "equity report",
+        "估值分析",
+        "investment memo",
+        "股票分析"
+      ]
+    },
+    "changelog": {
+      "route": "web_dual.changelog",
+      "surface": "web_dual",
+      "document_shape": "changelog",
+      "phrases": [
+        "更新日志",
+        "changelog",
+        "release notes",
+        "版本记录"
+      ]
+    },
+    "process_flow": {
+      "route": "web_dual.process_flow",
+      "surface": "web_dual",
+      "document_shape": "process_flow",
+      "phrases": [
+        "流程图",
+        "process flow",
+        "workflow",
+        "sop"
+      ]
+    },
+    "timeline": {
+      "route": "web_dual.timeline",
+      "surface": "web_dual",
+      "document_shape": "timeline",
+      "phrases": [
+        "timeline",
+        "时间线",
+        "roadmap",
+        "里程碑"
+      ]
+    },
+    "faq_page": {
+      "route": "web_dual.faq_page",
+      "surface": "web_dual",
+      "document_shape": "faq_page",
+      "phrases": [
+        "faq",
+        "常见问题",
+        "问答页",
+        "help center"
+      ]
+    },
+    "case_study": {
+      "route": "web_dual.case_study",
+      "surface": "web_dual",
+      "document_shape": "case_study",
+      "phrases": [
+        "case study",
+        "案例拆解",
+        "客户案例",
+        "项目复盘"
+      ]
+    },
+    "research_summary": {
+      "route": "web_dual.research_summary",
+      "surface": "web_dual",
+      "document_shape": "research_summary",
+      "phrases": [
+        "research summary",
+        "研究摘要",
+        "brief report",
+        "结论先行"
+      ]
+    },
+    "stats_report": {
+      "route": "web_dual.stats_report",
+      "surface": "web_dual",
+      "document_shape": "stats_report",
+      "phrases": [
+        "stats report",
+        "数据报告",
+        "kpi report",
+        "运营报告"
+      ]
+    },
+    "infographic": {
+      "route": "visual_sheet.infographic",
+      "surface": "visual_sheet",
+      "document_shape": "infographic",
+      "phrases": [
+        "infographic",
+        "信息图",
+        "单页图解",
+        "visual summary"
+      ]
+    }
+  },
+  "localeTemplateMap": {
+    "one_pager": {
+      "zh-CN": "assets/templates/one-pager.html",
+      "en": "assets/templates/one-pager-en.html"
+    },
+    "long_doc": {
+      "zh-CN": "assets/templates/long-doc.html",
+      "en": "assets/templates/long-doc-en.html"
+    },
+    "letter": {
+      "zh-CN": "assets/templates/letter.html",
+      "en": "assets/templates/letter-en.html"
+    },
+    "portfolio": {
+      "zh-CN": "assets/templates/portfolio.html",
+      "en": "assets/templates/portfolio-en.html"
+    },
+    "resume": {
+      "zh-CN": "assets/templates/resume.html",
+      "en": "assets/templates/resume-en.html"
+    },
+    "slides": {
+      "zh-CN": "assets/templates/slides.py",
+      "en": "assets/templates/slides-en.py"
+    },
+    "equity_report": {
+      "zh-CN": "assets/templates/equity-report.html",
+      "en": "assets/templates/equity-report-en.html"
+    },
+    "changelog": {
+      "zh-CN": "assets/templates/changelog.html",
+      "en": "assets/templates/changelog-en.html"
+    },
+    "process_flow": {
+      "zh-CN": "assets/templates/process-flow.html",
+      "en": "assets/templates/process-flow-en.html"
+    },
+    "timeline": {
+      "zh-CN": "assets/templates/timeline.html",
+      "en": "assets/templates/timeline-en.html"
+    },
+    "faq_page": {
+      "zh-CN": "assets/templates/faq-page.html",
+      "en": "assets/templates/faq-page-en.html"
+    },
+    "case_study": {
+      "zh-CN": "assets/templates/case-study.html",
+      "en": "assets/templates/case-study-en.html"
+    },
+    "research_summary": {
+      "zh-CN": "assets/templates/research-summary.html",
+      "en": "assets/templates/research-summary-en.html"
+    },
+    "stats_report": {
+      "zh-CN": "assets/templates/stats-report.html",
+      "en": "assets/templates/stats-report-en.html"
+    },
+    "infographic": {
+      "zh-CN": "assets/templates/infographic.html",
+      "en": "assets/templates/infographic-en.html"
+    }
+  },
+  "diagramTypeMap": {
+    "architecture": {
+      "template": "assets/diagrams/architecture.html",
+      "phrases": [
+        "架构图",
+        "architecture",
+        "系统图",
+        "components diagram"
+      ],
+      "embedIn": [
+        "long_doc",
+        "portfolio",
+        "slides",
+        "research_summary"
+      ]
+    },
+    "flowchart": {
+      "template": "assets/diagrams/flowchart.html",
+      "phrases": [
+        "流程图",
+        "flowchart",
+        "决策流",
+        "branching logic"
+      ],
+      "embedIn": [
+        "long_doc",
+        "portfolio",
+        "slides",
+        "process_flow"
+      ]
+    },
+    "quadrant": {
+      "template": "assets/diagrams/quadrant.html",
+      "phrases": [
+        "象限图",
+        "quadrant",
+        "优先级矩阵",
+        "2×2 matrix"
+      ],
+      "embedIn": [
+        "portfolio",
+        "slides",
+        "case_study"
+      ]
+    },
+    "bar_chart": {
+      "template": "assets/diagrams/bar-chart.html",
+      "phrases": [
+        "柱状图",
+        "bar chart",
+        "分类对比",
+        "grouped bars"
+      ],
+      "embedIn": [
+        "long_doc",
+        "portfolio",
+        "slides",
+        "research_summary",
+        "stats_report"
+      ]
+    },
+    "line_chart": {
+      "template": "assets/diagrams/line-chart.html",
+      "phrases": [
+        "折线图",
+        "line chart",
+        "趋势",
+        "time series"
+      ],
+      "embedIn": [
+        "long_doc",
+        "portfolio",
+        "slides",
+        "equity_report",
+        "research_summary",
+        "stats_report"
+      ]
+    },
+    "donut_chart": {
+      "template": "assets/diagrams/donut-chart.html",
+      "phrases": [
+        "环形图",
+        "donut",
+        "pie",
+        "占比",
+        "分布结构"
+      ],
+      "embedIn": [
+        "long_doc",
+        "portfolio",
+        "slides",
+        "research_summary",
+        "stats_report",
+        "infographic"
+      ]
+    },
+    "state_machine": {
+      "template": "assets/diagrams/state-machine.html",
+      "phrases": [
+        "状态机",
+        "state machine",
+        "状态图",
+        "lifecycle"
+      ],
+      "embedIn": [
+        "long_doc",
+        "slides",
+        "portfolio"
+      ]
+    },
+    "timeline_diagram": {
+      "template": "assets/diagrams/timeline.html",
+      "phrases": [
+        "时间线",
+        "timeline",
+        "里程碑",
+        "milestones",
+        "roadmap"
+      ],
+      "embedIn": [
+        "long_doc",
+        "portfolio",
+        "slides",
+        "timeline"
+      ]
+    },
+    "swimlane": {
+      "template": "assets/diagrams/swimlane.html",
+      "phrases": [
+        "泳道图",
+        "swimlane",
+        "跨角色流程",
+        "cross-team flow"
+      ],
+      "embedIn": [
+        "long_doc",
+        "slides",
+        "portfolio",
+        "process_flow"
+      ]
+    },
+    "tree": {
+      "template": "assets/diagrams/tree.html",
+      "phrases": [
+        "树状图",
+        "tree",
+        "hierarchy",
+        "层级",
+        "组织架构"
+      ],
+      "embedIn": [
+        "long_doc",
+        "slides",
+        "portfolio"
+      ]
+    },
+    "layer_stack": {
+      "template": "assets/diagrams/layer-stack.html",
+      "phrases": [
+        "分层图",
+        "layer stack",
+        "分层架构",
+        "osi",
+        "stack"
+      ],
+      "embedIn": [
+        "long_doc",
+        "slides",
+        "portfolio",
+        "research_summary"
+      ]
+    },
+    "venn": {
+      "template": "assets/diagrams/venn.html",
+      "phrases": [
+        "维恩图",
+        "venn",
+        "交集",
+        "overlap",
+        "集合关系"
+      ],
+      "embedIn": [
+        "long_doc",
+        "slides",
+        "portfolio",
+        "case_study"
+      ]
+    },
+    "candlestick": {
+      "template": "assets/diagrams/candlestick.html",
+      "phrases": [
+        "k 线",
+        "candlestick",
+        "ohlc",
+        "股价走势",
+        "price history"
+      ],
+      "embedIn": [
+        "equity_report",
+        "slides",
+        "research_summary"
+      ]
+    },
+    "waterfall": {
+      "template": "assets/diagrams/waterfall.html",
+      "phrases": [
+        "瀑布图",
+        "waterfall",
+        "收入桥",
+        "revenue bridge",
+        "decomposition"
+      ],
+      "embedIn": [
+        "long_doc",
+        "slides",
+        "portfolio",
+        "equity_report",
+        "research_summary"
+      ]
+    }
+  },
+  "autoChartSelection": {
+    "proportional_breakdown": "donut_chart",
+    "time_series": "line_chart",
+    "category_comparison": "bar_chart",
+    "price_history": "candlestick",
+    "value_decomposition": "waterfall"
+  },
+  "surfaces": {
+    "web_dual": {
+      "description": "Browser-readable and print-safe document pages.",
+      "grid": {
+        "canvas": "responsive",
+        "maxWidth": 1280,
+        "contentWidth": 840,
+        "columns": 12,
+        "gutter": 24,
+        "sectionPaddingY": 64
+      },
+      "density": "standard",
+      "motion": "light",
+      "typographyBias": "editorial-balanced",
+      "printSafety": {
+        "required": true,
+        "rules": [
+          "The main conclusion should remain readable in the browser and on the first printed page.",
+          "Section boundaries, heading hierarchy, chart captions, and footer/meta content must survive print or PDF export.",
+          "Do not rely on motion, hover, sticky-only layouts, or screen-only decoration to make the structure understandable."
+        ]
+      },
+      "allowedComponents": [
+        "eyebrow",
+        "title_block",
+        "summary_strip",
+        "body_paragraph",
+        "fact_card",
+        "quote_block",
+        "divider_section",
+        "footer_meta",
+        "kpi_card",
+        "chart_frame",
+        "legend",
+        "insight_callout",
+        "method_note",
+        "table_block",
+        "table_of_contents",
+        "section_anchor",
+        "step_rail"
+      ],
+      "allowedPatterns": [
+        "hero",
+        "section_stack",
+        "faq",
+        "card_list",
+        "chapter_divider",
+        "evidence_break",
+        "quote_break",
+        "kpi_row",
+        "trend_section",
+        "distribution_section",
+        "anomaly_section",
+        "source_footer"
+      ],
+      "allowedCharts": [
+        "bar",
+        "line",
+        "area",
+        "scatter",
+        "table",
+        "timeline",
+        "matrix",
+        "donut",
+        "candlestick",
+        "waterfall"
+      ],
+      "rules": [
+        "Treat web output as a document surface, not a dashboard canvas.",
+        "Alternate dense and calm sections on long pages.",
+        "Use motion only for entrance or section transitions, never for comprehension."
+      ],
+      "documentShapes": {
+        "explainer": {
+          "purpose": "Narrative one-pagers, system explainers, and structured scroll documents.",
+          "sectionRecipe": [
+            "lead",
+            "summary_strip",
+            "themed_sections",
+            "evidence",
+            "conclusion",
+            "meta"
+          ],
+          "allowedComponents": [
+            "eyebrow",
+            "title_block",
+            "summary_strip",
+            "body_paragraph",
+            "fact_card",
+            "chart_frame",
+            "insight_callout",
+            "footer_meta"
+          ],
+          "allowedPatterns": [
+            "hero",
+            "section_stack",
+            "card_list",
+            "chapter_divider"
+          ],
+          "allowedCharts": [
+            "bar",
+            "line",
+            "donut",
+            "table"
+          ],
+          "forbiddenUses": [
+            "Do not treat this route as a dense KPI dashboard.",
+            "Do not fill every section with card grids."
+          ]
+        },
+        "editorial_article": {
+          "purpose": "Long-form reading with thesis-led structure and evidence rhythm.",
+          "sectionRecipe": [
+            "thesis",
+            "summary",
+            "sections",
+            "evidence_breaks",
+            "closing",
+            "meta"
+          ],
+          "allowedComponents": [
+            "eyebrow",
+            "title_block",
+            "summary_strip",
+            "body_paragraph",
+            "quote_block",
+            "fact_card",
+            "chart_frame",
+            "method_note",
+            "footer_meta"
+          ],
+          "allowedPatterns": [
+            "section_stack",
+            "evidence_break",
+            "quote_break",
+            "chapter_divider"
+          ],
+          "allowedCharts": [
+            "bar",
+            "line",
+            "scatter",
+            "table",
+            "donut",
+            "waterfall",
+            "matrix",
+            "timeline"
+          ],
+          "forbiddenUses": [
+            "Do not turn the article into a slide deck or poster.",
+            "Do not add decorative sections that interrupt reading comfort."
+          ]
+        },
+        "letter": {
+          "purpose": "Formal letters, memos, recommendations, and tightly structured correspondence.",
+          "sectionRecipe": [
+            "sender_context",
+            "opening_statement",
+            "body",
+            "request_or_recommendation",
+            "signoff"
+          ],
+          "allowedComponents": [
+            "eyebrow",
+            "title_block",
+            "body_paragraph",
+            "footer_meta"
+          ],
+          "allowedPatterns": [
+            "section_stack"
+          ],
+          "allowedCharts": [],
+          "forbiddenUses": [
+            "Do not add decorative charts or showcase panels.",
+            "Do not bury the action request below excessive context."
+          ]
+        },
+        "portfolio": {
+          "purpose": "Portfolios and curated case collections for people, teams, or selected work.",
+          "sectionRecipe": [
+            "profile_or_context",
+            "selection_overview",
+            "case_blocks",
+            "process_or_capability",
+            "closing_meta"
+          ],
+          "allowedComponents": [
+            "eyebrow",
+            "title_block",
+            "summary_strip",
+            "body_paragraph",
+            "fact_card",
+            "chart_frame",
+            "insight_callout",
+            "footer_meta"
+          ],
+          "allowedPatterns": [
+            "hero",
+            "section_stack",
+            "card_list",
+            "chapter_divider",
+            "evidence_break"
+          ],
+          "allowedCharts": [
+            "bar",
+            "line",
+            "donut",
+            "table",
+            "matrix",
+            "timeline"
+          ],
+          "forbiddenUses": [
+            "Do not collapse the portfolio into one unstructured gallery wall.",
+            "Do not make every case visually unrelated to the rest of the document."
+          ]
+        },
+        "process_flow": {
+          "purpose": "Operational pipelines, SOP pages, and workflow explainers.",
+          "sectionRecipe": [
+            "lead",
+            "core_flow",
+            "branch_variation",
+            "operational_takeaway",
+            "meta"
+          ],
+          "allowedComponents": [
+            "eyebrow",
+            "title_block",
+            "summary_strip",
+            "body_paragraph",
+            "fact_card",
+            "insight_callout",
+            "method_note",
+            "footer_meta",
+            "step_rail"
+          ],
+          "allowedPatterns": [
+            "section_stack",
+            "card_list",
+            "chapter_divider"
+          ],
+          "allowedCharts": [
+            "bar",
+            "table",
+            "timeline"
+          ],
+          "forbiddenUses": [
+            "Do not flatten branches into one unreadable master diagram.",
+            "Do not exceed six steps in the mainline flow without splitting phases."
+          ]
+        },
+        "timeline": {
+          "purpose": "Milestones, roadmaps, histories, and sequential narratives.",
+          "sectionRecipe": [
+            "lead",
+            "milestone_spine",
+            "phase_detail",
+            "implication",
+            "meta"
+          ],
+          "allowedComponents": [
+            "eyebrow",
+            "title_block",
+            "summary_strip",
+            "body_paragraph",
+            "fact_card",
+            "insight_callout",
+            "method_note",
+            "footer_meta"
+          ],
+          "allowedPatterns": [
+            "section_stack",
+            "chapter_divider",
+            "card_list"
+          ],
+          "allowedCharts": [
+            "timeline",
+            "bar",
+            "table"
+          ],
+          "forbiddenUses": [
+            "Do not hide chronology behind unordered cards.",
+            "Do not overload each milestone with article-length prose."
+          ]
+        },
+        "resume_profile": {
+          "purpose": "CVs, speaker pages, author profiles, and expert dossiers.",
+          "sectionRecipe": [
+            "profile_hero",
+            "expertise",
+            "experience",
+            "selected_impact",
+            "meta"
+          ],
+          "allowedComponents": [
+            "eyebrow",
+            "title_block",
+            "summary_strip",
+            "body_paragraph",
+            "fact_card",
+            "insight_callout",
+            "footer_meta"
+          ],
+          "allowedPatterns": [
+            "section_stack",
+            "card_list",
+            "chapter_divider"
+          ],
+          "allowedCharts": [
+            "table",
+            "timeline"
+          ],
+          "forbiddenUses": [
+            "Do not style this route like a marketing landing page.",
+            "Do not bury the identity and current role below the fold."
+          ]
+        },
+        "faq_page": {
+          "purpose": "Grouped FAQs, policy explainers, and decision support pages.",
+          "sectionRecipe": [
+            "lead",
+            "grouped_faqs",
+            "decision_summary",
+            "next_step"
+          ],
+          "allowedComponents": [
+            "eyebrow",
+            "title_block",
+            "summary_strip",
+            "body_paragraph",
+            "fact_card",
+            "insight_callout",
+            "footer_meta",
+            "divider_section"
+          ],
+          "allowedPatterns": [
+            "faq",
+            "section_stack",
+            "chapter_divider"
+          ],
+          "allowedCharts": [
+            "table"
+          ],
+          "forbiddenUses": [
+            "Do not turn FAQs into long uninterrupted prose blocks.",
+            "Do not introduce unrelated showcase content between question groups."
+          ]
+        },
+        "case_study": {
+          "purpose": "Project breakdowns, narrative retros, and customer stories.",
+          "sectionRecipe": [
+            "context",
+            "problem",
+            "approach",
+            "evidence",
+            "outcome",
+            "takeaway"
+          ],
+          "allowedComponents": [
+            "eyebrow",
+            "title_block",
+            "summary_strip",
+            "body_paragraph",
+            "fact_card",
+            "chart_frame",
+            "insight_callout",
+            "method_note",
+            "footer_meta"
+          ],
+          "allowedPatterns": [
+            "section_stack",
+            "evidence_break",
+            "card_list",
+            "chapter_divider"
+          ],
+          "allowedCharts": [
+            "bar",
+            "line",
+            "scatter",
+            "table",
+            "donut",
+            "waterfall",
+            "matrix"
+          ],
+          "forbiddenUses": [
+            "Do not hide the outcome until the very end without context.",
+            "Do not let the page drift into generic company marketing."
+          ]
+        },
+        "research_summary": {
+          "purpose": "Conclusion-first research summaries and short-form evidence reports.",
+          "sectionRecipe": [
+            "thesis",
+            "summary_strip",
+            "key_findings",
+            "evidence_blocks",
+            "implications",
+            "method"
+          ],
+          "allowedComponents": [
+            "eyebrow",
+            "title_block",
+            "summary_strip",
+            "body_paragraph",
+            "fact_card",
+            "chart_frame",
+            "insight_callout",
+            "method_note",
+            "footer_meta"
+          ],
+          "allowedPatterns": [
+            "section_stack",
+            "evidence_break",
+            "chapter_divider"
+          ],
+          "allowedCharts": [
+            "bar",
+            "line",
+            "scatter",
+            "table",
+            "donut",
+            "waterfall",
+            "candlestick",
+            "timeline"
+          ],
+          "forbiddenUses": [
+            "Do not write a full-length article when a summary route was requested.",
+            "Do not omit method context when findings drive a recommendation."
+          ]
+        },
+        "stats_report": {
+          "purpose": "Dense but printable data summaries with explicit method notes.",
+          "sectionRecipe": [
+            "header_date_range",
+            "kpi_row",
+            "trend_grid",
+            "segment_panels",
+            "anomaly_alert",
+            "method_meta"
+          ],
+          "allowedComponents": [
+            "title_block",
+            "summary_strip",
+            "kpi_card",
+            "chart_frame",
+            "legend",
+            "insight_callout",
+            "table_block",
+            "method_note",
+            "footer_meta"
+          ],
+          "allowedPatterns": [
+            "kpi_row",
+            "trend_section",
+            "distribution_section",
+            "anomaly_section",
+            "source_footer"
+          ],
+          "allowedCharts": [
+            "bar",
+            "line",
+            "area",
+            "scatter",
+            "table",
+            "donut",
+            "waterfall"
+          ],
+          "forbiddenUses": [
+            "Do not add decorative hero sections.",
+            "Do not sacrifice annotation clarity for visual novelty."
+          ]
+        },
+        "equity_report": {
+          "purpose": "Single-name investment reports, valuation notes, and stock analysis memos.",
+          "sectionRecipe": [
+            "thesis",
+            "business_snapshot",
+            "price_history_or_drivers",
+            "valuation",
+            "risks_and_catalysts",
+            "recommendation_and_disclosure"
+          ],
+          "allowedComponents": [
+            "eyebrow",
+            "title_block",
+            "summary_strip",
+            "body_paragraph",
+            "fact_card",
+            "chart_frame",
+            "insight_callout",
+            "method_note",
+            "footer_meta",
+            "table_block"
+          ],
+          "allowedPatterns": [
+            "section_stack",
+            "evidence_break",
+            "chapter_divider",
+            "trend_section"
+          ],
+          "allowedCharts": [
+            "line",
+            "table",
+            "candlestick",
+            "waterfall",
+            "bar"
+          ],
+          "forbiddenUses": [
+            "Do not state an investment recommendation without explicit risk context.",
+            "Do not use decorative finance graphics unrelated to the thesis."
+          ]
+        },
+        "changelog": {
+          "purpose": "Release notes, version histories, and update logs.",
+          "sectionRecipe": [
+            "release_header",
+            "highlights",
+            "grouped_changes",
+            "migration_notes",
+            "metadata"
+          ],
+          "allowedComponents": [
+            "eyebrow",
+            "title_block",
+            "summary_strip",
+            "body_paragraph",
+            "fact_card",
+            "footer_meta",
+            "divider_section"
+          ],
+          "allowedPatterns": [
+            "section_stack",
+            "chapter_divider",
+            "card_list"
+          ],
+          "allowedCharts": [
+            "table",
+            "timeline"
+          ],
+          "forbiddenUses": [
+            "Do not hide breaking changes beneath marketing copy.",
+            "Do not write vague highlight bullets without version or scope context."
+          ]
+        }
+      }
+    },
+    "slides": {
+      "description": "Screen-first slide decks with one-point-per-slide discipline.",
+      "grid": {
+        "canvas": "16:9",
+        "width": 1600,
+        "height": 900,
+        "columns": 12,
+        "gutter": 24,
+        "safeMargin": 72
+      },
+      "density": "standard",
+      "motion": "minimal",
+      "typographyBias": "title-forward",
+      "allowedComponents": [
+        "eyebrow",
+        "title_block",
+        "summary_strip",
+        "fact_card",
+        "chart_frame",
+        "insight_callout",
+        "step_rail",
+        "pagination_marker",
+        "footer_meta"
+      ],
+      "allowedPatterns": [
+        "cover",
+        "agenda",
+        "problem",
+        "analysis",
+        "comparison",
+        "closing"
+      ],
+      "allowedCharts": [
+        "bar",
+        "line",
+        "scatter",
+        "table",
+        "donut",
+        "candlestick",
+        "waterfall",
+        "timeline"
+      ],
+      "rules": [
+        "One slide should communicate one point.",
+        "Keep annotation light enough for distance reading.",
+        "Do not use article-length paragraphs."
+      ],
+      "documentShapes": {
+        "explainer": {
+          "purpose": "Decks that explain a topic, argument, or recommendation in sequence.",
+          "sectionRecipe": [
+            "cover",
+            "agenda",
+            "problem_context",
+            "analysis",
+            "data_evidence",
+            "comparison_tradeoff",
+            "recommendation"
+          ],
+          "allowedComponents": [
+            "eyebrow",
+            "title_block",
+            "summary_strip",
+            "fact_card",
+            "chart_frame",
+            "insight_callout",
+            "step_rail",
+            "pagination_marker",
+            "footer_meta"
+          ],
+          "allowedPatterns": [
+            "cover",
+            "agenda",
+            "problem",
+            "analysis",
+            "comparison",
+            "closing"
+          ],
+          "allowedCharts": [
+            "bar",
+            "line",
+            "scatter",
+            "table",
+            "donut",
+            "candlestick",
+            "waterfall",
+            "timeline"
+          ],
+          "forbiddenUses": [
+            "Do not use long document paragraphs.",
+            "Do not split one argument across too many unrelated slide motifs."
+          ]
+        }
+      }
+    },
+    "visual_sheet": {
+      "description": "Single-sheet visual narratives with strong directional reading.",
+      "grid": {
+        "canvas": "vertical-flex",
+        "contentWidth": 960,
+        "columns": 8,
+        "gutter": 20,
+        "sectionPaddingY": 40
+      },
+      "density": "dense",
+      "motion": "none",
+      "typographyBias": "numeric-emphasis",
+      "allowedComponents": [
+        "eyebrow",
+        "title_block",
+        "fact_card",
+        "chart_frame",
+        "legend",
+        "insight_callout",
+        "step_rail",
+        "footer_meta"
+      ],
+      "allowedPatterns": [
+        "ranking",
+        "flow",
+        "metric_cluster",
+        "card_list",
+        "chapter_divider"
+      ],
+      "allowedCharts": [
+        "bar",
+        "line",
+        "table",
+        "timeline",
+        "matrix",
+        "donut",
+        "waterfall"
+      ],
+      "rules": [
+        "Show a clear reading path from top to bottom or left to right.",
+        "Use large numerics sparingly and intentionally.",
+        "Do not overload the sheet with prose."
+      ],
+      "documentShapes": {
+        "infographic": {
+          "purpose": "Single-sheet comparisons, rankings, and metric-led explainers.",
+          "sectionRecipe": [
+            "headline",
+            "framing_statement",
+            "core_path",
+            "metric_cluster",
+            "takeaway_footer"
+          ],
+          "allowedComponents": [
+            "eyebrow",
+            "title_block",
+            "fact_card",
+            "chart_frame",
+            "legend",
+            "insight_callout",
+            "step_rail",
+            "footer_meta"
+          ],
+          "allowedPatterns": [
+            "ranking",
+            "flow",
+            "metric_cluster",
+            "card_list"
+          ],
+          "allowedCharts": [
+            "bar",
+            "line",
+            "table",
+            "timeline",
+            "matrix",
+            "donut",
+            "waterfall"
+          ],
+          "forbiddenUses": [
+            "Do not turn the sheet into a scrolling article.",
+            "Do not use large numerics in every block."
+          ]
+        }
+      }
+    }
+  }
+}

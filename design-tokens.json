@@ -1,0 +1,157 @@
+{
+  "$schema": "https://example.com/agent-design-tokens.schema.json",
+  "meta": {
+    "name": "momo-paper",
+    "title": "Momo Paper",
+    "tagline": "A routed design system for documents and visual narratives.",
+    "version": "3.0.0",
+    "direction": "rational-editorial",
+    "locale": "zh-CN",
+    "notes": "Strongly constrained cross-surface design tokens for routed documents, slide decks, infographics, and diagram primitives."
+  },
+  "color": {
+    "ink": "#172033",
+    "inkSubtle": "#4C566A",
+    "paper": "#FAF8F4",
+    "canvas": "#F2EFE8",
+    "line": "#D8D2C4",
+    "brand": "#244C7A",
+    "brandMuted": "#DCE7F2",
+    "accent": "#B65C3A",
+    "accentMuted": "#F2E1D9",
+    "success": "#2F6B4F",
+    "warning": "#A46A21",
+    "danger": "#9A3D3D",
+    "info": "#3C6587",
+    "data": {
+      "primary": "#244C7A",
+      "secondary": "#5C7FA3",
+      "tertiary": "#8EAAC3",
+      "accent": "#B65C3A",
+      "positive": "#2F6B4F",
+      "negative": "#9A3D3D",
+      "neutral": "#7D8798"
+    },
+    "chartSequential": [
+      "#244C7A",
+      "#5C7FA3",
+      "#8EAAC3",
+      "#B8CAD9"
+    ],
+    "chartCategorical": [
+      "#244C7A",
+      "#B65C3A",
+      "#2F6B4F",
+      "#8A6D3B",
+      "#5E6177",
+      "#7A8EA1"
+    ]
+  },
+  "font": {
+    "family": {
+      "serifCn": "\"Noto Serif SC\", \"Source Han Serif SC\", \"Songti SC\", serif",
+      "sansUi": "\"Inter\", \"Noto Sans SC\", \"PingFang SC\", sans-serif",
+      "sansData": "\"IBM Plex Sans\", \"Inter\", sans-serif",
+      "mono": "\"IBM Plex Mono\", \"SFMono-Regular\", monospace"
+    },
+    "weight": {
+      "regular": 400,
+      "medium": 500,
+      "semibold": 600,
+      "bold": 700
+    },
+    "size": {
+      "displayXl": 64,
+      "displayLg": 52,
+      "titleXl": 40,
+      "titleLg": 32,
+      "titleMd": 28,
+      "subtitleLg": 22,
+      "subtitleMd": 18,
+      "bodyLg": 16,
+      "bodyMd": 14,
+      "bodySm": 12,
+      "caption": 11,
+      "metricXl": 48,
+      "metricLg": 36,
+      "metricMd": 28
+    },
+    "lineHeight": {
+      "tight": 1.15,
+      "snug": 1.3,
+      "normal": 1.55,
+      "relaxed": 1.75
+    },
+    "letterSpacing": {
+      "tight": -0.02,
+      "normal": 0,
+      "wide": 0.04
+    }
+  },
+  "spacing": {
+    "0": 0,
+    "1": 4,
+    "2": 8,
+    "3": 12,
+    "4": 16,
+    "5": 24,
+    "6": 32,
+    "7": 40,
+    "8": 48,
+    "9": 64,
+    "10": 80,
+    "11": 96,
+    "12": 128
+  },
+  "radius": {
+    "none": 0,
+    "sm": 4,
+    "md": 8,
+    "lg": 12,
+    "pill": 999
+  },
+  "border": {
+    "thin": 1,
+    "medium": 1.5,
+    "heavy": 2
+  },
+  "shadow": {
+    "none": "none",
+    "soft": "0 8px 24px rgba(23, 32, 51, 0.08)",
+    "raised": "0 14px 32px rgba(23, 32, 51, 0.12)"
+  },
+  "density": {
+    "calm": {
+      "sectionGap": 64,
+      "cardPadding": 32,
+      "contentWidth": 720
+    },
+    "standard": {
+      "sectionGap": 48,
+      "cardPadding": 24,
+      "contentWidth": 840
+    },
+    "dense": {
+      "sectionGap": 32,
+      "cardPadding": 16,
+      "contentWidth": 960
+    }
+  },
+  "motion": {
+    "duration": {
+      "fast": 160,
+      "base": 240,
+      "slow": 360
+    },
+    "easing": {
+      "standard": "cubic-bezier(0.2, 0, 0, 1)",
+      "soft": "cubic-bezier(0.22, 0.61, 0.36, 1)"
+    },
+    "allowed": [
+      "fade",
+      "rise",
+      "stagger",
+      "slide"
+    ]
+  }
+}
