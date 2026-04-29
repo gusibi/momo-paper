@@ -1,0 +1,48 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Momo Paper · Changelog",
+  "type": "object",
+  "required": ["document_type", "locale", "meta", "sections"],
+  "properties": {
+    "document_type": { "type": "string", "const": "changelog" },
+    "locale": { "type": "string", "enum": ["zh-CN", "en"] },
+    "meta": {
+      "type": "object",
+      "required": ["title", "subtitle"],
+      "properties": {
+        "title": { "type": "string" },
+        "subtitle": { "type": "string" },
+        "eyebrow": { "type": "string" },
+        "date": { "type": "string" },
+        "version": { "type": "string" }
+      }
+    },
+    "sections": {
+      "type": "object",
+      "properties": {
+        "highlights": {
+          "type": "object",
+          "properties": {
+            "items": { "type": "array", "items": { "type": "string" } }
+          }
+        },
+        "changes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "category": { "type": "string", "enum": ["added", "changed", "fixed", "deprecated", "removed", "security"] },
+              "items": { "type": "array", "items": { "type": "string" } }
+            }
+          }
+        },
+        "migration": {
+          "type": "object",
+          "properties": {
+            "body": { "type": "array", "items": { "type": "string" } }
+          }
+        }
+      }
+    }
+  }
+}

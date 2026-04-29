@@ -1,0 +1,53 @@
+{% extends "_base.html.j2" %}
+{% block title %}Momo Paper · Portfolio · {{ meta.title }}{% endblock %}
+{% block content %}
+  <header>
+    <p class="eyebrow">{{ meta.eyebrow | default('Momo Paper / portfolio / ' + locale) }}</p>
+    <h1>{{ meta.title }}</h1>
+    <p class="subtitle">{{ meta.subtitle }}</p>
+  </header>
+
+  {% if sections.overview %}
+  <section>
+    <h2>{% if locale == 'zh-CN' %}概览{% else %}Overview{% endif %}</h2>
+    {% for para in sections.overview.body %}
+    <p>{{ para }}</p>
+    {% endfor %}
+  </section>
+  {% endif %}
+
+  {% for case in sections.cases %}
+  <section>
+    <h2>{{ case.title }}</h2>
+    {% if case.context %}<p><strong>{% if locale == 'zh-CN' %}背景：{% else %}Context: {% endif %}</strong>{{ case.context }}</p>{% endif %}
+    {% if case.action %}<p><strong>{% if locale == 'zh-CN' %}行动：{% else %}Action: {% endif %}</strong>{{ case.action }}</p>{% endif %}
+    {% if case.result %}<p><strong>{% if locale == 'zh-CN' %}结果：{% else %}Result: {% endif %}</strong>{{ case.result }}</p>{% endif %}
+    {% if case.metrics %}
+    <div class="card-grid">
+      {% for m in case.metrics %}
+      <div class="fact-card">
+        <div class="label">{{ m.label }}</div>
+        <div class="value">{{ m.value }}</div>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </section>
+  {% endfor %}
+
+  {% if sections.capabilities %}
+  <section>
+    <h2>{% if locale == 'zh-CN' %}方法与能力{% else %}Capabilities{% endif %}</h2>
+    {% for para in sections.capabilities.body %}
+    <p>{{ para }}</p>
+    {% endfor %}
+    {% if sections.capabilities.skills %}
+    <ul class="bullet-list">
+      {% for skill in sections.capabilities.skills %}
+      <li>{{ skill }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+  </section>
+  {% endif %}
+{% endblock %}

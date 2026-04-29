@@ -1,0 +1,55 @@
+{% extends "_base.html.j2" %}
+{% block title %}Momo Paper · Letter · {{ meta.title }}{% endblock %}
+{% block content %}
+  <header>
+    <p class="eyebrow">{{ meta.eyebrow | default('Momo Paper / letter / ' + locale) }}</p>
+    <h1>{{ meta.title }}</h1>
+    <p class="subtitle">{{ meta.subtitle }}</p>
+  </header>
+
+  {% if sections.opening %}
+  <section class="letter-body">
+    {% for para in sections.opening.body %}
+    <p>{{ para }}</p>
+    {% endfor %}
+  </section>
+  {% endif %}
+
+  {% if sections.body %}
+  <section class="letter-body">
+    {% for para in sections.body.paragraphs %}
+    <p>{{ para }}</p>
+    {% endfor %}
+  </section>
+  {% endif %}
+
+  {% if sections.request %}
+  <section>
+    <h2>{% if locale == 'zh-CN' %}请求或建议{% else %}Request{% endif %}</h2>
+    {% for para in sections.request.body %}
+    <p>{{ para }}</p>
+    {% endfor %}
+    {% if sections.request.actions %}
+    <ul class="checklist">
+      {% for action in sections.request.actions %}
+      <li>{{ action }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+  </section>
+  {% endif %}
+
+  {% if sections.signoff %}
+  <div class="letter-signoff">
+    {% if sections.signoff.closing %}<p class="closing">{{ sections.signoff.closing }}</p>{% endif %}
+    {% if sections.signoff.name %}<p class="name">{{ sections.signoff.name }}</p>{% endif %}
+    {% if sections.signoff.title %}<p class="title">{{ sections.signoff.title }}</p>{% endif %}
+  </div>
+  {% endif %}
+{% endblock %}
+{% block footer %}
+  <div class="footer-meta">
+    <span>{{ meta.date | default('') }}</span>
+    <span>{{ meta.sender | default('') }}{% if meta.recipient %} → {{ meta.recipient }}{% endif %}</span>
+  </div>
+{% endblock %}

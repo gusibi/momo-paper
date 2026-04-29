@@ -1,0 +1,54 @@
+{% extends "_base.html.j2" %}
+{% block title %}Momo Paper · Research Summary · {{ meta.title }}{% endblock %}
+{% block content %}
+  <header>
+    <p class="eyebrow">{{ meta.eyebrow | default('Momo Paper / research_summary / ' + locale) }}</p>
+    <h1>{{ meta.title }}</h1>
+    <p class="subtitle">{{ meta.subtitle }}</p>
+  </header>
+
+  {% if sections.thesis %}
+  <section>
+    <h2>{% if locale == 'zh-CN' %}核心论点{% else %}Thesis{% endif %}</h2>
+    {% for para in sections.thesis.body %}
+    <p>{{ para }}</p>
+    {% endfor %}
+  </section>
+  {% endif %}
+
+  {% if sections.key_findings %}
+  <section>
+    <h2>{% if locale == 'zh-CN' %}关键发现{% else %}Key Findings{% endif %}</h2>
+    {% for finding in sections.key_findings %}
+    <div class="case-card" style="margin-bottom: 16px;">
+      <h4>{{ finding.title }}</h4>
+      <p>{{ finding.description }}</p>
+      {% if finding.evidence %}<p style="font-size: 13px; color: var(--ink-subtle); margin-top: 6px;"><strong>{% if locale == 'zh-CN' %}证据：{% else %}Evidence: {% endif %}</strong>{{ finding.evidence }}</p>{% endif %}
+    </div>
+    {% endfor %}
+  </section>
+  {% endif %}
+
+  {% if sections.implications %}
+  <section>
+    <h2>{% if locale == 'zh-CN' %}含义{% else %}Implications{% endif %}</h2>
+    {% for para in sections.implications.body %}
+    <p>{{ para }}</p>
+    {% endfor %}
+  </section>
+  {% endif %}
+
+  {% if sections.method %}
+  <section>
+    <h2>{% if locale == 'zh-CN' %}方法{% else %}Method{% endif %}</h2>
+    {% for para in sections.method.body %}
+    <p>{{ para }}</p>
+    {% endfor %}
+    {% if sections.method.sources %}
+    <p style="font-family: var(--font-mono); font-size: 12px; color: var(--ink-subtle); margin-top: 12px;">
+      <strong>{% if locale == 'zh-CN' %}来源：{% else %}Sources: {% endif %}</strong>{{ sections.method.sources | join(' | ') }}
+    </p>
+    {% endif %}
+  </section>
+  {% endif %}
+{% endblock %}

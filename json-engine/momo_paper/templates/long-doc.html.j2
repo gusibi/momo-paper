@@ -1,0 +1,62 @@
+{% extends "_base.html.j2" %}
+{% block title %}Momo Paper · Long Doc · {{ meta.title }}{% endblock %}
+{% block content %}
+  <header>
+    <p class="eyebrow">{{ meta.eyebrow | default('Momo Paper / long_doc / ' + locale) }}</p>
+    <h1>{{ meta.title }}</h1>
+    <p class="subtitle">{{ meta.subtitle }}</p>
+  </header>
+
+  {% if sections.abstract %}
+  <section>
+    <h2>{% if locale == 'zh-CN' %}摘要{% else %}Abstract{% endif %}</h2>
+    {% for para in sections.abstract.body %}
+    <p>{{ para }}</p>
+    {% endfor %}
+    {% if sections.abstract.findings %}
+    <ul class="summary-strip">
+      {% for f in sections.abstract.findings %}
+      <li>{{ f }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+  </section>
+  {% endif %}
+
+  {% for sec in sections.sections %}
+  <section>
+    <h2>{{ sec.heading }}</h2>
+    {% for para in sec.body %}
+    <p>{{ para }}</p>
+    {% endfor %}
+    {% if sec.quote %}
+    <div class="quote-block">
+      <div class="quote-text">"{{ sec.quote.text }}"</div>
+      {% if sec.quote.source %}<div class="quote-source">— {{ sec.quote.source }}</div>{% endif %}
+    </div>
+    {% endif %}
+  </section>
+  {% endfor %}
+
+  {% if sections.conclusion %}
+  <section>
+    <h2>{% if locale == 'zh-CN' %}结论{% else %}Conclusion{% endif %}</h2>
+    {% for para in sections.conclusion.body %}
+    <p>{{ para }}</p>
+    {% endfor %}
+    {% if sections.conclusion.next_steps %}
+    <ul class="checklist">
+      {% for step in sections.conclusion.next_steps %}
+      <li>{{ step }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+  </section>
+  {% endif %}
+{% endblock %}
+{% block footer %}
+  <div class="footer-meta">
+    <span>{{ meta.date | default('') }}</span>
+    <span>{{ meta.author | default('') }}</span>
+  </div>
+{% endblock %}

@@ -1,0 +1,72 @@
+{
+  "document_type": "resume",
+  "locale": "zh-CN",
+  "meta": {
+    "title": "李思远",
+    "subtitle": "资深后端工程师 / 系统架构师",
+    "eyebrow": "Momo Paper / resume / zh-CN",
+    "location": "北京",
+    "email": "lisiyuan@example.com",
+    "website": "github.com/lisiyuan"
+  },
+  "sections": {
+    "profile": {
+      "summary": "8 年互联网后端开发经验，擅长高并发系统设计、微服务架构和云原生技术。主导过日活千万级产品的架构升级，具备从零到一构建技术团队的能力。"
+    },
+    "experience": [
+      {
+        "role": "技术总监",
+        "company": "星辰科技",
+        "period": "2022 - 至今",
+        "highlights": [
+          "领导 30 人技术团队，负责核心电商平台的架构演进",
+          "主导单体应用向微服务架构迁移，系统可用性从 99.5% 提升至 99.99%",
+          "设计并实现了分布式订单系统，支撑日均 500 万笔交易"
+        ]
+      },
+      {
+        "role": "高级后端工程师",
+        "company": "字节跳动",
+        "period": "2019 - 2022",
+        "highlights": [
+          "负责推荐系统的数据流架构，处理日均百亿级日志",
+          "优化 Kafka 集群配置，消息延迟从 200ms 降至 20ms",
+          "主导 Flink 实时计算平台的搭建与推广"
+        ]
+      },
+      {
+        "role": "后端工程师",
+        "company": "美团",
+        "period": "2017 - 2019",
+        "highlights": [
+          "参与外卖配送系统的核心模块开发",
+          "设计骑手调度算法，平均配送时间缩短 12%"
+        ]
+      }
+    ],
+    "projects": [
+      {
+        "name": "分布式事务框架 DT-X",
+        "description": "开源的分布式事务解决方案，支持 TCC、Saga、AT 三种模式。",
+        "impact": "GitHub 2.3k stars，被 50+ 企业采用"
+      },
+      {
+        "name": "云原生监控平台 CloudWatch-X",
+        "description": "基于 Prometheus + Grafana 的监控告警系统，支持多集群统一管理。",
+        "impact": "覆盖公司 200+ 微服务，告警准确率 95%"
+      }
+    ],
+    "education": [
+      {
+        "degree": "计算机科学与技术 硕士",
+        "school": "清华大学",
+        "year": "2014 - 2017"
+      },
+      {
+        "degree": "软件工程 学士",
+        "school": "北京邮电大学",
+        "year": "2010 - 2014"
+      }
+    ]
+  }
+}

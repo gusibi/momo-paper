@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "momo-paper"
+version = "4.0.0"
+description = "JSON-driven document rendering engine — 14 document types, 3 chart types, print-safe HTML output"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.10"
+dependencies = [
+    "jinja2>=3.1",
+    "click>=8.1",
+]
+
+[project.scripts]
+momo = "momo_paper.cli:main"
+momo-paper = "momo_paper.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/gusibi/momo-paper"
+Repository = "https://github.com/gusibi/momo-paper"
+
+[tool.setuptools.packages.find]
+include = ["momo_paper*"]
+
+[tool.setuptools.package-data]
+momo_paper = ["templates/*.html.j2", "schemas/*.json", "examples/*.json"]

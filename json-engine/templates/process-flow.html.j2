@@ -1,0 +1,65 @@
+{% extends "_base.html.j2" %}
+{% block title %}Momo Paper · Process Flow · {{ meta.title }}{% endblock %}
+{% block content %}
+  <header>
+    <p class="eyebrow">{{ meta.eyebrow | default('Momo Paper / process_flow / ' + locale) }}</p>
+    <h1>{{ meta.title }}</h1>
+    <p class="subtitle">{{ meta.subtitle }}</p>
+  </header>
+
+  {% if sections.lead %}
+  <section>
+    <h2>{% if locale == 'zh-CN' %}概述{% else %}Overview{% endif %}</h2>
+    {% for para in sections.lead.body %}
+    <p>{{ para }}</p>
+    {% endfor %}
+  </section>
+  {% endif %}
+
+  {% if sections.flow %}
+  <section>
+    <h2>{% if locale == 'zh-CN' %}主流程{% else %}Core Flow{% endif %}</h2>
+    <ol class="step-list">
+      {% for step in sections.flow.steps %}
+      <li>
+        <div class="step-title">{{ step.title }}</div>
+        <div class="step-desc">{{ step.description }}</div>
+        {% if step.owner %}<div class="step-owner">{{ step.owner }}</div>{% endif %}
+      </li>
+      {% endfor %}
+    </ol>
+  </section>
+  {% endif %}
+
+  {% if sections.branches %}
+  <section>
+    <h2>{% if locale == 'zh-CN' %}分支与例外{% else %}Branches & Exceptions{% endif %}</h2>
+    {% for para in sections.branches.body %}
+    <p>{{ para }}</p>
+    {% endfor %}
+    {% if sections.branches.conditions %}
+    <ul class="bullet-list">
+      {% for cond in sections.branches.conditions %}
+      <li>{{ cond }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+  </section>
+  {% endif %}
+
+  {% if sections.takeaways %}
+  <section>
+    <h2>{% if locale == 'zh-CN' %}执行要点{% else %}Takeaways{% endif %}</h2>
+    {% for para in sections.takeaways.body %}
+    <p>{{ para }}</p>
+    {% endfor %}
+    {% if sections.takeaways.checklist %}
+    <ul class="checklist">
+      {% for item in sections.takeaways.checklist %}
+      <li>{{ item }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+  </section>
+  {% endif %}
+{% endblock %}

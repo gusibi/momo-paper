@@ -1,0 +1,109 @@
+{
+  "document_type": "equity_report",
+  "locale": "en",
+  "meta": {
+    "title": "Apple Inc. (AAPL)",
+    "subtitle": "Services growth accelerates as iPhone cycle stabilizes; AI integration to drive next leg of growth",
+    "eyebrow": "Momo Paper / equity_report / en",
+    "date": "2025-04-28",
+    "analyst": "Momo Research",
+    "disclaimer": "This report is for informational purposes only and does not constitute investment advice. Investment involves risk. Please exercise caution."
+  },
+  "sections": {
+    "thesis": {
+      "rating": "Buy",
+      "target_price": "Target $225",
+      "summary_points": [
+        "Services revenue grew 14% YoY, now representing 26% of total revenue with 70%+ gross margins",
+        "iPhone 16 cycle showing resilience with AI features driving upgrade interest among installed base",
+        "Vision Pro ecosystem emerging as new platform opportunity; developer interest exceeds early iPad levels"
+      ]
+    },
+    "business_snapshot": {
+      "body": [
+        "Apple Inc. designs, manufactures, and markets smartphones, personal computers, tablets, wearables, and accessories worldwide. The company also sells a variety of related services, including AppleCare, cloud services, digital content, and payment services.",
+        "As of Q1 FY2025, Apple has an installed base of over 2.2 billion active devices, providing a powerful platform for services monetization and ecosystem lock-in."
+      ],
+      "cards": [
+        { "label": "Market Cap", "value": "$3.4T", "unit": "USD" },
+        { "label": "PE (TTM)", "value": "32.1", "unit": "x" },
+        { "label": "Forward PE", "value": "28.5", "unit": "x" },
+        { "label": "Gross Margin", "value": "46.2", "unit": "%" },
+        { "label": "Cash & Equivalents", "value": "$162B", "unit": "USD" },
+        { "label": "Dividend Yield", "value": "0.5", "unit": "%" }
+      ]
+    },
+    "price_and_drivers": {
+      "body": [
+        "Over the past 12 months, AAPL has traded in a range of $165-$225, currently at $198. The stock has benefited from resilient iPhone demand and accelerating services growth, though regulatory concerns in the EU and China remain overhangs.",
+        "Key catalysts for the next 12 months include: AI feature rollout across device lineup, Vision Pro ecosystem expansion, and potential new product categories."
+      ],
+      "chart": {
+        "type": "bar",
+        "title": "Revenue by Segment (FY2024, $B)",
+        "height": 260,
+        "data": {
+          "labels": ["iPhone", "Services", "Mac", "iPad", "Wearables"],
+          "values": [201, 85, 29, 28, 39]
+        }
+      },
+      "drivers": [
+        "AI integration across iOS, macOS, and iPadOS driving upgrade cycle",
+        "Services revenue approaching $100B annually with expanding margins",
+        "Vision Pro developer ecosystem growing 40% QoQ",
+        "India and Southeast Asia emerging as key growth markets"
+      ]
+    },
+    "valuation": {
+      "body": [
+        "We value Apple using a sum-of-the-parts approach. Hardware business valued at 25x PE, Services at 35x PE given its recurring revenue nature and superior margins."
+      ],
+      "table": {
+        "headers": ["Segment", "Valuation", "Multiple", "Implied Value", "Weight"],
+        "rows": [
+          ["iPhone", "PE", "22x", "$1.4T", "41%"],
+          ["Services", "PE", "32x", "$1.1T", "32%"],
+          ["Other HW", "PE", "18x", "$0.5T", "15%"],
+          ["Cash", "1x", "1x", "$0.4T", "12%"]
+        ]
+      },
+      "insight": "SOTP-derived fair value of $225 implies 14% upside. Current valuation at 28.5x forward PE is reasonable given Services growth trajectory and capital return program."
+    },
+    "risks_and_catalysts": {
+      "risks": [
+        {
+          "title": "Regulatory Pressure",
+          "description": "EU DMA compliance requirements and potential App Store fee reductions could impact Services margins.",
+          "severity": "medium"
+        },
+        {
+          "title": "China Market Slowdown",
+          "description": "Intensifying competition from domestic brands and geopolitical tensions affecting demand.",
+          "severity": "high"
+        },
+        {
+          "title": "AI Execution Risk",
+          "description": "Late entry into generative AI race could cede ground to competitors with more advanced offerings.",
+          "severity": "medium"
+        }
+      ],
+      "catalysts": [
+        {
+          "title": "WWDC 2025 AI Announcements",
+          "description": "Expected unveiling of on-device AI capabilities and developer tools for Apple Intelligence.",
+          "timeline": "Jun 2025"
+        },
+        {
+          "title": "Vision Pro 2 Launch",
+          "description": "Lighter, cheaper headset targeting broader consumer market with expanded content library.",
+          "timeline": "H2 2025"
+        },
+        {
+          "title": "India Manufacturing Scale-up",
+          "description": "Production capacity expansion to reduce China dependency and capture emerging market growth.",
+          "timeline": "2025-2026"
+        }
+      ]
+    }
+  }
+}

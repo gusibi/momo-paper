@@ -1,0 +1,76 @@
+{% extends "_base.html.j2" %}
+{% block title %}Momo Paper · Resume · {{ meta.title }}{% endblock %}
+{% block content %}
+  <header>
+    <p class="eyebrow">{{ meta.eyebrow | default('Momo Paper / resume / ' + locale) }}</p>
+    <h1>{{ meta.title }}</h1>
+    <p class="subtitle">{{ meta.subtitle }}</p>
+  </header>
+
+  {% if sections.profile %}
+  <div class="resume-section">
+    <h2>{% if locale == 'zh-CN' %}简介{% else %}Profile{% endif %}</h2>
+    <p>{{ sections.profile.summary }}</p>
+  </div>
+  {% endif %}
+
+  {% if sections.experience %}
+  <div class="resume-section">
+    <h2>{% if locale == 'zh-CN' %}经历{% else %}Experience{% endif %}</h2>
+    {% for exp in sections.experience %}
+    <div class="exp-item">
+      <div class="exp-header">
+        <div>
+          <div class="exp-role">{{ exp.role }}</div>
+          <div class="exp-company">{{ exp.company }}</div>
+        </div>
+        <div class="exp-period">{{ exp.period }}</div>
+      </div>
+      {% if exp.highlights %}
+      <ul>
+        {% for hl in exp.highlights %}
+        <li>{{ hl }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  {% if sections.projects %}
+  <div class="resume-section">
+    <h2>{% if locale == 'zh-CN' %}代表成果{% else %}Selected Work{% endif %}</h2>
+    {% for proj in sections.projects %}
+    <div class="exp-item">
+      <div class="exp-role">{{ proj.name }}</div>
+      <p>{{ proj.description }}</p>
+      {% if proj.impact %}<p style="font-size: 13px; color: var(--ink-subtle);"><strong>{% if locale == 'zh-CN' %}影响：{% else %}Impact: {% endif %}</strong>{{ proj.impact }}</p>{% endif %}
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  {% if sections.education %}
+  <div class="resume-section">
+    <h2>{% if locale == 'zh-CN' %}教育背景{% else %}Education{% endif %}</h2>
+    {% for edu in sections.education %}
+    <div class="exp-item">
+      <div class="exp-header">
+        <div>
+          <div class="exp-role">{{ edu.degree }}</div>
+          <div class="exp-company">{{ edu.school }}</div>
+        </div>
+        <div class="exp-period">{{ edu.year }}</div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+{% endblock %}
+{% block footer %}
+  <div class="footer-meta">
+    <span>{{ meta.location | default('') }}</span>
+    <span>{{ meta.email | default('') }}{% if meta.website %} | {{ meta.website }}{% endif %}</span>
+  </div>
+{% endblock %}

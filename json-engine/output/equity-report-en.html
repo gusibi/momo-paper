@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Momo Paper · Equity Report · Apple Inc. (AAPL)</title>
+  <style>
+    /* ===== Design Tokens ===== */
+    :root {
+      --ink: #172033;
+      --ink-subtle: #4C566A;
+      --paper: #FAF8F4;
+      --canvas: #F2EFE8;
+      --line: #D8D2C4;
+      --brand: #244C7A;
+      --brand-muted: #DCE7F2;
+      --accent: #B65C3A;
+      --accent-muted: #F2E1D9;
+      --success: #2F6B4F;
+      --warning: #A46A21;
+      --danger: #9A3D3D;
+      --font-serif: "Noto Serif SC", "Source Han Serif SC", "Songti SC", serif;
+      --font-sans: "Inter", "Noto Sans SC", "PingFang SC", sans-serif;
+      --font-mono: "IBM Plex Mono", "SFMono-Regular", monospace;
+      --content-width: 840px;
+      --section-gap: 64px;
+      --card-padding: 24px;
+    }
+
+    /* ===== Reset & Base ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-sans);
+      font-size: 15px;
+      line-height: 1.55;
+      color: var(--ink);
+      background: var(--canvas);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ===== Layout ===== */
+    article {
+      max-width: var(--content-width);
+      margin: 0 auto;
+      background: var(--paper);
+      min-height: 100vh;
+      padding: 0 48px 80px;
+    }
+
+    /* ===== Header ===== */
+    header {
+      padding: 56px 0 40px;
+      border-bottom: 1.5px solid var(--line);
+      margin-bottom: var(--section-gap);
+    }
+    .eyebrow {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--ink-subtle);
+      margin-bottom: 20px;
+    }
+    header h1 {
+      font-family: var(--font-serif);
+      font-size: 40px;
+      font-weight: 600;
+      line-height: 1.15;
+      color: var(--ink);
+      margin-bottom: 16px;
+    }
+    header .subtitle {
+      font-size: 18px;
+      line-height: 1.45;
+      color: var(--ink-subtle);
+      max-width: 640px;
+    }
+
+    /* ===== Sections ===== */
+    section {
+      margin-bottom: var(--section-gap);
+    }
+    section h2 {
+      font-family: var(--font-serif);
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--line);
+    }
+    section p {
+      margin-bottom: 14px;
+      color: var(--ink);
+      line-height: 1.6;
+    }
+    section p:last-child { margin-bottom: 0; }
+
+    /* ===== Cards ===== */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+      margin-top: 20px;
+    }
+    .fact-card {
+      padding: var(--card-padding);
+      background: var(--canvas);
+      border-radius: 8px;
+      border: 1px solid var(--line);
+    }
+    .fact-card .label {
+      font-size: 11px;
+      font-family: var(--font-mono);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--ink-subtle);
+      margin-bottom: 8px;
+    }
+    .fact-card .value {
+      font-family: var(--font-sans);
+      font-size: 24px;
+      font-weight: 600;
+      color: var(--ink);
+      line-height: 1.2;
+    }
+    .fact-card .unit {
+      font-size: 12px;
+      color: var(--ink-subtle);
+      margin-top: 4px;
+    }
+
+    /* ===== Lists ===== */
+    .bullet-list, .driver-list, .checklist {
+      list-style: none;
+      margin-top: 16px;
+    }
+    .bullet-list li, .driver-list li, .checklist li {
+      position: relative;
+      padding-left: 24px;
+      margin-bottom: 10px;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    .bullet-list li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 8px;
+      width: 6px;
+      height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+    }
+    .driver-list li::before {
+      content: "→";
+      position: absolute;
+      left: 0;
+      color: var(--brand);
+      font-weight: 600;
+    }
+    .checklist li::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: var(--success);
+      font-weight: 600;
+    }
+
+    /* ===== Tables ===== */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      font-size: 14px;
+    }
+    .data-table th {
+      text-align: left;
+      padding: 12px 16px;
+      font-weight: 500;
+      color: var(--ink-subtle);
+      border-bottom: 1.5px solid var(--line);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+    .data-table td {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--line);
+      color: var(--ink);
+    }
+    .data-table tr:last-child td { border-bottom: none; }
+    .data-table tr:hover td { background: var(--canvas); }
+
+    /* ===== Callouts ===== */
+    .insight-callout {
+      margin-top: 20px;
+      padding: 16px 20px;
+      background: var(--accent-muted);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 6px 6px 0;
+      font-size: 14px;
+      line-height: 1.5;
+      color: var(--ink);
+    }
+    .insight-callout::before {
+      content: "Insight";
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+    .summary-strip {
+      margin-top: 24px;
+      padding: 20px 24px;
+      background: var(--canvas);
+      border-left: 3px solid var(--brand);
+      border-radius: 0 6px 6px 0;
+    }
+    .summary-strip ul { list-style: none; }
+    .summary-strip li {
+      position: relative;
+      padding-left: 20px;
+      margin-bottom: 8px;
+      font-size: 14px;
+      line-height: 1.5;
+      color: var(--ink);
+    }
+    .summary-strip li:last-child { margin-bottom: 0; }
+    .summary-strip li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 8px;
+      width: 6px;
+      height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+    }
+
+    /* ===== Badges ===== */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 24px;
+      padding: 10px 20px;
+      background: var(--brand-muted);
+      border-radius: 6px;
+      font-size: 14px;
+    }
+    .badge .label { font-weight: 600; color: var(--brand); }
+    .badge .value { color: var(--ink-subtle); font-family: var(--font-mono); }
+
+    /* ===== Risk / Catalyst ===== */
+    .risk-grid, .catalyst-grid, .case-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+      margin-top: 20px;
+    }
+    .risk-card, .catalyst-card, .case-card {
+      padding: var(--card-padding);
+      background: var(--canvas);
+      border-radius: 8px;
+      border: 1px solid var(--line);
+    }
+    .risk-card .severity {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 10px;
+      font-family: var(--font-mono);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 8px;
+    }
+    .severity-high { background: #F2D9D9; color: var(--danger); }
+    .severity-medium { background: #F2EBD9; color: var(--warning); }
+    .severity-low { background: #D9F2E5; color: var(--success); }
+    .risk-card h4, .catalyst-card h4, .case-card h4 {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: var(--ink);
+    }
+    .risk-card p, .catalyst-card p, .case-card p {
+      font-size: 13px;
+      color: var(--ink-subtle);
+      line-height: 1.5;
+      margin: 0;
+    }
+    .catalyst-card .timeline {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--brand);
+      margin-top: 8px;
+    }
+
+    /* ===== Steps / Timeline ===== */
+    .step-list {
+      list-style: none;
+      counter-reset: step;
+      margin-top: 20px;
+    }
+    .step-list li {
+      position: relative;
+      padding-left: 48px;
+      margin-bottom: 24px;
+      min-height: 36px;
+    }
+    .step-list li::before {
+      counter-increment: step;
+      content: counter(step);
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 32px;
+      height: 32px;
+      background: var(--brand);
+      color: #fff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .step-list .step-title {
+      font-weight: 600;
+      font-size: 15px;
+      margin-bottom: 4px;
+    }
+    .step-list .step-desc {
+      font-size: 13px;
+      color: var(--ink-subtle);
+    }
+    .step-list .step-owner {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--brand);
+      margin-top: 4px;
+    }
+
+    .timeline-list {
+      list-style: none;
+      position: relative;
+      padding-left: 24px;
+      margin-top: 20px;
+    }
+    .timeline-list::before {
+      content: "";
+      position: absolute;
+      left: 6px;
+      top: 4px;
+      bottom: 4px;
+      width: 2px;
+      background: var(--line);
+    }
+    .timeline-list li {
+      position: relative;
+      padding-left: 28px;
+      margin-bottom: 24px;
+    }
+    .timeline-list li::before {
+      content: "";
+      position: absolute;
+      left: -20px;
+      top: 6px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--brand);
+      border: 2px solid var(--paper);
+    }
+    .timeline-list .tl-date {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--brand);
+      margin-bottom: 4px;
+    }
+    .timeline-list .tl-title {
+      font-weight: 600;
+      font-size: 15px;
+      margin-bottom: 4px;
+    }
+    .timeline-list .tl-desc {
+      font-size: 13px;
+      color: var(--ink-subtle);
+    }
+    .timeline-list li.status-completed::before { background: var(--success); }
+    .timeline-list li.status-in_progress::before { background: var(--warning); }
+    .timeline-list li.status-upcoming::before { background: var(--line); }
+
+    /* ===== FAQ ===== */
+    .faq-group {
+      margin-bottom: 32px;
+    }
+    .faq-group h3 {
+      font-family: var(--font-serif);
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 16px;
+      color: var(--ink);
+    }
+    .faq-item {
+      margin-bottom: 16px;
+      padding: 16px 20px;
+      background: var(--canvas);
+      border-radius: 8px;
+      border: 1px solid var(--line);
+    }
+    .faq-item .question {
+      font-weight: 600;
+      font-size: 15px;
+      margin-bottom: 8px;
+      color: var(--ink);
+    }
+    .faq-item .answer {
+      font-size: 14px;
+      color: var(--ink-subtle);
+      line-height: 1.6;
+    }
+
+    /* ===== Quote Block ===== */
+    .quote-block {
+      margin: 24px 0;
+      padding: 20px 24px;
+      background: var(--canvas);
+      border-left: 3px solid var(--brand);
+      border-radius: 0 6px 6px 0;
+      font-style: italic;
+    }
+    .quote-block .quote-text {
+      font-size: 16px;
+      line-height: 1.6;
+      color: var(--ink);
+    }
+    .quote-block .quote-source {
+      margin-top: 10px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--ink-subtle);
+      font-style: normal;
+    }
+
+    /* ===== Letter Specific ===== */
+    .letter-body p {
+      margin-bottom: 16px;
+      text-indent: 2em;
+    }
+    .letter-body p:first-child { text-indent: 0; }
+    .letter-signoff {
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid var(--line);
+    }
+    .letter-signoff .closing {
+      font-style: italic;
+      margin-bottom: 20px;
+    }
+    .letter-signoff .name {
+      font-weight: 600;
+      font-size: 16px;
+    }
+    .letter-signoff .title {
+      font-size: 13px;
+      color: var(--ink-subtle);
+      margin-top: 4px;
+    }
+
+    /* ===== Resume Specific ===== */
+    .resume-section {
+      margin-bottom: 40px;
+    }
+    .resume-section h2 {
+      font-size: 18px;
+      margin-bottom: 16px;
+    }
+    .exp-item {
+      margin-bottom: 24px;
+    }
+    .exp-item .exp-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 8px;
+    }
+    .exp-item .exp-role {
+      font-weight: 600;
+      font-size: 15px;
+    }
+    .exp-item .exp-company {
+      font-size: 14px;
+      color: var(--ink-subtle);
+    }
+    .exp-item .exp-period {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--ink-subtle);
+    }
+    .exp-item ul {
+      list-style: none;
+      padding-left: 0;
+    }
+    .exp-item li {
+      position: relative;
+      padding-left: 16px;
+      margin-bottom: 6px;
+      font-size: 14px;
+      color: var(--ink);
+    }
+    .exp-item li::before {
+      content: "·";
+      position: absolute;
+      left: 0;
+      color: var(--brand);
+      font-weight: bold;
+    }
+
+    /* ===== Changelog Specific ===== */
+    .changelog-category {
+      margin-bottom: 24px;
+    }
+    .changelog-category h3 {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--ink-subtle);
+      margin-bottom: 12px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid var(--line);
+    }
+    .changelog-category ul {
+      list-style: none;
+      padding-left: 0;
+    }
+    .changelog-category li {
+      position: relative;
+      padding-left: 20px;
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+    .changelog-category li::before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      color: var(--brand);
+    }
+    .cat-added h3 { color: var(--success); }
+    .cat-changed h3 { color: var(--warning); }
+    .cat-fixed h3 { color: var(--brand); }
+    .cat-deprecated h3 { color: var(--ink-subtle); }
+    .cat-removed h3 { color: var(--danger); }
+    .cat-security h3 { color: var(--danger); }
+
+    /* ===== Stats Specific ===== */
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 16px;
+      margin-top: 20px;
+    }
+    .kpi-card {
+      padding: var(--card-padding);
+      background: var(--canvas);
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      text-align: center;
+    }
+    .kpi-card .kpi-value {
+      font-size: 32px;
+      font-weight: 600;
+      color: var(--ink);
+      line-height: 1.2;
+    }
+    .kpi-card .kpi-label {
+      font-size: 11px;
+      font-family: var(--font-mono);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--ink-subtle);
+      margin-top: 6px;
+    }
+    .kpi-card .kpi-change {
+      font-size: 12px;
+      margin-top: 4px;
+    }
+    .kpi-change.up { color: var(--success); }
+    .kpi-change.down { color: var(--danger); }
+    .kpi-change.flat { color: var(--ink-subtle); }
+    .anomaly-alert {
+      margin-top: 20px;
+      padding: 16px 20px;
+      background: #F2D9D9;
+      border-left: 3px solid var(--danger);
+      border-radius: 0 6px 6px 0;
+      font-size: 14px;
+    }
+    .anomaly-alert::before {
+      content: "Anomaly";
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--danger);
+      margin-bottom: 6px;
+    }
+
+    /* ===== Infographic Specific ===== */
+    .metric-cluster {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin: 24px 0;
+    }
+    .metric-block {
+      text-align: center;
+      padding: 32px 24px;
+      background: var(--canvas);
+      border-radius: 8px;
+      border: 1px solid var(--line);
+    }
+    .metric-block .metric-number {
+      font-size: 48px;
+      font-weight: 700;
+      color: var(--brand);
+      line-height: 1.1;
+      font-family: var(--font-sans);
+    }
+    .metric-block .metric-unit {
+      font-size: 14px;
+      color: var(--ink-subtle);
+      margin-top: 4px;
+    }
+    .metric-block .metric-label {
+      font-size: 12px;
+      font-family: var(--font-mono);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--ink-subtle);
+      margin-top: 12px;
+    }
+
+    /* ===== Footer / Disclosure ===== */
+    .disclosure {
+      margin-top: var(--section-gap);
+      padding-top: 32px;
+      border-top: 1.5px solid var(--line);
+    }
+    .disclosure h3 {
+      font-family: var(--font-serif);
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: var(--ink);
+    }
+    .disclosure p {
+      font-size: 12px;
+      line-height: 1.6;
+      color: var(--ink-subtle);
+    }
+    .footer-meta {
+      margin-top: 32px;
+      padding-top: 20px;
+      border-top: 1px solid var(--line);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--ink-subtle);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    /* ===== Charts ===== */
+    .chart-container {
+      margin-top: 24px;
+      padding: 16px;
+      background: var(--canvas);
+      border-radius: 8px;
+      border: 1px solid var(--line);
+    }
+    .chart-container svg {
+      display: block;
+      width: 100%;
+    }
+
+    /* ===== Print Safety ===== */
+    @media print {
+      body { background: #fff; }
+      article { padding: 0 32px; max-width: 100%; }
+      section { break-inside: avoid; page-break-inside: avoid; }
+      header { break-after: avoid; page-break-after: avoid; }
+      .card-grid, .case-grid, .risk-grid, .kpi-row { break-inside: avoid; }
+    }
+  </style>
+  <style>
+    .thesis-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 24px;
+      padding: 10px 20px;
+      background: var(--brand-muted);
+      border-radius: 6px;
+      font-size: 14px;
+    }
+    .thesis-badge .rating { font-weight: 600; color: var(--brand); }
+    .thesis-badge .target { color: var(--ink-subtle); font-family: var(--font-mono); }
+  </style>
+</head>
+<body>
+  <article data-document-type="equity_report">
+  <header>
+    <p class="eyebrow">Momo Paper / equity_report / en</p>
+    <h1>Apple Inc. (AAPL)</h1>
+    <p class="subtitle">Services growth accelerates as iPhone cycle stabilizes; AI integration to drive next leg of growth</p>
+
+      <div class="thesis-badge">
+<span class="rating">Buy</span><span class="target">Target $225</span>      </div>
+      <div class="summary-strip">
+        <ul>
+          <li>Services revenue grew 14% YoY, now representing 26% of total revenue with 70%+ gross margins</li>
+          <li>iPhone 16 cycle showing resilience with AI features driving upgrade interest among installed base</li>
+          <li>Vision Pro ecosystem emerging as new platform opportunity; developer interest exceeds early iPad levels</li>
+        </ul>
+      </div>
+  </header>
+
+  <section>
+    <h2>Business Snapshot</h2>
+    <p>Apple Inc. designs, manufactures, and markets smartphones, personal computers, tablets, wearables, and accessories worldwide. The company also sells a variety of related services, including AppleCare, cloud services, digital content, and payment services.</p>
+    <p>As of Q1 FY2025, Apple has an installed base of over 2.2 billion active devices, providing a powerful platform for services monetization and ecosystem lock-in.</p>
+    <div class="card-grid">
+      <div class="fact-card">
+        <div class="label">Market Cap</div>
+        <div class="value">$3.4T</div>
+<div class="unit">USD</div>      </div>
+      <div class="fact-card">
+        <div class="label">PE (TTM)</div>
+        <div class="value">32.1</div>
+<div class="unit">x</div>      </div>
+      <div class="fact-card">
+        <div class="label">Forward PE</div>
+        <div class="value">28.5</div>
+<div class="unit">x</div>      </div>
+      <div class="fact-card">
+        <div class="label">Gross Margin</div>
+        <div class="value">46.2</div>
+<div class="unit">%</div>      </div>
+      <div class="fact-card">
+        <div class="label">Cash & Equivalents</div>
+        <div class="value">$162B</div>
+<div class="unit">USD</div>      </div>
+      <div class="fact-card">
+        <div class="label">Dividend Yield</div>
+        <div class="value">0.5</div>
+<div class="unit">%</div>      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Price and Drivers</h2>
+    <p>Over the past 12 months, AAPL has traded in a range of $165-$225, currently at $198. The stock has benefited from resilient iPhone demand and accelerating services growth, though regulatory concerns in the EU and China remain overhangs.</p>
+    <p>Key catalysts for the next 12 months include: AI feature rollout across device lineup, Vision Pro ecosystem expansion, and potential new product categories.</p>
+    <div class="chart-container">
+      <svg width="100%" viewBox="0 0 720 260" xmlns="http://www.w3.org/2000/svg" aria-label="Revenue by Segment (FY2024, $B)">
+<text x="50" y="24" font-family="Inter, sans-serif" font-size="14" font-weight="600" fill="#172033">Revenue by Segment (FY2024, $B)</text>
+<line x1="50" y1="210.0" x2="700" y2="210.0" stroke="#D8D2C4" stroke-width="0.5"/>
+<text x="42" y="214.0" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10" fill="#4C566A">0</text>
+<line x1="50" y1="176.0" x2="700" y2="176.0" stroke="#D8D2C4" stroke-width="0.5"/>
+<text x="42" y="180.0" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10" fill="#4C566A">44</text>
+<line x1="50" y1="142.0" x2="700" y2="142.0" stroke="#D8D2C4" stroke-width="0.5"/>
+<text x="42" y="146.0" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10" fill="#4C566A">88</text>
+<line x1="50" y1="108.0" x2="700" y2="108.0" stroke="#D8D2C4" stroke-width="0.5"/>
+<text x="42" y="112.0" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10" fill="#4C566A">133</text>
+<line x1="50" y1="74.0" x2="700" y2="74.0" stroke="#D8D2C4" stroke-width="0.5"/>
+<text x="42" y="78.0" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10" fill="#4C566A">177</text>
+<line x1="50" y1="40.0" x2="700" y2="40.0" stroke="#D8D2C4" stroke-width="0.5"/>
+<text x="42" y="44.0" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10" fill="#4C566A">221</text>
+<rect x="76.0" y="55.45454545454547" width="78.0" height="154.54545454545453" fill="#244C7A" rx="2"/>
+<text x="115.0" y="228" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#4C566A">iPhone</text>
+<text x="115.0" y="49.45454545454547" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10" fill="#172033">201</text>
+<rect x="206.0" y="144.64495703301674" width="78.0" height="65.35504296698326" fill="#244C7A" rx="2"/>
+<text x="245.0" y="228" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#4C566A">Services</text>
+<text x="245.0" y="138.64495703301674" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10" fill="#172033">85</text>
+<rect x="336.0" y="187.70239710538218" width="78.0" height="22.297602894617818" fill="#244C7A" rx="2"/>
+<text x="375.0" y="228" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#4C566A">Mac</text>
+<text x="375.0" y="181.70239710538218" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10" fill="#172033">29</text>
+<rect x="466.0" y="188.47127996381727" width="78.0" height="21.52872003618272" fill="#244C7A" rx="2"/>
+<text x="505.0" y="228" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#4C566A">iPad</text>
+<text x="505.0" y="182.47127996381727" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10" fill="#172033">28</text>
+<rect x="596.0" y="180.0135685210312" width="78.0" height="29.98643147896879" fill="#244C7A" rx="2"/>
+<text x="635.0" y="228" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#4C566A">Wearables</text>
+<text x="635.0" y="174.0135685210312" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10" fill="#172033">39</text>
+</svg>
+    </div>
+    <ul class="driver-list">
+      <li>AI integration across iOS, macOS, and iPadOS driving upgrade cycle</li>
+      <li>Services revenue approaching $100B annually with expanding margins</li>
+      <li>Vision Pro developer ecosystem growing 40% QoQ</li>
+      <li>India and Southeast Asia emerging as key growth markets</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Valuation</h2>
+    <p>We value Apple using a sum-of-the-parts approach. Hardware business valued at 25x PE, Services at 35x PE given its recurring revenue nature and superior margins.</p>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Segment</th>
+          <th>Valuation</th>
+          <th>Multiple</th>
+          <th>Implied Value</th>
+          <th>Weight</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>iPhone</td>
+          <td>PE</td>
+          <td>22x</td>
+          <td>$1.4T</td>
+          <td>41%</td>
+        </tr>
+        <tr>
+          <td>Services</td>
+          <td>PE</td>
+          <td>32x</td>
+          <td>$1.1T</td>
+          <td>32%</td>
+        </tr>
+        <tr>
+          <td>Other HW</td>
+          <td>PE</td>
+          <td>18x</td>
+          <td>$0.5T</td>
+          <td>15%</td>
+        </tr>
+        <tr>
+          <td>Cash</td>
+          <td>1x</td>
+          <td>1x</td>
+          <td>$0.4T</td>
+          <td>12%</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="insight-callout">SOTP-derived fair value of $225 implies 14% upside. Current valuation at 28.5x forward PE is reasonable given Services growth trajectory and capital return program.</div>
+  </section>
+
+  <section>
+    <h2>Risks and Catalysts</h2>
+    <div class="risk-grid">
+      <div class="risk-card">
+<span class="severity severity-medium">medium</span>        <h4>Regulatory Pressure</h4>
+        <p>EU DMA compliance requirements and potential App Store fee reductions could impact Services margins.</p>
+      </div>
+      <div class="risk-card">
+<span class="severity severity-high">high</span>        <h4>China Market Slowdown</h4>
+        <p>Intensifying competition from domestic brands and geopolitical tensions affecting demand.</p>
+      </div>
+      <div class="risk-card">
+<span class="severity severity-medium">medium</span>        <h4>AI Execution Risk</h4>
+        <p>Late entry into generative AI race could cede ground to competitors with more advanced offerings.</p>
+      </div>
+    </div>
+    <div class="catalyst-grid" style="margin-top: 24px;">
+      <div class="catalyst-card">
+        <h4>WWDC 2025 AI Announcements</h4>
+        <p>Expected unveiling of on-device AI capabilities and developer tools for Apple Intelligence.</p>
+<div class="timeline">Jun 2025</div>      </div>
+      <div class="catalyst-card">
+        <h4>Vision Pro 2 Launch</h4>
+        <p>Lighter, cheaper headset targeting broader consumer market with expanded content library.</p>
+<div class="timeline">H2 2025</div>      </div>
+      <div class="catalyst-card">
+        <h4>India Manufacturing Scale-up</h4>
+        <p>Production capacity expansion to reduce China dependency and capture emerging market growth.</p>
+<div class="timeline">2025-2026</div>      </div>
+    </div>
+  </section>
+  <div class="disclosure">
+    <h3>Disclosure</h3>
+    <p>This report is for informational purposes only and does not constitute investment advice. Investment involves risk. Please exercise caution.</p>
+  </div>
+  <div class="footer-meta">
+    <span>2025-04-28</span>
+    <span>Momo Research</span>
+  </div>
+  </article>
+</body>
+</html>

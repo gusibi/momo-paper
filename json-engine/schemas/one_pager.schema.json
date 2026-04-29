@@ -1,0 +1,63 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Momo Paper · One-Pager",
+  "type": "object",
+  "required": ["document_type", "locale", "meta", "sections"],
+  "properties": {
+    "document_type": { "type": "string", "const": "one_pager" },
+    "locale": { "type": "string", "enum": ["zh-CN", "en"] },
+    "meta": {
+      "type": "object",
+      "required": ["title", "subtitle"],
+      "properties": {
+        "title": { "type": "string" },
+        "subtitle": { "type": "string" },
+        "eyebrow": { "type": "string" },
+        "date": { "type": "string" },
+        "author": { "type": "string" }
+      }
+    },
+    "sections": {
+      "type": "object",
+      "properties": {
+        "summary": {
+          "type": "object",
+          "properties": {
+            "body": { "type": "array", "items": { "type": "string" } },
+            "points": { "type": "array", "items": { "type": "string" } }
+          }
+        },
+        "context": {
+          "type": "object",
+          "properties": {
+            "body": { "type": "array", "items": { "type": "string" } }
+          }
+        },
+        "evidence": {
+          "type": "object",
+          "properties": {
+            "body": { "type": "array", "items": { "type": "string" } },
+            "cards": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "label": { "type": "string" },
+                  "value": { "type": "string" },
+                  "unit": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "recommendation": {
+          "type": "object",
+          "properties": {
+            "body": { "type": "array", "items": { "type": "string" } },
+            "actions": { "type": "array", "items": { "type": "string" } }
+          }
+        }
+      }
+    }
+  }
+}

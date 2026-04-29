@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Momo Paper · Stats Report · Momo Platform 2025 Q1 运营报告</title>
+  <style>
+    /* ===== Design Tokens ===== */
+    :root {
+      --ink: #172033;
+      --ink-subtle: #4C566A;
+      --paper: #FAF8F4;
+      --canvas: #F2EFE8;
+      --line: #D8D2C4;
+      --brand: #244C7A;
+      --brand-muted: #DCE7F2;
+      --accent: #B65C3A;
+      --accent-muted: #F2E1D9;
+      --success: #2F6B4F;
+      --warning: #A46A21;
+      --danger: #9A3D3D;
+      --font-serif: "Noto Serif SC", "Source Han Serif SC", "Songti SC", serif;
+      --font-sans: "Inter", "Noto Sans SC", "PingFang SC", sans-serif;
+      --font-mono: "IBM Plex Mono", "SFMono-Regular", monospace;
+      --content-width: 840px;
+      --section-gap: 64px;
+      --card-padding: 24px;
+    }
+
+    /* ===== Reset & Base ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-sans);
+      font-size: 15px;
+      line-height: 1.55;
+      color: var(--ink);
+      background: var(--canvas);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ===== Layout ===== */
+    article {
+      max-width: var(--content-width);
+      margin: 0 auto;
+      background: var(--paper);
+      min-height: 100vh;
+      padding: 0 48px 80px;
+    }
+
+    /* ===== Header ===== */
+    header {
+      padding: 56px 0 40px;
+      border-bottom: 1.5px solid var(--line);
+      margin-bottom: var(--section-gap);
+    }
+    .eyebrow {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--ink-subtle);
+      margin-bottom: 20px;
+    }
+    header h1 {
+      font-family: var(--font-serif);
+      font-size: 40px;
+      font-weight: 600;
+      line-height: 1.15;
+      color: var(--ink);
+      margin-bottom: 16px;
+    }
+    header .subtitle {
+      font-size: 18px;
+      line-height: 1.45;
+      color: var(--ink-subtle);
+      max-width: 640px;
+    }
+
+    /* ===== Sections ===== */
+    section {
+      margin-bottom: var(--section-gap);
+    }
+    section h2 {
+      font-family: var(--font-serif);
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--line);
+    }
+    section p {
+      margin-bottom: 14px;
+      color: var(--ink);
+      line-height: 1.6;
+    }
+    section p:last-child { margin-bottom: 0; }
+
+    /* ===== Cards ===== */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+      margin-top: 20px;
+    }
+    .fact-card {
+      padding: var(--card-padding);
+      background: var(--canvas);
+      border-radius: 8px;
+      border: 1px solid var(--line);
+    }
+    .fact-card .label {
+      font-size: 11px;
+      font-family: var(--font-mono);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--ink-subtle);
+      margin-bottom: 8px;
+    }
+    .fact-card .value {
+      font-family: var(--font-sans);
+      font-size: 24px;
+      font-weight: 600;
+      color: var(--ink);
+      line-height: 1.2;
+    }
+    .fact-card .unit {
+      font-size: 12px;
+      color: var(--ink-subtle);
+      margin-top: 4px;
+    }
+
+    /* ===== Lists ===== */
+    .bullet-list, .driver-list, .checklist {
+      list-style: none;
+      margin-top: 16px;
+    }
+    .bullet-list li, .driver-list li, .checklist li {
+      position: relative;
+      padding-left: 24px;
+      margin-bottom: 10px;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    .bullet-list li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 8px;
+      width: 6px;
+      height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+    }
+    .driver-list li::before {
+      content: "→";
+      position: absolute;
+      left: 0;
+      color: var(--brand);
+      font-weight: 600;
+    }
+    .checklist li::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: var(--success);
+      font-weight: 600;
+    }
+
+    /* ===== Tables ===== */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      font-size: 14px;
+    }
+    .data-table th {
+      text-align: left;
+      padding: 12px 16px;
+      font-weight: 500;
+      color: var(--ink-subtle);
+      border-bottom: 1.5px solid var(--line);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+    .data-table td {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--line);
+      color: var(--ink);
+    }
+    .data-table tr:last-child td { border-bottom: none; }
+    .data-table tr:hover td { background: var(--canvas); }
+
+    /* ===== Callouts ===== */
+    .insight-callout {
+      margin-top: 20px;
+      padding: 16px 20px;
+      background: var(--accent-muted);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 6px 6px 0;
+      font-size: 14px;
+      line-height: 1.5;
+      color: var(--ink);
+    }
+    .insight-callout::before {
+      content: "Insight";
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+    .summary-strip {
+      margin-top: 24px;
+      padding: 20px 24px;
+      background: var(--canvas);
+      border-left: 3px solid var(--brand);
+      border-radius: 0 6px 6px 0;
+    }
+    .summary-strip ul { list-style: none; }
+    .summary-strip li {
+      position: relative;
+      padding-left: 20px;
+      margin-bottom: 8px;
+      font-size: 14px;
+      line-height: 1.5;
+      color: var(--ink);
+    }
+    .summary-strip li:last-child { margin-bottom: 0; }
+    .summary-strip li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 8px;
+      width: 6px;
+      height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+    }
+
+    /* ===== Badges ===== */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 24px;
+      padding: 10px 20px;
+      background: var(--brand-muted);
+      border-radius: 6px;
+      font-size: 14px;
+    }
+    .badge .label { font-weight: 600; color: var(--brand); }
+    .badge .value { color: var(--ink-subtle); font-family: var(--font-mono); }
+
+    /* ===== Risk / Catalyst ===== */
+    .risk-grid, .catalyst-grid, .case-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+      margin-top: 20px;
+    }
+    .risk-card, .catalyst-card, .case-card {
+      padding: var(--card-padding);
+      background: var(--canvas);
+      border-radius: 8px;
+      border: 1px solid var(--line);
+    }
+    .risk-card .severity {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 10px;
+      font-family: var(--font-mono);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 8px;
+    }
+    .severity-high { background: #F2D9D9; color: var(--danger); }
+    .severity-medium { background: #F2EBD9; color: var(--warning); }
+    .severity-low { background: #D9F2E5; color: var(--success); }
+    .risk-card h4, .catalyst-card h4, .case-card h4 {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: var(--ink);
+    }
+    .risk-card p, .catalyst-card p, .case-card p {
+      font-size: 13px;
+      color: var(--ink-subtle);
+      line-height: 1.5;
+      margin: 0;
+    }
+    .catalyst-card .timeline {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--brand);
+      margin-top: 8px;
+    }
+
+    /* ===== Steps / Timeline ===== */
+    .step-list {
+      list-style: none;
+      counter-reset: step;
+      margin-top: 20px;
+    }
+    .step-list li {
+      position: relative;
+      padding-left: 48px;
+      margin-bottom: 24px;
+      min-height: 36px;
+    }
+    .step-list li::before {
+      counter-increment: step;
+      content: counter(step);
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 32px;
+      height: 32px;
+      background: var(--brand);
+      color: #fff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .step-list .step-title {
+      font-weight: 600;
+      font-size: 15px;
+      margin-bottom: 4px;
+    }
+    .step-list .step-desc {
+      font-size: 13px;
+      color: var(--ink-subtle);
+    }
+    .step-list .step-owner {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--brand);
+      margin-top: 4px;
+    }
+
+    .timeline-list {
+      list-style: none;
+      position: relative;
+      padding-left: 24px;
+      margin-top: 20px;
+    }
+    .timeline-list::before {
+      content: "";
+      position: absolute;
+      left: 6px;
+      top: 4px;
+      bottom: 4px;
+      width: 2px;
+      background: var(--line);
+    }
+    .timeline-list li {
+      position: relative;
+      padding-left: 28px;
+      margin-bottom: 24px;
+    }
+    .timeline-list li::before {
+      content: "";
+      position: absolute;
+      left: -20px;
+      top: 6px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--brand);
+      border: 2px solid var(--paper);
+    }
+    .timeline-list .tl-date {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--brand);
+      margin-bottom: 4px;
+    }
+    .timeline-list .tl-title {
+      font-weight: 600;
+      font-size: 15px;
+      margin-bottom: 4px;
+    }
+    .timeline-list .tl-desc {
+      font-size: 13px;
+      color: var(--ink-subtle);
+    }
+    .timeline-list li.status-completed::before { background: var(--success); }
+    .timeline-list li.status-in_progress::before { background: var(--warning); }
+    .timeline-list li.status-upcoming::before { background: var(--line); }
+
+    /* ===== FAQ ===== */
+    .faq-group {
+      margin-bottom: 32px;
+    }
+    .faq-group h3 {
+      font-family: var(--font-serif);
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 16px;
+      color: var(--ink);
+    }
+    .faq-item {
+      margin-bottom: 16px;
+      padding: 16px 20px;
+      background: var(--canvas);
+      border-radius: 8px;
+      border: 1px solid var(--line);
+    }
+    .faq-item .question {
+      font-weight: 600;
+      font-size: 15px;
+      margin-bottom: 8px;
+      color: var(--ink);
+    }
+    .faq-item .answer {
+      font-size: 14px;
+      color: var(--ink-subtle);
+      line-height: 1.6;
+    }
+
+    /* ===== Quote Block ===== */
+    .quote-block {
+      margin: 24px 0;
+      padding: 20px 24px;
+      background: var(--canvas);
+      border-left: 3px solid var(--brand);
+      border-radius: 0 6px 6px 0;
+      font-style: italic;
+    }
+    .quote-block .quote-text {
+      font-size: 16px;
+      line-height: 1.6;
+      color: var(--ink);
+    }
+    .quote-block .quote-source {
+      margin-top: 10px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--ink-subtle);
+      font-style: normal;
+    }
+
+    /* ===== Letter Specific ===== */
+    .letter-body p {
+      margin-bottom: 16px;
+      text-indent: 2em;
+    }
+    .letter-body p:first-child { text-indent: 0; }
+    .letter-signoff {
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid var(--line);
+    }
+    .letter-signoff .closing {
+      font-style: italic;
+      margin-bottom: 20px;
+    }
+    .letter-signoff .name {
+      font-weight: 600;
+      font-size: 16px;
+    }
+    .letter-signoff .title {
+      font-size: 13px;
+      color: var(--ink-subtle);
+      margin-top: 4px;
+    }
+
+    /* ===== Resume Specific ===== */
+    .resume-section {
+      margin-bottom: 40px;
+    }
+    .resume-section h2 {
+      font-size: 18px;
+      margin-bottom: 16px;
+    }
+    .exp-item {
+      margin-bottom: 24px;
+    }
+    .exp-item .exp-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 8px;
+    }
+    .exp-item .exp-role {
+      font-weight: 600;
+      font-size: 15px;
+    }
+    .exp-item .exp-company {
+      font-size: 14px;
+      color: var(--ink-subtle);
+    }
+    .exp-item .exp-period {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--ink-subtle);
+    }
+    .exp-item ul {
+      list-style: none;
+      padding-left: 0;
+    }
+    .exp-item li {
+      position: relative;
+      padding-left: 16px;
+      margin-bottom: 6px;
+      font-size: 14px;
+      color: var(--ink);
+    }
+    .exp-item li::before {
+      content: "·";
+      position: absolute;
+      left: 0;
+      color: var(--brand);
+      font-weight: bold;
+    }
+
+    /* ===== Changelog Specific ===== */
+    .changelog-category {
+      margin-bottom: 24px;
+    }
+    .changelog-category h3 {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--ink-subtle);
+      margin-bottom: 12px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid var(--line);
+    }
+    .changelog-category ul {
+      list-style: none;
+      padding-left: 0;
+    }
+    .changelog-category li {
+      position: relative;
+      padding-left: 20px;
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+    .changelog-category li::before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      color: var(--brand);
+    }
+    .cat-added h3 { color: var(--success); }
+    .cat-changed h3 { color: var(--warning); }
+    .cat-fixed h3 { color: var(--brand); }
+    .cat-deprecated h3 { color: var(--ink-subtle); }
+    .cat-removed h3 { color: var(--danger); }
+    .cat-security h3 { color: var(--danger); }
+
+    /* ===== Stats Specific ===== */
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 16px;
+      margin-top: 20px;
+    }
+    .kpi-card {
+      padding: var(--card-padding);
+      background: var(--canvas);
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      text-align: center;
+    }
+    .kpi-card .kpi-value {
+      font-size: 32px;
+      font-weight: 600;
+      color: var(--ink);
+      line-height: 1.2;
+    }
+    .kpi-card .kpi-label {
+      font-size: 11px;
+      font-family: var(--font-mono);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--ink-subtle);
+      margin-top: 6px;
+    }
+    .kpi-card .kpi-change {
+      font-size: 12px;
+      margin-top: 4px;
+    }
+    .kpi-change.up { color: var(--success); }
+    .kpi-change.down { color: var(--danger); }
+    .kpi-change.flat { color: var(--ink-subtle); }
+    .anomaly-alert {
+      margin-top: 20px;
+      padding: 16px 20px;
+      background: #F2D9D9;
+      border-left: 3px solid var(--danger);
+      border-radius: 0 6px 6px 0;
+      font-size: 14px;
+    }
+    .anomaly-alert::before {
+      content: "Anomaly";
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--danger);
+      margin-bottom: 6px;
+    }
+
+    /* ===== Infographic Specific ===== */
+    .metric-cluster {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin: 24px 0;
+    }
+    .metric-block {
+      text-align: center;
+      padding: 32px 24px;
+      background: var(--canvas);
+      border-radius: 8px;
+      border: 1px solid var(--line);
+    }
+    .metric-block .metric-number {
+      font-size: 48px;
+      font-weight: 700;
+      color: var(--brand);
+      line-height: 1.1;
+      font-family: var(--font-sans);
+    }
+    .metric-block .metric-unit {
+      font-size: 14px;
+      color: var(--ink-subtle);
+      margin-top: 4px;
+    }
+    .metric-block .metric-label {
+      font-size: 12px;
+      font-family: var(--font-mono);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--ink-subtle);
+      margin-top: 12px;
+    }
+
+    /* ===== Footer / Disclosure ===== */
+    .disclosure {
+      margin-top: var(--section-gap);
+      padding-top: 32px;
+      border-top: 1.5px solid var(--line);
+    }
+    .disclosure h3 {
+      font-family: var(--font-serif);
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: var(--ink);
+    }
+    .disclosure p {
+      font-size: 12px;
+      line-height: 1.6;
+      color: var(--ink-subtle);
+    }
+    .footer-meta {
+      margin-top: 32px;
+      padding-top: 20px;
+      border-top: 1px solid var(--line);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--ink-subtle);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    /* ===== Charts ===== */
+    .chart-container {
+      margin-top: 24px;
+      padding: 16px;
+      background: var(--canvas);
+      border-radius: 8px;
+      border: 1px solid var(--line);
+    }
+    .chart-container svg {
+      display: block;
+      width: 100%;
+    }
+
+    /* ===== Print Safety ===== */
+    @media print {
+      body { background: #fff; }
+      article { padding: 0 32px; max-width: 100%; }
+      section { break-inside: avoid; page-break-inside: avoid; }
+      header { break-after: avoid; page-break-after: avoid; }
+      .card-grid, .case-grid, .risk-grid, .kpi-row { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <article data-document-type="stats_report">
+  <header>
+    <p class="eyebrow">Momo Paper / stats_report / zh-CN</p>
+    <h1>Momo Platform 2025 Q1 运营报告</h1>
+    <p class="subtitle">用户增长加速，付费转化率创历史新高</p>
+  </header>
+
+  <section>
+    <h2>KPI</h2>
+    <div class="kpi-row">
+      <div class="kpi-card">
+        <div class="kpi-value">128万</div>
+        <div class="kpi-label">MAU</div>
+<div class="kpi-change up">+18%</div>      </div>
+      <div class="kpi-card">
+        <div class="kpi-value">4.2万</div>
+        <div class="kpi-label">付费用户</div>
+<div class="kpi-change up">+32%</div>      </div>
+      <div class="kpi-card">
+        <div class="kpi-value">3.28%</div>
+        <div class="kpi-label">付费转化率</div>
+<div class="kpi-change up">+0.45%</div>      </div>
+      <div class="kpi-card">
+        <div class="kpi-value">¥3,600万</div>
+        <div class="kpi-label">ARR</div>
+<div class="kpi-change up">+28%</div>      </div>
+      <div class="kpi-card">
+        <div class="kpi-value">52</div>
+        <div class="kpi-label">NPS</div>
+<div class="kpi-change up">+8</div>      </div>
+      <div class="kpi-card">
+        <div class="kpi-value">2.1%</div>
+        <div class="kpi-label">流失率</div>
+<div class="kpi-change down">-0.3%</div>      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>趋势</h2>
+    <p>Q1 延续了 Q4 的增长势头，MAU 突破 120 万大关。增长主要来源于：1）AI 助手功能的口碑传播；2）与 Notion 的集成上线带来的新增用户。</p>
+    <p>付费转化率从上季度的 2.83% 提升至 3.28%，主要得益于新的定价策略和更清晰的付费引导。</p>
+    <div class="chart-container">
+      <svg width="100%" viewBox="0 0 720 260" xmlns="http://www.w3.org/2000/svg" aria-label="MAU 增长趋势（万）">
+<text x="50" y="24" font-family="Inter, sans-serif" font-size="14" font-weight="600" fill="#172033">MAU 增长趋势（万）</text>
+<line x1="50" y1="210.0" x2="690" y2="210.0" stroke="#D8D2C4" stroke-width="0.5"/>
+<text x="42" y="214.0" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10" fill="#4C566A">0</text>
+<line x1="50" y1="176.0" x2="690" y2="176.0" stroke="#D8D2C4" stroke-width="0.5"/>
+<text x="42" y="180.0" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10" fill="#4C566A">28</text>
+<line x1="50" y1="142.0" x2="690" y2="142.0" stroke="#D8D2C4" stroke-width="0.5"/>
+<text x="42" y="146.0" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10" fill="#4C566A">56</text>
+<line x1="50" y1="108.0" x2="690" y2="108.0" stroke="#D8D2C4" stroke-width="0.5"/>
+<text x="42" y="112.0" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10" fill="#4C566A">84</text>
+<line x1="50" y1="74.0" x2="690" y2="74.0" stroke="#D8D2C4" stroke-width="0.5"/>
+<text x="42" y="78.0" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10" fill="#4C566A">113</text>
+<line x1="50" y1="40.0" x2="690" y2="40.0" stroke="#D8D2C4" stroke-width="0.5"/>
+<text x="42" y="44.0" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10" fill="#4C566A">141</text>
+<path d="M 50.0 210 L 50.0 107.3721590909091 L 178.0 98.92045454545456 L 306.0 91.67613636363637 L 434.0 79.60227272727275 L 562.0 67.5284090909091 L 690.0 55.45454545454547 L 690.0 210 Z" fill="#244C7A" opacity="0.08"/>
+<path d="M 50.0 107.3721590909091 L 178.0 98.92045454545456 L 306.0 91.67613636363637 L 434.0 79.60227272727275 L 562.0 67.5284090909091 L 690.0 55.45454545454547" fill="none" stroke="#244C7A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="50.0" cy="107.3721590909091" r="4" fill="#244C7A"/>
+<circle cx="50.0" cy="107.3721590909091" r="2" fill="#FAF8F4"/>
+<text x="50.0" y="97.3721590909091" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10" fill="#172033">85</text>
+<text x="50.0" y="228" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#4C566A">Oct</text>
+<circle cx="178.0" cy="98.92045454545456" r="4" fill="#244C7A"/>
+<circle cx="178.0" cy="98.92045454545456" r="2" fill="#FAF8F4"/>
+<text x="178.0" y="88.92045454545456" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10" fill="#172033">92</text>
+<text x="178.0" y="228" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#4C566A">Nov</text>
+<circle cx="306.0" cy="91.67613636363637" r="4" fill="#244C7A"/>
+<circle cx="306.0" cy="91.67613636363637" r="2" fill="#FAF8F4"/>
+<text x="306.0" y="81.67613636363637" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10" fill="#172033">98</text>
+<text x="306.0" y="228" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#4C566A">Dec</text>
+<circle cx="434.0" cy="79.60227272727275" r="4" fill="#244C7A"/>
+<circle cx="434.0" cy="79.60227272727275" r="2" fill="#FAF8F4"/>
+<text x="434.0" y="69.60227272727275" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10" fill="#172033">108</text>
+<text x="434.0" y="228" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#4C566A">Jan</text>
+<circle cx="562.0" cy="67.5284090909091" r="4" fill="#244C7A"/>
+<circle cx="562.0" cy="67.5284090909091" r="2" fill="#FAF8F4"/>
+<text x="562.0" y="57.52840909090909" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10" fill="#172033">118</text>
+<text x="562.0" y="228" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#4C566A">Feb</text>
+<circle cx="690.0" cy="55.45454545454547" r="4" fill="#244C7A"/>
+<circle cx="690.0" cy="55.45454545454547" r="2" fill="#FAF8F4"/>
+<text x="690.0" y="45.45454545454547" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10" fill="#172033">128</text>
+<text x="690.0" y="228" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#4C566A">Mar</text>
+</svg>
+    </div>
+    <div class="anomaly-alert">
+      <ul class="bullet-list" style="margin-top: 0;">
+        <li>2 月中旬出现一次服务中断（约 15 分钟），导致当日注册量下降 35%。已修复根因（数据库连接池配置问题）。</li>
+        <li>日本市场 3 月增长异常（+120%），调查发现是一位 KOL 在 YouTube 推荐了我们的产品。</li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <h2>分布与分群</h2>
+    <div style="margin-bottom: 24px;">
+      <h4 style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">按用户类型</h4>
+      <p>个人用户占比 72%，团队用户占比 28%。团队用户的 ARPU 是个人用户的 4.5 倍，是未来增长的重点。</p>
+    </div>
+    <div style="margin-bottom: 24px;">
+      <h4 style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">按地域</h4>
+      <p>国内市场占比 55%，北美 25%，欧洲 12%，其他 8%。日本市场在 3 月异军突起，占比从 2% 跳升至 5%。</p>
+    </div>
+    <div style="margin-bottom: 24px;">
+      <h4 style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">按功能使用</h4>
+      <p>AI 助手是最受欢迎的新功能，68% 的周活用户至少使用过一次。实时协作功能使用率 42%，呈上升趋势。</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>方法说明</h2>
+    <p>数据来源：内部数据仓库（Snowflake），统计口径与上季度保持一致。MAU 定义为当月至少登录一次的用户。付费用户定义为在统计周期内有有效订阅的用户。</p>
+  </section>
+  <div class="footer-meta">
+    <span>2025.01 - 2025.03</span>
+    <span></span>
+  </div>
+  </article>
+</body>
+</html>
