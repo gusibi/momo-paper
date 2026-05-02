@@ -1,0 +1,72 @@
+{
+  "document_type": "one_pager",
+  "locale": "zh-CN",
+  "meta": {
+    "title": "Momo Paper — 面向文档与视觉叙事的路由式设计系统"
+  },
+  "sections": {},
+  "hero": {
+    "badge": "开源文档引擎 · v0.2.2",
+    "headline": "让每一份文档都有设计感",
+    "description": "Momo Paper 是一个路由式设计系统，将 15 种文档类型、5 种可编程图表和 14 种图示原语统一到一套设计令牌中。无论是手动编写 JSON 还是让 AI agent 调用引擎，输出始终排版精良、打印就绪。",
+    "cta_buttons": [
+      {"label": "快速开始", "url": "/guide/", "style": "btn-primary"},
+      {"label": "浏览文档类型", "url": "/types/", "style": "btn-outline"},
+      {"label": "GitHub", "url": "https://github.com/gusibi/momo-paper", "style": "btn-outline"}
+    ]
+  },
+  "features": {
+    "heading": "两种方式，同一套设计语言",
+    "description": "无论你偏好哪种工作流，输出的文档都共享统一的视觉语言。",
+    "cards": [
+      {
+        "icon": "文",
+        "icon_class": "docs",
+        "title": "15 种文档类型",
+        "description": "覆盖 one-pager、白皮书、简历、研报、幻灯片、信息图等全场景，每种类型都有中英文双模板和 JSON Schema 校验。"
+      },
+      {
+        "icon": "图",
+        "icon_class": "charts",
+        "title": "5 种可编程图表",
+        "description": "柱状图、折线图、环形图、K 线图、瀑布图 — 在 JSON 中声明 chart 对象，引擎自动渲染为内联 SVG。"
+      },
+      {
+        "icon": "示",
+        "icon_class": "diagrams",
+        "title": "14 种图示原语",
+        "description": "架构图、流程图、泳道图、象限图、维恩图等可直接使用或嵌入文档的独立 HTML 图示。"
+      },
+      {
+        "icon": "模",
+        "icon_class": "templates",
+        "title": "30 个 HTML 模板",
+        "description": "15 种类型 × 中英文各一套。直接编辑 HTML 模板即可快速产出，无需 CLI、无需构建步骤。"
+      },
+      {
+        "icon": "AI",
+        "icon_class": "mcp",
+        "title": "MCP 工具集成",
+        "description": "引擎可作为 MCP 工具被 AI agent 直接调用。Agent 构造结构化 JSON，引擎返回设计精良的 HTML — 告别不稳定的 prompt 输出。"
+      },
+      {
+        "icon": "印",
+        "icon_class": "print",
+        "title": "打印安全内置",
+        "description": "所有模板都内置 @media print 规则，自动处理背景、边距和分页。同一份 HTML 在屏幕和纸张上都表现一致。"
+      }
+    ]
+  },
+  "numbers": [
+    {"value": "15", "label": "文档类型"},
+    {"value": "5", "label": "图表类型"},
+    {"value": "14", "label": "图示原语"},
+    {"value": "30", "label": "HTML 模板"}
+  ],
+  "bottom_cta": {
+    "heading": "三分钟产出第一份文档",
+    "description": "安装只需一行命令，JSON 声明内容，引擎渲染 HTML。打开浏览器即可看到排版精良、打印就绪的文档。",
+    "button_label": "查看使用指南",
+    "button_url": "/guide/"
+  }
+}

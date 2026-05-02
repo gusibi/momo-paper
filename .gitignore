@@ -40,9 +40,11 @@ build/
 .pytest_cache/
 scripts/json-engine/output/
 output/
+site/output/
 
 # Environment
 .env
 .env.local
 
 .claude
+.gstack/

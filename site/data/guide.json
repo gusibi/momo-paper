@@ -1,0 +1,101 @@
+{
+  "document_type": "long_doc",
+  "locale": "zh-CN",
+  "meta": {
+    "title": "Momo Paper 使用指南",
+    "subtitle": "从安装到渲染第一份文档，完整的上手指南。涵盖 CLI 命令、JSON 数据格式、图表嵌入和直接 HTML 模板两种工作流。",
+    "eyebrow": "Momo Paper / 使用指南",
+    "date": "2026-05-02",
+    "author": "Momo Paper"
+  },
+  "sections": {
+    "abstract": {
+      "body": [
+        "本指南带你从零开始使用 Momo Paper。无论你偏好直接编辑 HTML 模板，还是通过 JSON 数据驱动渲染，都能在几分钟内产出第一份文档。",
+        "前提条件：Python 3.10+，一个终端，一个浏览器。"
+      ],
+      "findings": [
+        "安装只需一行 pip install -e .",
+        "CLI 入口：momo 或 momo-paper（等价）",
+        "两种工作流：直接 HTML 模板 × JSON 渲染引擎",
+        "5 种可编程图表，嵌入 JSON 的 chart 对象即可"
+      ]
+    },
+    "sections": [
+      {
+        "heading": "安装",
+        "body": [
+          "Momo Paper 的 JSON 引擎是一个标准 Python 包，位于 scripts/json-engine/ 目录。安装步骤如下：",
+          "1. 创建虚拟环境：python3 -m venv .venv && source .venv/bin/activate",
+          "2. 进入引擎目录：cd scripts/json-engine",
+          "3. 可编辑安装：pip install -e .",
+          "4. 如需运行测试：pip install -e \".[dev]\"",
+          "安装完成后，你会获得两个等价的 CLI 入口点：momo 和 momo-paper。输入 momo list 验证安装成功。"
+        ]
+      },
+      {
+        "heading": "CLI 命令参考",
+        "body": [
+          "引擎提供四个核心命令：",
+          "momo list — 列出全部 15 种支持的文档类型，含中英文名称。",
+          "momo init -t <type> -o <file> — 为指定类型生成 JSON 骨架。可选 -l en 生成英文模板。",
+          "momo render -d <json> -o <html> — 将 JSON 数据渲染为 HTML 文档。支持 -d - 从 stdin 读取。",
+          "momo chart -d <json> -k <key> -o <svg> — 从 JSON 数据中提取图表，渲染为独立 SVG。",
+          "此外还有 render_all.py 脚本可批量渲染 examples/ 目录下的全部示例文件。"
+        ]
+      },
+      {
+        "heading": "JSON 数据格式",
+        "body": [
+          "每个文档共享相同的顶层结构（slides 类型用 slides 替代 sections）：",
+          "document_type：15 种类型之一，决定使用哪个 Jinja2 模板渲染。",
+          "locale：zh-CN 或 en，自动切换 section 标题语言。",
+          "meta：title、subtitle 和可选的 eyebrow、date、author。",
+          "sections：文档类型特定的内容，由 JSON Schema 定义字段和校验规则。",
+          "每种文档类型的 sections 结构不同。例如 one_pager 有固定的 summary/context/evidence/recommendation 四段，而 long_doc 有可迭代的 sections 数组，每项含 heading 和 body。使用 momo init 生成骨架可以快速了解各类型的字段结构。"
+        ]
+      },
+      {
+        "heading": "嵌入图表",
+        "body": [
+          "在任意 section 内添加 chart 对象，引擎会自动渲染为内联 SVG。支持 5 种图表类型：",
+          "bar（柱状图）：适合类别对比，数据格式 values: [n, ...]。",
+          "line（折线图）：适合时间序列和趋势，数据格式 values: [n, ...]，配合 labels。",
+          "donut（环形图）：适合比例分解，数据格式 values: [n, ...]。",
+          "candlestick（K 线图）：适合 OHLC 价格序列，数据格式 values: [{o,h,l,c}, ...]。",
+          "waterfall（瀑布图）：适合数值分解和桥接，数据格式 values: [n, ...]。",
+          "除了通过 JSON 引擎在文档中嵌入图表，你也可以通过 momo chart 命令将图表渲染为独立 SVG 文件。"
+        ]
+      },
+      {
+        "heading": "直接 HTML 模板（替代方式）",
+        "body": [
+          "如果你不想写 JSON，assets/templates/ 目录下提供了 30 个独立的 HTML 文件（15 种类型 × 2 种语言）。这些是「直接编辑」模式：",
+          "打开模板，替换占位内容为你自己的文字。",
+          "无需 CLI、JSON 或构建步骤——只需要 HTML 和 CSS。",
+          "设计令牌以 CSS 自定义属性的形式嵌入在每个文件中。",
+          "适合需要快速生成一次性文档、或者更偏好直接操作 HTML 的场景。两种模式共享同一套设计令牌、字体系统和视觉语言，输出效果完全一致。"
+        ]
+      },
+      {
+        "heading": "作为 MCP 工具使用",
+        "body": [
+          "引擎可以作为 MCP（Model Context Protocol）工具被 AI agent 调用。工具定义文件在 scripts/json-engine/mcp-tool.json。",
+          "当 AI agent 需要生成排版精良的文档时，只需构造符合 JSON Schema 的数据，调用 momo-paper-render 工具，即可获得渲染好的 HTML。这让文档生成从「prompt → 不稳定的 HTML」变成「prompt → 结构化 JSON → 可靠的设计令牌化 HTML」。",
+          "详见 references/prompt-contracts.md 了解 agent 工作流规则和输入契约。"
+        ]
+      }
+    ],
+    "conclusion": {
+      "body": [
+        "Momo Paper 将文档排版从「手工调 CSS」升级为「声明式路由」。无论你是开发者手动编写 JSON，还是让 AI agent 生成结构化数据，输出的文档都共享同一套精心调校的设计语言。"
+      ],
+      "next_steps": [
+        "运行 momo list 查看所有支持的文档类型",
+        "用 momo init 生成骨架，填入内容，运行 momo render 查看效果",
+        "浏览文档类型页面，了解每种类型适用的场景",
+        "在图表演示页面体验 5 种可编程图表"
+      ]
+    }
+  }
+}

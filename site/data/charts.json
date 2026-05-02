@@ -1,0 +1,78 @@
+{
+  "document_type": "stats_report",
+  "locale": "zh-CN",
+  "meta": {
+    "title": "交互式图表演示",
+    "subtitle": "Momo Paper 支持 5 种可编程图表类型，在 JSON 中声明 chart 对象即可自动渲染为内联 SVG。所有图表由 charts.py 在服务端渲染，无需外部依赖。",
+    "eyebrow": "Momo Paper / 图表演示",
+    "date": "2026-05-02",
+    "author": "Momo Paper",
+    "period": "2026 Q1–Q2"
+  },
+  "sections": {
+    "kpis": [
+      {"label": "图表类型", "value": "5", "change": "覆盖常用商业图表", "trend": "flat"},
+      {"label": "渲染引擎", "value": "SVG", "change": "纯 Python 实现", "trend": "flat"},
+      {"label": "数据格式", "value": "JSON", "change": "统一的 values + labels", "trend": "flat"},
+      {"label": "图表嵌入", "value": "任意 section", "change": "chart 对象即可", "trend": "flat"}
+    ],
+    "trends": {
+      "body": [
+        "以下是 Momo Paper 图表渲染能力的可视化概览。所有图表都是从 JSON 数据实时渲染的内联 SVG——无需外部库、无需 JavaScript。在任意 section 中添加 chart 对象，引擎自动识别类型并渲染。"
+      ],
+      "chart": {
+        "type": "bar",
+        "title": "图表类型使用分布（模拟数据）",
+        "height": 280,
+        "data": {
+          "labels": ["柱状图", "折线图", "环形图", "K线图", "瀑布图"],
+          "values": [45, 32, 28, 15, 18]
+        }
+      }
+    },
+    "segments": [
+      {
+        "name": "bar · 柱状图",
+        "body": [
+          "适合类别对比和排名。数据格式：values: [n, ...]，配合 labels 定义类别名。",
+          "使用场景：营收对比、市场份额、各部门绩效。自动计算柱宽和间距，支持自定义高度。"
+        ]
+      },
+      {
+        "name": "line · 折线图",
+        "body": [
+          "适合时间序列和趋势展示。数据格式：values: [n, ...]，labels 定义时间点。",
+          "使用场景：MAU 增长、股价走势、温度变化。自动缩放 Y 轴，网格线辅助读数。"
+        ]
+      },
+      {
+        "name": "donut · 环形图",
+        "body": [
+          "适合比例分解和构成分析。数据格式：values: [n, ...]，labels 定义各段名称。",
+          "使用场景：收入构成、用户分群占比、预算分配。自动计算百分比，分类配色区分各段。"
+        ]
+      },
+      {
+        "name": "candlestick · K 线图",
+        "body": [
+          "适合金融 OHLC 价格序列。数据格式：values: [{o, h, l, c}, ...]，也可用长键名 open/high/low/close。",
+          "使用场景：股票日 K 线、加密币行情。阳线（涨）和阴线（跌）以不同颜色区分，含成交量提示。"
+        ]
+      },
+      {
+        "name": "waterfall · 瀑布图",
+        "body": [
+          "适合数值分解和桥接分析。数据格式：values: [n, ...]，labels 定义各段名称。",
+          "使用场景：EBITDA 桥接、预算变化分解。正值和负值以不同颜色渲染，连接线显示累计变化轨迹。"
+        ]
+      }
+    ],
+    "method": {
+      "body": [
+        "图表渲染通过 charts.py 模块完成，该模块是 momo_paper 包的一部分。所有图表输出为纯 SVG（无外部请求、无 JavaScript 依赖），并在文档中以内联方式嵌入。渲染时使用 CHART_COLORS 色板（primary #244C7A、accent #B65C3A、positive #2F6B4F、negative #9A3D3D）与设计令牌保持一致。",
+        "在 JSON 中声明图表只需添加 chart 对象：{\"type\": \"bar\", \"title\": \"...\", \"height\": 280, \"data\": {\"labels\": [...], \"values\": [...]}}。引擎的 render_chart Jinja2 过滤器自动处理渲染。",
+        "除 5 种可编程图表外，Momo Paper 还提供 14 种图示原语（架构图、流程图、象限图、泳道图、维恩图等）作为独立 HTML 文件，可直接使用或嵌入文档。"
+      ]
+    }
+  }
+}

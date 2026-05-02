@@ -1,0 +1,62 @@
+<nav class="site-nav">
+  <style>
+    .site-nav {
+      background: var(--paper);
+      border-bottom: 1px solid var(--line);
+      padding: 0 48px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(8px);
+    }
+    .site-nav-inner {
+      max-width: var(--content-width);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 56px;
+    }
+    .site-nav-brand {
+      font-family: var(--font-serif);
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--brand);
+      text-decoration: none;
+    }
+    .site-nav-links {
+      display: flex;
+      gap: 28px;
+    }
+    .site-nav-links a {
+      font-family: var(--font-sans);
+      font-size: 14px;
+      color: var(--ink-subtle);
+      text-decoration: none;
+      transition: color 0.15s ease;
+    }
+    .site-nav-links a:hover,
+    .site-nav-links a.active {
+      color: var(--ink);
+    }
+    @media (max-width: 700px) {
+      .site-nav { padding: 0 24px; }
+      .site-nav-links { gap: 16px; }
+      .site-nav-links a { font-size: 13px; }
+      .site-nav-brand { font-size: 16px; }
+    }
+    @media print {
+      .site-nav { display: none; }
+    }
+  </style>
+  <div class="site-nav-inner">
+    <a href="/" class="site-nav-brand">Momo Paper</a>
+    <div class="site-nav-links">
+      <a href="/" class="__active_index__">首页</a>
+      <a href="/guide/" class="__active_guide__">使用指南</a>
+      <a href="/types/" class="__active_types__">文档类型</a>
+      <a href="/charts/" class="__active_charts__">图表演示</a>
+      <a href="/faq/" class="__active_faq__">常见问题</a>
+    </div>
+  </div>
+</nav>

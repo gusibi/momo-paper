@@ -1,0 +1,181 @@
+{
+  "document_type": "portfolio",
+  "locale": "zh-CN",
+  "meta": {
+    "title": "文档类型全景",
+    "subtitle": "Momo Paper 提供 15 种文档类型，覆盖商业方案、研究报告、个人展示、数据可视化等全场景。每种类型都有中英文双模板和 JSON Schema 校验。",
+    "eyebrow": "Momo Paper / 文档类型",
+    "date": "2026-05-02",
+    "author": "Momo Paper"
+  },
+  "sections": {
+    "overview": {
+      "body": [
+        "整个系统的核心是一个路由规则：你声明 document_type，引擎自动选择对应的 Jinja2 模板、设计令牌和 JSON Schema。每种类型都经过精心设计，有固定的章节结构、排版层级和视觉风格。",
+        "以下 15 种类型覆盖了从企业内部文档到个人展示的全部场景。每种类型都标注了中英文名称、适用场景和模板特性。"
+      ]
+    },
+    "cases": [
+      {
+        "title": "one_pager · 方案/执行摘要",
+        "context": "需要在 1-2 页内扼要呈现核心观点。适合商业方案、项目提案、执行摘要。",
+        "action": "固定的四段结构：摘要（summary）→ 背景（context）→ 证据（evidence）→ 建议（recommendation），每段可含正文、要点列表和数据卡片。",
+        "result": "一份结构清晰、视觉统一的单页文档，适合打印或在会议上投影。",
+        "metrics": [
+          {"label": "固定章节", "value": "4"},
+          {"label": "数据卡片", "value": "✓"}
+        ]
+      },
+      {
+        "title": "long_doc · 白皮书/长文",
+        "context": "需要撰写深度长文，含多个章节和引用。适合白皮书、技术文档、分析报告。",
+        "action": "摘要 + 无限数量的可迭代章节（每章含标题、正文、可选引用块）+ 结论。",
+        "result": "一份有逻辑层次的长文，引用块有品牌色边框，可无限扩展章节。",
+        "metrics": [
+          {"label": "可迭代章节", "value": "无限制"},
+          {"label": "引用块", "value": "✓"}
+        ]
+      },
+      {
+        "title": "letter · 信件/推荐信/Memo",
+        "context": "正式信函、推荐信、内部备忘录。需要收件人、签名等书信元素。",
+        "action": "信头（收件人/发件人/日期）→ 正文段落 → 签名区。",
+        "result": "格式正式的信函页面，保留书信的庄重感同时融入设计令牌。"
+      },
+      {
+        "title": "portfolio · 作品集",
+        "context": "展示项目案例、设计作品或工作成果。需要 case study 式的叙述结构。",
+        "action": "概览 → 案例列表（每项含标题/背景/行动/结果/指标卡）→ 能力总结。",
+        "result": "每个案例独立成节，数据卡片突出关键指标，适合投递或展示。",
+        "metrics": [
+          {"label": "案例卡片", "value": "✓"},
+          {"label": "指标卡", "value": "✓"}
+        ]
+      },
+      {
+        "title": "resume · 简历/CV",
+        "context": "求职或个人简介。需要清晰的信息层级和紧凑的排版。",
+        "action": "个人信息 → 工作经历（含时间线组件）→ 教育背景 → 技能标签 → 项目列表。",
+        "result": "打印友好的简历页面，时间线清晰，技能以标签形式呈现。",
+        "metrics": [
+          {"label": "时间线", "value": "✓"},
+          {"label": "技能标签", "value": "✓"}
+        ]
+      },
+      {
+        "title": "slides · 幻灯片/演示",
+        "context": "需要制作 PPT 风格的演示文稿。适合汇报、路演、教学。",
+        "action": "基于 Python 生成 + Jinja2 模板，支持 cover/closing 等多种布局，16:9 视口。",
+        "result": "可打印或投影的幻灯片页面，支持封面页、目录页、内容页、结尾页。",
+        "metrics": [
+          {"label": "视口", "value": "16:9"},
+          {"label": "布局模式", "value": "4"}
+        ]
+      },
+      {
+        "title": "equity_report · 研报/估值分析",
+        "context": "金融研究、股票分析、估值报告。需要 KPI 卡片、风险矩阵和催化剂列表。",
+        "action": "投资论点 → KPI 数据卡 → 趋势图（含 K 线）→ 估值 → 风险矩阵 → 催化剂时间线 → 免责声明。",
+        "result": "专业研报格式，内置风险/催化剂卡片样式和金融数据展示组件。",
+        "metrics": [
+          {"label": "KPI 卡片", "value": "✓"},
+          {"label": "K 线图", "value": "✓"},
+          {"label": "风险矩阵", "value": "✓"}
+        ]
+      },
+      {
+        "title": "changelog · 更新日志/Release Notes",
+        "context": "发布版本更新说明。需要版本号、日期、变更分类。",
+        "action": "版本列表，每版含日期/版本号和新功能/改进/修复三类变更。",
+        "result": "结构化更新日志，各类变更以不同颜色标记，一目了然。"
+      },
+      {
+        "title": "process_flow · 流程/SOP",
+        "context": "描述操作流程、标准作业程序。需要步骤序列和角色标注。",
+        "action": "步骤列表（每步含标题/描述/负责人）+ 泳道图选项。",
+        "result": "带编号步骤的流程文档，每个步骤可标注负责人，支持泳道图。",
+        "metrics": [
+          {"label": "步骤编号", "value": "自动"},
+          {"label": "负责人标注", "value": "✓"}
+        ]
+      },
+      {
+        "title": "timeline · 时间线/Roadmap",
+        "context": "展示时间线、项目路线图、历史事件序列。",
+        "action": "时间线列表，每项含日期/标题/描述，支持 completed/in_progress/upcoming 三种状态。",
+        "result": "左侧竖线连接各节点的经典时间线样式，状态以不同颜色圆点区分。",
+        "metrics": [
+          {"label": "状态类型", "value": "3"},
+          {"label": "视觉样式", "value": "竖线+节点"}
+        ]
+      },
+      {
+        "title": "faq_page · 常见问题",
+        "context": "需要结构化展示 FAQ 内容。适合产品文档、帮助中心。",
+        "action": "引导语 → FAQ 分组（每组含标题和问答列表）→ 总结。",
+        "result": "卡片式问答布局，问题加粗、回答以次级文字呈现，按组分类清晰。",
+        "metrics": [
+          {"label": "分组支持", "value": "✓"},
+          {"label": "卡片布局", "value": "✓"}
+        ]
+      },
+      {
+        "title": "case_study · 案例拆解/项目复盘",
+        "context": "深度拆解一个项目或案例。需要背景、挑战、方案、结果的完整叙述。",
+        "action": "背景 → 挑战列表 → 解决方案（含步骤）→ 结果指标 → 经验教训。",
+        "result": "完整的案例拆解框架，适合内部分享、对外宣传或项目复盘。",
+        "metrics": [
+          {"label": "步骤编号", "value": "自动"},
+          {"label": "指标卡", "value": "✓"}
+        ]
+      },
+      {
+        "title": "research_summary · 研究摘要",
+        "context": "快速呈现研究要点。适合文献综述、市场研究摘要。",
+        "action": "研究问题 → 关键发现（编号列表）→ 方法说明 → 局限性 → 下一步。",
+        "result": "结构化的研究摘要，关键发现以编号卡片呈现。",
+        "metrics": [
+          {"label": "发现编号", "value": "自动"},
+          {"label": "局限说明", "value": "✓"}
+        ]
+      },
+      {
+        "title": "stats_report · 数据报告/KPI",
+        "context": "数据驱动的分析报告。需要 KPI 指标卡、趋势图和数据分群。",
+        "action": "KPI 指标卡 → 趋势图（可嵌入图表）→ 数据分群 → 方法说明。",
+        "result": "数据密度高但视觉清晰的报告，KPI 以大数字居中呈现，图表内联 SVG。",
+        "metrics": [
+          {"label": "KPI 卡片", "value": "✓"},
+          {"label": "内联图表", "value": "5 种"},
+          {"label": "异常警报", "value": "✓"}
+        ]
+      },
+      {
+        "title": "infographic · 信息图",
+        "context": "需要将复杂信息以视觉化方式呈现。适合年报摘要、数据故事。",
+        "action": "灵活的内容区域，支持大数字展示、图表嵌入、要点列表和引用块。",
+        "result": "具有视觉冲击力的信息图布局，大数字 + 图表 + 要点的组合呈现。",
+        "metrics": [
+          {"label": "大数字展示", "value": "✓"},
+          {"label": "灵活布局", "value": "✓"}
+        ]
+      }
+    ],
+    "capabilities": {
+      "body": [
+        "除 15 种文档类型外，Momo Paper 还提供 14 种图示原语和设计令牌系统。图示原语（架构图、流程图、象限图、状态机、泳道图、树状图、分层图、维恩图等）以独立 HTML 文件提供在 assets/diagrams/ 目录中，可直接使用或嵌入文档。"
+      ],
+      "skills": [
+        "架构图 architecture.html — 系统架构和组件关系",
+        "流程图 flowchart.html — 业务流程和决策树",
+        "象限图 quadrant.html — 2×2 矩阵分析",
+        "状态机 state-machine.html — 状态转移图",
+        "泳道图 swimlane.html — 跨角色流程",
+        "时间线 timeline.html — 事件序列图",
+        "树状图 tree.html — 层级结构",
+        "分层图 layer-stack.html — 技术栈分层",
+        "维恩图 venn.html — 集合关系"
+      ]
+    }
+  }
+}
