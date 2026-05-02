@@ -1,0 +1,522 @@
+{% extends "_base.html.j2" %}
+{% block title %}Momo Paper · Equity Report · {{ meta.title }}{% endblock %}
+{% block extra_css %}
+  <style>
+    /* ===== Equity Report overrides ===== */
+
+    /* Typography: tighter, more analytical */
+    article { --section-gap: 56px; padding: 0 48px 96px; }
+
+    /* ---- Section numbering ---- */
+    section { counter-increment: sec; }
+    section h2 {
+      font-family: var(--font-sans);
+      font-size: 20px;
+      font-weight: 600;
+      padding-bottom: 14px;
+      border-bottom: 2px solid var(--line);
+      margin-bottom: 28px;
+    }
+    section h2::before {
+      content: counter(sec, cjk-ideographic) "、";
+      color: var(--brand);
+      font-weight: 700;
+    }
+
+    /* ---- Header redesign ---- */
+    header {
+      padding: 48px 0 36px;
+      border-bottom: 2px solid var(--ink);
+      margin-bottom: var(--section-gap);
+    }
+    header .eyebrow {
+      font-size: 11px; letter-spacing: 0.06em;
+      color: var(--brand);
+      margin-bottom: 12px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    header .eyebrow::after {
+      content: ""; flex: 1; height: 1px; background: var(--line);
+    }
+    header .industry-tag {
+      display: inline-block;
+      font-size: 12px; font-weight: 500;
+      color: var(--ink-subtle);
+      background: var(--canvas);
+      padding: 4px 14px; border-radius: 999px;
+      margin-bottom: 20px;
+    }
+    header h1 {
+      font-family: var(--font-sans);
+      font-size: 36px; font-weight: 700;
+      letter-spacing: -0.01em;
+      margin-bottom: 12px;
+    }
+    header .subtitle {
+      font-size: 16px; line-height: 1.5;
+      color: var(--ink-subtle);
+      max-width: 600px; margin-bottom: 24px;
+    }
+
+    /* Rating badge — prominent */
+    .er-rating-bar {
+      display: flex; align-items: center; gap: 16px;
+      margin-top: 20px; flex-wrap: wrap;
+    }
+    .er-rating {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 8px 18px;
+      background: var(--brand);
+      color: #fff;
+      border-radius: 6px;
+      font-size: 14px; font-weight: 600;
+    }
+    .er-rating.overweight { background: var(--brand); }
+    .er-rating.buy { background: var(--success); }
+    .er-rating.hold { background: var(--warning); color: var(--ink); }
+    .er-rating.sell { background: var(--danger); }
+    .er-target {
+      font-family: var(--font-mono);
+      font-size: 14px; font-weight: 600;
+      color: var(--ink);
+      padding: 8px 16px;
+      background: var(--canvas);
+      border-radius: 6px;
+      border: 1px solid var(--line);
+    }
+    .er-target span { color: var(--ink-subtle); font-weight: 400; }
+
+    /* Thesis summary — stronger left accent */
+    .er-thesis-strip {
+      margin-top: 28px;
+      padding: 24px 28px;
+      background: var(--canvas);
+      border-left: 4px solid var(--brand);
+      border-radius: 0 8px 8px 0;
+    }
+    .er-thesis-strip ul { list-style: none; }
+    .er-thesis-strip li {
+      position: relative; padding-left: 24px;
+      margin-bottom: 10px; font-size: 14px;
+      line-height: 1.55; color: var(--ink);
+    }
+    .er-thesis-strip li:last-child { margin-bottom: 0; }
+    .er-thesis-strip li::before {
+      counter-increment: thesis;
+      content: counter(thesis);
+      position: absolute; left: 0; top: 0;
+      font-family: var(--font-mono);
+      font-size: 12px; font-weight: 700;
+      color: var(--brand);
+    }
+    .er-thesis-strip { counter-reset: thesis; }
+
+    /* ---- Enhanced data cards ---- */
+    .er-card-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px; margin-top: 24px;
+    }
+    .er-fact-card {
+      padding: 20px;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      text-align: center;
+      transition: box-shadow 0.2s;
+    }
+    .er-fact-card:hover { box-shadow: var(--shadow-soft, 0 8px 24px rgba(23,32,51,0.08)); }
+    .er-fact-card .er-label {
+      font-size: 11px; font-family: var(--font-mono);
+      text-transform: uppercase; letter-spacing: 0.05em;
+      color: var(--ink-subtle); margin-bottom: 10px;
+    }
+    .er-fact-card .er-value {
+      font-size: 28px; font-weight: 700; color: var(--ink);
+      line-height: 1.2; font-family: var(--font-sans);
+    }
+    .er-fact-card .er-unit {
+      font-size: 12px; color: var(--ink-subtle); margin-top: 4px;
+    }
+    .er-fact-card .er-change {
+      display: inline-block; margin-top: 8px;
+      font-size: 12px; font-weight: 600;
+      padding: 2px 8px; border-radius: 4px;
+    }
+    .er-change-up { color: #B65C3A; background: #F2E1D9; }
+    .er-change-down { color: #2F6B4F; background: #D9F2E5; }
+
+    /* ---- Driver list with accent ---- */
+    .er-driver-list {
+      list-style: none; margin-top: 24px;
+      display: grid; grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+    .er-driver-list li {
+      padding: 18px 20px;
+      background: var(--canvas);
+      border-radius: 8px;
+      font-size: 13px; line-height: 1.55;
+      color: var(--ink);
+      border-left: 3px solid var(--brand);
+    }
+    .er-driver-list li::before {
+      content: ""; display: none;
+    }
+
+    /* ---- Chart containers ---- */
+    .er-chart-wrapper {
+      margin-top: 24px; margin-bottom: 20px;
+      padding: 20px;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+    }
+    .er-chart-title {
+      font-size: 13px; font-weight: 600;
+      color: var(--ink); margin-bottom: 4px;
+    }
+    .er-chart-unit {
+      font-size: 11px; color: var(--ink-subtle);
+      font-family: var(--font-mono);
+      margin-bottom: 16px;
+    }
+    .er-chart-wrapper svg { display: block; width: 100%; }
+
+    /* ---- Data table enhanced ---- */
+    .er-table-wrapper {
+      margin-top: 24px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .er-table-wrapper .data-table {
+      margin-top: 0;
+    }
+    .er-table-wrapper .data-table th {
+      background: var(--canvas);
+      font-weight: 600; font-size: 12px;
+      padding: 14px 18px;
+    }
+    .er-table-wrapper .data-table td {
+      padding: 14px 18px;
+    }
+    .er-table-wrapper .data-table .highlight-row td {
+      background: var(--brand-muted);
+      font-weight: 600;
+    }
+
+    /* ---- Insight callout enhanced ---- */
+    .er-insight {
+      margin-top: 24px;
+      padding: 20px 24px;
+      background: var(--canvas);
+      border-left: 4px solid var(--accent);
+      border-radius: 0 8px 8px 0;
+      font-size: 14px; line-height: 1.6;
+      color: var(--ink);
+    }
+    .er-insight::before {
+      content: "核心判断";
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 10px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.06em;
+      color: var(--accent); margin-bottom: 8px;
+    }
+
+    /* ---- Risks enhanced ---- */
+    .er-risk-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px; margin-top: 20px;
+    }
+    .er-risk-card {
+      padding: 20px;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      border-top: 3px solid var(--line);
+    }
+    .er-risk-card.s-high { border-top-color: var(--danger); }
+    .er-risk-card.s-medium { border-top-color: var(--warning); }
+    .er-risk-card.s-low { border-top-color: var(--success); }
+    .er-risk-card .er-sev {
+      display: inline-block;
+      font-size: 10px; font-family: var(--font-mono);
+      text-transform: uppercase; letter-spacing: 0.05em;
+      padding: 3px 10px; border-radius: 4px;
+      margin-bottom: 10px; font-weight: 600;
+    }
+    .er-risk-card.s-high .er-sev { background: #F2D9D9; color: var(--danger); }
+    .er-risk-card.s-medium .er-sev { background: #F2EBD9; color: var(--warning); }
+    .er-risk-card.s-low .er-sev { background: #D9F2E5; color: var(--success); }
+    .er-risk-card h4 { font-size: 15px; font-weight: 600; margin-bottom: 6px; color: var(--ink); }
+    .er-risk-card p { font-size: 13px; color: var(--ink-subtle); line-height: 1.5; margin: 0; }
+
+    /* ---- Catalysts enhanced ---- */
+    .er-cat-grid {
+      display: grid; gap: 12px; margin-top: 28px;
+    }
+    .er-cat-card {
+      display: flex; align-items: flex-start; gap: 16px;
+      padding: 18px 20px;
+      background: var(--canvas);
+      border-radius: 8px;
+    }
+    .er-cat-dot {
+      flex-shrink: 0; width: 10px; height: 10px;
+      border-radius: 50%; background: var(--brand);
+      margin-top: 5px;
+    }
+    .er-cat-body h4 { font-size: 15px; font-weight: 600; margin-bottom: 4px; color: var(--ink); }
+    .er-cat-body p { font-size: 13px; color: var(--ink-subtle); line-height: 1.5; margin: 0; }
+    .er-cat-body .er-cat-time {
+      font-family: var(--font-mono); font-size: 11px;
+      color: var(--brand); margin-top: 6px;
+    }
+
+    /* ---- Recommendation section ---- */
+    .er-reco-block {
+      margin-top: 24px;
+      padding: 28px;
+      background: var(--canvas);
+      border-radius: 8px;
+      border: 1px solid var(--line);
+    }
+    .er-reco-block p { font-size: 14px; line-height: 1.65; color: var(--ink); margin: 0; }
+    .er-reco-block p:first-child::before {
+      content: "投资建议";
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 10px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.06em;
+      color: var(--brand); margin-bottom: 10px;
+    }
+
+    /* ---- Footer ---- */
+    .er-footer-disclosure {
+      margin-top: 32px; padding-top: 24px;
+      border-top: 1px solid var(--line);
+      font-size: 11px; color: var(--ink-subtle); line-height: 1.6;
+    }
+
+    /* ---- Responsive ---- */
+    @media (max-width: 720px) {
+      .er-card-grid { grid-template-columns: repeat(2, 1fr); }
+      .er-driver-list { grid-template-columns: 1fr; }
+      .er-risk-grid { grid-template-columns: 1fr; }
+      .er-rating-bar { flex-direction: column; align-items: flex-start; }
+    }
+
+    @media print {
+      .er-fact-card:hover { box-shadow: none; }
+      .er-fact-card, .er-risk-card, .er-cat-card { background: #fff; }
+      .er-thesis-strip, .er-reco-block, .er-driver-list li, .er-chart-wrapper { background: #fff; }
+    }
+  </style>
+{% endblock %}
+{% block content %}
+  <header>
+    <p class="eyebrow">{{ meta.eyebrow | default('Momo Paper / equity_report / ' + locale) }}</p>
+
+    {% if meta.industry %}
+    <div class="industry-tag">{{ meta.industry }}</div>
+    {% endif %}
+
+    <h1>{{ meta.title }}</h1>
+    <p class="subtitle">{{ meta.subtitle }}</p>
+
+    {% if sections.thesis %}
+      {% if sections.thesis.rating or sections.thesis.target_price %}
+      <div class="er-rating-bar">
+        {% if sections.thesis.rating %}
+        {% set rating_class = 'overweight' %}
+        {% if '买入' in sections.thesis.rating or 'Buy' in sections.thesis.rating %}{% set rating_class = 'buy' %}{% endif %}
+        {% if '持有' in sections.thesis.rating or 'Hold' in sections.thesis.rating %}{% set rating_class = 'hold' %}{% endif %}
+        {% if '卖出' in sections.thesis.rating or '减持' in sections.thesis.rating or 'Sell' in sections.thesis.rating %}{% set rating_class = 'sell' %}{% endif %}
+        <span class="er-rating {{ rating_class }}">{{ sections.thesis.rating }}</span>
+        {% endif %}
+        {% if sections.thesis.target_price %}
+        <span class="er-target"><span>目标价</span> {{ sections.thesis.target_price }}</span>
+        {% endif %}
+      </div>
+      {% endif %}
+      {% if sections.thesis.summary_points %}
+      <div class="er-thesis-strip">
+        <ul>
+          {% for point in sections.thesis.summary_points %}
+          <li>{{ point }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endif %}
+    {% endif %}
+  </header>
+
+  {% if sections.business_snapshot %}
+  <section>
+    <h2>{% if locale == 'zh-CN' %}公司概览{% else %}Business Snapshot{% endif %}</h2>
+    {% for para in sections.business_snapshot.body %}
+    <p>{{ para }}</p>
+    {% endfor %}
+    {% if sections.business_snapshot.cards %}
+    <div class="er-card-grid">
+      {% for card in sections.business_snapshot.cards %}
+      <div class="er-fact-card">
+        <div class="er-label">{{ card.label }}</div>
+        <div class="er-value">{{ card.value }}</div>
+        {% if card.unit %}<div class="er-unit">{{ card.unit }}</div>{% endif %}
+        {% if card.change %}
+        <div class="er-change {% if card.change.startswith('+') %}er-change-up{% else %}er-change-down{% endif %}">
+          {{ card.change }}
+        </div>
+        {% endif %}
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </section>
+  {% endif %}
+
+  {% if sections.price_and_drivers %}
+  <section>
+    <h2>{% if locale == 'zh-CN' %}价格与驱动{% else %}Price and Drivers{% endif %}</h2>
+    {% for para in sections.price_and_drivers.body %}
+    <p>{{ para }}</p>
+    {% endfor %}
+
+    {% if sections.price_and_drivers.chart %}
+    <div class="er-chart-wrapper">
+      {% if sections.price_and_drivers.chart.title %}
+      <div class="er-chart-title">{{ sections.price_and_drivers.chart.title }}</div>
+      {% endif %}
+      {% if sections.price_and_drivers.chart.unit %}
+      <div class="er-chart-unit">单位：{{ sections.price_and_drivers.chart.unit }}</div>
+      {% endif %}
+      {{ sections.price_and_drivers.chart | render_chart }}
+    </div>
+    {% endif %}
+
+    {% if sections.price_and_drivers.drivers %}
+    <ul class="er-driver-list">
+      {% for driver in sections.price_and_drivers.drivers %}
+      <li>{{ driver }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+  </section>
+  {% endif %}
+
+  {% if sections.valuation %}
+  <section>
+    <h2>{% if locale == 'zh-CN' %}估值{% else %}Valuation{% endif %}</h2>
+    {% for para in sections.valuation.body %}
+    <p>{{ para }}</p>
+    {% endfor %}
+
+    {% if sections.valuation.chart %}
+    <div class="er-chart-wrapper">
+      {% if sections.valuation.chart.title %}
+      <div class="er-chart-title">{{ sections.valuation.chart.title }}</div>
+      {% endif %}
+      {% if sections.valuation.chart.unit %}
+      <div class="er-chart-unit">单位：{{ sections.valuation.chart.unit }}</div>
+      {% endif %}
+      {{ sections.valuation.chart | render_chart }}
+    </div>
+    {% endif %}
+
+    {% if sections.valuation.table %}
+    <div class="er-table-wrapper">
+    <table class="data-table">
+      <thead>
+        <tr>
+          {% for h in sections.valuation.table.headers %}
+          <th>{{ h }}</th>
+          {% endfor %}
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in sections.valuation.table.rows %}
+        <tr {% if loop.index == 3 %}class="highlight-row"{% endif %}>
+          {% for cell in row %}
+          <td>{{ cell }}</td>
+          {% endfor %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    </div>
+    {% endif %}
+
+    {% if sections.valuation.insight %}
+    <div class="er-insight">{{ sections.valuation.insight }}</div>
+    {% endif %}
+  </section>
+  {% endif %}
+
+  {% if sections.risks_and_catalysts %}
+  <section>
+    <h2>{% if locale == 'zh-CN' %}风险与催化剂{% else %}Risks and Catalysts{% endif %}</h2>
+
+    {% if sections.risks_and_catalysts.risks %}
+    <h3 style="font-size:15px;font-weight:600;color:var(--ink);margin-bottom:4px;">
+      {% if locale == 'zh-CN' %}下行风险{% else %}Downside Risks{% endif %}
+    </h3>
+    <div class="er-risk-grid">
+      {% for risk in sections.risks_and_catalysts.risks %}
+      <div class="er-risk-card {% if risk.severity == 'high' %}s-high{% elif risk.severity == 'medium' %}s-medium{% else %}s-low{% endif %}">
+        {% if risk.severity %}
+        <span class="er-sev">
+          {% if risk.severity == 'high' %}{% if locale == 'zh-CN' %}高风险{% else %}HIGH{% endif %}
+          {% elif risk.severity == 'medium' %}{% if locale == 'zh-CN' %}中风险{% else %}MEDIUM{% endif %}
+          {% else %}{% if locale == 'zh-CN' %}低风险{% else %}LOW{% endif %}
+          {% endif %}
+        </span>
+        {% endif %}
+        <h4>{{ risk.title }}</h4>
+        <p>{{ risk.description }}</p>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if sections.risks_and_catalysts.catalysts %}
+    <h3 style="font-size:15px;font-weight:600;color:var(--ink);margin:28px 0 4px;">
+      {% if locale == 'zh-CN' %}上行催化剂{% else %}Upside Catalysts{% endif %}
+    </h3>
+    <div class="er-cat-grid">
+      {% for cat in sections.risks_and_catalysts.catalysts %}
+      <div class="er-cat-card">
+        <div class="er-cat-dot"></div>
+        <div class="er-cat-body">
+          <h4>{{ cat.title }}</h4>
+          <p>{{ cat.description }}</p>
+          {% if cat.timeline %}<div class="er-cat-time">{{ cat.timeline }}</div>{% endif %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </section>
+  {% endif %}
+
+  {% if sections.recommendation %}
+  <section>
+    <h2>{% if locale == 'zh-CN' %}建议与声明{% else %}Recommendation{% endif %}</h2>
+    <div class="er-reco-block">
+      <p>{{ sections.recommendation.body }}</p>
+    </div>
+  </section>
+  {% endif %}
+{% endblock %}
+{% block footer %}
+  <div class="er-footer-disclosure">
+    <p>{{ meta.disclaimer | default('本报告仅供参考，不构成投资建议。投资有风险，入市需谨慎。') }}</p>
+    <p style="margin-top:6px;">
+      {% if meta.date %}{{ meta.date }}{% endif %}
+      {% if meta.analyst %} · {{ meta.analyst }}{% endif %}
+    </p>
+  </div>
+{% endblock %}

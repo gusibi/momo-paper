@@ -57,8 +57,8 @@ stats_report: web_dual.stats_report
 The agent should follow this sequence:
 1. Resolve the route.
 2. Choose the correct template from `localeTemplateMap` if `document_type` is used.
-3. Read `artifact-presets.json` and lock the matching surface and shape.
-4. Read `design-tokens.json` and map color, type, spacing, and motion choices.
+3. Read `../assets/artifact-presets.json` and lock the matching surface and shape.
+4. Read `../assets/design-tokens.json` and map color, type, spacing, and motion choices.
 5. Apply `VOICE.md` for copy tone.
 6. Compose only from approved section recipes, components, patterns, chart types, and diagram primitives.
 7. If the deck exceeds 20 slides, read Deck Recipe in `DESIGN.md` section 8.
@@ -67,7 +67,7 @@ The agent should follow this sequence:
 ## Diagram and chart rules
 
 - Diagrams are primitives inside documents, not a document type.
-- Read `references/diagrams.md` before selecting or embedding a diagram.
+- Read `diagrams.md` before selecting or embedding a diagram.
 - When structured numerical data is present, auto-select the chart type unless prose is clearly better.
 
 Chart selection guide:
@@ -126,7 +126,7 @@ Use the `web_dual.editorial_article` route, maintain reading comfort, and only a
 ### `slides`
 ```text
 Create a slide deck using Momo Paper.
-Use the `slides.explainer` route, keep one slide to one point, and read Deck Recipe in `DESIGN.md` section 8 if the deck exceeds 20 slides.
+Use the `slides.explainer` route, keep one slide to one point, and read Deck Recipe in `references/DESIGN.md` section 8 if the deck exceeds 20 slides.
 ```
 
 ### `equity_report`
@@ -145,7 +145,7 @@ The agent must ask itself:
 - Does each section have one primary purpose?
 - For `web_dual`, does the structure remain readable without motion and in print/PDF?
 - If the content contains numeric data, did I select the appropriate chart or consciously skip it?
-- Does the tone match `VOICE.md`?
+- Does the tone match `references/VOICE.md`?
 
 ## Fallback and Escalation Rules
 
@@ -170,7 +170,7 @@ Otherwise, resolve the route and proceed.
 
 ### `slides`
 - One slide = one point
-- For decks over 20 slides, read Deck Recipe in `DESIGN.md` section 8
+- For decks over 20 slides, read Deck Recipe in `references/DESIGN.md` section 8
 
 ### `visual_sheet`
 - One sheet = one dominant reading path

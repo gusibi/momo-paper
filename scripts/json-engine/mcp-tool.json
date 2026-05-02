@@ -49,7 +49,7 @@
     },
     "sections": {
       "type": "object",
-      "description": "Document-specific sections. See schema files in json-engine/schemas/"
+      "description": "Document-specific sections. See schema files in scripts/json-engine/momo_paper/schemas/"
     }
   },
   "chart_support": {
@@ -74,5 +74,5 @@
     "format": "HTML file with embedded CSS",
     "features": ["Print-safe", "Responsive", "Design tokens applied automatically"]
   },
-  "schema_files": "json-engine/schemas/*.schema.json"
+  "schema_files": "scripts/json-engine/momo_paper/schemas/*.schema.json"
 }

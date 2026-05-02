@@ -7,7 +7,7 @@ Use it when the user speaks in document names rather than internal routes.
 ## Selection rule
 
 1. Match the user's wording to a public `document_type`.
-2. Resolve the internal route from `artifact-presets.json`.
+2. Resolve the internal route from `../assets/artifact-presets.json`.
 3. Pick the correct CN or EN starter template.
 4. If the wording is ambiguous, ask a one-liner rather than guess.
 
@@ -37,6 +37,6 @@ Use it when the user speaks in document names rather than internal routes.
 - `long_doc` is the public entry for `web_dual.editorial_article`.
 - `resume` stays public-facing even though the internal route remains `resume_profile`.
 - `process_flow`, `timeline`, `faq_page`, `case_study`, `research_summary`, `stats_report`, and `infographic` are already routable and stay visible as public document types.
-- Long deck (>20 slides): also read Deck Recipe in `DESIGN.md` section 8.
+- Long deck (>20 slides): also read Deck Recipe in `references/DESIGN.md` section 8.
 - `dashboard` remains out of scope.
 - `comparison_matrix` and `topic_cover` remain pattern candidates, not public document types.

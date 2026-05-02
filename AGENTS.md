@@ -15,12 +15,12 @@ The repository is split into two operating layers:
 Canonical system files:
 
 - [README.md](./README.md): public usage entrypoint
-- [DESIGN.md](./DESIGN.md): taxonomy, foundations, deck recipe, non-negotiables
-- [prompt-contracts.md](./prompt-contracts.md): route workflow, input contract, and operating rules
-- [VOICE.md](./VOICE.md): copy tone
-- [design-tokens.json](./design-tokens.json): machine-readable tokens
-- [artifact-presets.json](./artifact-presets.json): route registry, document type overlay, and diagram maps
-- [style-checklist.md](./style-checklist.md): final QA gate
+- [DESIGN.md](references/DESIGN.md): taxonomy, foundations, deck recipe, non-negotiables
+- [prompt-contracts.md](references/prompt-contracts.md): route workflow, input contract, and operating rules
+- [VOICE.md](references/VOICE.md): copy tone
+- [design-tokens.json](assets/design-tokens.json): machine-readable tokens
+- [artifact-presets.json](assets/artifact-presets.json): route registry, document type overlay, and diagram maps
+- [style-checklist.md](references/style-checklist.md): final QA gate
 - [references/document-types.md](./references/document-types.md): public document type routing table
 - [references/diagrams.md](./references/diagrams.md): diagram selection and anti-patterns
 - [references/routes/](./references/routes/): internal route references
@@ -59,7 +59,7 @@ Do not reintroduce `preset_id` as a parallel public model.
 - `comparison_matrix` and `topic_cover` are pattern candidates, not document types.
 - `web_dual` must stay browser-readable and print-safe.
 - Unsupported route combinations must fail fast. Do not guess a nearest route.
-- Visual changes must stay within `design-tokens.json` and the Momo Paper direction.
+- Visual changes must stay within `assets/design-tokens.json` and the Momo Paper direction.
 - Diagrams are primitives inside documents, not standalone document types.
 
 ## When editing this repo
@@ -68,10 +68,10 @@ Do not reintroduce `preset_id` as a parallel public model.
 
 Always update these together:
 
-1. [artifact-presets.json](./artifact-presets.json)
-2. [prompt-contracts.md](./prompt-contracts.md)
-3. [DESIGN.md](./DESIGN.md)
-4. [style-checklist.md](./style-checklist.md)
+1. [artifact-presets.json](assets/artifact-presets.json)
+2. [prompt-contracts.md](references/prompt-contracts.md)
+3. [DESIGN.md](references/DESIGN.md)
+4. [style-checklist.md](references/style-checklist.md)
 5. [references/document-types.md](./references/document-types.md)
 6. The relevant route reference in [references/routes/](./references/routes/)
 7. The matching template path in [assets/templates/](./assets/templates/)
@@ -81,13 +81,13 @@ Always update these together:
 
 A document type is only valid when all of these exist:
 
-- `documentTypeMap` entry in `artifact-presets.json`
-- `localeTemplateMap` entry in `artifact-presets.json`
+- `documentTypeMap` entry in `assets/artifact-presets.json`
+- `localeTemplateMap` entry in `assets/artifact-presets.json`
 - internal route exists and is fully specified
 - route reference exists in `references/routes/` if the route is new
 - CN + EN starter templates exist in `assets/templates/`
 - `references/document-types.md` is updated
-- `README.md`, `SKILL.md`, and `prompt-contracts.md` are updated
+- `README.md`, `SKILL.md`, and `references/prompt-contracts.md` are updated
 
 Do not add a document type name without all of the above.
 
@@ -95,7 +95,7 @@ Do not add a document type name without all of the above.
 
 Always update these together:
 
-1. `diagramTypeMap` in [artifact-presets.json](./artifact-presets.json)
+1. `diagramTypeMap` in [artifact-presets.json](assets/artifact-presets.json)
 2. [references/diagrams.md](./references/diagrams.md)
 3. the matching SVG wrapper in [assets/diagrams/](./assets/diagrams/)
 4. README / SKILL / prompt contract if public behavior changed
@@ -103,8 +103,8 @@ Always update these together:
 ### If you change tokens or style rules
 
 Update:
-- [design-tokens.json](./design-tokens.json)
-- [DESIGN.md](./DESIGN.md)
+- [design-tokens.json](assets/design-tokens.json)
+- [DESIGN.md](references/DESIGN.md)
 - any affected template, diagram, or showcase copy
 
 Do not change HTML/CSS examples in a way that silently violates tokens while leaving the written rules untouched.
@@ -121,7 +121,7 @@ Do not change HTML/CSS examples in a way that silently violates tokens while lea
 Before finishing a change, run lightweight checks when applicable:
 
 ```bash
-node -e "JSON.parse(require('fs').readFileSync('artifact-presets.json','utf8')); JSON.parse(require('fs').readFileSync('design-tokens.json','utf8')); console.log('json ok')"
+node -e "JSON.parse(require('fs').readFileSync('assets/artifact-presets.json','utf8')); JSON.parse(require('fs').readFileSync('assets/design-tokens.json','utf8')); console.log('json ok')"
 ```
 
 Use `rg` to catch stale naming or taxonomy:

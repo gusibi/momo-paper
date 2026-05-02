@@ -38,7 +38,8 @@ build/
 
 # Test outputs
 .pytest_cache/
-json-engine/output/
+scripts/json-engine/output/
+output/
 
 # Environment
 .env

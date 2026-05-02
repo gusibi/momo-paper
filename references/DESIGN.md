@@ -104,7 +104,7 @@ The old `artifact_type` values remain as compatibility aliases only:
 ## 4. Foundations
 
 ### Color system
-Use only the colors defined in `design-tokens.json`.
+Use only the colors defined in `../assets/design-tokens.json`.
 
 Color roles:
 - `ink`: primary text and key shapes
@@ -148,7 +148,7 @@ Usage bands:
 - Metric: KPI values and scoreboard numbers
 
 ### Spacing
-Use the spacing scale from `design-tokens.json` only.
+Use the spacing scale from `../assets/design-tokens.json` only.
 
 Rules:
 - Never free-type arbitrary spacing values.
@@ -313,12 +313,11 @@ Use these files as authoritative:
 - `README.md`
 - `SKILL.md`
 - `AGENTS.md`
-- `DESIGN.md`
-- `prompt-contracts.md`
-- `VOICE.md`
-- `design-tokens.json`
-- `artifact-presets.json`
-- `prompt-contracts.md`
-- `style-checklist.md`
+- `references/DESIGN.md`
+- `references/prompt-contracts.md`
+- `references/VOICE.md`
+- `assets/design-tokens.json`
+- `assets/artifact-presets.json`
+- `references/style-checklist.md`
 - `references/document-types.md`
 - `references/diagrams.md`

@@ -28,7 +28,7 @@ python3 -m venv .venv
 source .venv/bin/activate
 
 # 2. Install the JSON engine
-cd json-engine
+cd scripts/json-engine
 pip install -e .
 
 # 3. List available document types
@@ -45,12 +45,12 @@ That's it. You now have a print-safe, design-token-aware HTML document.
 
 ## JSON Rendering Engine
 
-The engine (`json-engine/`) takes structured JSON data and renders it through Jinja2 templates with centralized design tokens.
+The engine (`scripts/json-engine/`) takes structured JSON data and renders it through Jinja2 templates with centralized design tokens.
 
 ### Install
 
 ```bash
-cd json-engine
+cd scripts/json-engine
 
 # Editable install (for development)
 pip install -e .
@@ -146,14 +146,14 @@ For K-line/candlestick, use short keys (`o`, `h`, `l`, `c`) or long keys (`open`
 ### Run Tests
 
 ```bash
-cd json-engine
+cd scripts/json-engine
 pip install -e ".[dev]"
 python -m pytest tests/ -v
 ```
 
 ### MCP Tool
 
-The engine can be called as an MCP server tool (`momo-paper-render`). See `json-engine/mcp-tool.json` for the definition.
+The engine can be called as an MCP server tool (`momo-paper-render`). See `scripts/json-engine/mcp-tool.json` for the definition.
 
 ## Direct HTML Templates
 
@@ -212,7 +212,7 @@ Use these when you need a quick one-off document or prefer working directly with
 
 ```bash
 # Install with dev dependencies
-cd json-engine
+cd scripts/json-engine
 pip install -e ".[dev]"
 
 # Run tests
@@ -229,18 +229,18 @@ momo render -d momo_paper/examples/sample-letter.json -o /tmp/letter.html
 
 | File | Purpose |
 |---|---|
-| `json-engine/momo_paper/engine.py` | Core rendering engine |
-| `json-engine/momo_paper/cli.py` | CLI entry point (Click) |
-| `json-engine/momo_paper/charts.py` | SVG chart rendering (5 types) |
-| `json-engine/momo_paper/templates/*.html.j2` | Jinja2 templates (15 types) |
-| `json-engine/momo_paper/schemas/*.schema.json` | JSON Schema per document type |
-| `json-engine/momo_paper/examples/sample-*.json` | Sample data files |
-| `json-engine/render_all.py` | Batch render all samples via engine API |
-| `json-engine/tests/` | Test suite (69 tests) |
-| `design-tokens.json` | Design tokens (colors, fonts, spacing) |
-| `artifact-presets.json` | Machine-readable route registry |
-| `DESIGN.md` | Taxonomy, foundations, non-negotiables |
-| `prompt-contracts.md` | Agent workflow rules and input contracts |
+| `scripts/json-engine/momo_paper/engine.py` | Core rendering engine |
+| `scripts/json-engine/momo_paper/cli.py` | CLI entry point (Click) |
+| `scripts/json-engine/momo_paper/charts.py` | SVG chart rendering (5 types) |
+| `scripts/json-engine/momo_paper/templates/*.html.j2` | Jinja2 templates (15 types) |
+| `scripts/json-engine/momo_paper/schemas/*.schema.json` | JSON Schema per document type |
+| `scripts/json-engine/momo_paper/examples/sample-*.json` | Sample data files |
+| `scripts/json-engine/render_all.py` | Batch render all samples via engine API |
+| `scripts/json-engine/tests/` | Test suite (69 tests) |
+| `assets/design-tokens.json` | Design tokens (colors, fonts, spacing) |
+| `assets/artifact-presets.json` | Machine-readable route registry |
+| `references/DESIGN.md` | Taxonomy, foundations, non-negotiables |
+| `references/prompt-contracts.md` | Agent workflow rules and input contracts |
 | `references/` | Per-route reference docs |
 
 ## Current Exclusions
