@@ -20,11 +20,10 @@ def _svg_tag(width: int, height: int, title: str = "") -> str:
 
 
 def render_bar(chart: dict) -> str:
-    data = chart.get("data", {})
-    labels = data.get("labels", [])
-    values = data.get("values", [])
-    if not labels or not values:
+    result = _validate_chart(chart)
+    if result is None:
         return ""
+    labels, values = result
 
     w, h = 720, chart.get("height", 280)
     margin = {"top": 40, "right": 20, "bottom": 50, "left": 50}
@@ -77,11 +76,10 @@ def render_bar(chart: dict) -> str:
 
 
 def render_line(chart: dict) -> str:
-    data = chart.get("data", {})
-    labels = data.get("labels", [])
-    values = data.get("values", [])
-    if not labels or not values:
+    result = _validate_chart(chart)
+    if result is None:
         return ""
+    labels, values = result
 
     w, h = 720, chart.get("height", 280)
     margin = {"top": 40, "right": 30, "bottom": 50, "left": 50}
@@ -150,11 +148,10 @@ def render_line(chart: dict) -> str:
 
 
 def render_donut(chart: dict) -> str:
-    data = chart.get("data", {})
-    labels = data.get("labels", [])
-    values = data.get("values", [])
-    if not labels or not values:
+    result = _validate_chart(chart)
+    if result is None:
         return ""
+    labels, values = result
 
     w = 720
     h = chart.get("height", 320)
@@ -225,6 +222,18 @@ def render_donut(chart: dict) -> str:
 
     parts.append("</svg>")
     return "\n".join(parts)
+
+
+def _validate_chart(chart: dict) -> tuple[list, list] | None:
+    """Validate chart data and return (labels, values) or None if invalid."""
+    data = chart.get("data", {})
+    labels = data.get("labels", [])
+    values = data.get("values", [])
+    if not labels or not values:
+        return None
+    if len(labels) != len(values):
+        return None
+    return labels, values
 
 
 def render(chart_data: dict) -> str:

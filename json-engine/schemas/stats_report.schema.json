@@ -35,6 +35,21 @@
           "type": "object",
           "properties": {
             "body": { "type": "array", "items": { "type": "string" } },
+            "chart": {
+              "type": "object",
+              "properties": {
+                "type": { "type": "string", "enum": ["bar", "line", "donut"] },
+                "title": { "type": "string" },
+                "height": { "type": "number" },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "labels": { "type": "array", "items": { "type": "string" } },
+                    "values": { "type": "array", "items": { "type": "number" } }
+                  }
+                }
+              }
+            },
             "anomalies": { "type": "array", "items": { "type": "string" } }
           }
         },

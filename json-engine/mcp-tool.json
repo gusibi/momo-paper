@@ -1,7 +1,7 @@
 {
   "name": "momo-paper-render",
   "description": "Render a Momo Paper document from structured JSON data to HTML. Supports 14 document types including equity reports, one-pagers, long docs, letters, portfolios, resumes, changelogs, process flows, timelines, FAQ pages, case studies, research summaries, stats reports, and infographics. Each document type has a JSON Schema defining its data structure. The engine applies design tokens (colors, typography, spacing) automatically and renders clean, print-safe HTML.",
-  "command": "python json-engine/render.py",
+  "command": "momo render",
   "arguments": {
     "data": {
       "type": "string",

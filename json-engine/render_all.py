@@ -3,10 +3,13 @@
 
 import json
 import subprocess
+import sys
 from pathlib import Path
 
-DATA_DIR = Path(__file__).parent / "data"
-OUTPUT_DIR = Path(__file__).parent / "output"
+SCRIPT_DIR = Path(__file__).parent
+DATA_DIR = SCRIPT_DIR / "data"
+OUTPUT_DIR = SCRIPT_DIR / "output"
+RENDER_PY = SCRIPT_DIR / "render.py"
 
 SAMPLES = [
     ("sample-equity-report.json", "equity-report-zh.html"),
@@ -41,7 +44,7 @@ for data_file, output_file in SAMPLES:
 
     result = subprocess.run(
         [
-            "python", "render.py",
+            sys.executable, str(RENDER_PY),
             "--data", str(data_path),
             "--output", str(output_path),
         ],

@@ -42,6 +42,26 @@
             }
           }
         },
+        "distribution": {
+          "type": "object",
+          "properties": {
+            "chart": {
+              "type": "object",
+              "properties": {
+                "type": { "type": "string", "enum": ["bar", "line", "donut"] },
+                "title": { "type": "string" },
+                "height": { "type": "number" },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "labels": { "type": "array", "items": { "type": "string" } },
+                    "values": { "type": "array", "items": { "type": "number" } }
+                  }
+                }
+              }
+            }
+          }
+        },
         "takeaway": {
           "type": "object",
           "properties": {
