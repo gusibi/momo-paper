@@ -34,6 +34,11 @@ __pycache__/
 # Build outputs
 dist/
 build/
+*.egg-info/
+
+# Test outputs
+.pytest_cache/
+json-engine/output/
 
 # Environment
 .env

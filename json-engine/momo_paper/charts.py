@@ -224,6 +224,198 @@ def render_donut(chart: dict) -> str:
     return "\n".join(parts)
 
 
+def render_candlestick(chart: dict) -> str:
+    """Render an OHLC candlestick chart from [{o, h, l, c}, ...] data."""
+    data = chart.get("data", {})
+    labels = data.get("labels", [])
+    values = data.get("values", [])
+    if not labels or not values:
+        return ""
+    if len(labels) != len(values):
+        return ""
+
+    w, h = 720, chart.get("height", 320)
+    margin = {"top": 40, "right": 20, "bottom": 50, "left": 60}
+    cw = w - margin["left"] - margin["right"]
+    ch = h - margin["top"] - margin["bottom"]
+
+    # Normalize short/long key names
+    def _ohlc(v):
+        return {
+            "o": float(v.get("o", v.get("open", 0))),
+            "h": float(v.get("h", v.get("high", 0))),
+            "l": float(v.get("l", v.get("low", 0))),
+            "c": float(v.get("c", v.get("close", 0))),
+        }
+
+    normalized = [_ohlc(v) for v in values]
+    all_prices = [v["h"] for v in normalized] + [v["l"] for v in normalized]
+    max_p = max(all_prices) * 1.05
+    min_p = min(all_prices) * 0.95
+    range_p = max_p - min_p if max_p != min_p else 1
+
+    parts = [_svg_tag(w, h, chart.get("title", ""))]
+
+    if chart.get("title"):
+        parts.append(
+            f'<text x="{margin["left"]}" y="24" font-family="Inter, sans-serif" '
+            f'font-size="14" font-weight="600" fill="#172033">{chart["title"]}</text>'
+        )
+
+    # Gridlines
+    for i in range(6):
+        y = margin["top"] + ch - (ch * i / 5)
+        val = min_p + range_p * i / 5
+        parts.append(
+            f'<line x1="{margin["left"]}" y1="{y}" x2="{w - margin["right"]}" '
+            f'y2="{y}" stroke="#D8D2C4" stroke-width="0.5"/>'
+        )
+        parts.append(
+            f'<text x="{margin["left"] - 8}" y="{y + 4}" text-anchor="end" '
+            f'font-family="IBM Plex Mono, monospace" font-size="10" fill="#4C566A">{val:.1f}</text>'
+        )
+
+    candle_w = max((cw / len(values)) * 0.5, 6)
+    step = cw / len(values)
+
+    for i, (label, v) in enumerate(zip(labels, normalized)):
+        cx = margin["left"] + step * i + step / 2
+        o, hi, lo, c = v["o"], v["h"], v["l"], v["c"]
+
+        # Wick (high-low line)
+        wy_top = margin["top"] + ch - ((hi - min_p) / range_p) * ch
+        wy_bot = margin["top"] + ch - ((lo - min_p) / range_p) * ch
+        parts.append(
+            f'<line x1="{cx}" y1="{wy_top}" x2="{cx}" y2="{wy_bot}" '
+            f'stroke="#172033" stroke-width="1"/>'
+        )
+
+        # Body (open-close rect)
+        body_top = margin["top"] + ch - ((max(o, c) - min_p) / range_p) * ch
+        body_bot = margin["top"] + ch - ((min(o, c) - min_p) / range_p) * ch
+        body_h = max(abs(body_bot - body_top), 0)
+        color = CHART_COLORS["positive"] if c >= o else CHART_COLORS["negative"]
+        parts.append(
+            f'<rect x="{cx - candle_w / 2}" y="{body_top}" width="{candle_w}" '
+            f'height="{body_h}" fill="{color}" rx="1"/>'
+        )
+
+        # X-axis label
+        parts.append(
+            f'<text x="{cx}" y="{margin["top"] + ch + 18}" text-anchor="middle" '
+            f'font-family="Inter, sans-serif" font-size="11" fill="#4C566A">{label}</text>'
+        )
+
+    parts.append("</svg>")
+    return "\n".join(parts)
+
+
+def render_waterfall(chart: dict) -> str:
+    """Render a waterfall/bridge chart from labels and values."""
+    data = chart.get("data", {})
+    labels = data.get("labels", [])
+    values = data.get("values", [])
+    if not labels or not values:
+        return ""
+    if len(labels) != len(values):
+        return ""
+
+    w, h = 720, chart.get("height", 300)
+    margin = {"top": 40, "right": 20, "bottom": 50, "left": 60}
+    cw = w - margin["left"] - margin["right"]
+    ch = h - margin["top"] - margin["bottom"]
+
+    running = 0
+    bases = []
+    for v in values:
+        bases.append(running if v >= 0 else running + v)
+        running += v
+
+    all_y = [b for b in bases] + [b + v for b, v in zip(bases, values)]
+    max_y = max(all_y) * 1.1 if all_y else 1
+    min_y = min(0, min(all_y) * 0.9) if all_y else 0
+    range_y = max_y - min_y if max_y != min_y else 1
+
+    parts = [_svg_tag(w, h, chart.get("title", ""))]
+
+    if chart.get("title"):
+        parts.append(
+            f'<text x="{margin["left"]}" y="24" font-family="Inter, sans-serif" '
+            f'font-size="14" font-weight="600" fill="#172033">{chart["title"]}</text>'
+        )
+
+    # Baseline
+    bl_y = margin["top"] + ch - ((0 - min_y) / range_y) * ch
+    parts.append(
+        f'<line x1="{margin["left"]}" y1="{bl_y}" x2="{w - margin["right"]}" '
+        f'y2="{bl_y}" stroke="#7D8798" stroke-width="1"/>'
+    )
+
+    # Gridlines
+    for i in range(6):
+        y = margin["top"] + ch - (ch * i / 5)
+        val = min_y + range_y * i / 5
+        parts.append(
+            f'<line x1="{margin["left"]}" y1="{y}" x2="{w - margin["right"]}" '
+            f'y2="{y}" stroke="#D8D2C4" stroke-width="0.5"/>'
+        )
+        parts.append(
+            f'<text x="{margin["left"] - 8}" y="{y + 4}" text-anchor="end" '
+            f'font-family="IBM Plex Mono, monospace" font-size="10" fill="#4C566A">{val:.0f}</text>'
+        )
+
+    bar_w = (cw / len(values)) * 0.55
+    gap = (cw / len(values)) * 0.45
+
+    for i, (label, v) in enumerate(zip(labels, values)):
+        x = margin["left"] + gap / 2 + i * (bar_w + gap)
+        base = bases[i]
+        b_top = margin["top"] + ch - ((base + v - min_y) / range_y) * ch
+        b_bot = margin["top"] + ch - ((base - min_y) / range_y) * ch
+        bar_h = abs(b_bot - b_top)
+
+        is_total = label.lower() in ("total", "总计", "合计")
+        is_subtotal = label.lower() in ("subtotal", "小计")
+        if is_total or is_subtotal:
+            color = CHART_COLORS["accent"]
+        elif v >= 0:
+            color = CHART_COLORS["primary"]
+        else:
+            color = CHART_COLORS["negative"]
+
+        rect_y = b_top if v >= 0 else b_bot
+        parts.append(
+            f'<rect x="{x}" y="{rect_y}" width="{bar_w}" height="{max(bar_h, 1)}" '
+            f'fill="{color}" rx="2"/>'
+        )
+
+        # Connector line from previous bar
+        if i > 0:
+            prev_x = margin["left"] + gap / 2 + (i - 1) * (bar_w + gap) + bar_w
+            prev_top = margin["top"] + ch - ((bases[i - 1] + values[i - 1] - min_y) / range_y) * ch
+            parts.append(
+                f'<line x1="{prev_x}" y1="{prev_top}" x2="{x}" y2="{rect_y}" '
+                f'stroke="#D8D2C4" stroke-width="1" stroke-dasharray="4,4"/>'
+            )
+
+        # Value label
+        lx = x + bar_w / 2
+        ly = (rect_y - 8) if v >= 0 else (rect_y + bar_h + 16)
+        parts.append(
+            f'<text x="{lx}" y="{ly}" text-anchor="middle" '
+            f'font-family="IBM Plex Mono, monospace" font-size="10" fill="#172033">{v:+.0f}</text>'
+        )
+
+        # X-axis label
+        parts.append(
+            f'<text x="{lx}" y="{margin["top"] + ch + 18}" text-anchor="middle" '
+            f'font-family="Inter, sans-serif" font-size="11" fill="#4C566A">{label}</text>'
+        )
+
+    parts.append("</svg>")
+    return "\n".join(parts)
+
+
 def _validate_chart(chart: dict) -> tuple[list, list] | None:
     """Validate chart data and return (labels, values) or None if invalid."""
     data = chart.get("data", {})
@@ -247,4 +439,8 @@ def render(chart_data: dict) -> str:
         return render_line(chart_data)
     elif chart_type == "donut":
         return render_donut(chart_data)
+    elif chart_type == "candlestick":
+        return render_candlestick(chart_data)
+    elif chart_type == "waterfall":
+        return render_waterfall(chart_data)
     return f"<!-- unsupported chart type: {chart_type} -->"

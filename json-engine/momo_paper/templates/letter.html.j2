@@ -1,5 +1,32 @@
 {% extends "_base.html.j2" %}
 {% block title %}Momo Paper · Letter · {{ meta.title }}{% endblock %}
+{% block extra_css %}
+  <style>
+    .letter-body p {
+      margin-bottom: 16px;
+      text-indent: 2em;
+    }
+    .letter-body p:first-child { text-indent: 0; }
+    .letter-signoff {
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid var(--line);
+    }
+    .letter-signoff .closing {
+      font-style: italic;
+      margin-bottom: 20px;
+    }
+    .letter-signoff .name {
+      font-weight: 600;
+      font-size: 16px;
+    }
+    .letter-signoff .title {
+      font-size: 13px;
+      color: var(--ink-subtle);
+      margin-top: 4px;
+    }
+  </style>
+{% endblock %}
 {% block content %}
   <header>
     <p class="eyebrow">{{ meta.eyebrow | default('Momo Paper / letter / ' + locale) }}</p>

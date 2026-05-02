@@ -1,5 +1,42 @@
 {% extends "_base.html.j2" %}
 {% block title %}Momo Paper · Infographic · {{ meta.title }}{% endblock %}
+{% block extra_css %}
+  <style>
+    .metric-cluster {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin: 24px 0;
+    }
+    .metric-block {
+      text-align: center;
+      padding: 32px 24px;
+      background: var(--canvas);
+      border-radius: 8px;
+      border: 1px solid var(--line);
+    }
+    .metric-block .metric-number {
+      font-size: 48px;
+      font-weight: 700;
+      color: var(--brand);
+      line-height: 1.1;
+      font-family: var(--font-sans);
+    }
+    .metric-block .metric-unit {
+      font-size: 14px;
+      color: var(--ink-subtle);
+      margin-top: 4px;
+    }
+    .metric-block .metric-label {
+      font-size: 12px;
+      font-family: var(--font-mono);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--ink-subtle);
+      margin-top: 12px;
+    }
+  </style>
+{% endblock %}
 {% block content %}
   <header>
     <p class="eyebrow">{{ meta.eyebrow | default('Momo Paper / infographic / ' + locale) }}</p>

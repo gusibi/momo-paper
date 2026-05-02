@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "momo-paper"
-version = "4.0.0"
+version = "0.2.0"
 description = "JSON-driven document rendering engine — 14 document types, 3 chart types, print-safe HTML output"
 readme = "README.md"
 license = {text = "MIT"}
@@ -17,6 +17,9 @@ dependencies = [
 [project.scripts]
 momo = "momo_paper.cli:main"
 momo-paper = "momo_paper.cli:main"
+
+[project.optional-dependencies]
+dev = ["pytest>=8"]
 
 [project.urls]
 Homepage = "https://github.com/gusibi/momo-paper"

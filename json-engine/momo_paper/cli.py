@@ -25,7 +25,8 @@ DOC_TYPES_HELP = """Supported document types:
   case_study       案例拆解 / Case Study
   research_summary 研究摘要 / Research Summary
   stats_report     数据报告 / Stats Report
-  infographic      信息图 / Infographic"""
+  infographic      信息图 / Infographic
+  slides           幻灯片 / Slides"""
 
 
 @click.group()
@@ -101,18 +102,37 @@ def init(doc_type, locale, output):
         click.echo(f"  Use 'momo list' to see supported types", err=True)
         sys.exit(1)
 
-    template = {
-        "document_type": doc_type,
-        "locale": locale,
-        "meta": {
-            "title": "[Title]",
-            "subtitle": "[Subtitle]",
-            "eyebrow": f"Momo Paper / {doc_type} / {locale}",
-            "date": "",
-            "author": "",
-        },
-        "sections": {},
-    }
+    if doc_type == "slides":
+        template = {
+            "document_type": doc_type,
+            "locale": locale,
+            "meta": {
+                "title": "[Title]",
+                "subtitle": "[Subtitle]",
+                "eyebrow": f"Momo Paper / {doc_type} / {locale}",
+                "date": "",
+                "author": "",
+            },
+            "slides": [
+                {"title": "[封面标题]", "point": "[一句话主结论]", "layout": "cover"},
+                {"title": "[目录]", "point": "[章节结构]"},
+                {"title": "[问题]", "point": "[核心观点]", "bullets": ["[要点 1]", "[要点 2]"]},
+                {"title": "[结论]", "point": "[下一步行动]", "layout": "closing"},
+            ],
+        }
+    else:
+        template = {
+            "document_type": doc_type,
+            "locale": locale,
+            "meta": {
+                "title": "[Title]",
+                "subtitle": "[Subtitle]",
+                "eyebrow": f"Momo Paper / {doc_type} / {locale}",
+                "date": "",
+                "author": "",
+            },
+            "sections": {},
+        }
 
     result = json.dumps(template, ensure_ascii=False, indent=2)
 

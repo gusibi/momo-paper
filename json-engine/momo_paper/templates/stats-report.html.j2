@@ -1,5 +1,61 @@
 {% extends "_base.html.j2" %}
 {% block title %}Momo Paper · Stats Report · {{ meta.title }}{% endblock %}
+{% block extra_css %}
+  <style>
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 16px;
+      margin-top: 20px;
+    }
+    .kpi-card {
+      padding: var(--card-padding);
+      background: var(--canvas);
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      text-align: center;
+    }
+    .kpi-card .kpi-value {
+      font-size: 32px;
+      font-weight: 600;
+      color: var(--ink);
+      line-height: 1.2;
+    }
+    .kpi-card .kpi-label {
+      font-size: 11px;
+      font-family: var(--font-mono);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--ink-subtle);
+      margin-top: 6px;
+    }
+    .kpi-card .kpi-change {
+      font-size: 12px;
+      margin-top: 4px;
+    }
+    .kpi-change.up { color: var(--success); }
+    .kpi-change.down { color: var(--danger); }
+    .kpi-change.flat { color: var(--ink-subtle); }
+    .anomaly-alert {
+      margin-top: 20px;
+      padding: 16px 20px;
+      background: #F2D9D9;
+      border-left: 3px solid var(--danger);
+      border-radius: 0 6px 6px 0;
+      font-size: 14px;
+    }
+    .anomaly-alert::before {
+      content: "Anomaly";
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--danger);
+      margin-bottom: 6px;
+    }
+  </style>
+{% endblock %}
 {% block content %}
   <header>
     <p class="eyebrow">{{ meta.eyebrow | default('Momo Paper / stats_report / ' + locale) }}</p>

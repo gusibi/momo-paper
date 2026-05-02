@@ -23,6 +23,7 @@ DEFAULT_TEMPLATE_MAP = {
     "research_summary": "research-summary.html.j2",
     "stats_report": "stats-report.html.j2",
     "infographic": "infographic.html.j2",
+    "slides": "slides.html.j2",
 }
 
 
@@ -64,10 +65,18 @@ def load_json(data_source: str | dict) -> dict:
     if not isinstance(data, dict):
         raise ValueError("JSON root must be an object")
 
-    required = ["document_type", "locale", "meta", "sections"]
+    required = ["document_type", "locale", "meta"]
     missing = [k for k in required if k not in data]
     if missing:
         raise ValueError(f"Missing required fields: {missing}")
+
+    doc_type = data.get("document_type", "")
+    if doc_type == "slides":
+        if "slides" not in data:
+            raise ValueError("Missing required field: slides")
+    else:
+        if "sections" not in data:
+            raise ValueError("Missing required field: sections")
     return data
 
 

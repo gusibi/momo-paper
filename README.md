@@ -11,8 +11,103 @@ Momo Paper is a document-first design system for agents. It does two jobs:
 - route user intent to the correct document type, internal route, and starter template
 - keep visual narratives inside one quiet, credible, print-safe visual language
 
-If unsure, ask a one-liner rather than guess.  
+If unsure, ask a one-liner rather than guess.
 不确定时先问一句，不要猜。
+
+## JSON Rendering Engine
+
+Momo Paper includes a JSON-driven rendering engine (`json-engine/`). Instead of filling HTML templates by hand, you write structured JSON and the engine renders it to print-safe HTML with design tokens applied automatically.
+
+### Install
+
+```bash
+cd json-engine
+pip install -e .
+```
+
+This gives you the `momo` CLI.
+
+### CLI Commands
+
+```bash
+# List all supported document types
+momo list
+
+# Generate an empty JSON skeleton for a document type
+momo init -t equity_report -o my-report.json
+
+# Render JSON data to HTML
+momo render -d data/report.json -o output/report.html
+
+# Render from stdin
+cat report.json | momo render -d - -o output.html
+
+# Extract a chart as standalone SVG
+momo chart -d data/report.json -k sections.trends.chart -o chart.svg
+```
+
+### JSON Data Format
+
+Every document shares the same top-level structure:
+
+```json
+{
+  "document_type": "equity_report",
+  "locale": "zh-CN",
+  "meta": {
+    "title": "...",
+    "subtitle": "...",
+    "eyebrow": "Momo Paper / equity_report / zh-CN",
+    "date": "2025-04-27",
+    "analyst": "..."
+  },
+  "sections": {
+    ...
+  }
+}
+```
+
+- `document_type` — one of the 14 supported types (see `momo list`)
+- `locale` — `zh-CN` or `en` (auto-switches section headings)
+- `meta` — title, subtitle, and optional fields (eyebrow, date, author, disclaimer)
+- `sections` — document-specific content, defined by JSON Schema in `json-engine/momo_paper/schemas/`
+
+### Embedding Charts
+
+Add a `chart` object inside any section to embed an SVG chart:
+
+```json
+{
+  "chart": {
+    "type": "line",
+    "title": "MAU Growth",
+    "height": 260,
+    "data": {
+      "labels": ["Jan", "Feb", "Mar"],
+      "values": [100, 120, 150]
+    }
+  }
+}
+```
+
+Supported chart types: `bar`, `line`, `donut`.
+
+### MCP Tool
+
+The engine can be called as an MCP tool (`momo-paper-render`) — see `json-engine/mcp-tool.json` for the tool definition.
+
+### Files
+
+| File | Purpose |
+| --- | --- |
+| `json-engine/momo_paper/engine.py` | Core rendering engine |
+| `json-engine/momo_paper/cli.py` | CLI entry point |
+| `json-engine/momo_paper/charts.py` | SVG chart rendering |
+| `json-engine/momo_paper/templates/*.html.j2` | Jinja2 templates (14 types) |
+| `json-engine/momo_paper/schemas/*.schema.json` | JSON Schema for each document type |
+| `json-engine/momo_paper/examples/sample-*.json` | Sample data files |
+| `json-engine/render_all.py` | Batch render all samples via engine API |
+| `json-engine/tests/` | Test suite |
 
 ## Step 1 · Pick the language
 
@@ -88,6 +183,7 @@ If a paragraph explains the point better, do not force a chart.
 - [references/document-types.md](./references/document-types.md): full document type routing table
 - [references/diagrams.md](./references/diagrams.md): diagram guide, token map, anti-patterns
 - [artifact-presets.json](./artifact-presets.json): machine-readable route registry
+- [json-engine/](./json-engine/): JSON-driven rendering engine, CLI, templates, schemas
 
 ## Current exclusions
 

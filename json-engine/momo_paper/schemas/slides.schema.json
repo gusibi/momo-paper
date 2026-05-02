@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Slides",
+  "description": "16:9 presentation deck",
+  "type": "object",
+  "required": ["document_type", "locale", "meta", "slides"],
+  "properties": {
+    "document_type": { "const": "slides" },
+    "locale": { "enum": ["zh-CN", "en"] },
+    "meta": {
+      "type": "object",
+      "required": ["title"],
+      "properties": {
+        "title": { "type": "string" },
+        "subtitle": { "type": "string" },
+        "eyebrow": { "type": "string" },
+        "date": { "type": "string" },
+        "author": { "type": "string" }
+      }
+    },
+    "slides": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["title"],
+        "properties": {
+          "title": { "type": "string" },
+          "point": { "type": "string" },
+          "layout": { "enum": ["cover", "agenda", "content", "comparison", "closing"] },
+          "bullets": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "note": { "type": "string" }
+        }
+      }
+    }
+  }
+}
