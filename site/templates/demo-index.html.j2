@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="{{ locale }}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ meta.title }}</title>
+  <style>
+    :root {
+      --ink: #172033;
+      --ink-subtle: #4C566A;
+      --paper: #FAF8F4;
+      --canvas: #F2EFE8;
+      --line: #D8D2C4;
+      --brand: #244C7A;
+      --brand-muted: #DCE7F2;
+      --accent: #B65C3A;
+      --font-serif: "Noto Serif SC", "Source Han Serif SC", "Songti SC", serif;
+      --font-sans: "Inter", "Noto Sans SC", "PingFang SC", sans-serif;
+      --font-mono: "IBM Plex Mono", "SFMono-Regular", monospace;
+      --content-width: 840px;
+      --section-gap: 64px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-sans);
+      font-size: 15px;
+      line-height: 1.55;
+      color: var(--ink);
+      background: var(--canvas);
+      -webkit-font-smoothing: antialiased;
+    }
+    article {
+      max-width: var(--content-width);
+      margin: 0 auto;
+      background: var(--paper);
+      min-height: 100vh;
+      padding: 0 48px 80px;
+    }
+    header {
+      padding: 56px 0 40px;
+      border-bottom: 1.5px solid var(--line);
+      margin-bottom: var(--section-gap);
+    }
+    .eyebrow {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--ink-subtle);
+      margin-bottom: 20px;
+    }
+    header h1 {
+      font-family: var(--font-serif);
+      font-size: 40px;
+      font-weight: 600;
+      line-height: 1.15;
+      color: var(--ink);
+      margin-bottom: 16px;
+    }
+    header .subtitle {
+      font-size: 18px;
+      line-height: 1.45;
+      color: var(--ink-subtle);
+      max-width: 640px;
+    }
+    section {
+      margin-bottom: var(--section-gap);
+    }
+    section h2 {
+      font-family: var(--font-serif);
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--line);
+    }
+    section p {
+      margin-bottom: 14px;
+      color: var(--ink);
+      line-height: 1.6;
+    }
+    .type-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 14px;
+      margin-top: 20px;
+    }
+    .type-card {
+      display: block;
+      padding: 20px 22px;
+      background: var(--canvas);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      text-decoration: none;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+    .type-card:hover {
+      border-color: var(--brand-muted);
+      box-shadow: 0 4px 12px rgba(23,32,51,0.06);
+    }
+    .type-card .cn-name {
+      font-weight: 600;
+      font-size: 15px;
+      color: var(--ink);
+      margin-bottom: 4px;
+    }
+    .type-card .en-name {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--brand);
+      letter-spacing: 0.03em;
+    }
+    .type-card .desc {
+      font-size: 13px;
+      color: var(--ink-subtle);
+      margin-top: 8px;
+      line-height: 1.45;
+    }
+    @media print {
+      body { background: #fff; }
+      article { padding: 0 32px; max-width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <article>
+    <header>
+      <p class="eyebrow">{{ meta.eyebrow | default('Momo Paper / demo / ' + locale) }}</p>
+      <h1>{{ meta.title }}</h1>
+      <p class="subtitle">{{ meta.subtitle }}</p>
+    </header>
+
+    <section>
+      <p>{{ demo.intro }}</p>
+    </section>
+
+    <section>
+      <h2>全部文档类型</h2>
+      <div class="type-grid">
+        {% for t in demo.types %}
+        <a href="/demo/{{ t.slug }}/" class="type-card">
+          <div class="cn-name">{{ t.name_cn }}</div>
+          <div class="en-name">{{ t.slug }}</div>
+          <div class="desc">{{ t.description }}</div>
+        </a>
+        {% endfor %}
+      </div>
+    </section>
+
+    <section>
+      <h2>说明了什么</h2>
+      <p>{{ demo.note }}</p>
+    </section>
+  </article>
+</body>
+</html>

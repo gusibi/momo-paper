@@ -53,6 +53,14 @@
     {% for para in sec.body %}
     <p>{{ para }}</p>
     {% endfor %}
+    {% if sec.code_blocks %}
+    {% for block in sec.code_blocks %}
+    <div class="code-block">
+      {% if block.language %}<div class="code-label">{{ block.language }}</div>{% endif %}
+      <pre><code>{{ block.content }}</code></pre>
+    </div>
+    {% endfor %}
+    {% endif %}
     {% if sec.quote %}
     <div class="quote-block">
       <div class="quote-text">"{{ sec.quote.text }}"</div>

@@ -1,0 +1,69 @@
+{
+  "document_type": "changelog",
+  "locale": "zh-CN",
+  "meta": {
+    "title": "Momo Paper v4.0 更新日志",
+    "subtitle": "架构升级：agentskills.io spec 对齐、CLI-first 工作流、研报模板重设计",
+    "eyebrow": "Momo Paper / changelog / zh-CN",
+    "version": "v4.0.0",
+    "date": "2026-05-02"
+  },
+  "sections": {
+    "highlights": {
+      "items": [
+        "项目结构重构为 agentskills.io 规范，统一 agent skill 定义格式",
+        "CLI-first 工作流：momo init / render / chart / list 四大命令",
+        "研报（equity_report）模板全面重设计，新增 K 线图和风险矩阵",
+        "slides 类型支持 Jinja2 模板 + Python 生成双模式",
+        "新增 69 个测试用例，覆盖所有文档类型和图表渲染路径"
+      ]
+    },
+    "changes": [
+      {
+        "category": "added",
+        "items": [
+          "新增 slides 类型的 Jinja2 模板（slides.html.j2），支持 cover/closing/comparison 布局",
+          "新增 candlesick 和 waterfall 图表类型，charts.py 扩展至 5 种",
+          "新增 MCP 工具定义文件（mcp-tool.json），引擎可作为 MCP 工具被 AI agent 调用",
+          "新增 render_all.py 批量渲染脚本",
+          "新增 CLI --version 选项"
+        ]
+      },
+      {
+        "category": "changed",
+        "items": [
+          "项目目录重构：从扁平结构改为 scripts/assets/references 三层架构",
+          "CLI 入口从 momo-paper 扩展为 momo + momo-paper 双别名",
+          "equity_report 模板重设计：新增 KPI 卡片、K 线图、风险矩阵、催化剂时间线",
+          "设计令牌从分散的 CSS 变量改为统一的 design-tokens.json + _base.html.j2",
+          "JSON Schema 从模板内联提取到独立的 schemas/ 目录"
+        ]
+      },
+      {
+        "category": "fixed",
+        "items": [
+          "修复 long_doc 模板中引用块（quote）在移动端的布局溢出问题",
+          "修复 stats_report KPI 卡片在单列布局时居中对齐失效",
+          "修复 chart 过滤器在空数据时抛出异常的问题，改为返回空字符串",
+          "修复 portfolio 模板中 metrics 为空数组时仍然渲染空 card-grid 的问题"
+        ]
+      },
+      {
+        "category": "deprecated",
+        "items": [
+          "旧版 scripts/json-engine/templates/ 中的独立 HTML 文件已迁移到 assets/templates/",
+          "旧版 Build 脚本 build_all.sh 已由 render_all.py 替代"
+        ]
+      }
+    ],
+    "migration": {
+      "body": [
+        "从 v3.x 升级到 v4.0 需要注意以下变更：",
+        "1. 模板路径变更：如果你使用了自定义模板目录，请将模板更新为 .html.j2 扩展名并继承 _base.html.j2。",
+        "2. CLI 命令变更：momo-paper generate 已改为 momo render，momo-paper template 已改为 momo init。",
+        "3. JSON 数据格式向后兼容，v3.x 的数据文件可直接在 v4.0 中使用。",
+        "4. 图表类型名称变更：kline 已改为 candlestick，旧名称仍然可用但将在 v5.0 中移除。"
+      ]
+    }
+  }
+}

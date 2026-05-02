@@ -1,0 +1,31 @@
+{
+  "document_type": "one_pager",
+  "locale": "zh-CN",
+  "meta": {
+    "title": "文档类型示例",
+    "subtitle": "Momo Paper 全部 15 种文档类型的完整示例，使用引擎内置模板渲染。点击任意类型查看渲染效果和 JSON 数据结构。",
+    "eyebrow": "Momo Paper / 示例画廊"
+  },
+  "sections": {},
+  "demo": {
+    "intro": "以下是 Momo Paper 全部 15 种文档类型的渲染示例。每个页面都使用引擎内置的 Jinja2 模板和设计令牌渲染，展示了 JSON 数据结构与最终 HTML 输出的对应关系。这些示例同时也是引擎的视觉回归测试。",
+    "note": "这 15 种类型覆盖了从商业方案到个人展示、从金融研报到数据报告的全场景需求。每种类型都有专属的 JSON Schema 校验输入、Jinja2 模板控制排版、以及中英文双语言支持。所有示例数据均为演示用途，你可以将其作为编写自己文档的参考模板。",
+    "types": [
+      {"slug": "one-pager", "name_cn": "方案 / 执行摘要", "description": "四段结构：摘要 → 背景 → 证据 → 建议，含数据卡片"},
+      {"slug": "long-doc", "name_cn": "白皮书 / 长文", "description": "可迭代章节 + 引用块 + 结论，适合深度长文"},
+      {"slug": "letter", "name_cn": "信件 / 推荐信", "description": "信头 → 正文 → 请求 → 签名，正式书信格式"},
+      {"slug": "portfolio", "name_cn": "作品集", "description": "案例卡片 + 指标卡，背景/行动/结果三段式"},
+      {"slug": "resume", "name_cn": "简历 / CV", "description": "经历时间线 + 技能标签 + 项目列表，打印友好"},
+      {"slug": "slides", "name_cn": "幻灯片 / 演示", "description": "16:9 视口，支持封面/对比/结尾多种布局"},
+      {"slug": "equity-report", "name_cn": "研报 / 估值分析", "description": "KPI 卡片 + K 线图 + 风险矩阵 + 催化剂时间线"},
+      {"slug": "changelog", "name_cn": "更新日志", "description": "版本列表，按新增/变更/修复/废弃分类，彩色标记"},
+      {"slug": "process-flow", "name_cn": "流程 / SOP", "description": "步骤编号 + 负责人标注 + 分支条件 + 检查清单"},
+      {"slug": "timeline", "name_cn": "时间线 / Roadmap", "description": "竖线时间线，支持完成/进行中/计划三种状态"},
+      {"slug": "faq-page", "name_cn": "常见问题", "description": "分组问答卡片，问题加粗，回答次级文字"},
+      {"slug": "case-study", "name_cn": "案例拆解", "description": "背景 → 问题 → 方案 → 证据 → 结果 → 经验"},
+      {"slug": "research-summary", "name_cn": "研究摘要", "description": "论题 + 关键发现 + 影响分析 + 方法说明"},
+      {"slug": "stats-report", "name_cn": "数据报告 / KPI", "description": "KPI 大数字 + 趋势折线图 + 数据分群"},
+      {"slug": "infographic", "name_cn": "信息图", "description": "大数字展示 + 环形图 + 步骤路径，视觉冲击力强"}
+    ]
+  }
+}

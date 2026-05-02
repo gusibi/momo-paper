@@ -1,0 +1,54 @@
+{
+  "document_type": "infographic",
+  "locale": "zh-CN",
+  "meta": {
+    "title": "Momo Paper 2026 引擎能力一览",
+    "subtitle": "一份信息图概览：文档类型、图表能力、设计令牌和生态集成。",
+    "eyebrow": "Momo Paper / infographic / zh-CN",
+    "date": "2026-05-02",
+    "author": "Momo Paper"
+  },
+  "sections": {
+    "headline": {
+      "body": [
+        "Momo Paper 是一个面向文档与视觉叙事的路由式设计系统。以下是一份信息图概览，用可视化的方式展示了引擎的核心能力。"
+      ]
+    },
+    "metrics": [
+      {"value": "15", "unit": "种", "label": "文档类型 × 中英文双模板"},
+      {"value": "5", "unit": "种", "label": "可编程图表内联 SVG 渲染"},
+      {"value": "14", "unit": "种", "label": "图示原语可嵌入文档"},
+      {"value": "69", "unit": "个", "label": "测试用例覆盖所有路径"}
+    ],
+    "core_path": {
+      "body": [
+        "从用户输入到渲染输出，Momo Paper 的完整处理链路："
+      ],
+      "steps": [
+        "用户提供 JSON 数据（手动编写或 AI agent 生成）",
+        "引擎校验 JSON 格式（JSON Schema 验证）",
+        "根据 document_type 自动选择 Jinja2 模板",
+        "Jinja2 模板 + 设计令牌 = HTML 输出",
+        "内联 SVG 图表由 charts.py 渲染",
+        "输出可在浏览器中查看、打印或分享"
+      ]
+    },
+    "distribution": {
+      "chart": {
+        "type": "donut",
+        "title": "文档类型使用分布（社区调研）",
+        "height": 320,
+        "data": {
+          "labels": ["方案/one_pager", "研报/equity", "简历/resume", "长文/long_doc", "信息图/infographic", "其他 10 种"],
+          "values": [28, 22, 18, 15, 10, 7]
+        }
+      }
+    },
+    "takeaway": {
+      "body": [
+        "Momo Paper 的核心价值主张：让文档排版从「手工调 CSS」升级为「声明式路由」。你的内容 + 我们的设计令牌 = 永远排版精良、打印就绪的文档。",
+        "整个系统的设计哲学是「约束即解放」——通过预定义的模板和设计令牌，消除排版决策的认知负担，让用户（和 AI agent）专注于内容本身。"
+      ]
+    }
+  }
+}

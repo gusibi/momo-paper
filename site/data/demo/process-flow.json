@@ -1,0 +1,52 @@
+{
+  "document_type": "process_flow",
+  "locale": "zh-CN",
+  "meta": {
+    "title": "Momo Paper 文档生成工作流",
+    "subtitle": "从用户需求到渲染输出，完整的文档生成 SOP。",
+    "eyebrow": "Momo Paper / process_flow / zh-CN",
+    "date": "2026-05-02",
+    "author": "Momo Paper Team"
+  },
+  "sections": {
+    "lead": {
+      "body": [
+        "本文档描述 Momo Paper 引擎处理文档生成的完整流程，涵盖输入校验、模板选择、渲染执行和输出验证四个阶段。",
+        "此流程适用于 CLI 模式（momo render）和 MCP 工具模式（momo-paper-render）。"
+      ]
+    },
+    "flow": {
+      "steps": [
+        {"title": "接收输入", "description": "CLI：从文件路径或 stdin 读取 JSON 数据。MCP：从 tool call 参数中接收 JSON 对象。", "owner": "CLI / MCP Gateway"},
+        {"title": "JSON 解析与校验", "description": "解析 JSON，检查必需字段（document_type/locale/meta/sections）。校验通过后提取 document_type 用于模板选择。", "owner": "engine.load_json()"},
+        {"title": "模板选择", "description": "根据 document_type 在 DEFAULT_TEMPLATE_MAP 中查找对应模板。若指定了 --template 参数则使用显式模板。支持自定义 template_dir。", "owner": "engine.resolve_template()"},
+        {"title": "Jinja2 渲染", "description": "加载模板文件，将 JSON 数据解包为模板变量，执行 Jinja2 渲染。chart 过滤器将 chart 对象渲染为内联 SVG。", "owner": "Jinja2 + charts.py"},
+        {"title": "HTML 输出", "description": "渲染后的 HTML 写入目标文件或 stdout。包含完整的内联 CSS（设计令牌）和 SVG 图表。", "owner": "engine.render_to_file()"},
+        {"title": "验证（可选）", "description": "可通过 pytest 测试套件验证输出 HTML 的结构完整性、CSS 变量完整性和打印样式正确性。", "owner": "tests/"}
+      ]
+    },
+    "branches": {
+      "body": [
+        "系统在以下节点支持条件分支："
+      ],
+      "conditions": [
+        "document_type 为 slides 时，校验 slides 数组而非 sections 对象",
+        "template_file 参数存在时，跳过 DEFAULT_TEMPLATE_MAP 查找",
+        "data_source 为 '-' 时，从 sys.stdin 而非文件读取",
+        "图表渲染仅在 chart 对象存在且 type 为 5 种支持类型之一时执行"
+      ]
+    },
+    "takeaways": {
+      "body": [
+        "整个流程的核心设计原则是关注点分离：JSON 负责内容，模板负责排版，设计令牌负责视觉一致性，图表模块负责数据可视化。这四个层次各司其职，互不侵入。"
+      ],
+      "checklist": [
+        "JSON 输入是否包含所有必需字段？",
+        "document_type 是否为 15 种支持类型之一？",
+        "图表数据格式是否符合对应图表类型的要求？",
+        "输出 HTML 是否在目标浏览器中正确渲染？",
+        "打印样式是否正常（@media print）？"
+      ]
+    }
+  }
+}

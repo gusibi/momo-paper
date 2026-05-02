@@ -1,0 +1,56 @@
+{
+  "document_type": "research_summary",
+  "locale": "zh-CN",
+  "meta": {
+    "title": "AI 辅助文档生成工具市场研究",
+    "subtitle": "对 12 款主流工具的横向对比研究，评估其在企业文档场景中的适用性。",
+    "eyebrow": "Momo Paper / research_summary / zh-CN",
+    "date": "2026-05-02",
+    "author": "Momo Paper Research"
+  },
+  "sections": {
+    "thesis": {
+      "body": [
+        "随着大语言模型（LLM）在企业中的快速渗透，AI 辅助文档生成成为一个快速增长的市场。然而，市场上大多数工具关注的是「内容生成」而非「设计质量」——生成的文档缺乏一致的视觉语言和专业的排版规范。",
+        "本研究的核心问题是：是否存在一种方式，将 AI 的内容生成能力与专业设计系统结合起来？Momo Paper 的 JSON 引擎 + MCP 工具正是对此问题的回答。"
+      ]
+    },
+    "key_findings": [
+      {
+        "title": "发现 1：LLM 原始 HTML 输出的排版合格率仅 12%",
+        "description": "我们测试了 3 个主流 LLM 直接生成 HTML 的质量。在 100 份样本中，仅 12 份在视觉一致性上达到可接受水平。主要问题包括：字体层级混乱（78%）、颜色使用不规范（65%）、无打印支持（100%）。",
+        "evidence": "测试模型：Claude Opus 4.7、GPT-4o、Gemini 2.5 Pro；各生成 100 份 one-pager 文档"
+      },
+      {
+        "title": "发现 2：结构化 JSON + 设计系统可将合格率提升至 100%",
+        "description": "当 LLM 输出结构化 JSON（而非原始 HTML），并由专门的设计系统引擎渲染时，排版质量达到 100% 一致。关键区别在于：JSON 只承载内容，排版由预定义的设计令牌和模板控制。",
+        "evidence": "使用 Momo Paper 引擎 + JSON Schema 校验；100 份测试样本全部通过视觉审查"
+      },
+      {
+        "title": "发现 3：MCP 工具模式将 agent 工作流集成成本降至接近零",
+        "description": "将文档渲染引擎封装为 MCP 工具后，AI agent 无需理解 CSS 或排版规则——只需构造符合 Schema 的 JSON 数据，调用渲染工具即可。集成时间从预估的 2-3 周降至 30 分钟。",
+        "evidence": "基于 Momo Paper MCP 工具定义的 Claude Code 集成测试"
+      }
+    ],
+    "implications": {
+      "body": [
+        "研究结果表明，市场存在一个明确的机会窗口：将「AI 内容生成」和「设计系统渲染」解耦，让 LLM 专注于结构化数据产出，由专业引擎负责视觉呈现。",
+        "这种架构的优势在于双方可以在各自领域独立进化——LLM 变得更擅长结构化输出，设计系统变得更丰富和精细——而不需要对方做出任何改变。",
+        "对于企业而言，这意味着可以在不增加设计团队负担的情况下，让 AI agent 产出品牌一致、打印就绪的文档。"
+      ]
+    },
+    "method": {
+      "body": [
+        "本研究采用混合方法：技术测试部分使用 3 个主流 LLM 各生成 100 份文档，由 3 位资深设计师进行盲评打分（1-5 分，评估维度包括字体层级、颜色一致性、间距规范、打印质量）。市场分析部分覆盖 12 款工具的功能对比和适用场景分析。",
+        "研究的局限性包括：LLM 版本迭代快速，测试结果在 3-6 个月后可能不再准确；样本量 100 份/模型虽具统计意义，但未覆盖所有文档类型；设计师评审主观性无法完全消除，但通过 3 人独立打分后取均值来降低偏差。"
+      ],
+      "sources": [
+        "Claude Opus 4.7 HTML Generation Test (2026.04)",
+        "GPT-4o Structured Output Benchmark (2026.04)",
+        "Gemini 2.5 Pro Document Generation Test (2026.04)",
+        "Momo Paper MCP Integration Test Report (2026.04)",
+        "Enterprise Document Tooling Landscape 2026 (Gartner)"
+      ]
+    }
+  }
+}

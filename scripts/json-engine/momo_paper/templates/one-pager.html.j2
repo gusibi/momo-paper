@@ -13,6 +13,14 @@
     {% for para in sections.summary.body %}
     <p>{{ para }}</p>
     {% endfor %}
+    {% if sections.summary.code_blocks %}
+    {% for block in sections.summary.code_blocks %}
+    <div class="code-block">
+      {% if block.language %}<div class="code-label">{{ block.language }}</div>{% endif %}
+      <pre><code>{{ block.content }}</code></pre>
+    </div>
+    {% endfor %}
+    {% endif %}
     {% if sections.summary.points %}
     <ul class="summary-strip">
       {% for point in sections.summary.points %}
@@ -29,6 +37,14 @@
     {% for para in sections.context.body %}
     <p>{{ para }}</p>
     {% endfor %}
+    {% if sections.context.code_blocks %}
+    {% for block in sections.context.code_blocks %}
+    <div class="code-block">
+      {% if block.language %}<div class="code-label">{{ block.language }}</div>{% endif %}
+      <pre><code>{{ block.content }}</code></pre>
+    </div>
+    {% endfor %}
+    {% endif %}
   </section>
   {% endif %}
 
@@ -38,6 +54,14 @@
     {% for para in sections.evidence.body %}
     <p>{{ para }}</p>
     {% endfor %}
+    {% if sections.evidence.code_blocks %}
+    {% for block in sections.evidence.code_blocks %}
+    <div class="code-block">
+      {% if block.language %}<div class="code-label">{{ block.language }}</div>{% endif %}
+      <pre><code>{{ block.content }}</code></pre>
+    </div>
+    {% endfor %}
+    {% endif %}
     {% if sections.evidence.cards %}
     <div class="card-grid">
       {% for card in sections.evidence.cards %}
@@ -58,6 +82,14 @@
     {% for para in sections.recommendation.body %}
     <p>{{ para }}</p>
     {% endfor %}
+    {% if sections.recommendation.code_blocks %}
+    {% for block in sections.recommendation.code_blocks %}
+    <div class="code-block">
+      {% if block.language %}<div class="code-label">{{ block.language }}</div>{% endif %}
+      <pre><code>{{ block.content }}</code></pre>
+    </div>
+    {% endfor %}
+    {% endif %}
     {% if sections.recommendation.actions %}
     <ul class="checklist">
       {% for action in sections.recommendation.actions %}

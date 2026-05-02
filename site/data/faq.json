@@ -33,7 +33,7 @@
           },
           {
             "question": "可以在 AI agent 中使用吗？",
-            "answer": "可以。Momo Paper 引擎提供了 MCP 工具定义（scripts/json-engine/mcp-tool.json），可被 Claude 等 AI agent 直接调用。Agent 只需构造符合 JSON Schema 的数据，调用渲染工具，即可获得设计精良的 HTML 文档。"
+            "answer": "可以。Momo Paper 提供了 Claude Code Skill 定义（SKILL.md），AI agent 通过 bash 直接调用 momo CLI 命令（momo init、momo render 等）即可生成文档。scripts/json-engine/mcp-tool.json 是 MCP 工具的定义文档（接口描述），尚未实现完整的 MCP server，当前实际可用的集成路径是 Skill + CLI 模式。"
           }
         ]
       },
