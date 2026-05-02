@@ -16,11 +16,10 @@ Canonical system files:
 
 - [README.md](./README.md): public usage entrypoint
 - [DESIGN.md](./DESIGN.md): taxonomy, foundations, deck recipe, non-negotiables
-- [PLAYBOOK.md](./PLAYBOOK.md): route workflow and operating rules
+- [prompt-contracts.md](./prompt-contracts.md): route workflow, input contract, and operating rules
 - [VOICE.md](./VOICE.md): copy tone
 - [design-tokens.json](./design-tokens.json): machine-readable tokens
 - [artifact-presets.json](./artifact-presets.json): route registry, document type overlay, and diagram maps
-- [prompt-contracts.md](./prompt-contracts.md): agent-facing input contract
 - [style-checklist.md](./style-checklist.md): final QA gate
 - [references/document-types.md](./references/document-types.md): public document type routing table
 - [references/diagrams.md](./references/diagrams.md): diagram selection and anti-patterns
@@ -71,13 +70,12 @@ Always update these together:
 
 1. [artifact-presets.json](./artifact-presets.json)
 2. [prompt-contracts.md](./prompt-contracts.md)
-3. [PLAYBOOK.md](./PLAYBOOK.md)
-4. [DESIGN.md](./DESIGN.md)
-5. [style-checklist.md](./style-checklist.md)
-6. [references/document-types.md](./references/document-types.md)
-7. The relevant route reference in [references/routes/](./references/routes/)
-8. The matching template path in [assets/templates/](./assets/templates/)
-9. Any affected showcase copy in [assets/showcase/](./assets/showcase/)
+3. [DESIGN.md](./DESIGN.md)
+4. [style-checklist.md](./style-checklist.md)
+5. [references/document-types.md](./references/document-types.md)
+6. The relevant route reference in [references/routes/](./references/routes/)
+7. The matching template path in [assets/templates/](./assets/templates/)
+8. Any affected showcase copy in [assets/showcase/](./assets/showcase/)
 
 ### If you add a new public document type
 
@@ -138,7 +136,7 @@ If you changed branding, also grep for stale previous-brand strings in showcase 
 
 1. Decide whether the change affects public usage, internal routing, diagrams, or branding.
 2. Update machine-readable contracts first.
-3. Sync README / SKILL / DESIGN / PLAYBOOK.
+3. Sync README / SKILL / DESIGN / prompt-contracts.
 4. Add or revise route references, templates, and diagram assets.
 5. Update showcase copy only after the registry is stable.
 6. Run lightweight validation.

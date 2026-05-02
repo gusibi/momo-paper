@@ -1,7 +1,6 @@
 """Tests for momo_paper.engine."""
 
 import json
-from pathlib import Path
 
 import pytest
 

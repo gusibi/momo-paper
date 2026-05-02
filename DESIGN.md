@@ -314,7 +314,7 @@ Use these files as authoritative:
 - `SKILL.md`
 - `AGENTS.md`
 - `DESIGN.md`
-- `PLAYBOOK.md`
+- `prompt-contracts.md`
 - `VOICE.md`
 - `design-tokens.json`
 - `artifact-presets.json`

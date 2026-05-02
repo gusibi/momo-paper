@@ -1,15 +1,14 @@
 """Tests for momo_paper.charts."""
 
-import pytest
 
 from momo_paper.charts import (
+    CHART_COLORS,
     render,
     render_bar,
-    render_line,
-    render_donut,
     render_candlestick,
+    render_donut,
+    render_line,
     render_waterfall,
-    CHART_COLORS,
 )
 
 

@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "momo-paper"
-version = "0.2.0"
+version = "0.2.2"
 description = "JSON-driven document rendering engine — 14 document types, 3 chart types, print-safe HTML output"
 readme = "README.md"
 license = {text = "MIT"}
@@ -30,3 +30,11 @@ include = ["momo_paper*"]
 
 [tool.setuptools.package-data]
 momo_paper = ["templates/*.html.j2", "schemas/*.json", "examples/*.json"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]
+ignore = ["E501"]

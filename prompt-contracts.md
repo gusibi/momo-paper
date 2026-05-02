@@ -29,6 +29,7 @@ audience: internal | external | mixed
 goal: string
 data_type: none | qualitative | quantitative | mixed
 tone_level: restrained | standard | assertive
+	source_credibility: optional low | medium | high
 length_limit: optional string
 required_sections: optional array
 ```
@@ -146,7 +147,31 @@ The agent must ask itself:
 - If the content contains numeric data, did I select the appropriate chart or consciously skip it?
 - Does the tone match `VOICE.md`?
 
-## Fallback Rules
+## Fallback and Escalation Rules
+
 - Do not choose the nearest route by analogy.
 - If the route is not implemented, stop and ask for a supported route.
 - `comparison_matrix` and `topic_cover` remain pattern candidates, not valid `document_type` values.
+
+Escalate or ask for confirmation when:
+- The requested route or document type is not implemented
+- The user gives conflicting route inputs
+- The requested visual language conflicts with print-safe document rules
+- The user wants a separate dashboard system
+
+Otherwise, resolve the route and proceed.
+
+## Special Route Notes
+
+### `web_dual`
+- Browser-readable and print-safe
+- First screen should still work as the first printed page
+- Avoid card-wall sprawl and motion-dependent structure
+
+### `slides`
+- One slide = one point
+- For decks over 20 slides, read Deck Recipe in `DESIGN.md` section 8
+
+### `visual_sheet`
+- One sheet = one dominant reading path
+- Compress prose harder than on page or slide routes

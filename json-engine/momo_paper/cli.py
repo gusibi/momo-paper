@@ -6,9 +6,8 @@ from pathlib import Path
 
 import click
 
-from .engine import DEFAULT_TEMPLATE_MAP, render_to_file
 from .charts import render as render_chart
-
+from .engine import DEFAULT_TEMPLATE_MAP, render_to_file
 
 DOC_TYPES_HELP = """Supported document types:
 
@@ -77,8 +76,8 @@ def render(data_source, output, template, template_dir):
 def list():
     """List all supported document types."""
     click.echo(DOC_TYPES_HELP)
-    click.echo(f"\nCharts: bar, line, donut")
-    click.echo(f"Locales: zh-CN, en")
+    click.echo("\nCharts: bar, line, donut, candlestick, waterfall")
+    click.echo("Locales: zh-CN, en")
 
 
 @cli.command()
@@ -99,7 +98,7 @@ def init(doc_type, locale, output):
     """
     if doc_type not in DEFAULT_TEMPLATE_MAP:
         click.echo(f"✗ Unknown document type: {doc_type}", err=True)
-        click.echo(f"  Use 'momo list' to see supported types", err=True)
+        click.echo("  Use 'momo list' to see supported types", err=True)
         sys.exit(1)
 
     if doc_type == "slides":

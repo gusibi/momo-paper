@@ -1,54 +1,93 @@
 # Momo Paper
 
 > A routed design system for documents and visual narratives.
+> 用一套路由规则统一 one-pager、长文、简历、幻灯片、研报、信息图与文档内图示。
 
-用一套路由规则统一 one-pager、长文、简历、幻灯片、研报、信息图与文档内图示。
+## Two Approaches
 
-## What it is
+Momo Paper gives you two ways to create documents:
 
-Momo Paper is a document-first design system for agents. It does two jobs:
+| | Direct HTML Templates | JSON Rendering Engine |
+|---|---|---|
+| **How** | Pick a starter HTML, fill in content | Write structured JSON, engine renders to HTML |
+| **Best for** | Quick one-offs, manual editing | AI agents, batch generation, API-driven workflows |
+| **Design tokens** | Hardcoded in each template | Centralized, applied automatically |
+| **Charts** | Static SVG from `assets/diagrams/` | Programmatic via `charts.py` (5 types) |
+| **Validation** | None | JSON Schema per document type |
+| **Output** | Standalone HTML files | Print-safe HTML with CSS custom properties |
 
-- route user intent to the correct document type, internal route, and starter template
-- keep visual narratives inside one quiet, credible, print-safe visual language
+Both approaches share the same design tokens, typography, and visual language.
 
-If unsure, ask a one-liner rather than guess.
-不确定时先问一句，不要猜。
+## Quick Start
+
+**Prerequisites:** Python 3.10+
+
+```bash
+# 1. Create and activate a virtual environment
+python3 -m venv .venv
+source .venv/bin/activate
+
+# 2. Install the JSON engine
+cd json-engine
+pip install -e .
+
+# 3. List available document types
+momo list
+
+# 4. Generate a skeleton and render your first document
+momo init -t one_pager -o my-doc.json
+# edit my-doc.json with your content
+momo render -d my-doc.json -o my-doc.html
+# open my-doc.html in your browser
+```
+
+That's it. You now have a print-safe, design-token-aware HTML document.
 
 ## JSON Rendering Engine
 
-Momo Paper includes a JSON-driven rendering engine (`json-engine/`). Instead of filling HTML templates by hand, you write structured JSON and the engine renders it to print-safe HTML with design tokens applied automatically.
+The engine (`json-engine/`) takes structured JSON data and renders it through Jinja2 templates with centralized design tokens.
 
 ### Install
 
 ```bash
 cd json-engine
+
+# Editable install (for development)
 pip install -e .
+
+# With dev dependencies (tests)
+pip install -e ".[dev]"
 ```
 
-This gives you the `momo` CLI.
+This gives you two CLI entry points: `momo` and `momo-paper` (they're the same).
 
 ### CLI Commands
 
 ```bash
-# List all supported document types
+# List all 15 document types (with Chinese + English names)
 momo list
 
-# Generate an empty JSON skeleton for a document type
+# Generate a JSON skeleton for any type
 momo init -t equity_report -o my-report.json
+momo init -t slides -o my-deck.json
+momo init -t resume -l en -o my-resume.json
 
-# Render JSON data to HTML
-momo render -d data/report.json -o output/report.html
+# Render JSON to HTML
+momo render -d my-report.json -o output/report.html
 
 # Render from stdin
-cat report.json | momo render -d - -o output.html
+cat my-report.json | momo render -d - -o output.html
 
-# Extract a chart as standalone SVG
-momo chart -d data/report.json -k sections.trends.chart -o chart.svg
+# Render a chart as standalone SVG
+momo chart -d my-report.json -k sections.trends.chart -o chart.svg
+
+# Batch render all sample files
+python render_all.py
 ```
 
 ### JSON Data Format
 
-Every document shares the same top-level structure:
+Every document shares this top-level structure (except `slides`, which uses `slides` instead of `sections`):
 
 ```json
 {
@@ -59,7 +98,7 @@ Every document shares the same top-level structure:
     "subtitle": "...",
     "eyebrow": "Momo Paper / equity_report / zh-CN",
     "date": "2025-04-27",
-    "analyst": "..."
+    "author": "..."
   },
   "sections": {
     ...
@@ -67,14 +106,16 @@ Every document shares the same top-level structure:
 }
 ```
 
-- `document_type` — one of the 14 supported types (see `momo list`)
-- `locale` — `zh-CN` or `en` (auto-switches section headings)
-- `meta` — title, subtitle, and optional fields (eyebrow, date, author, disclaimer)
-- `sections` — document-specific content, defined by JSON Schema in `json-engine/momo_paper/schemas/`
+| Field | Description |
+|---|---|
+| `document_type` | One of 15 supported types (see `momo list`) |
+| `locale` | `zh-CN` or `en` (auto-switches section headings) |
+| `meta` | Title, subtitle, and optional fields (eyebrow, date, author) |
+| `sections` | Document-specific content, defined by JSON Schema in `momo_paper/schemas/` |
 
 ### Embedding Charts
 
-Add a `chart` object inside any section to embed an SVG chart:
+Add a `chart` object inside any section. The engine renders it to inline SVG.
 
 ```json
 {
@@ -90,102 +131,119 @@ Add a `chart` object inside any section to embed an SVG chart:
 }
 ```
 
-Supported chart types: `bar`, `line`, `donut`.
+**Programmatic chart types** (data-driven, rendered by `charts.py`):
+
+| Type | Use case | Data shape |
+|---|---|---|
+| `bar` | Category comparison | `values: [n, ...]` |
+| `line` | Time series, trends | `values: [n, ...]` |
+| `donut` | Proportional breakdown | `values: [n, ...]` |
+| `candlestick` | OHLC price history | `values: [{o,h,l,c}, ...]` |
+| `waterfall` | Value decomposition, bridge | `values: [n, ...]` |
+
+For K-line/candlestick, use short keys (`o`, `h`, `l`, `c`) or long keys (`open`, `high`, `low`, `close`).
+
+### Run Tests
+
+```bash
+cd json-engine
+pip install -e ".[dev]"
+python -m pytest tests/ -v
+```
 
 ### MCP Tool
 
-The engine can be called as an MCP tool (`momo-paper-render`) — see `json-engine/mcp-tool.json` for the tool definition.
+The engine can be called as an MCP server tool (`momo-paper-render`). See `json-engine/mcp-tool.json` for the definition.
 
-### Files
+## Direct HTML Templates
+
+The `assets/templates/` directory contains 30 standalone HTML files (15 types x 2 locales). These are the direct-edit approach:
+
+- Open the template, replace placeholder content with your own
+- No CLI, no JSON, no build step — just HTML and CSS
+- Design tokens are embedded as CSS custom properties in each file
+
+Use these when you need a quick one-off document or prefer working directly with HTML.
+
+## Document Types
+
+| User says | Type | CN template | EN template |
+|---|---|---|---|
+| `one-pager / 方案 / 执行摘要` | `one_pager` | `assets/templates/one-pager.html` | `assets/templates/one-pager-en.html` |
+| `white paper / 白皮书 / 长文` | `long_doc` | `assets/templates/long-doc.html` | `assets/templates/long-doc-en.html` |
+| `letter / 信件 / 推荐信 / memo` | `letter` | `assets/templates/letter.html` | `assets/templates/letter-en.html` |
+| `portfolio / 作品集` | `portfolio` | `assets/templates/portfolio.html` | `assets/templates/portfolio-en.html` |
+| `resume / CV / 简历` | `resume` | `assets/templates/resume.html` | `assets/templates/resume-en.html` |
+| `slides / PPT / deck / 演示` | `slides` | `assets/templates/slides.py` | `assets/templates/slides-en.py` |
+| `equity report / 研报 / 估值分析` | `equity_report` | `assets/templates/equity-report.html` | `assets/templates/equity-report-en.html` |
+| `changelog / 更新日志 / release notes` | `changelog` | `assets/templates/changelog.html` | `assets/templates/changelog-en.html` |
+| `process flow / 流程图说明 / SOP` | `process_flow` | `assets/templates/process-flow.html` | `assets/templates/process-flow-en.html` |
+| `timeline / 时间线 / roadmap` | `timeline` | `assets/templates/timeline.html` | `assets/templates/timeline-en.html` |
+| `faq / 常见问题` | `faq_page` | `assets/templates/faq-page.html` | `assets/templates/faq-page-en.html` |
+| `case study / 案例拆解 / 项目复盘` | `case_study` | `assets/templates/case-study.html` | `assets/templates/case-study-en.html` |
+| `research summary / 研究摘要` | `research_summary` | `assets/templates/research-summary.html` | `assets/templates/research-summary-en.html` |
+| `stats report / 数据报告 / KPI` | `stats_report` | `assets/templates/stats-report.html` | `assets/templates/stats-report-en.html` |
+| `infographic / 信息图` | `infographic` | `assets/templates/infographic.html` | `assets/templates/infographic-en.html` |
+
+> **slides** uses Python-based generation for complex layouts. The JSON engine supports it with a Jinja2 template (`slides.html.j2`) and 16:9 viewport.
+
+## Diagrams & Charts
+
+14 diagram primitives in `assets/diagrams/`. The 5 programmatic chart types (bar, line, donut, candlestick, waterfall) can also be rendered via the JSON engine — see [Embedding Charts](#embedding-charts).
+
+| Diagram | Template | Programmatic? |
+|---|---|---|
+| Architecture / 架构图 | `architecture.html` | — |
+| Flowchart / 流程图 | `flowchart.html` | — |
+| Quadrant / 象限图 | `quadrant.html` | — |
+| Bar chart / 柱状图 | `bar-chart.html` | yes |
+| Line chart / 折线图 | `line-chart.html` | yes |
+| Donut chart / 环形图 | `donut-chart.html` | yes |
+| Candlestick / K线 | `candlestick.html` | yes |
+| Waterfall / 瀑布图 | `waterfall.html` | yes |
+| State machine / 状态机 | `state-machine.html` | — |
+| Timeline / 时间线 | `timeline.html` | — |
+| Swimlane / 泳道图 | `swimlane.html` | — |
+| Tree / 树状图 | `tree.html` | — |
+| Layer stack / 分层图 | `layer-stack.html` | — |
+| Venn / 维恩图 | `venn.html` | — |
+
+## Development
+
+```bash
+# Install with dev dependencies
+cd json-engine
+pip install -e ".[dev]"
+
+# Run tests
+python -m pytest tests/ -v
+
+# Batch render all samples
+python render_all.py
+
+# Render a sample to verify
+momo render -d momo_paper/examples/sample-letter.json -o /tmp/letter.html
+```
+
+## Files Reference
 
 | File | Purpose |
-| --- | --- |
+|---|---|
 | `json-engine/momo_paper/engine.py` | Core rendering engine |
-| `json-engine/momo_paper/cli.py` | CLI entry point |
-| `json-engine/momo_paper/charts.py` | SVG chart rendering |
-| `json-engine/momo_paper/templates/*.html.j2` | Jinja2 templates (14 types) |
-| `json-engine/momo_paper/schemas/*.schema.json` | JSON Schema for each document type |
+| `json-engine/momo_paper/cli.py` | CLI entry point (Click) |
+| `json-engine/momo_paper/charts.py` | SVG chart rendering (5 types) |
+| `json-engine/momo_paper/templates/*.html.j2` | Jinja2 templates (15 types) |
+| `json-engine/momo_paper/schemas/*.schema.json` | JSON Schema per document type |
 | `json-engine/momo_paper/examples/sample-*.json` | Sample data files |
 | `json-engine/render_all.py` | Batch render all samples via engine API |
-| `json-engine/tests/` | Test suite |
+| `json-engine/tests/` | Test suite (69 tests) |
+| `design-tokens.json` | Design tokens (colors, fonts, spacing) |
+| `artifact-presets.json` | Machine-readable route registry |
+| `DESIGN.md` | Taxonomy, foundations, non-negotiables |
+| `prompt-contracts.md` | Agent workflow rules and input contracts |
+| `references/` | Per-route reference docs |
 
-## Step 1 · Pick the language
+## Current Exclusions
 
-- `zh-CN`: choose the CN template
-- `en`: choose the EN template
-
-If the user mixes languages, use the dominant reading language of the final output.
-
-## Step 2 · Pick the document type
-
-| User says | Document Type | Internal Route | CN template | EN template |
-| --- | --- | --- | --- | --- |
-| `one-pager / 方案 / 执行摘要 / exec summary` | `one_pager` | `web_dual.explainer` | `assets/templates/one-pager.html` | `assets/templates/one-pager-en.html` |
-| `white paper / 白皮书 / 长文 / 年度总结 / technical report` | `long_doc` | `web_dual.editorial_article` | `assets/templates/long-doc.html` | `assets/templates/long-doc-en.html` |
-| `formal letter / 信件 / 辞职信 / 推荐信 / memo` | `letter` | `web_dual.letter` | `assets/templates/letter.html` | `assets/templates/letter-en.html` |
-| `portfolio / 作品集 / case studies` | `portfolio` | `web_dual.portfolio` | `assets/templates/portfolio.html` | `assets/templates/portfolio-en.html` |
-| `resume / CV / 简历` | `resume` | `web_dual.resume_profile` | `assets/templates/resume.html` | `assets/templates/resume-en.html` |
-| `slides / PPT / deck / 演示` | `slides` | `slides.explainer` | `assets/templates/slides.py` | `assets/templates/slides-en.py` |
-| `个股研报 / equity report / 估值分析 / investment memo / 股票分析` | `equity_report` | `web_dual.equity_report` | `assets/templates/equity-report.html` | `assets/templates/equity-report-en.html` |
-| `更新日志 / changelog / release notes / 版本记录` | `changelog` | `web_dual.changelog` | `assets/templates/changelog.html` | `assets/templates/changelog-en.html` |
-| `流程图说明 / workflow page / SOP` | `process_flow` | `web_dual.process_flow` | `assets/templates/process-flow.html` | `assets/templates/process-flow-en.html` |
-| `timeline / 时间线 / roadmap / milestone page` | `timeline` | `web_dual.timeline` | `assets/templates/timeline.html` | `assets/templates/timeline-en.html` |
-| `faq / 常见问题 / help center page` | `faq_page` | `web_dual.faq_page` | `assets/templates/faq-page.html` | `assets/templates/faq-page-en.html` |
-| `case study / 案例拆解 / 项目复盘` | `case_study` | `web_dual.case_study` | `assets/templates/case-study.html` | `assets/templates/case-study-en.html` |
-| `research summary / 研究摘要 / brief report` | `research_summary` | `web_dual.research_summary` | `assets/templates/research-summary.html` | `assets/templates/research-summary-en.html` |
-| `stats report / 数据报告 / KPI report` | `stats_report` | `web_dual.stats_report` | `assets/templates/stats-report.html` | `assets/templates/stats-report-en.html` |
-| `infographic / 信息图 / visual summary` | `infographic` | `visual_sheet.infographic` | `assets/templates/infographic.html` | `assets/templates/infographic-en.html` |
-
-Long deck (>20 slides): also read Deck Recipe in [DESIGN.md](./DESIGN.md) section 8.
-
-## Step 3 · Add diagrams only when they teach better than prose
-
-Diagrams are primitives inside long docs, portfolios, slide decks, equity reports, or research summaries. They are not a separate document type.
-
-Read [references/diagrams.md](./references/diagrams.md) before drawing.
-
-| User says | Diagram | Template |
-| --- | --- | --- |
-| `架构图 / architecture / 系统图 / components diagram` | `architecture` | `assets/diagrams/architecture.html` |
-| `流程图 / flowchart / 决策流 / branching logic` | `flowchart` | `assets/diagrams/flowchart.html` |
-| `象限图 / quadrant / 优先级矩阵 / 2×2 matrix` | `quadrant` | `assets/diagrams/quadrant.html` |
-| `柱状图 / bar chart / 分类对比 / grouped bars` | `bar_chart` | `assets/diagrams/bar-chart.html` |
-| `折线图 / line chart / 趋势 / 股价 / time series` | `line_chart` | `assets/diagrams/line-chart.html` |
-| `环形图 / donut / pie / 占比 / 分布结构` | `donut_chart` | `assets/diagrams/donut-chart.html` |
-| `状态机 / state machine / 状态图 / lifecycle` | `state_machine` | `assets/diagrams/state-machine.html` |
-| `时间线 / timeline / 里程碑 / milestones / roadmap` | `timeline_diagram` | `assets/diagrams/timeline.html` |
-| `泳道图 / swimlane / 跨角色流程 / cross-team flow` | `swimlane` | `assets/diagrams/swimlane.html` |
-| `树状图 / tree / hierarchy / 层级 / 组织架构` | `tree` | `assets/diagrams/tree.html` |
-| `分层图 / layer stack / 分层架构 / OSI / stack` | `layer_stack` | `assets/diagrams/layer-stack.html` |
-| `维恩图 / venn / 交集 / overlap / 集合关系` | `venn` | `assets/diagrams/venn.html` |
-| `K 线 / candlestick / OHLC / 股价走势 / price history` | `candlestick` | `assets/diagrams/candlestick.html` |
-| `瀑布图 / waterfall / 收入桥 / revenue bridge / decomposition` | `waterfall` | `assets/diagrams/waterfall.html` |
-
-Before drawing, ask: would a well-written paragraph teach the reader less than this diagram? If no, do not draw.
-
-## Auto-select charts from data
-
-When the content contains structured numerical data, choose the appropriate chart type and embed it. Do not wait for the user to request a chart.
-
-- proportional breakdown -> donut
-- time series -> line
-- category comparison -> bar
-- price history -> candlestick
-- value decomposition -> waterfall
-
-If a paragraph explains the point better, do not force a chart.
-
-## Files to read
-
-- [SKILL.md](./SKILL.md): runtime agent usage
-- [AGENTS.md](./AGENTS.md): repository maintenance rules
-- [DESIGN.md](./DESIGN.md): taxonomy, foundations, deck recipe, non-negotiables
-- [references/document-types.md](./references/document-types.md): full document type routing table
-- [references/diagrams.md](./references/diagrams.md): diagram guide, token map, anti-patterns
-- [artifact-presets.json](./artifact-presets.json): machine-readable route registry
-- [json-engine/](./json-engine/): JSON-driven rendering engine, CLI, templates, schemas
-
-## Current exclusions
-
-- `dashboard` is intentionally out of scope for the current system
+- `dashboard` is intentionally out of scope
 - `comparison_matrix` and `topic_cover` remain pattern candidates, not document types
