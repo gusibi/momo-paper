@@ -1,806 +1,469 @@
 <!DOCTYPE html>
-<html lang="{{ locale }}">
+<html lang="{{ locale }}" data-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{ meta.title }}</title>
   <!-- META_INJECT -->
   <style>
-    /* ===== Design Tokens ===== */
+    /* ============================================================
+       Momo Paper — Landing Page Styles
+       Design: "The Editor's Desk" — editorial, warm, precise
+       ============================================================ */
+
+    /* ===== Design Tokens — Dark Theme (default) ===== */
     :root {
-      --ink: #172033;
-      --ink-subtle: #4C566A;
-      --paper: #FAF8F4;
-      --canvas: #F2EFE8;
-      --line: #D8D2C4;
-      --brand: #244C7A;
-      --brand-muted: #DCE7F2;
-      --accent: #B65C3A;
-      --accent-muted: #F2E1D9;
-      --success: #2F6B4F;
-      --success-muted: #D9F2E5;
-      --warning: #A46A21;
-      --danger: #9A3D3D;
-      --font-serif: "Noto Serif SC", "Source Han Serif SC", "Songti SC", serif;
-      --font-sans: "Inter", "Noto Sans SC", "PingFang SC", sans-serif;
+      --bg-primary: #21211e;
+      --bg-secondary: #2a2a27;
+      --bg-tertiary: #33332f;
+      --bg-code: #1c1c1a;
+      --bg-elevated: #353532;
+      --text-primary: #e6e2d8;
+      --text-secondary: #b5b0a4;
+      --text-muted: #7a766a;
+      --text-heading: #f0ece2;
+      --accent: #3B6DA5;
+      --accent-hover: #4A80BA;
+      --accent-dim: #2A5480;
+      --accent-glow: rgba(59, 109, 165, 0.12);
+      --accent-2: #D4785A;
+      --accent-2-hover: #e0886a;
+      --green: #7b9e6d;
+      --red: #c06a5a;
+      --orange: #c98d4e;
+      --border: #3a3832;
+      --border-light: #2e2d28;
+      --font-display: "Noto Serif SC", "Source Han Serif SC", "Songti SC", serif;
+      --font-body: "Inter", "Noto Sans SC", "PingFang SC", sans-serif;
       --font-mono: "IBM Plex Mono", "SFMono-Regular", monospace;
-      --radius-sm: 6px;
-      --radius-md: 10px;
-      --radius-lg: 16px;
-      --shadow-card: 0 1px 3px rgba(23,32,51,0.06), 0 4px 12px rgba(23,32,51,0.04);
-      --shadow-raised: 0 4px 8px rgba(23,32,51,0.06), 0 12px 28px rgba(23,32,51,0.08);
-      --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
-      --content-width: 1152px;
+      --space-xs: 0.25rem; --space-sm: 0.5rem; --space-md: 1rem;
+      --space-lg: 1.5rem; --space-xl: 2rem; --space-2xl: 3rem;
+      --space-3xl: 4rem; --space-4xl: 6rem;
+      --radius-sm: 6px; --radius: 10px; --radius-lg: 16px; --radius-xl: 24px;
+      --max-width: 1100px; --max-width-text: 720px; --nav-height: 64px;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
+      --shadow: 0 4px 16px rgba(0,0,0,0.4);
+      --shadow-lg: 0 8px 32px rgba(0,0,0,0.5);
+      --transition: 200ms ease;
+      --transition-slow: 350ms ease;
     }
 
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
+    [data-theme="light"] {
+      --bg-primary: #f8f5ee;
+      --bg-secondary: #f2efe6;
+      --bg-tertiary: #ebe7dc;
+      --bg-code: #f0ede4;
+      --bg-elevated: #FAF8F4;
+      --text-primary: #2d2a22;
+      --text-secondary: #5c574a;
+      --text-muted: #8c8676;
+      --text-heading: #1a1812;
+      --accent: #244C7A;
+      --accent-hover: #1a3a5e;
+      --accent-dim: #4A7DB5;
+      --accent-glow: rgba(36, 76, 122, 0.08);
+      --accent-2: #B65C3A;
+      --accent-2-hover: #9a4d30;
+      --border: #d8d4c8;
+      --border-light: #e8e4dc;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+      --shadow: 0 4px 16px rgba(0,0,0,0.1);
+      --shadow-lg: 0 8px 32px rgba(0,0,0,0.12);
+    }
+
+    /* ============================================================
+       Reset & Base
+       ============================================================ */
+    *,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+    html { scroll-behavior:smooth; -webkit-text-size-adjust:100%; text-size-adjust:100%; }
     body {
-      font-family: var(--font-sans);
-      font-size: 15px;
-      line-height: 1.6;
-      color: var(--ink);
-      background: var(--paper);
-      -webkit-font-smoothing: antialiased;
+      font-family:var(--font-body);
+      font-size:1.0625rem;
+      line-height:1.7;
+      color:var(--text-primary);
+      background-color:var(--bg-primary);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      transition:background-color var(--transition-slow),color var(--transition-slow);
+    }
+    ::selection { background:var(--accent-dim); color:var(--bg-primary); }
+    h1,h2,h3,h4 { font-family:var(--font-display); font-weight:600; line-height:1.25; color:var(--text-heading); }
+    h1 { font-size:clamp(2.5rem,5vw,3.8rem); letter-spacing:-0.02em; }
+    h2 { font-size:clamp(1.8rem,3.5vw,2.5rem); letter-spacing:-0.01em; }
+    h3 { font-size:clamp(1.3rem,2.5vw,1.7rem); }
+    h4 { font-size:1.15rem; }
+    a { color:var(--accent); text-decoration:none; transition:color var(--transition); }
+    a:hover { color:var(--accent-hover); }
+    code { font-family:var(--font-mono); font-size:0.85em; background:var(--bg-code); padding:0.15em 0.4em; border-radius:4px; color:var(--accent); border:1px solid var(--border-light); }
+    ::selection { background:var(--accent-dim); color:var(--bg-primary); }
+
+    /* ============================================================
+       Layout Utilities
+       ============================================================ */
+    .container { max-width:var(--max-width); margin:0 auto; padding:0 var(--space-xl); }
+    .container--text { max-width:var(--max-width-text); }
+    .section { padding:var(--space-4xl) 0; }
+    .section-label { font-family:var(--font-mono); font-size:0.8rem; font-weight:500; text-transform:uppercase; letter-spacing:0.12em; color:var(--accent); margin-bottom:var(--space-md); display:block; }
+    .section-title { margin-bottom:var(--space-md); }
+    .section-subtitle { font-size:1.2rem; color:var(--text-secondary); margin-bottom:var(--space-2xl); max-width:600px; }
+
+    /* ============================================================
+       Buttons
+       ============================================================ */
+    .btn { display:inline-flex; align-items:center; gap:var(--space-sm); padding:0.75rem 1.75rem; font-family:var(--font-body); font-size:1rem; font-weight:600; border-radius:var(--radius); cursor:pointer; transition:all var(--transition); text-decoration:none; border:none; }
+    .btn--primary { background:var(--accent); color:#fff; }
+    .btn--primary:hover { background:var(--accent-hover); color:#fff; transform:translateY(-1px); box-shadow:0 4px 20px var(--accent-glow); }
+    .btn--secondary { background:transparent; color:var(--text-primary); border:1.5px solid var(--border); }
+    .btn--secondary:hover { border-color:var(--accent); color:var(--accent); transform:translateY(-1px); }
+
+    /* ============================================================
+       Hero
+       ============================================================ */
+    .hero { padding:calc(var(--nav-height) + var(--space-4xl)) 0 var(--space-4xl); text-align:center; position:relative; overflow:hidden; }
+    .hero::before { content:''; position:absolute; top:-50%; left:50%; transform:translateX(-50%); width:800px; height:800px; background:radial-gradient(circle,var(--accent-glow) 0%,transparent 70%); pointer-events:none; }
+    .hero__tagline { font-family:var(--font-mono); font-size:0.85rem; color:var(--accent); text-transform:uppercase; letter-spacing:0.15em; margin-bottom:var(--space-lg); position:relative; }
+    .hero__title { font-size:clamp(2.8rem,6vw,4.5rem); font-weight:800; line-height:1.1; margin-bottom:var(--space-lg); position:relative; }
+    .hero__title em { font-style:italic; color:var(--accent); }
+    .hero__subtitle { font-size:1.25rem; color:var(--text-secondary); max-width:580px; margin:0 auto var(--space-2xl); position:relative; }
+    .hero__actions { display:flex; gap:var(--space-md); justify-content:center; flex-wrap:wrap; position:relative; }
+
+    /* Hero Pipeline */
+    .hero__pipeline { margin-top:var(--space-4xl); display:flex; align-items:center; justify-content:center; gap:var(--space-md); flex-wrap:wrap; position:relative; }
+    .pipeline-node { background:var(--bg-secondary); border:1px solid var(--border); border-radius:var(--radius); padding:var(--space-md) var(--space-xl); font-family:var(--font-mono); font-size:0.9rem; color:var(--text-primary); text-align:center; transition:all var(--transition); }
+    .pipeline-node:hover { border-color:var(--accent); transform:translateY(-2px); box-shadow:var(--shadow); }
+    .pipeline-node__dir { font-weight:700; color:var(--accent); }
+    .pipeline-node__desc { font-size:0.75rem; color:var(--text-muted); margin-top:2px; }
+    .pipeline-arrow { color:var(--accent-dim); font-size:1.5rem; font-family:var(--font-mono); }
+    @media (max-width:640px) { .hero__pipeline { flex-direction:column; gap:var(--space-sm); } .pipeline-arrow { transform:rotate(90deg); } }
+
+    /* ============================================================
+       Features
+       ============================================================ */
+    .features { background:var(--bg-secondary); }
+    .features__grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:var(--space-xl); }
+    .feature-card { background:var(--bg-elevated); border:1px solid var(--border-light); border-radius:var(--radius-lg); padding:var(--space-2xl); transition:all var(--transition-slow); position:relative; overflow:hidden; }
+    .feature-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg,var(--accent),transparent); opacity:0; transition:opacity var(--transition-slow); }
+    .feature-card:hover { border-color:var(--border); transform:translateY(-3px); box-shadow:var(--shadow); }
+    .feature-card:hover::before { opacity:1; }
+    .feature-card__icon { width:44px; height:44px; background:var(--bg-code); border:1px solid var(--border); border-radius:var(--radius); display:flex; align-items:center; justify-content:center; font-family:var(--font-mono); font-size:1.2rem; color:var(--accent); margin-bottom:var(--space-lg); }
+    .feature-card__icon.a2 { color:var(--accent-2); }
+    .feature-card__icon.green { color:var(--green); }
+    .feature-card h3 { font-size:1.3rem; margin-bottom:var(--space-sm); }
+    .feature-card p { color:var(--text-secondary); font-size:0.95rem; margin:0; }
+
+    /* ============================================================
+       Section Spacing
+       ============================================================ */
+    .section-header { text-align:center; margin-bottom:var(--space-3xl); }
+    .section-header .section-subtitle { margin-left:auto; margin-right:auto; }
+
+    /* ============================================================
+       Workflows
+       ============================================================ */
+    .workflow-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:var(--space-xl); }
+    .workflow-card { background:var(--bg-secondary); border:1px solid var(--border-light); border-radius:var(--radius-lg); padding:var(--space-2xl); transition:all var(--transition-slow); position:relative; overflow:hidden; }
+    .workflow-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg,var(--accent-2),transparent); opacity:0; transition:opacity var(--transition-slow); }
+    .workflow-card:hover { border-color:var(--border); transform:translateY(-3px); box-shadow:var(--shadow); }
+    .workflow-card:hover::before { opacity:1; }
+    .workflow-card__num { font-family:var(--font-display); font-size:2.5rem; font-weight:700; color:var(--border); margin-bottom:var(--space-md); line-height:1; }
+    .workflow-card__tag { display:inline-block; padding:2px 10px; background:var(--bg-code); color:var(--accent); border-radius:12px; font-family:var(--font-mono); font-size:0.7rem; font-weight:600; letter-spacing:0.05em; text-transform:uppercase; margin-bottom:var(--space-md); border:1px solid var(--border-light); }
+    .workflow-card h3 { font-size:1.25rem; margin-bottom:var(--space-xs); }
+    .workflow-card__subtitle { font-family:var(--font-mono); font-size:0.8rem; color:var(--text-muted); margin-bottom:var(--space-md); }
+    .workflow-card__desc { font-size:0.95rem; color:var(--text-secondary); line-height:1.65; margin-bottom:var(--space-lg); }
+    .workflow-card__highlights { list-style:none; padding:0; border-top:1px solid var(--border-light); padding-top:var(--space-md); }
+    .workflow-card__highlights li { font-size:0.9rem; color:var(--text-secondary); padding:var(--space-xs) 0; padding-left:var(--space-lg); position:relative; }
+    .workflow-card__highlights li::before { content:''; position:absolute; left:0; top:11px; width:6px; height:6px; border-radius:50%; background:var(--accent); opacity:0.5; }
+
+    /* ============================================================
+       Document Types Grid
+       ============================================================ */
+    .doc-types { background:var(--bg-secondary); }
+    .doc-type-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:var(--space-sm); }
+    .doc-type-card { padding:var(--space-lg) var(--space-md); background:var(--bg-elevated); border:1px solid var(--border); border-radius:var(--radius); text-align:center; transition:all var(--transition); text-decoration:none; display:block; }
+    .doc-type-card:hover { border-color:var(--accent); transform:translateY(-2px); box-shadow:var(--shadow-sm); }
+    .doc-type-card__icon { width:32px; height:32px; margin:0 auto var(--space-sm); background:var(--bg-code); color:var(--accent); border-radius:var(--radius-sm); display:flex; align-items:center; justify-content:center; font-family:var(--font-display); font-size:0.9rem; font-weight:600; border:1px solid var(--border-light); }
+    .doc-type-card__name { font-family:var(--font-body); font-size:0.8rem; font-weight:600; color:var(--text-heading); margin-bottom:2px; }
+    .doc-type-card__slug { font-family:var(--font-mono); font-size:0.65rem; color:var(--text-muted); margin-bottom:var(--space-xs); }
+    .doc-type-card__desc { font-size:0.7rem; color:var(--text-muted); line-height:1.4; }
+
+    /* ============================================================
+       Comparison
+       ============================================================ */
+    .comparison { overflow:hidden; }
+    .compare-grid { display:grid; grid-template-columns:1fr auto 1fr; gap:var(--space-2xl); align-items:start; margin-top:var(--space-2xl); }
+    .compare-card { background:var(--bg-secondary); border:1px solid var(--border-light); border-radius:var(--radius-lg); padding:var(--space-2xl); transition:all var(--transition-slow); }
+    .compare-card--old { opacity:0.7; }
+    .compare-card--new { border-color:var(--accent-dim); box-shadow:0 0 40px var(--accent-glow); }
+    .compare-card__label { font-family:var(--font-mono); font-size:0.75rem; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:var(--space-md); display:block; }
+    .compare-card--old .compare-card__label { color:var(--text-muted); }
+    .compare-card--new .compare-card__label { color:var(--accent); font-weight:600; }
+    .compare-card__title { font-size:1.5rem; margin-bottom:var(--space-md); }
+    .compare-card__subtitle { font-size:0.9rem; color:var(--text-secondary); margin-bottom:var(--space-lg); }
+    .compare-card__list { list-style:none; padding:0; }
+    .compare-card__list li { padding:var(--space-sm) 0; padding-left:var(--space-xl); position:relative; color:var(--text-secondary); font-size:0.95rem; }
+    .compare-card--old .compare-card__list li::before { content:'\2717'; position:absolute; left:0; color:var(--red); font-weight:700; }
+    .compare-card--new .compare-card__list li::before { content:'\2713'; position:absolute; left:0; color:var(--green); font-weight:700; }
+    .compare-divider { display:flex; align-items:center; justify-content:center; font-family:var(--font-mono); font-size:1.2rem; color:var(--accent); padding:var(--space-md) 0; }
+    @media (max-width:768px) { .compare-grid { grid-template-columns:1fr; } .compare-divider { transform:rotate(90deg); padding:0; } }
+
+    /* ============================================================
+       Numbers Strip
+       ============================================================ */
+    .numbers-inner { display:grid; grid-template-columns:repeat(4,1fr); gap:var(--space-lg); padding:var(--space-2xl); background:var(--bg-secondary); border-radius:var(--radius-lg); border:1px solid var(--border); text-align:center; }
+    .num-value { font-family:var(--font-display); font-size:2.5rem; font-weight:700; color:var(--accent); line-height:1.1; margin-bottom:var(--space-xs); }
+    .num-label { font-size:0.8rem; color:var(--text-muted); font-family:var(--font-mono); letter-spacing:0.06em; text-transform:uppercase; }
+
+    /* ============================================================
+       Ecosystem
+       ============================================================ */
+    .ecosystem { background:var(--bg-secondary); }
+    .ecosystem-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:var(--space-md); }
+    .ecosystem-card { padding:var(--space-xl); background:var(--bg-elevated); border:1px solid var(--border); border-radius:var(--radius); text-align:center; text-decoration:none; transition:all var(--transition); display:block; }
+    .ecosystem-card:hover { border-color:var(--accent); transform:translateY(-2px); box-shadow:var(--shadow-sm); }
+    .ecosystem-card__name { font-family:var(--font-display); font-size:1.1rem; font-weight:600; color:var(--text-heading); margin-bottom:var(--space-xs); }
+    .ecosystem-card__desc { font-size:0.85rem; color:var(--text-muted); line-height:1.4; }
+
+    /* ============================================================
+       CTA
+       ============================================================ */
+    .cta { text-align:center; position:relative; overflow:hidden; }
+    .cta::before { content:''; position:absolute; bottom:-40%; left:50%; transform:translateX(-50%); width:600px; height:600px; background:radial-gradient(circle,var(--accent-glow) 0%,transparent 70%); pointer-events:none; }
+    .cta__title { font-size:clamp(1.8rem,4vw,2.5rem); margin-bottom:var(--space-md); position:relative; }
+    .cta__subtitle { color:var(--text-secondary); font-size:1.15rem; margin-bottom:var(--space-2xl); position:relative; }
+    .cta__actions { display:flex; gap:var(--space-md); justify-content:center; flex-wrap:wrap; position:relative; }
+
+    /* ============================================================
+       Theme Toggle
+       ============================================================ */
+    .theme-toggle { position:fixed; top:20px; right:24px; z-index:200; width:36px; height:36px; border-radius:50%; border:1px solid var(--border); background:var(--bg-primary); color:var(--text-secondary); cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:1rem; transition:all var(--transition); }
+    .theme-toggle:hover { color:var(--accent); border-color:var(--accent); }
+
+    /* ============================================================
+       Responsive
+       ============================================================ */
+    @media (max-width:1024px) { .doc-type-grid { grid-template-columns:repeat(3,1fr); } }
+    @media (max-width:860px) {
+      .hero { padding:var(--space-3xl) var(--space-xl) var(--space-2xl); }
+      .hero__pipeline { margin-top:var(--space-2xl); }
+      .features__grid { grid-template-columns:1fr; }
+      .workflow-grid { grid-template-columns:1fr; }
+      .doc-type-grid { grid-template-columns:repeat(2,1fr); }
+      .numbers-inner { grid-template-columns:repeat(2,1fr); row-gap:var(--space-xl); }
+      .section { padding:var(--space-2xl) 0; }
+    }
+    @media (max-width:500px) {
+      .doc-type-grid { grid-template-columns:1fr 1fr; }
+      .numbers-inner { grid-template-columns:1fr; }
+      .hero__actions { flex-direction:column; align-items:center; }
     }
 
-    /* ===== Section Shared ===== */
-    .section-label {
-      font-family: var(--font-mono);
-      font-size: 12px;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--brand);
-      display: block;
-      margin-bottom: 16px;
-    }
-    .section-title {
-      font-family: var(--font-serif);
-      font-size: 32px;
-      font-weight: 600;
-      color: var(--ink);
-      margin-bottom: 16px;
-    }
-    .section-subtitle {
-      font-size: 16px;
-      color: var(--ink-subtle);
-      max-width: 600px;
-      margin-bottom: 48px;
-      line-height: 1.55;
-    }
-
-    /* ===== Hero ===== */
-    .hero {
-      padding: 100px 48px 80px;
-      text-align: center;
-      background: linear-gradient(180deg, var(--canvas) 0%, var(--paper) 100%);
-      border-bottom: 1px solid var(--line);
-    }
-    .hero-badge {
-      display: inline-block;
-      padding: 6px 16px;
-      background: var(--brand-muted);
-      color: var(--brand);
-      border-radius: 20px;
-      font-family: var(--font-mono);
-      font-size: 12px;
-      font-weight: 500;
-      letter-spacing: 0.03em;
-      margin-bottom: 32px;
-    }
-    .hero h1 {
-      font-family: var(--font-serif);
-      font-size: 52px;
-      font-weight: 600;
-      line-height: 1.15;
-      color: var(--ink);
-      max-width: 800px;
-      margin: 0 auto 24px;
-      letter-spacing: -0.01em;
-    }
-    .hero .subtitle {
-      font-size: 18px;
-      line-height: 1.6;
-      color: var(--ink-subtle);
-      max-width: 620px;
-      margin: 0 auto 40px;
-    }
-    .hero-actions {
-      display: flex;
-      gap: 14px;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-    .btn-primary {
-      display: inline-flex;
-      align-items: center;
-      padding: 13px 28px;
-      background: var(--brand);
-      color: #fff;
-      font-family: var(--font-sans);
-      font-size: 15px;
-      font-weight: 500;
-      border-radius: var(--radius-sm);
-      text-decoration: none;
-      transition: background 0.15s ease, transform 0.15s ease;
-    }
-    .btn-primary:hover { background: #1a3a5e; transform: translateY(-1px); }
-    .btn-outline {
-      display: inline-flex;
-      align-items: center;
-      padding: 13px 28px;
-      background: transparent;
-      color: var(--brand);
-      font-family: var(--font-sans);
-      font-size: 15px;
-      font-weight: 500;
-      border: 1.5px solid var(--brand);
-      border-radius: var(--radius-sm);
-      text-decoration: none;
-      transition: background 0.15s ease, transform 0.15s ease;
-    }
-    .btn-outline:hover { background: var(--brand-muted); transform: translateY(-1px); }
-
-    /* ===== Hero Pipeline ===== */
-    .hero-pipeline {
-      margin-top: 56px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-    .pipeline-node {
-      background: var(--paper);
-      border: 1px solid var(--line);
-      border-radius: var(--radius-md);
-      padding: 20px 32px;
-      text-align: center;
-      transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
-      min-width: 140px;
-    }
-    .pipeline-node:hover {
-      border-color: var(--brand);
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-raised);
-    }
-    .pipeline-node__label {
-      font-family: var(--font-mono);
-      font-size: 15px;
-      font-weight: 600;
-      color: var(--brand);
-      margin-bottom: 4px;
-    }
-    .pipeline-node__desc {
-      font-family: var(--font-sans);
-      font-size: 12px;
-      color: var(--ink-subtle);
-    }
-    .pipeline-arrow {
-      font-family: var(--font-mono);
-      font-size: 22px;
-      color: var(--line);
-      flex-shrink: 0;
-    }
-
-    /* ===== Features ===== */
-    .features {
-      max-width: var(--content-width);
-      margin: 0 auto;
-      padding: 88px 48px;
-    }
-    .features-header {
-      text-align: center;
-      margin-bottom: 56px;
-    }
-    .feature-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
-    }
-    .feature-card {
-      padding: 36px 32px;
-      background: var(--paper);
-      border: 1px solid var(--line);
-      border-radius: var(--radius-md);
-      transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
-    }
-    .feature-card:hover {
-      border-color: var(--brand-muted);
-      box-shadow: var(--shadow-raised);
-      transform: translateY(-2px);
-    }
-    .feature-icon {
-      width: 44px;
-      height: 44px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: var(--radius-sm);
-      font-size: 20px;
-      margin-bottom: 20px;
-    }
-    .feature-icon.docs     { background: var(--brand-muted); color: var(--brand); }
-    .feature-icon.charts   { background: var(--accent-muted); color: var(--accent); }
-    .feature-icon.diagrams { background: var(--success-muted); color: var(--success); }
-    .feature-icon.templates { background: #F0EBD9; color: var(--warning); }
-    .feature-icon.mcp      { background: #E5DFF2; color: #5E3D8A; }
-    .feature-icon.print    { background: #D9E8F2; color: #3D6D8A; }
-    .feature-card h3 {
-      font-family: var(--font-serif);
-      font-size: 18px;
-      font-weight: 600;
-      margin-bottom: 10px;
-      color: var(--ink);
-    }
-    .feature-card p {
-      font-size: 14px;
-      color: var(--ink-subtle);
-      line-height: 1.55;
-    }
-
-    /* ===== Workflows ===== */
-    .workflows {
-      max-width: var(--content-width);
-      margin: 0 auto;
-      padding: 0 48px 88px;
-    }
-    .workflows-header {
-      text-align: center;
-      margin-bottom: 56px;
-    }
-    .workflow-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
-    }
-    .workflow-card {
-      padding: 40px 32px;
-      background: var(--paper);
-      border: 1px solid var(--line);
-      border-radius: var(--radius-lg);
-      position: relative;
-      transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
-    }
-    .workflow-card:hover {
-      border-color: var(--brand-muted);
-      box-shadow: var(--shadow-raised);
-      transform: translateY(-2px);
-    }
-    .workflow-card__num {
-      font-family: var(--font-serif);
-      font-size: 36px;
-      font-weight: 600;
-      color: var(--line);
-      margin-bottom: 20px;
-      line-height: 1;
-    }
-    .workflow-card__tag {
-      display: inline-block;
-      padding: 3px 10px;
-      background: var(--brand-muted);
-      color: var(--brand);
-      border-radius: 12px;
-      font-family: var(--font-mono);
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 0.03em;
-      margin-bottom: 16px;
-    }
-    .workflow-card h3 {
-      font-family: var(--font-serif);
-      font-size: 20px;
-      font-weight: 600;
-      margin-bottom: 6px;
-      color: var(--ink);
-    }
-    .workflow-card__subtitle {
-      font-family: var(--font-mono);
-      font-size: 12px;
-      color: var(--ink-subtle);
-      letter-spacing: 0.02em;
-      margin-bottom: 16px;
-    }
-    .workflow-card__desc {
-      font-size: 14px;
-      color: var(--ink-subtle);
-      line-height: 1.55;
-      margin-bottom: 20px;
-    }
-    .workflow-card__highlights {
-      list-style: none;
-      padding: 0;
-      border-top: 1px solid var(--line);
-      padding-top: 16px;
-    }
-    .workflow-card__highlights li {
-      font-size: 13px;
-      color: var(--ink-subtle);
-      padding: 4px 0;
-      padding-left: 20px;
-      position: relative;
-    }
-    .workflow-card__highlights li::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 11px;
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--brand);
-      opacity: 0.5;
-    }
-
-    /* ===== Document Types Grid ===== */
-    .doc-types {
-      padding: 88px 48px;
-      background: var(--canvas);
-      border-top: 1px solid var(--line);
-      border-bottom: 1px solid var(--line);
-    }
-    .doc-types-inner {
-      max-width: var(--content-width);
-      margin: 0 auto;
-    }
-    .doc-types-header {
-      text-align: center;
-      margin-bottom: 56px;
-    }
-    .doc-type-grid {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 12px;
-    }
-    .doc-type-card {
-      padding: 20px 16px;
-      background: var(--paper);
-      border: 1px solid var(--line);
-      border-radius: var(--radius-md);
-      text-align: center;
-      transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
-      text-decoration: none;
-    }
-    .doc-type-card:hover {
-      border-color: var(--brand);
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-card);
-    }
-    .doc-type-card__icon {
-      width: 36px;
-      height: 36px;
-      margin: 0 auto 10px;
-      background: var(--brand-muted);
-      color: var(--brand);
-      border-radius: var(--radius-sm);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: var(--font-serif);
-      font-size: 16px;
-      font-weight: 600;
-    }
-    .doc-type-card__name {
-      font-family: var(--font-sans);
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--ink);
-      margin-bottom: 4px;
-    }
-    .doc-type-card__slug {
-      font-family: var(--font-mono);
-      font-size: 10px;
-      color: var(--ink-subtle);
-      margin-bottom: 6px;
-    }
-    .doc-type-card__desc {
-      font-size: 11px;
-      color: var(--ink-subtle);
-      line-height: 1.4;
-    }
-
-    /* ===== Comparison ===== */
-    .comparison {
-      max-width: var(--content-width);
-      margin: 0 auto;
-      padding: 88px 48px;
-    }
-    .comparison-header {
-      text-align: center;
-      margin-bottom: 56px;
-    }
-    .compare-grid {
-      display: grid;
-      grid-template-columns: 1fr auto 1fr;
-      gap: 32px;
-      align-items: start;
-    }
-    .compare-card {
-      padding: 40px 36px;
-      border-radius: var(--radius-lg);
-    }
-    .compare-card--old {
-      background: var(--paper);
-      border: 1px solid var(--line);
-    }
-    .compare-card--new {
-      background: var(--paper);
-      border: 2px solid var(--brand);
-      box-shadow: 0 0 0 8px var(--brand-muted);
-    }
-    .compare-card__label {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      margin-bottom: 16px;
-      display: block;
-    }
-    .compare-card--old .compare-card__label { color: var(--ink-subtle); }
-    .compare-card--new .compare-card__label { color: var(--brand); font-weight: 600; }
-    .compare-card h3 {
-      font-family: var(--font-serif);
-      font-size: 24px;
-      font-weight: 600;
-      margin-bottom: 8px;
-      color: var(--ink);
-    }
-    .compare-card__subtitle {
-      font-size: 14px;
-      color: var(--ink-subtle);
-      margin-bottom: 24px;
-    }
-    .compare-card__list {
-      list-style: none;
-      padding: 0;
-    }
-    .compare-card__list li {
-      padding: 8px 0;
-      padding-left: 28px;
-      position: relative;
-      font-size: 14px;
-      color: var(--ink-subtle);
-      line-height: 1.5;
-    }
-    .compare-card--old .compare-card__list li::before {
-      content: '\2717';
-      position: absolute;
-      left: 0;
-      color: var(--danger);
-      font-size: 13px;
-      font-weight: 700;
-    }
-    .compare-card--new .compare-card__list li::before {
-      content: '\2713';
-      position: absolute;
-      left: 0;
-      color: var(--success);
-      font-size: 13px;
-      font-weight: 700;
-    }
-    .compare-divider {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: var(--font-mono);
-      font-size: 18px;
-      color: var(--line);
-      font-weight: 600;
-      padding: 24px 0;
-      white-space: nowrap;
-    }
-
-    /* ===== Numbers Strip ===== */
-    .numbers-strip {
-      max-width: var(--content-width);
-      margin: 0 auto;
-      padding: 0 48px 88px;
-    }
-    .numbers-inner {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 24px;
-      padding: 44px 48px;
-      background: var(--canvas);
-      border-radius: var(--radius-lg);
-      border: 1px solid var(--line);
-      text-align: center;
-    }
-    .num-value {
-      font-family: var(--font-serif);
-      font-size: 40px;
-      font-weight: 600;
-      color: var(--brand);
-      line-height: 1.1;
-      margin-bottom: 6px;
-    }
-    .num-label {
-      font-size: 13px;
-      color: var(--ink-subtle);
-      font-family: var(--font-mono);
-      letter-spacing: 0.03em;
-    }
-
-    /* ===== Ecosystem ===== */
-    .ecosystem {
-      max-width: var(--content-width);
-      margin: 0 auto;
-      padding: 0 48px 88px;
-    }
-    .ecosystem-header {
-      text-align: center;
-      margin-bottom: 56px;
-    }
-    .ecosystem-grid {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 16px;
-    }
-    .ecosystem-card {
-      padding: 24px 18px;
-      background: var(--paper);
-      border: 1px solid var(--line);
-      border-radius: var(--radius-md);
-      text-align: center;
-      text-decoration: none;
-      transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
-    }
-    .ecosystem-card:hover {
-      border-color: var(--brand);
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-card);
-    }
-    .ecosystem-card__name {
-      font-family: var(--font-serif);
-      font-size: 16px;
-      font-weight: 600;
-      color: var(--ink);
-      margin-bottom: 6px;
-    }
-    .ecosystem-card__desc {
-      font-size: 12px;
-      color: var(--ink-subtle);
-      line-height: 1.4;
-    }
-
-    /* ===== Bottom CTA ===== */
-    .bottom-cta {
-      max-width: var(--content-width);
-      margin: 0 auto;
-      padding: 0 48px 100px;
-    }
-    .cta-inner {
-      text-align: center;
-      padding: 64px 48px;
-      background: linear-gradient(135deg, var(--brand) 0%, #1a3a5e 100%);
-      border-radius: var(--radius-lg);
-      color: #fff;
-    }
-    .cta-inner h2 {
-      font-family: var(--font-serif);
-      font-size: 32px;
-      font-weight: 600;
-      margin-bottom: 14px;
-    }
-    .cta-inner p {
-      font-size: 16px;
-      opacity: 0.85;
-      max-width: 500px;
-      margin: 0 auto 32px;
-      line-height: 1.55;
-    }
-    .cta-inner .btn-primary {
-      background: #fff;
-      color: var(--brand);
-      font-weight: 600;
-    }
-    .cta-inner .btn-primary:hover { background: var(--brand-muted); }
-
-    /* ===== Responsive ===== */
-    @media (max-width: 1024px) {
-      .doc-type-grid { grid-template-columns: repeat(3, 1fr); }
-      .ecosystem-grid { grid-template-columns: repeat(3, 1fr); }
-    }
-    @media (max-width: 860px) {
-      .hero { padding: 64px 24px 56px; }
-      .hero h1 { font-size: 36px; }
-      .hero .subtitle { font-size: 16px; }
-      .feature-grid { grid-template-columns: 1fr; }
-      .workflow-grid { grid-template-columns: 1fr; }
-      .compare-grid { grid-template-columns: 1fr; }
-      .compare-divider { transform: rotate(90deg); padding: 8px 0; }
-      .numbers-inner { grid-template-columns: repeat(2, 1fr); row-gap: 32px; }
-      .features { padding: 56px 24px; }
-      .workflows { padding: 0 24px 56px; }
-      .doc-types { padding: 56px 24px; }
-      .comparison { padding: 56px 24px; }
-      .ecosystem { padding: 0 24px 56px; }
-      .bottom-cta { padding: 0 24px 72px; }
-      .cta-inner { padding: 44px 28px; }
-      .section-title { font-size: 28px; }
-    }
-    @media (max-width: 600px) {
-      .doc-type-grid { grid-template-columns: repeat(2, 1fr); }
-      .ecosystem-grid { grid-template-columns: 1fr; }
-    }
-    @media (max-width: 500px) {
-      .hero h1 { font-size: 28px; }
-      .numbers-inner { grid-template-columns: 1fr; }
-      .hero-actions { flex-direction: column; align-items: center; }
-      .hero-pipeline { flex-direction: column; gap: 8px; }
-      .pipeline-arrow { transform: rotate(90deg); }
-      .doc-type-grid { grid-template-columns: 1fr 1fr; }
-    }
+    @media print { .theme-toggle { display:none !important; } }
   </style>
 </head>
 <body>
-  {# ===== Hero ===== #}
-  <section class="hero">
-    {% if sections.hero.badge %}<div class="hero-badge">{{ sections.hero.badge }}</div>{% endif %}
-    <h1>{{ sections.hero.headline }}</h1>
-    <p class="subtitle">{{ sections.hero.description }}</p>
-    <div class="hero-actions">
-      {% for btn in sections.hero.cta_buttons %}
-      <a href="{{ btn.url }}" class="{{ btn.style | default('btn-primary') }}">{{ btn.label }}</a>
-      {% endfor %}
-    </div>
+  <!-- NAV_INJECT -->
 
-    {% if sections.hero.pipeline %}
-    <div class="hero-pipeline">
-      {% for item in sections.hero.pipeline %}
-      {% if not loop.first %}<span class="pipeline-arrow">&rarr;</span>{% endif %}
-      <div class="pipeline-node">
-        <div class="pipeline-node__label">{{ item.label }}</div>
-        <div class="pipeline-node__desc">{{ item.desc }}</div>
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme" title="Toggle theme">&#9788;</button>
+
+  <main>
+
+    {# ===== Hero ===== #}
+    <section class="hero">
+      <div class="container">
+        {% if sections.hero.badge %}<p class="hero__tagline">{{ sections.hero.badge }}</p>{% endif %}
+        <h1 class="hero__title">{{ sections.hero.headline }}</h1>
+        <p class="hero__subtitle">{{ sections.hero.description }}</p>
+        <div class="hero__actions">
+          {% for btn in sections.hero.cta_buttons %}
+          <a href="{{ btn.url }}" class="btn {{ 'btn--primary' if btn.style == 'btn-primary' else 'btn--secondary' }}">{{ btn.label }}</a>
+          {% endfor %}
+        </div>
+        {% if sections.hero.pipeline %}
+        <div class="hero__pipeline">
+          {% for item in sections.hero.pipeline %}
+          {% if not loop.first %}<span class="pipeline-arrow">&rarr;</span>{% endif %}
+          <div class="pipeline-node">
+            <div class="pipeline-node__dir">{{ item.label }}</div>
+            <div class="pipeline-node__desc">{{ item.desc }}</div>
+          </div>
+          {% endfor %}
+        </div>
+        {% endif %}
       </div>
-      {% endfor %}
-    </div>
+    </section>
+
+    {# ===== Features ===== #}
+    <section class="features section">
+      <div class="container">
+        <div class="section-header">
+          {% if sections.features.label %}<span class="section-label">{{ sections.features.label }}</span>{% endif %}
+          <h2 class="section-title">{{ sections.features.heading }}</h2>
+          <p class="section-subtitle" style="margin-left:auto;margin-right:auto;">{{ sections.features.description }}</p>
+        </div>
+        <div class="features__grid">
+          {% for feat in sections.features.cards %}
+          <article class="feature-card">
+            <div class="feature-card__icon{% if feat.icon_class == 'charts' or feat.icon_class == 'mcp' %} a2{% elif feat.icon_class == 'diagrams' or feat.icon_class == 'print' %} green{% endif %}">{{ feat.icon }}</div>
+            <h3>{{ feat.title }}</h3>
+            <p>{{ feat.description }}</p>
+          </article>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+
+    {# ===== Workflows ===== #}
+    {% if sections.workflows %}
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-label">{{ sections.workflows.label }}</span>
+          <h2 class="section-title">{{ sections.workflows.heading }}</h2>
+          <p class="section-subtitle" style="margin-left:auto;margin-right:auto;">{{ sections.workflows.description }}</p>
+        </div>
+        <div class="workflow-grid">
+          {% for path in sections.workflows.paths %}
+          <div class="workflow-card">
+            <div class="workflow-card__num">{{ path.num }}</div>
+            {% if path.tag %}<span class="workflow-card__tag">{{ path.tag }}</span>{% endif %}
+            <h3>{{ path.title }}</h3>
+            <p class="workflow-card__subtitle">{{ path.subtitle }}</p>
+            <p class="workflow-card__desc">{{ path.desc }}</p>
+            <ul class="workflow-card__highlights">
+              {% for h in path.highlights %}<li>{{ h }}</li>{% endfor %}
+            </ul>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
     {% endif %}
-  </section>
 
-  {# ===== Features ===== #}
-  <section class="features">
-    <div class="features-header">
-      {% if sections.features.label %}<span class="section-label">{{ sections.features.label }}</span>{% endif %}
-      <h2 class="section-title">{{ sections.features.heading }}</h2>
-      <p class="section-subtitle" style="margin-left:auto;margin-right:auto;">{{ sections.features.description }}</p>
-    </div>
-    <div class="feature-grid">
-      {% for feat in sections.features.cards %}
-      <div class="feature-card">
-        <div class="feature-icon {{ feat.icon_class }}">{{ feat.icon }}</div>
-        <h3>{{ feat.title }}</h3>
-        <p>{{ feat.description }}</p>
-      </div>
-      {% endfor %}
-    </div>
-  </section>
-
-  {# ===== Workflows ===== #}
-  {% if sections.workflows %}
-  <section class="workflows">
-    <div class="workflows-header">
-      <span class="section-label">{{ sections.workflows.label }}</span>
-      <h2 class="section-title">{{ sections.workflows.heading }}</h2>
-      <p class="section-subtitle" style="margin-left:auto;margin-right:auto;">{{ sections.workflows.description }}</p>
-    </div>
-    <div class="workflow-grid">
-      {% for path in sections.workflows.paths %}
-      <div class="workflow-card">
-        <div class="workflow-card__num">{{ path.num }}</div>
-        {% if path.tag %}<span class="workflow-card__tag">{{ path.tag }}</span>{% endif %}
-        <h3>{{ path.title }}</h3>
-        <p class="workflow-card__subtitle">{{ path.subtitle }}</p>
-        <p class="workflow-card__desc">{{ path.desc }}</p>
-        <ul class="workflow-card__highlights">
-          {% for h in path.highlights %}
-          <li>{{ h }}</li>
+    {# ===== Document Types ===== #}
+    {% if sections.doc_types %}
+    <section class="doc-types section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-label">{{ sections.doc_types.label }}</span>
+          <h2 class="section-title">{{ sections.doc_types.heading }}</h2>
+          <p class="section-subtitle" style="margin-left:auto;margin-right:auto;">{{ sections.doc_types.description }}</p>
+        </div>
+        <div class="doc-type-grid">
+          {% for dt in sections.doc_types.types %}
+          <a href="/demo/{{ dt.slug }}/" class="doc-type-card">
+            <div class="doc-type-card__icon">{{ dt.icon }}</div>
+            <div class="doc-type-card__name">{{ dt.name }}</div>
+            <div class="doc-type-card__slug">{{ dt.slug }}</div>
+            <div class="doc-type-card__desc">{{ dt.desc }}</div>
+          </a>
           {% endfor %}
-        </ul>
+        </div>
       </div>
-      {% endfor %}
-    </div>
-  </section>
-  {% endif %}
+    </section>
+    {% endif %}
 
-  {# ===== Document Types ===== #}
-  {% if sections.doc_types %}
-  <section class="doc-types">
-    <div class="doc-types-inner">
-      <div class="doc-types-header">
-        <span class="section-label">{{ sections.doc_types.label }}</span>
-        <h2 class="section-title">{{ sections.doc_types.heading }}</h2>
-        <p class="section-subtitle" style="margin-left:auto;margin-right:auto;">{{ sections.doc_types.description }}</p>
+    {# ===== Comparison ===== #}
+    {% if sections.comparison %}
+    <section class="comparison section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-label">{{ sections.comparison.label }}</span>
+          <h2 class="section-title">{{ sections.comparison.heading }}</h2>
+          <p class="section-subtitle" style="margin-left:auto;margin-right:auto;">{{ sections.comparison.description }}</p>
+        </div>
+        <div class="compare-grid">
+          <div class="compare-card compare-card--old">
+            <span class="compare-card__label">{{ sections.comparison.old_label }}</span>
+            <h3 class="compare-card__title">{{ sections.comparison.old_title }}</h3>
+            <p class="compare-card__subtitle">{{ sections.comparison.old_subtitle }}</p>
+            <ul class="compare-card__list">
+              {% for point in sections.comparison.old_points %}<li>{{ point }}</li>{% endfor %}
+            </ul>
+          </div>
+          <div class="compare-divider">vs</div>
+          <div class="compare-card compare-card--new">
+            <span class="compare-card__label">{{ sections.comparison.new_label }}</span>
+            <h3 class="compare-card__title">{{ sections.comparison.new_title }}</h3>
+            <p class="compare-card__subtitle">{{ sections.comparison.new_subtitle }}</p>
+            <ul class="compare-card__list">
+              {% for point in sections.comparison.new_points %}<li>{{ point }}</li>{% endfor %}
+            </ul>
+          </div>
+        </div>
       </div>
-      <div class="doc-type-grid">
-        {% for dt in sections.doc_types.types %}
-        <a href="/demo/{{ dt.slug }}/" class="doc-type-card">
-          <div class="doc-type-card__icon">{{ dt.icon }}</div>
-          <div class="doc-type-card__name">{{ dt.name }}</div>
-          <div class="doc-type-card__slug">{{ dt.slug }}</div>
-          <div class="doc-type-card__desc">{{ dt.desc }}</div>
-        </a>
-        {% endfor %}
-      </div>
-    </div>
-  </section>
-  {% endif %}
+    </section>
+    {% endif %}
 
-  {# ===== Comparison ===== #}
-  {% if sections.comparison %}
-  <section class="comparison">
-    <div class="comparison-header">
-      <span class="section-label">{{ sections.comparison.label }}</span>
-      <h2 class="section-title">{{ sections.comparison.heading }}</h2>
-      <p class="section-subtitle" style="margin-left:auto;margin-right:auto;">{{ sections.comparison.description }}</p>
-    </div>
-    <div class="compare-grid">
-      <div class="compare-card compare-card--old">
-        <span class="compare-card__label">{{ sections.comparison.old_label }}</span>
-        <h3>{{ sections.comparison.old_title }}</h3>
-        <p class="compare-card__subtitle">{{ sections.comparison.old_subtitle }}</p>
-        <ul class="compare-card__list">
-          {% for point in sections.comparison.old_points %}
-          <li>{{ point }}</li>
+    {# ===== Numbers ===== #}
+    {% if sections.numbers %}
+    <section class="section">
+      <div class="container">
+        <div class="numbers-inner">
+          {% for n in sections.numbers %}
+          <div>
+            <div class="num-value">{{ n.value }}</div>
+            <div class="num-label">{{ n.label }}</div>
+          </div>
           {% endfor %}
-        </ul>
+        </div>
       </div>
-      <div class="compare-divider">vs</div>
-      <div class="compare-card compare-card--new">
-        <span class="compare-card__label">{{ sections.comparison.new_label }}</span>
-        <h3>{{ sections.comparison.new_title }}</h3>
-        <p class="compare-card__subtitle">{{ sections.comparison.new_subtitle }}</p>
-        <ul class="compare-card__list">
-          {% for point in sections.comparison.new_points %}
-          <li>{{ point }}</li>
+    </section>
+    {% endif %}
+
+    {# ===== Ecosystem ===== #}
+    {% if sections.ecosystem %}
+    <section class="ecosystem section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-label">{{ sections.ecosystem.label }}</span>
+          <h2 class="section-title">{{ sections.ecosystem.heading }}</h2>
+          <p class="section-subtitle" style="margin-left:auto;margin-right:auto;">{{ sections.ecosystem.description }}</p>
+        </div>
+        <div class="ecosystem-grid">
+          {% for tool in sections.ecosystem.tools %}
+          <a href="{{ tool.url }}" class="ecosystem-card" target="_blank" rel="noopener">
+            <div class="ecosystem-card__name">{{ tool.name }}</div>
+            <div class="ecosystem-card__desc">{{ tool.desc }}</div>
+          </a>
           {% endfor %}
-        </ul>
+        </div>
       </div>
-    </div>
-  </section>
-  {% endif %}
+    </section>
+    {% endif %}
 
-  {# ===== Numbers ===== #}
-  {% if sections.numbers %}
-  <section class="numbers-strip">
-    <div class="numbers-inner">
-      {% for n in sections.numbers %}
-      <div>
-        <div class="num-value">{{ n.value }}</div>
-        <div class="num-label">{{ n.label }}</div>
+    {# ===== CTA ===== #}
+    <section class="cta section">
+      <div class="container">
+        <h2 class="cta__title">{{ sections.bottom_cta.heading }}</h2>
+        <p class="cta__subtitle">{{ sections.bottom_cta.description }}</p>
+        <div class="cta__actions">
+          <a href="{{ sections.bottom_cta.button_url }}" class="btn btn--primary">{{ sections.bottom_cta.button_label }}</a>
+        </div>
       </div>
-      {% endfor %}
-    </div>
-  </section>
-  {% endif %}
+    </section>
 
-  {# ===== Ecosystem ===== #}
-  {% if sections.ecosystem %}
-  <section class="ecosystem">
-    <div class="ecosystem-header">
-      <span class="section-label">{{ sections.ecosystem.label }}</span>
-      <h2 class="section-title">{{ sections.ecosystem.heading }}</h2>
-      <p class="section-subtitle" style="margin-left:auto;margin-right:auto;">{{ sections.ecosystem.description }}</p>
-    </div>
-    <div class="ecosystem-grid">
-      {% for tool in sections.ecosystem.tools %}
-      <a href="{{ tool.url }}" class="ecosystem-card" target="_blank" rel="noopener">
-        <div class="ecosystem-card__name">{{ tool.name }}</div>
-        <div class="ecosystem-card__desc">{{ tool.desc }}</div>
-      </a>
-      {% endfor %}
-    </div>
-  </section>
-  {% endif %}
+  </main>
 
-  {# ===== Bottom CTA ===== #}
-  <section class="bottom-cta">
-    <div class="cta-inner">
-      <h2>{{ sections.bottom_cta.heading }}</h2>
-      <p>{{ sections.bottom_cta.description }}</p>
-      <a href="{{ sections.bottom_cta.button_url }}" class="btn-primary">{{ sections.bottom_cta.button_label }}</a>
-    </div>
-  </section>
+  <!-- FOOTER_INJECT -->
+
+  <script>
+    (function() {
+      const KEY = 'momo-theme';
+      const toggle = document.getElementById('themeToggle');
+      const html = document.documentElement;
+      if (document.getElementById('navThemeToggle')) { toggle.style.display = 'none'; }
+      function setIcon(t) { toggle.innerHTML = t === 'light' ? '&#9790;' : '&#9788;'; }
+      const s = localStorage.getItem(KEY);
+      if (s) html.setAttribute('data-theme', s);
+      else localStorage.setItem(KEY, 'dark');
+      setIcon(html.getAttribute('data-theme'));
+      toggle.addEventListener('click', function() {
+        const n = html.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+        html.setAttribute('data-theme', n);
+        localStorage.setItem(KEY, n);
+        setIcon(n);
+      });
+    })();
+  </script>
 </body>
 </html>

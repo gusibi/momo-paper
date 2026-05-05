@@ -844,8 +844,8 @@ def build():
         html = render(data_source, **kwargs)
 
         # Inject navigation and footer
-        html = html.replace("<body>", "<body>\n" + load_nav(page_id), 1)
-        html = html.replace("</body>", load_footer() + "\n</body>", 1)
+        html = html.replace("<!-- NAV_INJECT -->", load_nav(page_id), 1)
+        html = html.replace("<!-- FOOTER_INJECT -->", load_footer(), 1)
 
         # Resolve title and description for meta injection
         if isinstance(data_source, dict):

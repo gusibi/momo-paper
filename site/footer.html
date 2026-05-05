@@ -1,25 +1,62 @@
-<footer class="site-footer">
+<footer class="footer">
   <style>
-    .site-footer {
-      max-width: 1152px;
+    .footer {
+      border-top: 1px solid var(--border);
+      padding: var(--space-2xl) 0;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+    .footer__inner {
+      max-width: 1100px;
       margin: 0 auto;
-      padding: 32px 48px 48px;
-      text-align: center;
-      border-top: 1px solid var(--line);
-      font-family: var(--font-mono);
-      font-size: 12px;
-      color: var(--ink-subtle);
+      padding: 0 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
     }
-    .site-footer a {
-      color: var(--brand);
+    .footer__left {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+    .footer__right {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+    .footer a {
+      color: var(--text-secondary);
       text-decoration: none;
+      transition: color var(--transition);
     }
-    .site-footer a:hover {
-      text-decoration: underline;
+    .footer a:hover {
+      color: var(--accent);
+    }
+    .footer__divider {
+      color: var(--border);
+    }
+    @media (max-width: 600px) {
+      .footer__inner { flex-direction: column; text-align: center; }
+      .footer__left, .footer__right { flex-wrap: wrap; justify-content: center; }
     }
     @media print {
-      .site-footer { display: none; }
+      .footer { display: none; }
     }
   </style>
-  <p>Built with <a href="https://github.com/gusibi/momo-paper">Momo Paper</a> &mdash; a routed design system for documents and visual narratives.</p>
+  <div class="footer__inner">
+    <div class="footer__left">
+      <span>Momo Paper v0.2.2</span>
+      <span class="footer__divider">&middot;</span>
+      <span>MIT License</span>
+      <span class="footer__divider">&middot;</span>
+      <span>by <a href="https://github.com/gusibi">gusibi</a></span>
+    </div>
+    <div class="footer__right">
+      <a href="https://github.com/gusibi/momo-paper">GitHub</a>
+      <a href="/guide/">使用指南</a>
+      <a href="/types/">文档类型</a>
+    </div>
+  </div>
 </footer>

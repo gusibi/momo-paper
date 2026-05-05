@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ locale }}">
+<html lang="{{ locale }}" data-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,153 +7,82 @@
   <!-- META_INJECT -->
   <style>
     :root {
-      --ink: #172033;
-      --ink-subtle: #4C566A;
-      --paper: #FAF8F4;
-      --canvas: #F2EFE8;
-      --line: #D8D2C4;
-      --brand: #244C7A;
-      --brand-muted: #DCE7F2;
-      --accent: #B65C3A;
-      --font-serif: "Noto Serif SC", "Source Han Serif SC", "Songti SC", serif;
-      --font-sans: "Inter", "Noto Sans SC", "PingFang SC", sans-serif;
-      --font-mono: "IBM Plex Mono", "SFMono-Regular", monospace;
-      --content-width: 840px;
-      --section-gap: 64px;
+      --bg-primary: #21211e; --bg-secondary: #2a2a27; --bg-code: #1c1c1a;
+      --text-primary: #e6e2d8; --text-secondary: #b5b0a4; --text-muted: #7a766a; --text-heading: #f0ece2;
+      --accent: #3B6DA5; --accent-hover: #4A80BA; --accent-dim: #2A5480; --accent-glow: rgba(59,109,165,0.12);
+      --accent-2: #D4785A;
+      --green: #7b9e6d; --red: #c06a5a; --orange: #c98d4e;
+      --border: #3a3832; --border-light: #2e2d28;
+      --font-display: "Noto Serif SC","Source Han Serif SC","Songti SC",serif;
+      --font-body: "Inter","Noto Sans SC","PingFang SC",sans-serif;
+      --font-mono: "IBM Plex Mono","SFMono-Regular",monospace;
+      --space-xs:0.25rem;--space-sm:0.5rem;--space-md:1rem;--space-lg:1.5rem;--space-xl:2rem;--space-2xl:3rem;--space-3xl:4rem;--space-4xl:6rem;
+      --radius:10px;--radius-sm:6px;--radius-lg:16px;
+      --max-width:1100px;--nav-height:64px;
+      --shadow:0 4px 16px rgba(0,0,0,0.4);--shadow-sm:0 1px 3px rgba(0,0,0,0.3);
+      --transition:200ms ease;--transition-slow:350ms ease;
     }
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    body {
-      font-family: var(--font-sans);
-      font-size: 15px;
-      line-height: 1.55;
-      color: var(--ink);
-      background: var(--canvas);
-      -webkit-font-smoothing: antialiased;
+    [data-theme="light"] {
+      --bg-primary:#f8f5ee;--bg-secondary:#f2efe6;--bg-code:#f0ede4;
+      --text-primary:#2d2a22;--text-secondary:#5c574a;--text-muted:#8c8676;--text-heading:#1a1812;
+      --accent:#244C7A;--accent-hover:#1a3a5e;--accent-dim:#4A7DB5;--accent-glow:rgba(36,76,122,0.08);
+      --accent-2:#B65C3A;
+      --border:#d8d4c8;--border-light:#e8e4dc;
+      --shadow:0 4px 16px rgba(0,0,0,0.1);--shadow-sm:0 1px 3px rgba(0,0,0,0.06);
     }
-    article {
-      max-width: var(--content-width);
-      margin: 0 auto;
-      background: var(--paper);
-      min-height: 100vh;
-      padding: 0 48px 80px;
-    }
-    header {
-      padding: 56px 0 40px;
-      border-bottom: 1.5px solid var(--line);
-      margin-bottom: var(--section-gap);
-    }
-    .eyebrow {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      color: var(--ink-subtle);
-      margin-bottom: 20px;
-    }
-    header h1 {
-      font-family: var(--font-serif);
-      font-size: 40px;
-      font-weight: 600;
-      line-height: 1.15;
-      color: var(--ink);
-      margin-bottom: 16px;
-    }
-    header .subtitle {
-      font-size: 18px;
-      line-height: 1.45;
-      color: var(--ink-subtle);
-      max-width: 640px;
-    }
-    section {
-      margin-bottom: var(--section-gap);
-    }
-    section h2 {
-      font-family: var(--font-serif);
-      font-size: 22px;
-      font-weight: 600;
-      color: var(--ink);
-      margin-bottom: 20px;
-      padding-bottom: 10px;
-      border-bottom: 1px solid var(--line);
-    }
-    section p {
-      margin-bottom: 14px;
-      color: var(--ink);
-      line-height: 1.6;
-    }
-    .type-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-      gap: 14px;
-      margin-top: 20px;
-    }
-    .type-card {
-      display: block;
-      padding: 20px 22px;
-      background: var(--canvas);
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      text-decoration: none;
-      transition: border-color 0.15s ease, box-shadow 0.15s ease;
-    }
-    .type-card:hover {
-      border-color: var(--brand-muted);
-      box-shadow: 0 4px 12px rgba(23,32,51,0.06);
-    }
-    .type-card .cn-name {
-      font-weight: 600;
-      font-size: 15px;
-      color: var(--ink);
-      margin-bottom: 4px;
-    }
-    .type-card .en-name {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      color: var(--brand);
-      letter-spacing: 0.03em;
-    }
-    .type-card .desc {
-      font-size: 13px;
-      color: var(--ink-subtle);
-      margin-top: 8px;
-      line-height: 1.45;
-    }
-    @media print {
-      body { background: #fff; }
-      article { padding: 0 32px; max-width: 100%; }
-    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+    body{font-family:var(--font-body);font-size:1.0625rem;line-height:1.7;color:var(--text-primary);background:var(--bg-primary);-webkit-font-smoothing:antialiased;transition:background-color var(--transition-slow),color var(--transition-slow)}
+    h1,h2,h3{font-family:var(--font-display);font-weight:600;line-height:1.25;color:var(--text-heading)}
+    h1{font-size:clamp(2rem,4vw,3rem)}
+    h2{font-size:clamp(1.5rem,3vw,2rem)}
+    h3{font-size:1.2rem}
+    a{color:var(--accent);text-decoration:none;transition:color var(--transition)}
+    a:hover{color:var(--accent-hover)}
+    code{font-family:var(--font-mono);font-size:0.85em;background:var(--bg-code);padding:0.15em 0.4em;border-radius:4px;color:var(--accent);border:1px solid var(--border-light)}
+    .container{max-width:var(--max-width);margin:0 auto;padding:0 var(--space-xl)}
+    .docs{padding-top:calc(var(--nav-height) + var(--space-3xl));padding-bottom:var(--space-4xl)}
+    .docs__header{text-align:left;margin-bottom:var(--space-3xl)}
+    .docs__header .eyebrow{font-family:var(--font-mono);font-size:0.75rem;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;color:var(--accent);margin-bottom:var(--space-sm);display:block}
+    .docs__header h1{margin-bottom:var(--space-sm)}
+    .docs__header .subtitle{font-size:1.1rem;color:var(--text-secondary);max-width:600px}
+    .docs__body h2{margin-top:var(--space-3xl);padding-top:var(--space-xl);border-top:1px solid var(--border-light);margin-bottom:var(--space-md)}
+    .type-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:var(--space-md);margin:var(--space-xl) 0}
+    .type-card{display:block;padding:var(--space-xl);background:var(--bg-elevated);border:1px solid var(--border);border-radius:var(--radius);text-decoration:none;transition:all var(--transition);position:relative;overflow:hidden}
+    .type-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent),transparent);opacity:0;transition:opacity var(--transition-slow)}
+    .type-card:hover{border-color:var(--border);transform:translateY(-2px);box-shadow:var(--shadow)}
+    .type-card:hover::before{opacity:1}
+    .type-card .cn-name{font-weight:600;font-size:1rem;color:var(--text-heading);margin-bottom:4px}
+    .type-card .en-name{font-family:var(--font-mono);font-size:0.75rem;color:var(--accent);letter-spacing:0.03em}
+    .type-card .desc{font-size:0.85rem;color:var(--text-muted);margin-top:var(--space-sm);line-height:1.5}
+    @media(max-width:768px){.container{padding:0 var(--space-md)}.docs{padding-top:var(--space-2xl)}}
   </style>
 </head>
 <body>
-  <article>
-    <header>
-      <p class="eyebrow">{{ meta.eyebrow | default('Momo Paper / demo / ' + locale) }}</p>
-      <h1>{{ meta.title }}</h1>
-      <p class="subtitle">{{ meta.subtitle }}</p>
-    </header>
-
-    <section>
-      <p>{{ demo.intro }}</p>
-    </section>
-
-    <section>
-      <h2>全部文档类型</h2>
-      <div class="type-grid">
-        {% for t in demo.types %}
-        <a href="/demo/{{ t.slug }}/" class="type-card">
-          <div class="cn-name">{{ t.name_cn }}</div>
-          <div class="en-name">{{ t.slug }}</div>
-          <div class="desc">{{ t.description }}</div>
-        </a>
-        {% endfor %}
+  <!-- NAV_INJECT -->
+  <main class="docs">
+    <div class="container">
+      <div class="docs__header">
+        <p class="eyebrow">{{ meta.eyebrow | default('Momo Paper / demo / ' + locale) }}</p>
+        <h1>{{ meta.title }}</h1>
+        <p class="subtitle">{{ meta.subtitle }}</p>
       </div>
-    </section>
-
-    <section>
-      <h2>说明了什么</h2>
-      <p>{{ demo.note }}</p>
-    </section>
-  </article>
+      <div class="docs__body">
+        <p>{{ demo.intro }}</p>
+        <div class="type-grid">
+          {% for t in demo.types %}
+          <a href="/demo/{{ t.slug }}/" class="type-card">
+            <div class="cn-name">{{ t.name_cn }}</div>
+            <div class="en-name">{{ t.slug }}</div>
+            <div class="desc">{{ t.description }}</div>
+          </a>
+          {% endfor %}
+        </div>
+        <h2>说明了什么</h2>
+        <p>{{ demo.note }}</p>
+      </div>
+    </div>
+  </main>
+  <!-- FOOTER_INJECT -->
 </body>
 </html>

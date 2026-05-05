@@ -1,64 +1,182 @@
-<nav class="site-nav">
+<nav class="nav" id="siteNav">
   <style>
-    .site-nav {
-      background: var(--paper);
-      border-bottom: 1px solid var(--line);
-      padding: 0 48px;
-      position: sticky;
-      top: 0;
+    .nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 64px;
+      background: var(--bg-primary);
+      border-bottom: 1px solid var(--border-light);
       z-index: 100;
-      backdrop-filter: blur(8px);
+      transition: background var(--transition-slow), border var(--transition-slow);
     }
-    .site-nav-inner {
-      max-width: 1152px;
+    .nav--scrolled {
+      background: var(--bg-secondary);
+      border-bottom-color: var(--border);
+    }
+    .nav__inner {
+      max-width: 1100px;
       margin: 0 auto;
+      padding: 0 2rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      height: 56px;
+      height: 100%;
     }
-    .site-nav-brand {
-      font-family: var(--font-serif);
-      font-size: 18px;
-      font-weight: 600;
-      color: var(--brand);
-      text-decoration: none;
-    }
-    .site-nav-links {
+    .nav__logo {
       display: flex;
-      gap: 28px;
-    }
-    .site-nav-links a {
-      font-family: var(--font-sans);
-      font-size: 14px;
-      color: var(--ink-subtle);
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--text-heading);
       text-decoration: none;
-      transition: color 0.15s ease;
     }
-    .site-nav-links a:hover,
-    .site-nav-links a.active {
-      color: var(--ink);
+    .nav__logo-icon {
+      width: 32px; height: 32px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-dim));
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #fff;
     }
-    @media (max-width: 700px) {
-      .site-nav { padding: 0 24px; }
-      .site-nav-links { gap: 16px; }
-      .site-nav-links a { font-size: 13px; }
-      .site-nav-brand { font-size: 16px; }
+    .nav__links {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      list-style: none;
+      padding: 0; margin: 0;
+    }
+    .nav__link {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: color var(--transition);
+      padding: 0.25rem 0;
+      border-bottom: 2px solid transparent;
+    }
+    .nav__link:hover,
+    .nav__link.active {
+      color: var(--accent);
+    }
+    .nav__link.active {
+      border-bottom-color: var(--accent);
+    }
+    .nav__theme-toggle {
+      background: none;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-secondary);
+      transition: all var(--transition);
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+    .nav__theme-toggle:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+    }
+    .nav__toggle {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--text-primary);
+      padding: 0.5rem;
+    }
+    .nav__toggle span {
+      display: block;
+      width: 24px; height: 2px;
+      background: var(--text-primary);
+      margin: 5px 0;
+      transition: all var(--transition);
+      border-radius: 2px;
+    }
+
+    @media (max-width: 768px) {
+      .nav__toggle { display: block; }
+      .nav__links {
+        position: fixed;
+        top: 64px; left: 0; right: 0;
+        background: var(--bg-secondary);
+        flex-direction: column;
+        padding: 1.5rem;
+        border-bottom: 1px solid var(--border);
+        transform: translateY(-100%);
+        opacity: 0;
+        pointer-events: none;
+        transition: all var(--transition-slow);
+      }
+      .nav__links.open {
+        transform: translateY(0);
+        opacity: 1;
+        pointer-events: all;
+      }
     }
     @media print {
-      .site-nav { display: none; }
+      .nav { display: none; }
     }
   </style>
-  <div class="site-nav-inner">
-    <a href="/" class="site-nav-brand">Momo Paper</a>
-    <div class="site-nav-links">
-      <a href="/" class="__active_index__">首页</a>
-      <a href="/guide/" class="__active_guide__">使用指南</a>
-      <a href="/types/" class="__active_types__">文档类型</a>
-      <a href="/demo/" class="__active_demo__">示例</a>
-      <a href="/charts/" class="__active_charts__">图表演示</a>
-      <a href="/faq/" class="__active_faq__">常见问题</a>
-      <a href="/design/" class="__active_design__">设计</a>
+  <div class="nav__inner">
+    <a href="/" class="nav__logo">
+      <span class="nav__logo-icon">M</span>
+      Momo Paper
+    </a>
+    <button class="nav__toggle" id="navToggle" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav__links" id="navLinks">
+      <a href="/" class="nav__link __active_index__">首页</a>
+      <a href="/guide/" class="nav__link __active_guide__">使用指南</a>
+      <a href="/types/" class="nav__link __active_types__">文档类型</a>
+      <a href="/demo/" class="nav__link __active_demo__">示例</a>
+      <a href="/charts/" class="nav__link __active_charts__">图表演示</a>
+      <a href="/faq/" class="nav__link __active_faq__">常见问题</a>
+      <a href="/design/" class="nav__link __active_design__">设计</a>
+      <button class="nav__theme-toggle" id="navThemeToggle" aria-label="Toggle theme" title="Toggle theme">&#9788;</button>
     </div>
   </div>
+  <script>
+    (function() {
+      var KEY = 'momo-theme';
+      var toggle = document.getElementById('navThemeToggle');
+      var html = document.documentElement;
+
+      function setIcon(t) { toggle.innerHTML = t === 'light' ? '&#9790;' : '&#9788;'; }
+
+      var stored = localStorage.getItem(KEY);
+      if (stored) html.setAttribute('data-theme', stored);
+      else localStorage.setItem(KEY, 'dark');
+      setIcon(html.getAttribute('data-theme'));
+
+      toggle.addEventListener('click', function() {
+        var next = html.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+        html.setAttribute('data-theme', next);
+        localStorage.setItem(KEY, next);
+        setIcon(next);
+      });
+
+      // Scroll effect
+      var nav = document.getElementById('siteNav');
+      window.addEventListener('scroll', function() {
+        nav.classList.toggle('nav--scrolled', window.scrollY > 10);
+      });
+
+      // Mobile toggle
+      var navToggle = document.getElementById('navToggle');
+      var navLinks = document.getElementById('navLinks');
+      navToggle.addEventListener('click', function() {
+        navLinks.classList.toggle('open');
+      });
+    })();
+  </script>
 </nav>

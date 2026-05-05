@@ -7,52 +7,52 @@
     "eyebrow": "Momo Paper / 设计系统"
   },
   "sections": {},
-  "intro": "设计系统的核心是一个简单但强大的思想：约束即解放。当你不需要在每次创建文档时重新决定颜色、字体、间距和排版规则，创造力的门槛就降到了最低。以下是在所有 30 个模板中自动生效的设计令牌和视觉原则。",
+  "intro": "设计系统的核心是一个简单但强大的思想：约束即解放。当你不需要在每次创建文档时重新决定颜色、字体、间距和排版规则，创造力的门槛就降到了最低。以下是在所有模板中自动生效的设计令牌和视觉原则。默认深色主题，支持一键切换浅色。",
   "colors": {
     "title": "色彩系统",
-    "description": "12 种核心颜色，分为文本色、表面色、品牌色、功能色和弱化色五组。所有颜色都在 :root 中定义为 CSS 自定义属性，子模板通过 var() 引用。",
-    "code_snippet": ":root {\n  /* Text */\n  --ink: #172033;\n  --ink-subtle: #4C566A;\n\n  /* Surface */\n  --paper: #FAF8F4;\n  --canvas: #F2EFE8;\n  --line: #D8D2C4;\n\n  /* Brand */\n  --brand: #244C7A;\n  --brand-muted: #DCE7F2;\n\n  /* Accent */\n  --accent: #B65C3A;\n  --accent-muted: #F2E1D9;\n\n  /* Semantic */\n  --success: #2F6B4F;\n  --warning: #A46A21;\n  --danger: #9A3D3D;\n}",
+    "description": "明暗双主题，14 种核心令牌。背景/文字使用暖调中性色，品牌蓝为强调色，陶土橙为辅助强调，语义色用于状态标识。暗色主题为默认。",
+    "code_snippet": ":root {\n  /* Backgrounds */\n  --bg-primary: #21211e;\n  --bg-secondary: #2a2a27;\n  --bg-code: #1c1c1a;\n\n  /* Text */\n  --text-primary: #e6e2d8;\n  --text-secondary: #b5b0a4;\n  --text-heading: #f0ece2;\n\n  /* Accent — Navy (brand) */\n  --accent: #3B6DA5;\n\n  /* Accent-2 — Terracotta */\n  --accent-2: #D4785A;\n\n  /* Semantic */\n  --green: #7b9e6d;\n  --orange: #c98d4e;\n  --red: #c06a5a;\n\n  /* Borders */\n  --border: #3a3832;\n  --border-light: #2e2d28;\n}",
     "swatches": [
-      {"name": "Ink 主文字", "hex": "#172033", "var": "--ink"},
-      {"name": "Ink Subtle 次级文字", "hex": "#4C566A", "var": "--ink-subtle"},
-      {"name": "Paper 页面背景", "hex": "#FAF8F4", "var": "--paper"},
-      {"name": "Canvas 表面背景", "hex": "#F2EFE8", "var": "--canvas"},
-      {"name": "Line 边框分割线", "hex": "#D8D2C4", "var": "--line"},
-      {"name": "Brand 品牌蓝", "hex": "#244C7A", "var": "--brand"},
-      {"name": "Brand Muted 品牌弱化", "hex": "#DCE7F2", "var": "--brand-muted"},
-      {"name": "Accent 强调橙", "hex": "#B65C3A", "var": "--accent"},
-      {"name": "Accent Muted 强调弱化", "hex": "#F2E1D9", "var": "--accent-muted"},
-      {"name": "Success 成功绿", "hex": "#2F6B4F", "var": "--success"},
-      {"name": "Warning 警告橙", "hex": "#A46A21", "var": "--warning"},
-      {"name": "Danger 危险红", "hex": "#9A3D3D", "var": "--danger"}
+      {"name": "BG Primary 主背景", "hex": "#21211e", "var": "--bg-primary"},
+      {"name": "BG Secondary 次背景", "hex": "#2a2a27", "var": "--bg-secondary"},
+      {"name": "BG Code 代码背景", "hex": "#1c1c1a", "var": "--bg-code"},
+      {"name": "Text Primary 主文字", "hex": "#e6e2d8", "var": "--text-primary"},
+      {"name": "Text Secondary 次级文字", "hex": "#b5b0a4", "var": "--text-secondary"},
+      {"name": "Text Heading 标题文字", "hex": "#f0ece2", "var": "--text-heading"},
+      {"name": "Accent 品牌蓝", "hex": "#3B6DA5", "var": "--accent"},
+      {"name": "Accent-2 陶土橙", "hex": "#D4785A", "var": "--accent-2"},
+      {"name": "Green 成功", "hex": "#7b9e6d", "var": "--green"},
+      {"name": "Orange 警告", "hex": "#c98d4e", "var": "--orange"},
+      {"name": "Red 危险", "hex": "#c06a5a", "var": "--red"},
+      {"name": "Border 边框", "hex": "#3a3832", "var": "--border"}
     ]
   },
   "typography": {
     "title": "字体系统",
-    "description": "三套字体系列，各司其职。衬线体用于标题和大数字，传达正式感和权威性；无衬线体用于正文，保证屏幕可读性；等宽体用于数据、标签和代码。",
-    "code_snippet": "/* Serif · 标题 & 大数字 */\n--font-serif: \"Noto Serif SC\", \"Source Han Serif SC\",\n             \"Songti SC\", serif;\n\n/* Sans · 正文 & UI */\n--font-sans: \"Inter\", \"Noto Sans SC\",\n            \"PingFang SC\", sans-serif;\n\n/* Mono · 代码 & 数据 */\n--font-mono: \"IBM Plex Mono\", \"SFMono-Regular\",\n            monospace;",
+    "description": "三套字体系列。衬线体用于标题，传达正式感和权威性；无衬线体用于正文，保证屏幕可读性；等宽体用于数据、标签和代码。",
+    "code_snippet": "/* Display · 标题 */\n--font-display: \"Noto Serif SC\",\n  \"Source Han Serif SC\", \"Songti SC\", serif;\n\n/* Body · 正文 & UI */\n--font-body: \"Inter\", \"Noto Sans SC\",\n  \"PingFang SC\", sans-serif;\n\n/* Mono · 代码 & 数据 */\n--font-mono: \"IBM Plex Mono\",\n  \"SFMono-Regular\", monospace;",
     "samples": [
       {
-        "label": "Serif 衬线体 · 标题",
+        "label": "Display 衬线体 · 标题",
         "class": "serif",
         "headline": "让每一份文档都有设计感",
         "body": "路由式设计系统，将 15 种文档类型统一到一套设计令牌中。",
         "caption": "Noto Serif SC · Source Han Serif SC · Songti SC",
-        "css_var": "var(--font-serif)"
+        "css_var": "var(--font-display)"
       },
       {
-        "label": "Sans 无衬线体 · 正文",
+        "label": "Body 无衬线体 · 正文",
         "class": "sans",
         "headline": "JSON-driven document rendering engine",
-        "body": "Render structured JSON into print-safe, design-token-aware HTML documents. All templates share the same visual language.",
+        "body": "Render structured JSON into print-safe, design-token-aware HTML documents.",
         "caption": "Inter · Noto Sans SC · PingFang SC",
-        "css_var": "var(--font-sans)"
+        "css_var": "var(--font-body)"
       },
       {
         "label": "Mono 等宽体 · 代码和数据",
         "class": "mono",
         "headline": "momo render -d data.json -o output.html",
-        "body": "pip install -e . && momo list && python render_all.py",
+        "body": "pip install -e . && momo list",
         "caption": "IBM Plex Mono · SFMono-Regular · monospace",
         "css_var": "var(--font-mono)"
       }
@@ -60,17 +60,17 @@
   },
   "spacing": {
     "title": "间距系统",
-    "description": "基于 8px 倍数的间距标尺，确保所有文档的呼吸感一致。content-width (840px) 是正文阅读的最佳行宽，section-gap (64px) 提供章节之间的充足留白。",
-    "code_snippet": "/* 间距标尺 (8px 基准) */\n--space-2: 8px;\n--space-3: 12px;\n--space-4: 16px;\n--card-padding: 24px;\n--space-6: 32px;\n--space-8: 48px;\n--section-gap: 64px;\n\n/* 布局约束 */\n--content-width: 840px;",
+    "description": "rem 基准的间距标尺，确保所有文档的呼吸感一致。max-width (1100px) 为页面最大宽度，max-width-text (720px) 为正文最佳阅读行宽。",
+    "code_snippet": "/* 间距标尺 */\n--space-xs: 0.25rem;   /* 4px */\n--space-sm: 0.5rem;    /* 8px */\n--space-md: 1rem;      /* 16px */\n--space-lg: 1.5rem;    /* 24px */\n--space-xl: 2rem;      /* 32px */\n--space-2xl: 3rem;     /* 48px */\n--space-3xl: 4rem;     /* 64px */\n--space-4xl: 6rem;     /* 96px */\n\n/* 布局 */\n--max-width: 1100px;\n--max-width-text: 720px;",
     "tokens": [
-      {"name": "--space-2", "value": "8px", "bar_width": 10},
-      {"name": "--space-3", "value": "12px", "bar_width": 15},
-      {"name": "--space-4", "value": "16px", "bar_width": 20},
-      {"name": "--card-padding", "value": "24px", "bar_width": 30},
-      {"name": "--space-6", "value": "32px", "bar_width": 40},
-      {"name": "--space-8", "value": "48px", "bar_width": 60},
-      {"name": "--section-gap", "value": "64px", "bar_width": 80},
-      {"name": "--content-width", "value": "840px", "bar_width": 100}
+      {"name": "--space-xs", "value": "0.25rem / 4px", "bar_width": 4},
+      {"name": "--space-sm", "value": "0.5rem / 8px", "bar_width": 8},
+      {"name": "--space-md", "value": "1rem / 16px", "bar_width": 17},
+      {"name": "--space-lg", "value": "1.5rem / 24px", "bar_width": 25},
+      {"name": "--space-xl", "value": "2rem / 32px", "bar_width": 33},
+      {"name": "--space-2xl", "value": "3rem / 48px", "bar_width": 50},
+      {"name": "--space-3xl", "value": "4rem / 64px", "bar_width": 67},
+      {"name": "--space-4xl", "value": "6rem / 96px", "bar_width": 100}
     ]
   },
   "philosophy": {
@@ -83,23 +83,23 @@
       },
       {
         "title": "约束即解放",
-        "body": "传统文档工具给了用户无限的自由（选颜色、调字号、改间距），但这些自由变成了认知负担。Momo Paper 反其道而行：提供精心调校的约束，让用户（和 AI）不再做排版决策，专注于内容本身。事实证明，在约束下产出的文档比自由设计更一致、更专业。"
+        "body": "传统文档工具给了用户无限的自由（选颜色、调字号、改间距），但这些自由变成了认知负担。Momo Paper 反其道而行：提供精心调校的约束，让用户（和 AI）不再做排版决策，专注于内容本身。"
       },
       {
         "title": "屏幕即纸张",
-        "body": "同一份 HTML 在屏幕和纸张上都应该表现一致。所有模板内置 @media print 规则，自动处理背景色、页边距和跨页断裂。这不是可选的附加功能——它是设计的起点而非终点。在需要打印的场景（金融报告、法律文件、学术论文），这个原则尤其重要。"
+        "body": "同一份 HTML 在屏幕和纸张上都应该表现一致。所有模板内置 @media print 规则，自动处理背景色、页边距和跨页断裂。这不是可选的附加功能——它是设计的起点而非终点。"
       },
       {
         "title": "JSON 作为中间语言",
-        "body": "JSON 是内容的结构化表达，HTML 是内容的视觉呈现。将两者分离意味着：AI agent 只需产出结构化 JSON（它的强项），引擎负责视觉呈现（模板的强项）。这种解耦让双方都在各自领域独立进化，通过 Schema 契约保持兼容。"
+        "body": "JSON 是内容的结构化表达，HTML 是内容的视觉呈现。将两者分离意味着：AI agent 只需产出结构化 JSON（它的强项），引擎负责视觉呈现（模板的强项）。这种解耦让双方都在各自领域独立进化。"
       },
       {
         "title": "可编程但可读",
-        "body": "Momo Paper 的设计令牌和模板都是可编程的（修改 :root 变量、创建自定义模板），但系统默认的「出厂设置」已经足够好。目标是让 80% 的用户不需要自定义任何东西，而剩下的 20% 可以通过少量配置实现深度定制。"
+        "body": "Momo Paper 的设计令牌和模板都是可编程的（修改 :root 变量、创建自定义模板），但系统默认的「出厂设置」已经足够好。目标是让 80% 的用户不需要自定义任何东西。"
       },
       {
         "title": "中英文一等公民",
-        "body": "大部分设计系统以英文为第一语言，中文只是翻译。Momo Paper 从第一天起就将中英文作为平等的设计目标：中文字符的内置 serif 字体（Noto Serif SC）经过 CJK 排版调校，section 标题自动按 locale 切换，两种语言的文本密度和行高分别优化。"
+        "body": "大部分设计系统以英文为第一语言，中文只是翻译。Momo Paper 从第一天起就将中英文作为平等的设计目标：中文字符的内置 serif 字体经过 CJK 排版调校，section 标题自动按 locale 切换。"
       }
     ]
   }

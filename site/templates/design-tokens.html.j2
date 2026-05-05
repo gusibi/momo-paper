@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ locale }}">
+<html lang="{{ locale }}" data-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,345 +7,164 @@
   <!-- META_INJECT -->
   <style>
     :root {
-      --ink: #172033;
-      --ink-subtle: #4C566A;
-      --paper: #FAF8F4;
-      --canvas: #F2EFE8;
-      --line: #D8D2C4;
-      --brand: #244C7A;
-      --brand-muted: #DCE7F2;
-      --accent: #B65C3A;
-      --accent-muted: #F2E1D9;
-      --success: #2F6B4F;
-      --success-muted: #D9F2E5;
-      --warning: #A46A21;
-      --warning-muted: #F0EBD9;
-      --danger: #9A3D3D;
-      --danger-muted: #F2D9D9;
-      --font-serif: "Noto Serif SC", "Source Han Serif SC", "Songti SC", serif;
-      --font-sans: "Inter", "Noto Sans SC", "PingFang SC", sans-serif;
-      --font-mono: "IBM Plex Mono", "SFMono-Regular", monospace;
+      --bg-primary: #21211e; --bg-secondary: #2a2a27; --bg-code: #1c1c1a; --bg-tertiary: #33332f;
+      --text-primary: #e6e2d8; --text-secondary: #b5b0a4; --text-muted: #7a766a; --text-heading: #f0ece2;
+      --accent: #3B6DA5; --accent-hover: #4A80BA; --accent-dim: #2A5480; --accent-glow: rgba(59,109,165,0.12);
+      --accent-2: #D4785A;
+      --green: #7b9e6d; --red: #c06a5a; --orange: #c98d4e;
+      --border: #3a3832; --border-light: #2e2d28;
+      --font-display: "Noto Serif SC","Source Han Serif SC","Songti SC",serif;
+      --font-body: "Inter","Noto Sans SC","PingFang SC",sans-serif;
+      --font-mono: "IBM Plex Mono","SFMono-Regular",monospace;
+      --space-xs:0.25rem;--space-sm:0.5rem;--space-md:1rem;--space-lg:1.5rem;--space-xl:2rem;--space-2xl:3rem;--space-3xl:4rem;--space-4xl:6rem;
+      --radius:10px;--radius-sm:6px;--radius-lg:16px;
+      --max-width:1100px;--nav-height:64px;
+      --shadow:0 4px 16px rgba(0,0,0,0.4);--shadow-sm:0 1px 3px rgba(0,0,0,0.3);
+      --transition:200ms ease;--transition-slow:350ms ease;
     }
+    [data-theme="light"] {
+      --bg-primary:#f8f5ee;--bg-secondary:#f2efe6;--bg-code:#f0ede4;--bg-tertiary:#ebe7dc;
+      --text-primary:#2d2a22;--text-secondary:#5c574a;--text-muted:#8c8676;--text-heading:#1a1812;
+      --accent:#244C7A;--accent-hover:#1a3a5e;--accent-dim:#4A7DB5;--accent-glow:rgba(36,76,122,0.08);
+      --accent-2:#B65C3A;
+      --border:#d8d4c8;--border-light:#e8e4dc;
+      --shadow:0 4px 16px rgba(0,0,0,0.1);--shadow-sm:0 1px 3px rgba(0,0,0,0.06);
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+    body{font-family:var(--font-body);font-size:1.0625rem;line-height:1.7;color:var(--text-primary);background:var(--bg-primary);-webkit-font-smoothing:antialiased;transition:background-color var(--transition-slow),color var(--transition-slow)}
+    h1,h2,h3{font-family:var(--font-display);font-weight:600;line-height:1.25;color:var(--text-heading)}
+    h2{font-size:clamp(1.5rem,3vw,2rem)}
+    h3{font-size:1.1rem}
+    a{color:var(--accent);text-decoration:none}
+    code{font-family:var(--font-mono);font-size:0.85em;background:var(--bg-code);padding:0.15em 0.4em;border-radius:4px;color:var(--accent);border:1px solid var(--border-light)}
+    .container{max-width:var(--max-width);margin:0 auto;padding:0 var(--space-xl)}
+    .page{padding-top:calc(var(--nav-height) + var(--space-3xl));padding-bottom:var(--space-4xl)}
+    .page-header{text-align:left;margin-bottom:var(--space-3xl)}
+    .page-header .eyebrow{font-family:var(--font-mono);font-size:0.75rem;font-weight:500;text-transform:uppercase;letter-spacing:0.08em;color:var(--accent);margin-bottom:var(--space-sm);display:block}
+    .page-header h1{font-size:clamp(1.8rem,4vw,2.4rem);margin-bottom:var(--space-sm)}
+    .page-header .subtitle{font-size:1.1rem;color:var(--text-secondary);max-width:600px}
+    section{margin-bottom:var(--space-3xl)}
+    section h2{padding-top:var(--space-xl);border-top:1px solid var(--border-light);margin-bottom:var(--space-md)}
+    .section-intro{color:var(--text-secondary);margin-bottom:var(--space-xl);line-height:1.65;max-width:640px}
 
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: var(--font-sans);
-      font-size: 15px;
-      line-height: 1.6;
-      color: var(--ink);
-      background: var(--paper);
-      -webkit-font-smoothing: antialiased;
-    }
+    .color-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:var(--space-md)}
+    .color-swatch{border-radius:var(--radius);overflow:hidden;border:1px solid var(--border)}
+    .swatch-block{height:80px}
+    .swatch-info{padding:var(--space-sm) var(--space-md);background:var(--bg-primary)}
+    .swatch-info .name{font-family:var(--font-mono);font-size:0.75rem;font-weight:500;color:var(--text-heading);margin-bottom:4px}
+    .swatch-info .hex{font-family:var(--font-mono);font-size:0.7rem;color:var(--text-muted)}
 
-    .page {
-      max-width: 1152px;
-      margin: 0 auto;
-      padding: 80px 48px;
-    }
+    .type-sample{margin-bottom:var(--space-2xl)}
+    .type-sample .label{font-family:var(--font-mono);font-size:0.65rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);margin-bottom:var(--space-sm);padding-bottom:var(--space-sm);border-bottom:1px solid var(--border-light)}
+    .type-sample.serif .preview{font-family:var(--font-display)}
+    .type-sample.sans .preview{font-family:var(--font-body)}
+    .type-sample.mono .preview{font-family:var(--font-mono)}
+    .type-sample .preview-lg{font-size:2rem;font-weight:600;margin-bottom:var(--space-sm);color:var(--text-heading)}
+    .type-sample .preview-md{font-size:1.1rem;margin-bottom:var(--space-xs);color:var(--text-primary)}
+    .type-sample .preview-sm{font-size:0.85rem;color:var(--text-secondary);line-height:1.6}
+    .type-sample .css-var{font-family:var(--font-mono);font-size:0.7rem;color:var(--accent);margin-top:var(--space-sm)}
 
-    /* Header */
-    .page-header {
-      margin-bottom: 64px;
-      padding-bottom: 40px;
-      border-bottom: 1.5px solid var(--line);
-    }
-    .page-header .eyebrow {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      letter-spacing: 0.04em;
-      color: var(--ink-subtle);
-      margin-bottom: 20px;
-    }
-    .page-header h1 {
-      font-family: var(--font-serif);
-      font-size: 44px;
-      font-weight: 600;
-      line-height: 1.15;
-      color: var(--ink);
-      margin-bottom: 16px;
-    }
-    .page-header .subtitle {
-      font-size: 18px;
-      color: var(--ink-subtle);
-      max-width: 640px;
-      line-height: 1.5;
-    }
+    .space-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:var(--space-md)}
+    .space-item{padding:var(--space-lg);background:var(--bg-secondary);border-radius:var(--radius);border:1px solid var(--border-light)}
+    .space-item .token-name{font-family:var(--font-mono);font-size:0.8rem;font-weight:500;color:var(--text-heading);margin-bottom:4px}
+    .space-item .token-value{font-family:var(--font-mono);font-size:0.7rem;color:var(--text-muted);margin-bottom:var(--space-sm)}
+    .space-bar{height:6px;background:var(--accent);border-radius:3px}
 
-    /* Section titles */
-    h2 {
-      font-family: var(--font-serif);
-      font-size: 26px;
-      font-weight: 600;
-      color: var(--ink);
-      margin-bottom: 10px;
-    }
-    .section-intro {
-      font-size: 15px;
-      color: var(--ink-subtle);
-      margin-bottom: 32px;
-      line-height: 1.55;
-    }
-    section {
-      margin-bottom: 72px;
-    }
+    .philosophy-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:var(--space-lg)}
+    .phil-card{padding:var(--space-xl);background:var(--bg-secondary);border-radius:var(--radius);border:1px solid var(--border-light);transition:all var(--transition);position:relative;overflow:hidden}
+    .phil-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent),transparent);opacity:0;transition:opacity var(--transition-slow)}
+    .phil-card:hover{border-color:var(--border);transform:translateY(-2px);box-shadow:var(--shadow)}
+    .phil-card:hover::before{opacity:1}
+    .phil-card h3{font-size:1.1rem;margin-bottom:var(--space-sm)}
+    .phil-card p{font-size:0.9rem;color:var(--text-secondary);line-height:1.6}
 
-    /* Color swatches */
-    .color-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-      gap: 16px;
-    }
-    .color-swatch {
-      border-radius: 10px;
-      overflow: hidden;
-      border: 1px solid var(--line);
-    }
-    .swatch-block {
-      height: 80px;
-    }
-    .swatch-info {
-      padding: 12px 14px;
-      background: var(--paper);
-    }
-    .swatch-info .name {
-      font-family: var(--font-mono);
-      font-size: 12px;
-      font-weight: 500;
-      color: var(--ink);
-      margin-bottom: 4px;
-    }
-    .swatch-info .hex {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      color: var(--ink-subtle);
-    }
+    .code-block{margin:var(--space-xl) 0;background:var(--bg-code);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+    .code-block .code-label{padding:var(--space-sm) var(--space-md);font-family:var(--font-mono);font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);border-bottom:1px solid var(--border-light);background:var(--bg-tertiary)}
+    .code-block pre{margin:0;padding:var(--space-lg) var(--space-xl);overflow-x:auto;font-family:var(--font-mono);font-size:0.85rem;line-height:1.65;color:var(--text-primary);white-space:pre}
+    .code-block code{background:none;padding:0;border:none;font-size:inherit}
 
-    /* Typography */
-    .type-sample {
-      margin-bottom: 36px;
-    }
-    .type-sample .label {
-      font-family: var(--font-mono);
-      font-size: 10px;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      color: var(--ink-subtle);
-      margin-bottom: 10px;
-      padding-bottom: 8px;
-      border-bottom: 1px solid var(--line);
-    }
-    .type-sample.serif .preview { font-family: var(--font-serif); }
-    .type-sample.sans .preview { font-family: var(--font-sans); }
-    .type-sample.mono .preview { font-family: var(--font-mono); }
-    .type-sample .preview-lg {
-      font-size: 32px;
-      font-weight: 600;
-      margin-bottom: 8px;
-      color: var(--ink);
-    }
-    .type-sample .preview-md {
-      font-size: 18px;
-      margin-bottom: 6px;
-      color: var(--ink);
-    }
-    .type-sample .preview-sm {
-      font-size: 13px;
-      color: var(--ink-subtle);
-      line-height: 1.55;
-    }
-    .type-sample .css-var {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      color: var(--brand);
-      margin-top: 8px;
-    }
-
-    /* Spacing */
-    .space-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-      gap: 16px;
-    }
-    .space-item {
-      padding: 20px 22px;
-      background: var(--canvas);
-      border-radius: 8px;
-      border: 1px solid var(--line);
-    }
-    .space-item .token-name {
-      font-family: var(--font-mono);
-      font-size: 12px;
-      font-weight: 500;
-      color: var(--ink);
-      margin-bottom: 6px;
-    }
-    .space-item .token-value {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      color: var(--ink-subtle);
-      margin-bottom: 8px;
-    }
-    .space-bar {
-      height: 6px;
-      background: var(--brand);
-      border-radius: 3px;
-    }
-
-    /* Philosophy */
-    .philosophy-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 20px;
-    }
-    .phil-card {
-      padding: 28px;
-      background: var(--canvas);
-      border-radius: 10px;
-      border: 1px solid var(--line);
-    }
-    .phil-card h3 {
-      font-family: var(--font-serif);
-      font-size: 18px;
-      font-weight: 600;
-      margin-bottom: 10px;
-      color: var(--ink);
-    }
-    .phil-card p {
-      font-size: 14px;
-      color: var(--ink-subtle);
-      line-height: 1.55;
-    }
-
-    /* Code blocks */
-    .code-block {
-      margin-top: 24px;
-      margin-bottom: 24px;
-      background: var(--canvas);
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      overflow: hidden;
-    }
-    .code-block .code-label {
-      padding: 8px 16px;
-      font-family: var(--font-mono);
-      font-size: 10px;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      color: var(--ink-subtle);
-      border-bottom: 1px solid var(--line);
-      background: rgba(0,0,0,0.03);
-    }
-    .code-block pre {
-      margin: 0;
-      padding: 20px 24px;
-      overflow-x: auto;
-      font-family: var(--font-mono);
-      font-size: 13px;
-      line-height: 1.6;
-      color: var(--ink);
-      white-space: pre;
-    }
-    .code-block code {
-      font-family: var(--font-mono);
-      font-size: 13px;
-    }
-
-    @media (max-width: 700px) {
-      .page { padding: 48px 24px; }
-      .page-header h1 { font-size: 32px; }
-      .color-grid { grid-template-columns: repeat(2, 1fr); }
-      .philosophy-grid { grid-template-columns: 1fr; }
-    }
+    @media(max-width:768px){.container{padding:0 var(--space-md)}.page{padding-top:var(--space-2xl)}.philosophy-grid{grid-template-columns:1fr}}
   </style>
 </head>
 <body>
-  <div class="page">
-    <header class="page-header">
-      <p class="eyebrow">{{ meta.eyebrow }}</p>
-      <h1>{{ meta.title }}</h1>
-      <p class="subtitle">{{ meta.subtitle }}</p>
-    </header>
+  <!-- NAV_INJECT -->
+  <main class="page">
+    <div class="container">
+      <header class="page-header">
+        <p class="eyebrow">{{ meta.eyebrow }}</p>
+        <h1>{{ meta.title }}</h1>
+        <p class="subtitle">{{ meta.subtitle }}</p>
+      </header>
 
-    {% if intro %}
-    <section>
-      <p class="section-intro">{{ intro }}</p>
-    </section>
-    {% endif %}
+      {% if intro %}
+      <section><p class="section-intro">{{ intro }}</p></section>
+      {% endif %}
 
-    <section>
-      <h2>{{ colors.title }}</h2>
-      <p class="section-intro">{{ colors.description }}</p>
-      <div class="color-grid">
-        {% for c in colors.swatches %}
-        <div class="color-swatch">
-          <div class="swatch-block" style="background: {{ c.hex }};"></div>
-          <div class="swatch-info">
-            <div class="name">{{ c.name }}</div>
-            <div class="hex">{{ c.hex }}{% if c.var %} &middot; {{ c.var }}{% endif %}</div>
+      <section>
+        <h2>{{ colors.title }}</h2>
+        <p class="section-intro">{{ colors.description }}</p>
+        <div class="color-grid">
+          {% for c in colors.swatches %}
+          <div class="color-swatch">
+            <div class="swatch-block" style="background:{{ c.hex }};"></div>
+            <div class="swatch-info">
+              <div class="name">{{ c.name }}</div>
+              <div class="hex">{{ c.hex }}{% if c.var %} &middot; {{ c.var }}{% endif %}</div>
+            </div>
           </div>
+          {% endfor %}
+        </div>
+        {% if colors.code_snippet %}
+        <div class="code-block"><div class="code-label">CSS</div><pre><code>{{ colors.code_snippet }}</code></pre></div>
+        {% endif %}
+      </section>
+
+      <section>
+        <h2>{{ typography.title }}</h2>
+        <p class="section-intro">{{ typography.description }}</p>
+        {% for t in typography.samples %}
+        <div class="type-sample {{ t.class }}">
+          <div class="label">{{ t.label }}</div>
+          <div class="preview preview-lg">{{ t.headline }}</div>
+          <div class="preview preview-md">{{ t.body }}</div>
+          <div class="preview preview-sm">{{ t.caption }}</div>
+          <div class="css-var">{{ t.css_var }}</div>
         </div>
         {% endfor %}
-      </div>
-      {% if colors.code_snippet %}
-      <div class="code-block">
-        <div class="code-label">CSS</div>
-        <pre><code>{{ colors.code_snippet }}</code></pre>
-      </div>
-      {% endif %}
-    </section>
+        {% if typography.code_snippet %}
+        <div class="code-block"><div class="code-label">CSS</div><pre><code>{{ typography.code_snippet }}</code></pre></div>
+        {% endif %}
+      </section>
 
-    <section>
-      <h2>{{ typography.title }}</h2>
-      <p class="section-intro">{{ typography.description }}</p>
-      {% for t in typography.samples %}
-      <div class="type-sample {{ t.class }}">
-        <div class="label">{{ t.label }}</div>
-        <div class="preview preview-lg">{{ t.headline }}</div>
-        <div class="preview preview-md">{{ t.body }}</div>
-        <div class="preview preview-sm">{{ t.caption }}</div>
-        <div class="css-var">{{ t.css_var }}</div>
-      </div>
-      {% endfor %}
-      {% if typography.code_snippet %}
-      <div class="code-block">
-        <div class="code-label">CSS</div>
-        <pre><code>{{ typography.code_snippet }}</code></pre>
-      </div>
-      {% endif %}
-    </section>
-
-    <section>
-      <h2>{{ spacing.title }}</h2>
-      <p class="section-intro">{{ spacing.description }}</p>
-      <div class="space-grid">
-        {% for s in spacing.tokens %}
-        <div class="space-item">
-          <div class="token-name">{{ s.name }}</div>
-          <div class="token-value">{{ s.value }}</div>
-          <div class="space-bar" style="width: {{ s.bar_width }}%;"></div>
+      <section>
+        <h2>{{ spacing.title }}</h2>
+        <p class="section-intro">{{ spacing.description }}</p>
+        <div class="space-grid">
+          {% for s in spacing.tokens %}
+          <div class="space-item">
+            <div class="token-name">{{ s.name }}</div>
+            <div class="token-value">{{ s.value }}</div>
+            <div class="space-bar" style="width:{{ s.bar_width }}%;"></div>
+          </div>
+          {% endfor %}
         </div>
-        {% endfor %}
-      </div>
-      {% if spacing.code_snippet %}
-      <div class="code-block">
-        <div class="code-label">CSS</div>
-        <pre><code>{{ spacing.code_snippet }}</code></pre>
-      </div>
-      {% endif %}
-    </section>
+        {% if spacing.code_snippet %}
+        <div class="code-block"><div class="code-label">CSS</div><pre><code>{{ spacing.code_snippet }}</code></pre></div>
+        {% endif %}
+      </section>
 
-    <section>
-      <h2>{{ philosophy.title }}</h2>
-      <p class="section-intro">{{ philosophy.description }}</p>
-      <div class="philosophy-grid">
-        {% for p in philosophy.principles %}
-        <div class="phil-card">
-          <h3>{{ p.title }}</h3>
-          <p>{{ p.body }}</p>
+      <section>
+        <h2>{{ philosophy.title }}</h2>
+        <p class="section-intro">{{ philosophy.description }}</p>
+        <div class="philosophy-grid">
+          {% for p in philosophy.principles %}
+          <div class="phil-card"><h3>{{ p.title }}</h3><p>{{ p.body }}</p></div>
+          {% endfor %}
         </div>
-        {% endfor %}
-      </div>
-    </section>
-  </div>
+      </section>
+    </div>
+  </main>
+  <!-- FOOTER_INJECT -->
 </body>
 </html>
