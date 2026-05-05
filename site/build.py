@@ -467,6 +467,17 @@ Momo Paper 专为 AI agent 设计了结构化工作流：
 4. 图表通过在 JSON 中声明 chart 对象自动渲染
 
 JSON Schema 定义了每种类型的字段结构，确保 AI 生成的数据在渲染前即可校验。
+
+## Related Projects (EZTOLAB 生态)
+
+Momo Paper 是 gusibi 个人工具实验室 EZTOLAB 的一员，每个工具专注解决一个问题：
+
+- [EZTOLAB](https://eztoolab.com) — 工具实验室主页，产品矩阵和设计哲学
+- [MoliBot](https://molibot.eztoolab.com) — 多渠道个人 AI 助手运行时（Web, Telegram, Feishu, WeChat, QQ, CLI）
+- [MoliShot](https://molishot.eztoolab.com) — macOS 截图与 OCR 工具
+- [MoliTodo](https://molitodo.eztoolab.com) — AI 驱动的桌面悬浮 todo 管理器
+- [MoliTutu](https://tutu.eztoolab.com) — 智能图片压缩与 CDN 上传工具
+- [LLM Wiki](https://llmwiki.eztoolab.com) — AI 驱动的个人知识编译器 (Obsidian 插件 + Claude Code Skill)
 """
     (OUTPUT_DIR / "llms.txt").write_text(content.strip() + "\n", encoding="utf-8")
     print("  OK: llms.txt")
@@ -705,6 +716,19 @@ A: 所有模板内置 @media print 规则。自动移除背景色、调整页边
 - 图表演示: {BASE_URL}/charts/
 - 常见问题: {BASE_URL}/faq/
 - 设计系统: {BASE_URL}/design/
+
+## Related Projects (EZTOLAB 生态)
+
+Momo Paper 是 gusibi 个人工具实验室 EZTOLAB 的一员。EZTOLAB 的理念是「一个工具做好一件事」，目前包含 6 个开源工具：
+
+- **EZTOLAB** (https://eztoolab.com) — 工具实验室主页，展示完整产品矩阵、设计哲学和关于页面。所有工具的总入口。
+- **MoliBot** (https://molibot.eztoolab.com) — 多渠道个人 AI 助手运行时。支持 Web、Telegram、Feishu、WeChat、QQ、CLI 六个渠道，本地优先架构，MCP 生态系统。
+- **MoliShot** (https://molishot.eztoolab.com) — macOS 原生截图与 OCR 工具。基于 Swift + ScreenCaptureKit + Vision，区域截图、滚动截图、标注编辑、文字识别、贴图、取色器。
+- **MoliTodo** (https://molitodo.eztoolab.com) — AI 驱动的桌面悬浮 todo 管理器。AI 任务拆解、日历/看板/列表视图、时间追踪、本地 REST API、100% 本地存储。
+- **MoliTutu** (https://tutu.eztoolab.com) — 智能图片压缩与 CDN 上传工具。基于 Tauri + Rust，60-80% 压缩率，批量处理，Cloudflare R2 存储。
+- **LLM Wiki** (https://llmwiki.eztoolab.com) — AI 驱动的个人知识编译器。将原始文章转化为结构化 wiki 词条，支持交叉引用和来源追溯。包含 Obsidian 插件和 Claude Code Skill。
+
+Momo Paper 为 EZTOLAB 的所有工具生成产品站点、使用指南和更新日志——你在这些站点看到的每个页面都由 Momo Paper 渲染。
 """
     (OUTPUT_DIR / "llms-full.txt").write_text(content.strip() + "\n", encoding="utf-8")
     print("  OK: llms-full.txt")
@@ -717,29 +741,51 @@ def generate_robots_txt():
     content = f"""User-agent: *
 Allow: /
 
-# AI Search Crawlers (allowed — these power AI search results, not training)
+# Search & retrieval crawlers — allow (power AI search results)
 User-agent: OAI-SearchBot
-Allow: /
-
-User-agent: ChatGPT-User
 Allow: /
 
 User-agent: Claude-SearchBot
 Allow: /
 
-User-agent: ClaudeBot
+User-agent: PerplexityBot
+Allow: /
+
+# User-triggered crawlers — allow (fire when user explicitly shares URL with AI)
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Claude-User
 Allow: /
 
 User-agent: Perplexity-User
 Allow: /
 
-User-agent: Google-Extended
+User-agent: Google-Agent
 Allow: /
 
-User-agent: Bytespider
+# Training crawlers — disallow (use content for model training, not search visibility)
+User-agent: GPTBot
+Disallow: /
+
+User-agent: ClaudeBot
+Disallow: /
+
+User-agent: Meta-ExternalAgent
 Disallow: /
 
 User-agent: CCBot
+Disallow: /
+
+# Opt-out tokens — disallow (AI training opt-out signals)
+User-agent: Google-Extended
+Disallow: /
+
+User-agent: Applebot-Extended
+Disallow: /
+
+# Undeclared crawlers — disallow (no clear purpose stated)
+User-agent: Bytespider
 Disallow: /
 
 Sitemap: {BASE_URL}/sitemap.xml
