@@ -1,72 +1,169 @@
 {
-  "document_type": "one_pager",
+  "document_type": "landing",
   "locale": "zh-CN",
   "meta": {
     "title": "Momo Paper — 面向文档与视觉叙事的路由式设计系统"
   },
-  "sections": {},
-  "hero": {
-    "badge": "开源文档引擎 · v0.2.2",
-    "headline": "让每一份文档都有设计感",
-    "description": "Momo Paper 是一个路由式设计系统，将 15 种文档类型、5 种可编程图表和 14 种图示原语统一到一套设计令牌中。无论是手动编写 JSON 还是让 AI agent 调用引擎，输出始终排版精良、打印就绪。",
-    "cta_buttons": [
-      {"label": "快速开始", "url": "/guide/", "style": "btn-primary"},
-      {"label": "浏览文档类型", "url": "/types/", "style": "btn-outline"},
-      {"label": "GitHub", "url": "https://github.com/gusibi/momo-paper", "style": "btn-outline"}
-    ]
-  },
-  "features": {
-    "heading": "两种方式，同一套设计语言",
-    "description": "无论你偏好哪种工作流，输出的文档都共享统一的视觉语言。",
-    "cards": [
-      {
-        "icon": "文",
-        "icon_class": "docs",
-        "title": "15 种文档类型",
-        "description": "覆盖 one-pager、白皮书、简历、研报、幻灯片、信息图等全场景，每种类型都有中英文双模板和 JSON Schema 校验。"
-      },
-      {
-        "icon": "图",
-        "icon_class": "charts",
-        "title": "5 种可编程图表",
-        "description": "柱状图、折线图、环形图、K 线图、瀑布图 — 在 JSON 中声明 chart 对象，引擎自动渲染为内联 SVG。"
-      },
-      {
-        "icon": "示",
-        "icon_class": "diagrams",
-        "title": "14 种图示原语",
-        "description": "架构图、流程图、泳道图、象限图、维恩图等可直接使用或嵌入文档的独立 HTML 图示。"
-      },
-      {
-        "icon": "模",
-        "icon_class": "templates",
-        "title": "30 个 HTML 模板",
-        "description": "15 种类型 × 中英文各一套。直接编辑 HTML 模板即可快速产出，无需 CLI、无需构建步骤。"
-      },
-      {
-        "icon": "AI",
-        "icon_class": "mcp",
-        "title": "MCP 工具集成",
-        "description": "引擎可作为 MCP 工具被 AI agent 直接调用。Agent 构造结构化 JSON，引擎返回设计精良的 HTML — 告别不稳定的 prompt 输出。"
-      },
-      {
-        "icon": "印",
-        "icon_class": "print",
-        "title": "打印安全内置",
-        "description": "所有模板都内置 @media print 规则，自动处理背景、边距和分页。同一份 HTML 在屏幕和纸张上都表现一致。"
-      }
-    ]
-  },
-  "numbers": [
-    {"value": "15", "label": "文档类型"},
-    {"value": "5", "label": "图表类型"},
-    {"value": "14", "label": "图示原语"},
-    {"value": "30", "label": "HTML 模板"}
-  ],
-  "bottom_cta": {
-    "heading": "三分钟产出第一份文档",
-    "description": "安装只需一行命令，JSON 声明内容，引擎渲染 HTML。打开浏览器即可看到排版精良、打印就绪的文档。",
-    "button_label": "查看使用指南",
-    "button_url": "/guide/"
+  "sections": {
+    "hero": {
+      "badge": "开源文档引擎 · v0.2.2",
+      "headline": "让每一份文档都有设计感",
+      "description": "Momo Paper 是一个路由式设计系统，将 15 种文档类型、5 种可编程图表和 14 种图示原语统一到一套设计令牌中。无论是手动编写 JSON 还是让 AI agent 调用引擎，输出始终排版精良、打印就绪。",
+      "cta_buttons": [
+        {"label": "快速开始", "url": "/guide/", "style": "btn-primary"},
+        {"label": "浏览文档类型", "url": "/types/", "style": "btn-outline"},
+        {"label": "GitHub", "url": "https://github.com/gusibi/momo-paper", "style": "btn-outline"}
+      ],
+      "pipeline": [
+        {"label": "JSON", "desc": "结构化声明内容"},
+        {"label": "Engine", "desc": "路由 + 设计令牌 + 渲染"},
+        {"label": "HTML", "desc": "排版精良 · 打印就绪"}
+      ]
+    },
+    "features": {
+      "label": "核心能力",
+      "heading": "两种方式，同一套设计语言",
+      "description": "无论你偏好哪种工作流，输出的文档都共享统一的视觉语言。",
+      "cards": [
+        {
+          "icon": "文",
+          "icon_class": "docs",
+          "title": "15 种文档类型",
+          "description": "覆盖 one-pager、白皮书、简历、研报、幻灯片、信息图等全场景，每种类型都有中英文双模板和 JSON Schema 校验。"
+        },
+        {
+          "icon": "图",
+          "icon_class": "charts",
+          "title": "5 种可编程图表",
+          "description": "柱状图、折线图、环形图、K 线图、瀑布图 — 在 JSON 中声明 chart 对象，引擎自动渲染为内联 SVG。"
+        },
+        {
+          "icon": "示",
+          "icon_class": "diagrams",
+          "title": "14 种图示原语",
+          "description": "架构图、流程图、泳道图、象限图、维恩图等可直接使用或嵌入文档的独立 HTML 图示。"
+        },
+        {
+          "icon": "模",
+          "icon_class": "templates",
+          "title": "30 个 HTML 模板",
+          "description": "15 种类型 × 中英文各一套。直接编辑 HTML 模板即可快速产出，无需 CLI、无需构建步骤。"
+        },
+        {
+          "icon": "AI",
+          "icon_class": "mcp",
+          "title": "AI Agent 原生集成",
+          "description": "引擎可作为 Skill 被 Claude Code 直接调用。Agent 构造结构化 JSON，引擎返回设计精良的 HTML — 告别不稳定的 prompt 输出。"
+        },
+        {
+          "icon": "印",
+          "icon_class": "print",
+          "title": "打印安全内置",
+          "description": "所有模板都内置 @media print 规则，自动处理背景、边距和分页。同一份 HTML 在屏幕和纸张上都表现一致。"
+        }
+      ]
+    },
+    "workflows": {
+      "label": "三种方式",
+      "heading": "选择最适合你的工作流",
+      "description": "从零依赖的 HTML 模板到 AI agent 全自动渲染，Momo Paper 适配不同场景。",
+      "paths": [
+        {
+          "num": "01",
+          "tag": "推荐",
+          "title": "Claude Code Skill",
+          "subtitle": "AI agent 自动完成全流程",
+          "desc": "只需用自然语言描述需求，Skill 自动选择合适的文档类型、构造 JSON 数据、调用引擎渲染、在浏览器中打开结果。",
+          "highlights": ["自然语言驱动", "自动类型选择 + JSON 构造", "一键渲染并预览"]
+        },
+        {
+          "num": "02",
+          "tag": "灵活",
+          "title": "CLI 命令行",
+          "subtitle": "精确控制每一步",
+          "desc": "通过 momo 命令初始化骨架、填充数据、渲染 HTML。适合需要精确控制输出或集成到自动化流水线的场景。",
+          "highlights": ["momo init / render / chart 三命令", "JSON Schema 校验输入", "CI/CD 流水线友好"]
+        },
+        {
+          "num": "03",
+          "tag": "零依赖",
+          "title": "HTML 模板直接编辑",
+          "subtitle": "打开即编辑，无需任何构建",
+          "desc": "30 个独立 HTML 文件，设计令牌、排版、间距已全部预设。用任意编辑器打开即可修改内容，适合快速原型和非技术人员。",
+          "highlights": ["无需 Python / Node.js", "设计令牌 CSS 变量内联", "浏览器直接预览"]
+        }
+      ]
+    },
+    "doc_types": {
+      "label": "文档类型",
+      "heading": "覆盖 15 种文档场景",
+      "description": "从一页方案到长篇白皮书，从简历到信息图，每种类型都有对应的模板和 JSON Schema。",
+      "types": [
+        {"icon": "一", "name": "方案 / 执行摘要", "slug": "one_pager", "desc": "四段结构：摘要 → 背景 → 证据 → 建议"},
+        {"icon": "白", "name": "白皮书 / 长文", "slug": "long_doc", "desc": "可迭代章节 + 引用块 + 结论"},
+        {"icon": "信", "name": "信件 / 推荐信", "slug": "letter", "desc": "信头、正文、请求、签名"},
+        {"icon": "作", "name": "作品集", "slug": "portfolio", "desc": "STAR 框架 + 数据指标卡"},
+        {"icon": "历", "name": "简历 / CV", "slug": "resume", "desc": "时间线 + 技能标签"},
+        {"icon": "演", "name": "幻灯片", "slug": "slides", "desc": "16:9 视口，多种布局"},
+        {"icon": "研", "name": "研报 / 估值分析", "slug": "equity_report", "desc": "KPI + K 线图 + 风险矩阵"},
+        {"icon": "更", "name": "更新日志", "slug": "changelog", "desc": "按变更类型分类"},
+        {"icon": "流", "name": "流程 / SOP", "slug": "process_flow", "desc": "步骤编号 + 负责人标注"},
+        {"icon": "线", "name": "时间线", "slug": "timeline", "desc": "completed / in_progress / upcoming"},
+        {"icon": "问", "name": "常见问题", "slug": "faq_page", "desc": "分组问答卡片"},
+        {"icon": "案", "name": "案例拆解", "slug": "case_study", "desc": "背景 → 问题 → 方案 → 结果"},
+        {"icon": "研", "name": "研究摘要", "slug": "research_summary", "desc": "论题 + 关键发现 + 方法说明"},
+        {"icon": "数", "name": "数据报告", "slug": "stats_report", "desc": "KPI 大数字 + 趋势图"},
+        {"icon": "图", "name": "信息图", "slug": "infographic", "desc": "大数字 + 环形图 + 步骤路径"}
+      ]
+    },
+    "comparison": {
+      "label": "为什么选择 Momo Paper",
+      "heading": "对比传统文档工具",
+      "description": "Momo Paper 不是又一个编辑器。它是一个文档生成引擎，从根本上改变了文档的创建和维护方式。",
+      "old_label": "传统方式",
+      "old_title": "Word / LaTeX / Notion",
+      "old_subtitle": "手动排版 · 风格分裂 · 难以自动化",
+      "old_points": [
+        "每次新建文档都要重新调整格式",
+        "团队协作时风格无法保证一致",
+        "AI 输出格式不稳定，需要手动修正",
+        "打印需额外调整边距和分页",
+        "图表需要第三方工具单独制作"
+      ],
+      "new_label": "Momo Paper",
+      "new_title": "路由式设计系统",
+      "new_subtitle": "JSON 声明 · 令牌保证一致性 · AI 原生",
+      "new_points": [
+        "设计令牌统一管理，修改一次全局生效",
+        "JSON Schema 保证数据结构正确",
+        "AI agent 原生集成，结构化输出稳定可控",
+        "内置 @media print 规则，屏幕和纸张表现一致",
+        "图表在 JSON 中声明，引擎自动渲染为内联 SVG"
+      ]
+    },
+    "numbers": [
+      {"value": "15", "label": "文档类型"},
+      {"value": "5", "label": "图表类型"},
+      {"value": "14", "label": "图示原语"},
+      {"value": "30", "label": "HTML 模板"}
+    ],
+    "ecosystem": {
+      "label": "EZTOLAB 生态",
+      "heading": "一个工具做好一件事",
+      "description": "Momo Paper 是 EZTOLAB 工具实验室的一员。每个工具独立解决一个具体问题，共同构成高效工作流。",
+      "tools": [
+        {"name": "MoliBot", "desc": "多渠道 AI 助手运行时", "url": "https://molibot.eztoolab.com"},
+        {"name": "MoliShot", "desc": "macOS 截图与 OCR 工具", "url": "https://molishot.eztoolab.com"},
+        {"name": "MoliTodo", "desc": "AI 驱动的桌面悬浮 todo", "url": "https://molitodo.eztoolab.com"},
+        {"name": "MoliTutu", "desc": "图片压缩与 CDN 上传", "url": "https://tutu.eztoolab.com"},
+        {"name": "LLM Wiki", "desc": "AI 知识编译器", "url": "https://llmwiki.eztoolab.com"}
+      ]
+    },
+    "bottom_cta": {
+      "heading": "三分钟产出第一份文档",
+      "description": "安装只需一行命令，JSON 声明内容，引擎渲染 HTML。打开浏览器即可看到排版精良、打印就绪的文档。",
+      "button_label": "查看使用指南",
+      "button_url": "/guide/"
+    }
   }
 }

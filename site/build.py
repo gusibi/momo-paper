@@ -30,7 +30,7 @@ TODAY = date.today().isoformat()
 
 PAGES = [
     # (data_file, url_path, page_id, template_file or None, data_subdir or None)
-    ("index.json",   "index.html",            "index",  "landing.html.j2", None),
+    ("index.json",   "index.html",            "index",  None,              None),
     ("guide.json",   "guide/index.html",      "guide",  None,              None),
     ("types.json",   "types/index.html",      "types",  None,              None),
     ("index.json",   "demo/index.html",       "demo",   "demo-index.html.j2", "demo"),

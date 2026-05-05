@@ -24,6 +24,7 @@ DEFAULT_TEMPLATE_MAP = {
     "stats_report": "stats-report.html.j2",
     "infographic": "infographic.html.j2",
     "slides": "slides.html.j2",
+    "landing": "landing.html.j2",
 }
 
 

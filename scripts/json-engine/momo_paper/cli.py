@@ -25,7 +25,8 @@ DOC_TYPES_HELP = """Supported document types:
   research_summary 研究摘要 / Research Summary
   stats_report     数据报告 / Stats Report
   infographic      信息图 / Infographic
-  slides           幻灯片 / Slides"""
+  slides           幻灯片 / Slides
+  landing          落地页 / Landing Page"""
 
 
 @click.group()
@@ -118,6 +119,44 @@ def init(doc_type, locale, output):
                 {"title": "[问题]", "point": "[核心观点]", "bullets": ["[要点 1]", "[要点 2]"]},
                 {"title": "[结论]", "point": "[下一步行动]", "layout": "closing"},
             ],
+        }
+    elif doc_type == "landing":
+        template = {
+            "document_type": doc_type,
+            "locale": locale,
+            "meta": {
+                "title": "[Site Title]",
+            },
+            "sections": {
+                "hero": {
+                    "badge": "[Badge]",
+                    "headline": "[Headline]",
+                    "description": "[Description]",
+                    "cta_buttons": [
+                        {"label": "[Primary CTA]", "url": "#", "style": "btn-primary"},
+                        {"label": "[Secondary CTA]", "url": "#", "style": "btn-outline"}
+                    ],
+                    "pipeline": [
+                        {"label": "[Step 1]", "desc": "[Description]"},
+                        {"label": "[Step 2]", "desc": "[Description]"},
+                        {"label": "[Step 3]", "desc": "[Description]"}
+                    ]
+                },
+                "features": {
+                    "label": "[Section Label]",
+                    "heading": "[Features Heading]",
+                    "description": "[Description]",
+                    "cards": [
+                        {"icon": "A", "icon_class": "docs", "title": "[Feature]", "description": "[Description]"}
+                    ]
+                },
+                "bottom_cta": {
+                    "heading": "[CTA Heading]",
+                    "description": "[Description]",
+                    "button_label": "[Button Label]",
+                    "button_url": "#"
+                }
+            }
         }
     else:
         template = {

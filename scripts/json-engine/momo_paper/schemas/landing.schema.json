@@ -1,0 +1,182 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Momo Paper · Landing Page",
+  "type": "object",
+  "required": ["document_type", "locale", "meta", "sections"],
+  "properties": {
+    "document_type": { "type": "string", "const": "landing" },
+    "locale": { "type": "string", "enum": ["zh-CN", "en"] },
+    "meta": {
+      "type": "object",
+      "required": ["title"],
+      "properties": {
+        "title": { "type": "string" },
+        "subtitle": { "type": "string" },
+        "eyebrow": { "type": "string" },
+        "date": { "type": "string" },
+        "author": { "type": "string" }
+      }
+    },
+    "sections": {
+      "type": "object",
+      "required": ["hero", "features", "bottom_cta"],
+      "properties": {
+        "hero": {
+          "type": "object",
+          "required": ["headline", "description"],
+          "properties": {
+            "badge": { "type": "string" },
+            "headline": { "type": "string" },
+            "description": { "type": "string" },
+            "cta_buttons": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": ["label", "url"],
+                "properties": {
+                  "label": { "type": "string" },
+                  "url": { "type": "string" },
+                  "style": { "type": "string", "enum": ["btn-primary", "btn-outline"] }
+                }
+              }
+            },
+            "pipeline": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": ["label", "desc"],
+                "properties": {
+                  "label": { "type": "string" },
+                  "desc": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "features": {
+          "type": "object",
+          "required": ["heading", "cards"],
+          "properties": {
+            "label": { "type": "string" },
+            "heading": { "type": "string" },
+            "description": { "type": "string" },
+            "cards": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": ["title", "description"],
+                "properties": {
+                  "icon": { "type": "string" },
+                  "icon_class": { "type": "string" },
+                  "title": { "type": "string" },
+                  "description": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "workflows": {
+          "type": "object",
+          "properties": {
+            "label": { "type": "string" },
+            "heading": { "type": "string" },
+            "description": { "type": "string" },
+            "paths": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": ["title", "subtitle", "desc"],
+                "properties": {
+                  "num": { "type": "string" },
+                  "tag": { "type": "string" },
+                  "title": { "type": "string" },
+                  "subtitle": { "type": "string" },
+                  "desc": { "type": "string" },
+                  "highlights": { "type": "array", "items": { "type": "string" } }
+                }
+              }
+            }
+          }
+        },
+        "doc_types": {
+          "type": "object",
+          "properties": {
+            "label": { "type": "string" },
+            "heading": { "type": "string" },
+            "description": { "type": "string" },
+            "types": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": ["name", "slug", "desc"],
+                "properties": {
+                  "icon": { "type": "string" },
+                  "name": { "type": "string" },
+                  "slug": { "type": "string" },
+                  "desc": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "comparison": {
+          "type": "object",
+          "properties": {
+            "label": { "type": "string" },
+            "heading": { "type": "string" },
+            "description": { "type": "string" },
+            "old_label": { "type": "string" },
+            "old_title": { "type": "string" },
+            "old_subtitle": { "type": "string" },
+            "old_points": { "type": "array", "items": { "type": "string" } },
+            "new_label": { "type": "string" },
+            "new_title": { "type": "string" },
+            "new_subtitle": { "type": "string" },
+            "new_points": { "type": "array", "items": { "type": "string" } }
+          }
+        },
+        "numbers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["value", "label"],
+            "properties": {
+              "value": { "type": "string" },
+              "label": { "type": "string" }
+            }
+          }
+        },
+        "ecosystem": {
+          "type": "object",
+          "properties": {
+            "label": { "type": "string" },
+            "heading": { "type": "string" },
+            "description": { "type": "string" },
+            "tools": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": ["name", "desc", "url"],
+                "properties": {
+                  "name": { "type": "string" },
+                  "desc": { "type": "string" },
+                  "url": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "bottom_cta": {
+          "type": "object",
+          "required": ["heading", "description", "button_label", "button_url"],
+          "properties": {
+            "heading": { "type": "string" },
+            "description": { "type": "string" },
+            "button_label": { "type": "string" },
+            "button_url": { "type": "string" }
+          }
+        }
+      }
+    }
+  }
+}
