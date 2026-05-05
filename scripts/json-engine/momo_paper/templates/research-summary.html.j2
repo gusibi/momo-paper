@@ -20,10 +20,10 @@
   <section>
     <h2>{% if locale == 'zh-CN' %}关键发现{% else %}Key Findings{% endif %}</h2>
     {% for finding in sections.key_findings %}
-    <div class="case-card" style="margin-bottom: 16px;">
+    <div class="case-card mb-md">
       <h4>{{ finding.title }}</h4>
       <p>{{ finding.description }}</p>
-      {% if finding.evidence %}<p style="font-size: 13px; color: var(--ink-subtle); margin-top: 6px;"><strong>{% if locale == 'zh-CN' %}证据：{% else %}Evidence: {% endif %}</strong>{{ finding.evidence }}</p>{% endif %}
+      {% if finding.evidence %}<p class="text-sm" style="color: var(--ink-subtle); margin-top: var(--space-xs);"><strong>{% if locale == 'zh-CN' %}证据：{% else %}Evidence: {% endif %}</strong>{{ finding.evidence }}</p>{% endif %}
     </div>
     {% endfor %}
   </section>

@@ -19,7 +19,7 @@ Expected inputs:
 
 ```yaml
 topic: string
-document_type: optional one_pager | long_doc | letter | portfolio | resume | slides | equity_report | changelog | process_flow | timeline | faq_page | case_study | research_summary | stats_report | infographic
+document_type: optional one_pager | long_doc | letter | portfolio | resume | slides | equity_report | changelog | process_flow | timeline | faq_page | case_study | research_summary | stats_report | infographic | landing
 locale: optional zh-CN | en
 diagram_type: optional architecture | flowchart | quadrant | bar_chart | line_chart | donut_chart | state_machine | timeline_diagram | swimlane | tree | layer_stack | venn | candlestick | waterfall
 surface: optional web_dual | slides | visual_sheet

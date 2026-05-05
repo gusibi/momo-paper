@@ -1,22 +1,42 @@
-"""SVG chart rendering: bar, line, donut."""
+"""SVG chart rendering: bar, line, donut, candlestick, waterfall.
+Refactored to use CSS variables for theme consistency.
+"""
 
 import math
 
+# Using CSS variables for colors to support themes
 CHART_COLORS = {
-    "primary": "#244C7A",
-    "secondary": "#5C7FA3",
-    "tertiary": "#8EAAC3",
-    "accent": "#B65C3A",
-    "positive": "#2F6B4F",
-    "negative": "#9A3D3D",
-    "neutral": "#7D8798",
-    "categorical": ["#244C7A", "#B65C3A", "#2F6B4F", "#8A6D3B", "#5E6177", "#7A8EA1"],
+    "primary": "var(--accent)",
+    "secondary": "var(--accent-dim)",
+    "tertiary": "var(--accent-glow)",
+    "accent": "var(--accent-2)",
+    "positive": "var(--green)",
+    "negative": "var(--red)",
+    "neutral": "var(--text-muted)",
+    "grid": "var(--border-light)",
+    "text": "var(--text-primary)",
+    "text_muted": "var(--text-secondary)",
+    "heading": "var(--text-heading)",
+    "bg": "var(--bg-primary)",
+    "categorical": [
+        "var(--accent)",
+        "var(--accent-2)",
+        "var(--green)",
+        "var(--orange)",
+        "var(--blue)",
+        "var(--accent-dim)"
+    ],
 }
 
 
 def _svg_tag(width: int, height: int, title: str = "") -> str:
     t = f' aria-label="{title}"' if title else ""
-    return f'<svg width="100%" viewBox="0 0 {width} {height}" xmlns="http://www.w3.org/2000/svg"{t}>'
+    # Inherit fonts from the document
+    return (
+        f'<svg width="100%" viewBox="0 0 {width} {height}" '
+        f'xmlns="http://www.w3.org/2000/svg"{t} '
+        f'style="font-family: var(--font-body);">'
+    )
 
 
 def render_bar(chart: dict) -> str:
@@ -38,8 +58,8 @@ def render_bar(chart: dict) -> str:
 
     if chart.get("title"):
         parts.append(
-            f'<text x="{margin["left"]}" y="24" font-family="Inter, sans-serif" '
-            f'font-size="14" font-weight="600" fill="#172033">{chart["title"]}</text>'
+            f'<text x="{margin["left"]}" y="24" font-family="var(--font-display)" '
+            f'font-size="14" font-weight="600" fill="{CHART_COLORS["heading"]}">{chart["title"]}</text>'
         )
 
     for i in range(6):
@@ -47,11 +67,11 @@ def render_bar(chart: dict) -> str:
         val = max_v * i / 5
         parts.append(
             f'<line x1="{margin["left"]}" y1="{y}" x2="{w - margin["right"]}" '
-            f'y2="{y}" stroke="#D8D2C4" stroke-width="0.5"/>'
+            f'y2="{y}" stroke="{CHART_COLORS["grid"]}" stroke-width="0.5"/>'
         )
         parts.append(
             f'<text x="{margin["left"] - 8}" y="{y + 4}" text-anchor="end" '
-            f'font-family="IBM Plex Mono, monospace" font-size="10" fill="#4C566A">{val:.0f}</text>'
+            f'font-family="var(--font-mono)" font-size="10" fill="{CHART_COLORS["text_muted"]}">{val:.0f}</text>'
         )
 
     for i, (label, value) in enumerate(zip(labels, values)):
@@ -64,11 +84,11 @@ def render_bar(chart: dict) -> str:
         lx = x + bar_w / 2
         parts.append(
             f'<text x="{lx}" y="{margin["top"] + ch + 18}" text-anchor="middle" '
-            f'font-family="Inter, sans-serif" font-size="11" fill="#4C566A">{label}</text>'
+            f'font-family="var(--font-body)" font-size="11" fill="{CHART_COLORS["text_muted"]}">{label}</text>'
         )
         parts.append(
             f'<text x="{lx}" y="{y - 6}" text-anchor="middle" '
-            f'font-family="IBM Plex Mono, monospace" font-size="10" fill="#172033">{value}</text>'
+            f'font-family="var(--font-mono)" font-size="10" fill="{CHART_COLORS["text"]}">{value}</text>'
         )
 
     parts.append("</svg>")
@@ -94,8 +114,8 @@ def render_line(chart: dict) -> str:
 
     if chart.get("title"):
         parts.append(
-            f'<text x="{margin["left"]}" y="24" font-family="Inter, sans-serif" '
-            f'font-size="14" font-weight="600" fill="#172033">{chart["title"]}</text>'
+            f'<text x="{margin["left"]}" y="24" font-family="var(--font-display)" '
+            f'font-size="14" font-weight="600" fill="{CHART_COLORS["heading"]}">{chart["title"]}</text>'
         )
 
     for i in range(6):
@@ -103,11 +123,11 @@ def render_line(chart: dict) -> str:
         val = min_v + range_v * i / 5
         parts.append(
             f'<line x1="{margin["left"]}" y1="{y}" x2="{w - margin["right"]}" '
-            f'y2="{y}" stroke="#D8D2C4" stroke-width="0.5"/>'
+            f'y2="{y}" stroke="{CHART_COLORS["grid"]}" stroke-width="0.5"/>'
         )
         parts.append(
             f'<text x="{margin["left"] - 8}" y="{y + 4}" text-anchor="end" '
-            f'font-family="IBM Plex Mono, monospace" font-size="10" fill="#4C566A">{val:.0f}</text>'
+            f'font-family="var(--font-mono)" font-size="10" fill="{CHART_COLORS["text_muted"]}">{val:.0f}</text>'
         )
 
     step = cw / (len(values) - 1) if len(values) > 1 else cw
@@ -121,7 +141,7 @@ def render_line(chart: dict) -> str:
     for x, y in points:
         area_path += f" L {x} {y}"
     area_path += f" L {points[-1][0]} {margin['top'] + ch} Z"
-    parts.append(f'<path d="{area_path}" fill="{CHART_COLORS["primary"]}" opacity="0.08"/>')
+    parts.append(f'<path d="{area_path}" fill="{color}" opacity="0.08"/>')
 
     line_path = f"M {points[0][0]} {points[0][1]}"
     for x, y in points[1:]:
@@ -133,14 +153,14 @@ def render_line(chart: dict) -> str:
 
     for i, (x, y) in enumerate(points):
         parts.append(f'<circle cx="{x}" cy="{y}" r="4" fill="{color}"/>')
-        parts.append(f'<circle cx="{x}" cy="{y}" r="2" fill="#FAF8F4"/>')
+        parts.append(f'<circle cx="{x}" cy="{y}" r="2" fill="var(--bg-primary)"/>')
         parts.append(
             f'<text x="{x}" y="{y - 10}" text-anchor="middle" '
-            f'font-family="IBM Plex Mono, monospace" font-size="10" fill="#172033">{values[i]}</text>'
+            f'font-family="var(--font-mono)" font-size="10" fill="{CHART_COLORS["text"]}">{values[i]}</text>'
         )
         parts.append(
             f'<text x="{x}" y="{margin["top"] + ch + 18}" text-anchor="middle" '
-            f'font-family="Inter, sans-serif" font-size="11" fill="#4C566A">{labels[i]}</text>'
+            f'font-family="var(--font-body)" font-size="11" fill="{CHART_COLORS["text_muted"]}">{labels[i]}</text>'
         )
 
     parts.append("</svg>")
@@ -168,7 +188,7 @@ def render_donut(chart: dict) -> str:
     if chart.get("title"):
         parts.append(
             f'<text x="{cx}" y="24" text-anchor="middle" '
-            f'font-family="Inter, sans-serif" font-size="14" font-weight="600" fill="#172033">{chart["title"]}</text>'
+            f'font-family="var(--font-display)" font-size="14" font-weight="600" fill="{CHART_COLORS["heading"]}">{chart["title"]}</text>'
         )
 
     start_angle = -math.pi / 2
@@ -197,11 +217,11 @@ def render_donut(chart: dict) -> str:
 
     parts.append(
         f'<text x="{cx}" y="{cy - 6}" text-anchor="middle" '
-        f'font-family="IBM Plex Mono, monospace" font-size="12" fill="#4C566A">Total</text>'
+        f'font-family="var(--font-mono)" font-size="12" fill="{CHART_COLORS["text_muted"]}">Total</text>'
     )
     parts.append(
         f'<text x="{cx}" y="{cy + 16}" text-anchor="middle" '
-        f'font-family="Inter, sans-serif" font-size="20" font-weight="600" fill="#172033">{total}</text>'
+        f'font-family="var(--font-body)" font-size="20" font-weight="600" fill="{CHART_COLORS["text"]}">{total}</text>'
     )
 
     legend_x = cx + radius + 30
@@ -213,11 +233,11 @@ def render_donut(chart: dict) -> str:
         parts.append(f'<rect x="{legend_x}" y="{y - 6}" width="10" height="10" fill="{color}" rx="2"/>')
         parts.append(
             f'<text x="{legend_x + 18}" y="{y + 2}" '
-            f'font-family="Inter, sans-serif" font-size="12" fill="#172033">{label}</text>'
+            f'font-family="var(--font-body)" font-size="12" fill="{CHART_COLORS["text"]}">{label}</text>'
         )
         parts.append(
             f'<text x="{legend_x + 18}" y="{y + 14}" '
-            f'font-family="IBM Plex Mono, monospace" font-size="10" fill="#4C566A">{pct} ({value})</text>'
+            f'font-family="var(--font-mono)" font-size="10" fill="{CHART_COLORS["text_muted"]}">{pct} ({value})</text>'
         )
 
     parts.append("</svg>")
@@ -258,8 +278,8 @@ def render_candlestick(chart: dict) -> str:
 
     if chart.get("title"):
         parts.append(
-            f'<text x="{margin["left"]}" y="24" font-family="Inter, sans-serif" '
-            f'font-size="14" font-weight="600" fill="#172033">{chart["title"]}</text>'
+            f'<text x="{margin["left"]}" y="24" font-family="var(--font-display)" '
+            f'font-size="14" font-weight="600" fill="{CHART_COLORS["heading"]}">{chart["title"]}</text>'
         )
 
     # Gridlines
@@ -268,11 +288,11 @@ def render_candlestick(chart: dict) -> str:
         val = min_p + range_p * i / 5
         parts.append(
             f'<line x1="{margin["left"]}" y1="{y}" x2="{w - margin["right"]}" '
-            f'y2="{y}" stroke="#D8D2C4" stroke-width="0.5"/>'
+            f'y2="{y}" stroke="{CHART_COLORS["grid"]}" stroke-width="0.5"/>'
         )
         parts.append(
             f'<text x="{margin["left"] - 8}" y="{y + 4}" text-anchor="end" '
-            f'font-family="IBM Plex Mono, monospace" font-size="10" fill="#4C566A">{val:.1f}</text>'
+            f'font-family="var(--font-mono)" font-size="10" fill="{CHART_COLORS["text_muted"]}">{val:.1f}</text>'
         )
 
     candle_w = max((cw / len(values)) * 0.5, 6)
@@ -287,7 +307,7 @@ def render_candlestick(chart: dict) -> str:
         wy_bot = margin["top"] + ch - ((lo - min_p) / range_p) * ch
         parts.append(
             f'<line x1="{cx}" y1="{wy_top}" x2="{cx}" y2="{wy_bot}" '
-            f'stroke="#172033" stroke-width="1"/>'
+            f'stroke="{CHART_COLORS["text"]}" stroke-width="1"/>'
         )
 
         # Body (open-close rect)
@@ -303,7 +323,7 @@ def render_candlestick(chart: dict) -> str:
         # X-axis label
         parts.append(
             f'<text x="{cx}" y="{margin["top"] + ch + 18}" text-anchor="middle" '
-            f'font-family="Inter, sans-serif" font-size="11" fill="#4C566A">{label}</text>'
+            f'font-family="var(--font-body)" font-size="11" fill="{CHART_COLORS["text_muted"]}">{label}</text>'
         )
 
     parts.append("</svg>")
@@ -340,15 +360,15 @@ def render_waterfall(chart: dict) -> str:
 
     if chart.get("title"):
         parts.append(
-            f'<text x="{margin["left"]}" y="24" font-family="Inter, sans-serif" '
-            f'font-size="14" font-weight="600" fill="#172033">{chart["title"]}</text>'
+            f'<text x="{margin["left"]}" y="24" font-family="var(--font-display)" '
+            f'font-size="14" font-weight="600" fill="{CHART_COLORS["heading"]}">{chart["title"]}</text>'
         )
 
     # Baseline
     bl_y = margin["top"] + ch - ((0 - min_y) / range_y) * ch
     parts.append(
         f'<line x1="{margin["left"]}" y1="{bl_y}" x2="{w - margin["right"]}" '
-        f'y2="{bl_y}" stroke="#7D8798" stroke-width="1"/>'
+        f'y2="{bl_y}" stroke="{CHART_COLORS["neutral"]}" stroke-width="1"/>'
     )
 
     # Gridlines
@@ -357,11 +377,11 @@ def render_waterfall(chart: dict) -> str:
         val = min_y + range_y * i / 5
         parts.append(
             f'<line x1="{margin["left"]}" y1="{y}" x2="{w - margin["right"]}" '
-            f'y2="{y}" stroke="#D8D2C4" stroke-width="0.5"/>'
+            f'y2="{y}" stroke="{CHART_COLORS["grid"]}" stroke-width="0.5"/>'
         )
         parts.append(
             f'<text x="{margin["left"] - 8}" y="{y + 4}" text-anchor="end" '
-            f'font-family="IBM Plex Mono, monospace" font-size="10" fill="#4C566A">{val:.0f}</text>'
+            f'font-family="var(--font-mono)" font-size="10" fill="{CHART_COLORS["text_muted"]}">{val:.0f}</text>'
         )
 
     bar_w = (cw / len(values)) * 0.55
@@ -395,7 +415,7 @@ def render_waterfall(chart: dict) -> str:
             prev_top = margin["top"] + ch - ((bases[i - 1] + values[i - 1] - min_y) / range_y) * ch
             parts.append(
                 f'<line x1="{prev_x}" y1="{prev_top}" x2="{x}" y2="{rect_y}" '
-                f'stroke="#D8D2C4" stroke-width="1" stroke-dasharray="4,4"/>'
+                f'stroke="{CHART_COLORS["grid"]}" stroke-width="1" stroke-dasharray="4,4"/>'
             )
 
         # Value label
@@ -403,13 +423,13 @@ def render_waterfall(chart: dict) -> str:
         ly = (rect_y - 8) if v >= 0 else (rect_y + bar_h + 16)
         parts.append(
             f'<text x="{lx}" y="{ly}" text-anchor="middle" '
-            f'font-family="IBM Plex Mono, monospace" font-size="10" fill="#172033">{v:+.0f}</text>'
+            f'font-family="var(--font-mono)" font-size="10" fill="{CHART_COLORS["text"]}">{v:+.0f}</text>'
         )
 
         # X-axis label
         parts.append(
             f'<text x="{lx}" y="{margin["top"] + ch + 18}" text-anchor="middle" '
-            f'font-family="Inter, sans-serif" font-size="11" fill="#4C566A">{label}</text>'
+            f'font-family="var(--font-body)" font-size="11" fill="{CHART_COLORS["text_muted"]}">{label}</text>'
         )
 
     parts.append("</svg>")

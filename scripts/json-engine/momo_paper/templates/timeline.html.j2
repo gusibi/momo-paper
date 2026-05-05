@@ -26,8 +26,8 @@
   <section>
     <h2>{% if locale == 'zh-CN' %}阶段说明{% else %}Phases{% endif %}</h2>
     {% for phase in sections.phases %}
-    <div class="case-card" style="margin-bottom: 16px;">
-      <h4>{{ phase.name }}{% if phase.period %} <span style="font-family: var(--font-mono); font-size: 12px; color: var(--ink-subtle);">({{ phase.period }})</span>{% endif %}</h4>
+    <div class="case-card mb-md">
+      <h4>{{ phase.name }}{% if phase.period %} <span class="text-sm" style="font-family: var(--font-mono); color: var(--ink-subtle);">({{ phase.period }})</span>{% endif %}</h4>
       <p>{{ phase.description }}</p>
     </div>
     {% endfor %}

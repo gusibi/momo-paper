@@ -271,7 +271,7 @@
       margin: 0 auto;
       padding: 0 var(--space-xl);
     }
-    .container--text { max-width: var(--max-width-text); }
+    .container--text { max-width: var(--max-width-text); margin: 0 auto; }
     .docs {
       padding-top: calc(var(--nav-height) + var(--space-2xl));
       padding-bottom: var(--space-4xl);
@@ -301,7 +301,7 @@
     .docs__header .subtitle {
       font-size: 1.1rem;
       color: var(--text-secondary);
-      max-width: 600px;
+      max-width: 100%;
     }
     .docs .container--text > header {
       text-align: left;
@@ -323,7 +323,7 @@
     .docs .container--text > header .subtitle {
       font-size: 1.1rem;
       color: var(--text-secondary);
-      max-width: 600px;
+      max-width: var(--max-width-text);
     }
     .docs__body h2 {
       margin-top: var(--space-3xl);
@@ -838,7 +838,7 @@
     @media print {
       body { background: #fff; color: #000; }
       .docs { padding: 0; }
-      .container { max-width: 100%; padding: 0 32px; }
+      .container { max-width: var(--max-width); margin: 0 auto; padding: 0 32px; }
       section, h2 { break-inside: avoid; page-break-inside: avoid; }
       .card-grid, .case-grid, .risk-grid { break-inside: avoid; }
       .theme-toggle { display: none !important; }
@@ -854,6 +854,14 @@
       .docs__body h2 { margin-top: var(--space-xl); }
       .footer-meta { flex-direction: column; }
     }
+
+    /* ===== Utility Classes ===== */
+    .mt-xs { margin-top: var(--space-xs); }
+    .mt-sm { margin-top: var(--space-sm); }
+    .mt-md { margin-top: var(--space-md); }
+    .mb-md { margin-bottom: var(--space-md); }
+    .text-sm { font-size: 13px; }
+    .text-body-lg { font-size: 1rem; line-height: 1.6; }
   </style>
   {% block extra_css %}{% endblock %}
 </head>

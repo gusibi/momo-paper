@@ -1,522 +1,1198 @@
-{% extends "_base.html.j2" %}
-{% block title %}Momo Paper · Equity Report · {{ meta.title }}{% endblock %}
-{% block extra_css %}
+<!DOCTYPE html>
+<html lang="{{ locale }}" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Momo Paper · Equity Report · {{ meta.title }}</title>
+  <!-- META_INJECT -->
   <style>
-    /* ===== Equity Report overrides ===== */
+    /* ===== Design Tokens — Light Theme (default) ===== */
+    :root {
+      --bg-primary: #f8f5ee;
+      --bg-secondary: #f2efe6;
+      --bg-tertiary: #ebe7dc;
+      --bg-code: #f0ede4;
+      --bg-elevated: #FAF8F4;
+      --text-primary: #2d2a22;
+      --text-secondary: #5c574a;
+      --text-muted: #8c8676;
+      --text-heading: #1a1812;
+      --accent: #244C7A;
+      --accent-hover: #1a3a5e;
+      --accent-dim: #4A7DB5;
+      --accent-glow: rgba(36, 76, 122, 0.08);
+      --accent-2: #B65C3A;
+      --accent-2-hover: #9a4d30;
+      --accent-2-dim: #d4a853;
+      --border: #d8d4c8;
+      --border-light: #e8e4dc;
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
+      --shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+      --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.12);
+      --green: #7b9e6d;
+      --red: #c06a5a;
+      --orange: #c98d4e;
+      --blue: #7b8faa;
 
-    /* Typography: tighter, more analytical */
-    article { --section-gap: 56px; padding: 0 48px 96px; }
+      --font-display: "Noto Serif SC", "Source Han Serif SC", "Songti SC", serif;
+      --font-body: "Inter", "Noto Sans SC", "PingFang SC", sans-serif;
+      --font-mono: "IBM Plex Mono", "SFMono-Regular", monospace;
 
-    /* ---- Section numbering ---- */
-    section { counter-increment: sec; }
-    section h2 {
-      font-family: var(--font-sans);
-      font-size: 20px;
+      --space-xs: 0.25rem;
+      --space-sm: 0.5rem;
+      --space-md: 1rem;
+      --space-lg: 1.5rem;
+      --space-xl: 2rem;
+      --space-2xl: 3rem;
+      --space-3xl: 4rem;
+      --radius-sm: 6px;
+      --radius: 10px;
+      --radius-lg: 16px;
+      --max-width: 1100px;
+      --max-width-text: 720px;
+      --section-gap: 3.5rem;
+
+      --canvas: var(--bg-secondary);
+      --paper: var(--bg-elevated);
+      --ink: var(--text-primary);
+      --ink-subtle: var(--text-secondary);
+      --line: var(--border);
+      --brand: var(--accent);
+      --brand-muted: var(--accent-glow);
+      --font-sans: var(--font-body);
+      --font-serif: var(--font-display);
+      --success: var(--green);
+      --danger: var(--red);
+      --warning: var(--orange);
+
+      /* Surface card — white in light, elevated in dark */
+      --surface-card: #ffffff;
+      --surface-card-hover: rgba(36, 76, 122, 0.04);
+      --row-highlight-bg: rgba(36, 76, 122, 0.06);
+
+      /* Header — always dark, but tweak for dark mode */
+      --header-bg: #1a2d3d;
+      --header-text: #ffffff;
+      --header-text-muted: rgba(255,255,255,0.65);
+      --header-text-subtle: rgba(255,255,255,0.45);
+      --header-accent: #5b9bd5;
+      --header-card-bg: rgba(255,255,255,0.08);
+      --header-card-border: rgba(255,255,255,0.12);
+
+      /* Severity badge backgrounds */
+      --severity-high-bg: #fce4e4;
+      --severity-medium-bg: #fef3e4;
+      --severity-low-bg: #e4f5e4;
+
+      /* Rating badge colors (in header, always on dark bg) */
+      --rating-buy-text: #7b9e6d;
+      --rating-hold-text: #e0a85c;
+      --rating-sell-text: #d4806e;
+    }
+
+    /* ===== Design Tokens — Dark Theme ===== */
+    [data-theme="dark"] {
+      --bg-primary: #21211e;
+      --bg-secondary: #2a2a27;
+      --bg-tertiary: #33332f;
+      --bg-code: #1c1c1a;
+      --bg-elevated: #353532;
+      --text-primary: #e6e2d8;
+      --text-secondary: #b5b0a4;
+      --text-muted: #7a766a;
+      --text-heading: #f0ece2;
+      --accent: #5C8DC2;
+      --accent-hover: #6ea0d4;
+      --accent-dim: #3a6090;
+      --accent-glow: rgba(92, 141, 194, 0.1);
+      --accent-2: #D4785A;
+      --accent-2-hover: #e0886a;
+      --accent-2-dim: #8a4a35;
+      --border: #3a3832;
+      --border-light: #2e2d28;
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+      --shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+      --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
+      --green: #8aaf7a;
+      --red: #d08070;
+      --orange: #d9a060;
+
+      --surface-card: var(--bg-elevated);
+      --surface-card-hover: rgba(92, 141, 194, 0.08);
+      --row-highlight-bg: rgba(92, 141, 194, 0.08);
+
+      --header-bg: #141e2a;
+      --header-card-bg: rgba(255,255,255,0.05);
+      --header-card-border: rgba(255,255,255,0.08);
+
+      --severity-high-bg: rgba(208, 128, 112, 0.15);
+      --severity-medium-bg: rgba(217, 160, 96, 0.15);
+      --severity-low-bg: rgba(138, 175, 122, 0.15);
+
+      --rating-buy-text: #8aaf7a;
+      --rating-hold-text: #d9a060;
+      --rating-sell-text: #d08070;
+    }
+
+    /* ===== Reset & Base ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+    body {
+      font-family: var(--font-body);
+      font-size: 1.0625rem;
+      line-height: 1.7;
+      color: var(--text-primary);
+      background: var(--bg-primary);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      transition: background-color 0.35s ease, color 0.35s ease;
+    }
+    ::selection { background: var(--accent-dim); color: #fff; }
+
+    /* ===== Typography ===== */
+    h1, h2, h3, h4, h5, h6 {
+      font-family: var(--font-display);
       font-weight: 600;
-      padding-bottom: 14px;
-      border-bottom: 2px solid var(--line);
-      margin-bottom: 28px;
+      line-height: 1.3;
+      color: var(--text-heading);
     }
-    section h2::before {
-      content: counter(sec, cjk-ideographic) "、";
-      color: var(--brand);
-      font-weight: 700;
-    }
+    p { margin-bottom: var(--space-lg); line-height: 1.75; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { color: var(--accent-hover); }
+    strong { font-weight: 600; color: var(--text-heading); }
 
-    /* ---- Header redesign ---- */
-    header {
-      padding: 48px 0 36px;
-      border-bottom: 2px solid var(--ink);
-      margin-bottom: var(--section-gap);
+    /* ============================================================
+       REPORT HEADER — Full Width
+       ============================================================ */
+    .report-header {
+      background: var(--header-bg);
+      color: var(--header-text);
+      padding: 48px 0 40px;
+      width: 100%;
     }
-    header .eyebrow {
-      font-size: 11px; letter-spacing: 0.06em;
-      color: var(--brand);
+    .report-header .rh-inner {
+      max-width: 880px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    .report-header .eyebrow {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--header-text-muted);
       margin-bottom: 12px;
-      display: flex; align-items: center; gap: 10px;
     }
-    header .eyebrow::after {
-      content: ""; flex: 1; height: 1px; background: var(--line);
-    }
-    header .industry-tag {
-      display: inline-block;
-      font-size: 12px; font-weight: 500;
-      color: var(--ink-subtle);
-      background: var(--canvas);
-      padding: 4px 14px; border-radius: 999px;
-      margin-bottom: 20px;
-    }
-    header h1 {
+    .report-header h1 {
       font-family: var(--font-sans);
-      font-size: 36px; font-weight: 700;
-      letter-spacing: -0.01em;
-      margin-bottom: 12px;
+      font-size: 36px;
+      font-weight: 700;
+      line-height: 1.2;
+      color: var(--header-text);
+      margin-bottom: 4px;
     }
-    header .subtitle {
-      font-size: 16px; line-height: 1.5;
-      color: var(--ink-subtle);
-      max-width: 600px; margin-bottom: 24px;
+    .report-header .stock-full-name {
+      font-size: 15px;
+      color: var(--header-text-muted);
+      margin-bottom: 4px;
     }
-
-    /* Rating badge — prominent */
-    .er-rating-bar {
-      display: flex; align-items: center; gap: 16px;
-      margin-top: 20px; flex-wrap: wrap;
-    }
-    .er-rating {
-      display: inline-flex; align-items: center; gap: 6px;
-      padding: 8px 18px;
-      background: var(--brand);
-      color: #fff;
-      border-radius: 6px;
-      font-size: 14px; font-weight: 600;
-    }
-    .er-rating.overweight { background: var(--brand); }
-    .er-rating.buy { background: var(--success); }
-    .er-rating.hold { background: var(--warning); color: var(--ink); }
-    .er-rating.sell { background: var(--danger); }
-    .er-target {
-      font-family: var(--font-mono);
-      font-size: 14px; font-weight: 600;
-      color: var(--ink);
-      padding: 8px 16px;
-      background: var(--canvas);
-      border-radius: 6px;
-      border: 1px solid var(--line);
-    }
-    .er-target span { color: var(--ink-subtle); font-weight: 400; }
-
-    /* Thesis summary — stronger left accent */
-    .er-thesis-strip {
-      margin-top: 28px;
-      padding: 24px 28px;
-      background: var(--canvas);
-      border-left: 4px solid var(--brand);
-      border-radius: 0 8px 8px 0;
-    }
-    .er-thesis-strip ul { list-style: none; }
-    .er-thesis-strip li {
-      position: relative; padding-left: 24px;
-      margin-bottom: 10px; font-size: 14px;
-      line-height: 1.55; color: var(--ink);
-    }
-    .er-thesis-strip li:last-child { margin-bottom: 0; }
-    .er-thesis-strip li::before {
-      counter-increment: thesis;
-      content: counter(thesis);
-      position: absolute; left: 0; top: 0;
-      font-family: var(--font-mono);
-      font-size: 12px; font-weight: 700;
-      color: var(--brand);
-    }
-    .er-thesis-strip { counter-reset: thesis; }
-
-    /* ---- Enhanced data cards ---- */
-    .er-card-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 14px; margin-top: 24px;
-    }
-    .er-fact-card {
-      padding: 20px;
-      background: var(--paper);
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      text-align: center;
-      transition: box-shadow 0.2s;
-    }
-    .er-fact-card:hover { box-shadow: var(--shadow-soft, 0 8px 24px rgba(23,32,51,0.08)); }
-    .er-fact-card .er-label {
-      font-size: 11px; font-family: var(--font-mono);
-      text-transform: uppercase; letter-spacing: 0.05em;
-      color: var(--ink-subtle); margin-bottom: 10px;
-    }
-    .er-fact-card .er-value {
-      font-size: 28px; font-weight: 700; color: var(--ink);
-      line-height: 1.2; font-family: var(--font-sans);
-    }
-    .er-fact-card .er-unit {
-      font-size: 12px; color: var(--ink-subtle); margin-top: 4px;
-    }
-    .er-fact-card .er-change {
-      display: inline-block; margin-top: 8px;
-      font-size: 12px; font-weight: 600;
-      padding: 2px 8px; border-radius: 4px;
-    }
-    .er-change-up { color: #B65C3A; background: #F2E1D9; }
-    .er-change-down { color: #2F6B4F; background: #D9F2E5; }
-
-    /* ---- Driver list with accent ---- */
-    .er-driver-list {
-      list-style: none; margin-top: 24px;
-      display: grid; grid-template-columns: repeat(2, 1fr);
-      gap: 14px;
-    }
-    .er-driver-list li {
-      padding: 18px 20px;
-      background: var(--canvas);
-      border-radius: 8px;
-      font-size: 13px; line-height: 1.55;
-      color: var(--ink);
-      border-left: 3px solid var(--brand);
-    }
-    .er-driver-list li::before {
-      content: ""; display: none;
-    }
-
-    /* ---- Chart containers ---- */
-    .er-chart-wrapper {
-      margin-top: 24px; margin-bottom: 20px;
-      padding: 20px;
-      background: var(--paper);
-      border: 1px solid var(--line);
-      border-radius: 8px;
-    }
-    .er-chart-title {
-      font-size: 13px; font-weight: 600;
-      color: var(--ink); margin-bottom: 4px;
-    }
-    .er-chart-unit {
-      font-size: 11px; color: var(--ink-subtle);
-      font-family: var(--font-mono);
+    .report-header .stock-code {
+      font-size: 13px;
+      color: var(--header-text-subtle);
       margin-bottom: 16px;
     }
-    .er-chart-wrapper svg { display: block; width: 100%; }
-
-    /* ---- Data table enhanced ---- */
-    .er-table-wrapper {
-      margin-top: 24px;
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      overflow: hidden;
+    .report-header .header-meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      font-family: var(--font-sans);
+      font-size: 12px;
+      color: var(--header-text-muted);
+      margin-bottom: 24px;
     }
-    .er-table-wrapper .data-table {
-      margin-top: 0;
-    }
-    .er-table-wrapper .data-table th {
-      background: var(--canvas);
-      font-weight: 600; font-size: 12px;
-      padding: 14px 18px;
-    }
-    .er-table-wrapper .data-table td {
-      padding: 14px 18px;
-    }
-    .er-table-wrapper .data-table .highlight-row td {
-      background: var(--brand-muted);
+    .report-header .header-meta-row span { white-space: nowrap; }
+    .report-header .header-meta-row .rating-badge {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 4px;
       font-weight: 600;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .rating-buy { background: rgba(123, 158, 109, 0.25); color: var(--rating-buy-text); }
+    .rating-hold { background: rgba(201, 141, 78, 0.25); color: var(--rating-hold-text); }
+    .rating-sell { background: rgba(192, 106, 90, 0.25); color: var(--rating-sell-text); }
+
+    /* Header KPI row */
+    .header-kpi-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 10px;
+    }
+    .header-kpi-card {
+      background: var(--header-card-bg);
+      border: 1px solid var(--header-card-border);
+      border-radius: 8px;
+      padding: 14px 16px;
+    }
+    .header-kpi-card .hk-label {
+      font-family: var(--font-sans);
+      font-size: 11px;
+      color: var(--header-text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 4px;
+    }
+    .header-kpi-card .hk-value {
+      font-family: var(--font-mono);
+      font-size: 24px;
+      font-weight: 600;
+      color: var(--header-text);
+      line-height: 1.1;
+    }
+    .header-kpi-card .hk-sub {
+      font-family: var(--font-sans);
+      font-size: 11px;
+      color: var(--header-text-subtle);
+      margin-top: 2px;
     }
 
-    /* ---- Insight callout enhanced ---- */
-    .er-insight {
-      margin-top: 24px;
-      padding: 20px 24px;
+    /* ============================================================
+       CONTENT CONTAINER — Centered, constrained
+       ============================================================ */
+    .er-container {
+      max-width: 880px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ============================================================
+       Thesis Banner
+       ============================================================ */
+    .thesis-banner {
       background: var(--canvas);
-      border-left: 4px solid var(--accent);
-      border-radius: 0 8px 8px 0;
-      font-size: 14px; line-height: 1.6;
+      border-left: 4px solid var(--accent-2);
+      padding: 24px;
+      margin: 32px 0;
+      border-radius: 0 var(--radius) var(--radius) 0;
+    }
+    .thesis-banner .tag {
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--accent-2);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 8px;
+    }
+    .thesis-banner p {
+      font-size: 16px;
+      color: var(--ink);
+      line-height: 1.6;
+      margin: 0 0 12px 0;
+    }
+    .thesis-banner p:last-child { margin-bottom: 0; }
+    .thesis-banner strong { color: var(--brand); }
+
+    /* Thesis summary points */
+    .thesis-points {
+      list-style: none;
+      padding: 0;
+      margin: 12px 0 0 0;
+    }
+    .thesis-points li {
+      position: relative;
+      padding-left: 20px;
+      margin-bottom: 6px;
+      font-size: 14px;
+      line-height: 1.6;
       color: var(--ink);
     }
-    .er-insight::before {
-      content: "核心判断";
-      display: block;
-      font-family: var(--font-mono);
-      font-size: 10px; font-weight: 600;
-      text-transform: uppercase; letter-spacing: 0.06em;
-      color: var(--accent); margin-bottom: 8px;
+    .thesis-points li::before {
+      content: "";
+      position: absolute;
+      left: 4px;
+      top: 9px;
+      width: 6px;
+      height: 6px;
+      background: var(--accent-2);
+      border-radius: 50%;
     }
 
-    /* ---- Risks enhanced ---- */
-    .er-risk-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 14px; margin-top: 20px;
+    /* ============================================================
+       Sections
+       ============================================================ */
+    section { margin: 40px 0; }
+    .section-title {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--brand);
+      color: var(--brand);
+      font-family: var(--font-display);
     }
-    .er-risk-card {
+    .body-text {
+      font-size: 15px;
+      line-height: 1.75;
+      color: var(--ink);
+      margin: 12px 0;
+    }
+    .body-text strong { color: var(--brand); }
+
+    /* ============================================================
+       Data Table
+       ============================================================ */
+    .data-table-wrap { overflow-x: auto; margin: 20px 0; }
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    .data-table thead th {
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--ink-subtle);
+      background: var(--canvas);
+      padding: 10px 12px;
+      text-align: right;
+      border-bottom: 1px solid var(--line);
+      white-space: nowrap;
+    }
+    .data-table thead th:first-child { text-align: left; }
+    .data-table tbody td {
+      font-family: var(--font-mono);
+      padding: 8px 12px;
+      text-align: right;
+      border-bottom: 1px solid var(--line);
+      font-size: 12px;
+      white-space: nowrap;
+    }
+    .data-table tbody td:first-child {
+      font-family: var(--font-sans);
+      text-align: left;
+      font-weight: 500;
+    }
+    .data-table tbody tr:hover td { background: var(--brand-muted); }
+    .data-table tbody tr.row-highlight td { background: var(--row-highlight-bg); font-weight: 600; }
+
+    /* ============================================================
+       Valuation Metrics Table (with evaluation column)
+       ============================================================ */
+    .val-metrics-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      margin: 20px 0;
+    }
+    .val-metrics-table thead th {
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--ink-subtle);
+      background: var(--canvas);
+      padding: 10px 12px;
+      text-align: left;
+      border-bottom: 1px solid var(--line);
+    }
+    .val-metrics-table tbody td {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--line);
+      font-size: 13px;
+    }
+    .val-metrics-table .eval-positive { color: var(--success); font-weight: 600; }
+    .val-metrics-table .eval-neutral { color: var(--warning); }
+    .val-metrics-table .eval-negative { color: var(--danger); font-weight: 600; }
+
+    /* ============================================================
+       Chart Frame
+       ============================================================ */
+    .chart-frame {
+      background: var(--surface-card);
+      border: 1px solid var(--line);
+      border-radius: 8px;
       padding: 20px;
-      background: var(--paper);
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      border-top: 3px solid var(--line);
+      margin: 20px 0;
     }
-    .er-risk-card.s-high { border-top-color: var(--danger); }
-    .er-risk-card.s-medium { border-top-color: var(--warning); }
-    .er-risk-card.s-low { border-top-color: var(--success); }
-    .er-risk-card .er-sev {
-      display: inline-block;
-      font-size: 10px; font-family: var(--font-mono);
-      text-transform: uppercase; letter-spacing: 0.05em;
-      padding: 3px 10px; border-radius: 4px;
-      margin-bottom: 10px; font-weight: 600;
+    .chart-frame .chart-title {
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 4px;
     }
-    .er-risk-card.s-high .er-sev { background: #F2D9D9; color: var(--danger); }
-    .er-risk-card.s-medium .er-sev { background: #F2EBD9; color: var(--warning); }
-    .er-risk-card.s-low .er-sev { background: #D9F2E5; color: var(--success); }
-    .er-risk-card h4 { font-size: 15px; font-weight: 600; margin-bottom: 6px; color: var(--ink); }
-    .er-risk-card p { font-size: 13px; color: var(--ink-subtle); line-height: 1.5; margin: 0; }
+    .chart-frame .chart-note {
+      font-family: var(--font-sans);
+      font-size: 11px;
+      color: var(--ink-subtle);
+      margin-bottom: 12px;
+    }
+    .chart-frame svg { width: 100%; height: auto; display: block; }
 
-    /* ---- Catalysts enhanced ---- */
-    .er-cat-grid {
-      display: grid; gap: 12px; margin-top: 28px;
+    /* ============================================================
+       Price Nodes Timeline
+       ============================================================ */
+    .price-nodes {
+      list-style: none;
+      position: relative;
+      padding: 0;
+      margin: 20px 0;
+      padding-left: 28px;
     }
-    .er-cat-card {
-      display: flex; align-items: flex-start; gap: 16px;
-      padding: 18px 20px;
-      background: var(--canvas);
-      border-radius: 8px;
+    .price-nodes::before {
+      content: "";
+      position: absolute;
+      left: 7px; top: 4px; bottom: 4px;
+      width: 2px;
+      background: var(--line);
     }
-    .er-cat-dot {
-      flex-shrink: 0; width: 10px; height: 10px;
-      border-radius: 50%; background: var(--brand);
-      margin-top: 5px;
+    .price-nodes li {
+      position: relative;
+      padding-left: 32px;
+      margin-bottom: 16px;
     }
-    .er-cat-body h4 { font-size: 15px; font-weight: 600; margin-bottom: 4px; color: var(--ink); }
-    .er-cat-body p { font-size: 13px; color: var(--ink-subtle); line-height: 1.5; margin: 0; }
-    .er-cat-body .er-cat-time {
-      font-family: var(--font-mono); font-size: 11px;
-      color: var(--brand); margin-top: 6px;
+    .price-nodes li:last-child { margin-bottom: 0; }
+    .price-nodes li::before {
+      content: "";
+      position: absolute;
+      left: -24px; top: 6px;
+      width: 12px; height: 12px;
+      border-radius: 50%;
+      background: var(--brand);
+      border: 2px solid var(--bg-primary);
+      z-index: 1;
     }
-
-    /* ---- Recommendation section ---- */
-    .er-reco-block {
-      margin-top: 24px;
-      padding: 28px;
-      background: var(--canvas);
-      border-radius: 8px;
-      border: 1px solid var(--line);
-    }
-    .er-reco-block p { font-size: 14px; line-height: 1.65; color: var(--ink); margin: 0; }
-    .er-reco-block p:first-child::before {
-      content: "投资建议";
-      display: block;
+    .price-nodes .pn-date {
       font-family: var(--font-mono);
-      font-size: 10px; font-weight: 600;
-      text-transform: uppercase; letter-spacing: 0.06em;
-      color: var(--brand); margin-bottom: 10px;
+      font-size: 12px;
+      color: var(--brand);
+      margin-bottom: 2px;
+    }
+    .price-nodes .pn-desc {
+      font-size: 13px;
+      color: var(--ink-subtle);
+      line-height: 1.5;
+    }
+    .price-nodes .pn-price {
+      font-family: var(--font-mono);
+      font-weight: 600;
+      color: var(--ink);
     }
 
-    /* ---- Footer ---- */
-    .er-footer-disclosure {
-      margin-top: 32px; padding-top: 24px;
+    /* ============================================================
+       Callout / Insight Box
+       ============================================================ */
+    .callout {
+      background: var(--brand-muted);
+      border-radius: 8px;
+      padding: 20px;
+      margin: 16px 0;
+    }
+    .callout .callout-label {
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--brand);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 6px;
+    }
+    .callout p { font-size: 14px; line-height: 1.6; color: var(--ink); margin: 0; }
+
+    /* ============================================================
+       Fair Value Range Box
+       ============================================================ */
+    .fair-value-box {
+      background: var(--surface-card);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 20px;
+      margin: 20px 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+    }
+    .fair-value-box .fv-item {
+      text-align: center;
+    }
+    .fair-value-box .fv-label {
+      font-family: var(--font-sans);
+      font-size: 11px;
+      color: var(--ink-subtle);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 4px;
+    }
+    .fair-value-box .fv-value {
+      font-family: var(--font-mono);
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--brand);
+    }
+    .fair-value-box .fv-note {
+      font-family: var(--font-sans);
+      font-size: 11px;
+      color: var(--ink-subtle);
+      margin-top: 2px;
+    }
+
+    /* ============================================================
+       Risk Grid
+       ============================================================ */
+    .risk-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin: 16px 0;
+    }
+    .risk-card {
+      background: var(--surface-card);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 16px;
+    }
+    .risk-card .risk-severity {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 8px;
+    }
+    .severity-high { background: var(--severity-high-bg); color: var(--danger); }
+    .severity-medium { background: var(--severity-medium-bg); color: var(--warning); }
+    .severity-low { background: var(--severity-low-bg); color: var(--success); }
+    .risk-card .risk-title {
+      font-family: var(--font-display);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 4px;
+    }
+    .risk-card p {
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--ink-subtle);
+      margin: 0;
+    }
+
+    /* ============================================================
+       Catalyst List
+       ============================================================ */
+    .catalyst-list {
+      list-style: none;
+      padding: 0;
+      margin: 12px 0 0 0;
+    }
+    .catalyst-list li {
+      padding: 8px 0;
+      border-bottom: 1px solid var(--line);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    .catalyst-list li:last-child { border-bottom: none; }
+    .catalyst-list .cat-title {
+      font-weight: 600;
+      color: var(--ink);
+    }
+    .catalyst-list .cat-timeline {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--brand);
+      margin-left: 8px;
+    }
+    .catalyst-list .cat-desc {
+      font-size: 13px;
+      color: var(--ink-subtle);
+      margin-top: 2px;
+    }
+
+    /* ============================================================
+       Verdict Box (Investment Rating)
+       ============================================================ */
+    .verdict-box {
+      background: var(--brand);
+      color: #fff;
+      border-radius: 8px;
+      padding: 28px;
+      margin: 24px 0;
+    }
+    .verdict-box h3 {
+      font-size: 20px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 12px;
+    }
+    .verdict-box p {
+      font-size: 14px;
+      line-height: 1.6;
+      color: rgba(255,255,255,0.85);
+      margin: 0 0 16px 0;
+    }
+    .verdict-box .verdict-row {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-top: 16px;
+    }
+    .verdict-box .verdict-item {
+      flex: 1;
+      min-width: 140px;
+    }
+    .verdict-box .verdict-item .vt-label {
+      font-family: var(--font-sans);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 2px;
+    }
+    .verdict-box .verdict-item .vt-val {
+      font-size: 18px;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    /* ============================================================
+       Recommendation Cards (3-column)
+       ============================================================ */
+    .rec-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin: 20px 0;
+    }
+    .rec-card {
+      background: var(--surface-card);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 20px;
+      text-align: center;
+    }
+    .rec-card .rec-card-icon {
+      font-size: 28px;
+      margin-bottom: 8px;
+    }
+    .rec-card h4 {
+      font-family: var(--font-display);
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 8px;
+    }
+    .rec-card p {
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--ink-subtle);
+      margin: 0;
+    }
+
+    /* ============================================================
+       Footer
+       ============================================================ */
+    .er-footer {
+      margin-top: 48px;
+      padding: 24px 0;
       border-top: 1px solid var(--line);
-      font-size: 11px; color: var(--ink-subtle); line-height: 1.6;
+      font-family: var(--font-sans);
+      font-size: 11px;
+      color: var(--ink-subtle);
+      line-height: 1.6;
+    }
+    .er-footer strong { color: var(--ink); }
+
+    /* ===== Lists ===== */
+    .er-container ul:not([class]) { margin-left: 20px; line-height: 1.8; font-size: 14px; }
+
+    /* ============================================================
+       Responsive
+       ============================================================ */
+    @media (max-width: 768px) {
+      .report-header { padding: 32px 0 28px; }
+      .report-header h1 { font-size: 26px; }
+      .report-header .rh-inner { padding: 0 16px; }
+      .er-container { padding: 0 16px; }
+      .header-kpi-row { grid-template-columns: repeat(2, 1fr); }
+      .risk-grid { grid-template-columns: 1fr; }
+      .rec-cards-grid { grid-template-columns: 1fr; }
+      .fair-value-box { grid-template-columns: 1fr; }
+      .verdict-box .verdict-row { flex-direction: column; gap: 12px; }
+    }
+    @media (max-width: 480px) {
+      .header-kpi-row { grid-template-columns: 1fr 1fr; }
+      .report-header h1 { font-size: 22px; }
     }
 
-    /* ---- Responsive ---- */
-    @media (max-width: 720px) {
-      .er-card-grid { grid-template-columns: repeat(2, 1fr); }
-      .er-driver-list { grid-template-columns: 1fr; }
-      .er-risk-grid { grid-template-columns: 1fr; }
-      .er-rating-bar { flex-direction: column; align-items: flex-start; }
+    /* ============================================================
+       Theme Toggle
+       ============================================================ */
+    .theme-toggle {
+      position: fixed;
+      top: 20px;
+      right: 24px;
+      z-index: 200;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: var(--surface-card);
+      color: var(--ink-subtle);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      transition: all 0.2s ease;
+    }
+    .theme-toggle:hover {
+      color: var(--accent);
+      border-color: var(--accent);
     }
 
+    /* ===== Print ===== */
     @media print {
-      .er-fact-card:hover { box-shadow: none; }
-      .er-fact-card, .er-risk-card, .er-cat-card { background: #fff; }
-      .er-thesis-strip, .er-reco-block, .er-driver-list li, .er-chart-wrapper { background: #fff; }
+      body { background: #fff; }
+      .report-header { background: var(--header-bg); -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .theme-toggle { display: none !important; }
     }
   </style>
-{% endblock %}
-{% block content %}
-  <header>
-    <p class="eyebrow">{{ meta.eyebrow | default('Momo Paper / equity_report / ' + locale) }}</p>
+</head>
+<body>
+  <!-- NAV_INJECT -->
 
-    {% if meta.industry %}
-    <div class="industry-tag">{{ meta.industry }}</div>
-    {% endif %}
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme" title="Toggle theme">&#9788;</button>
 
-    <h1>{{ meta.title }}</h1>
-    <p class="subtitle">{{ meta.subtitle }}</p>
-
-    {% if sections.thesis %}
-      {% if sections.thesis.rating or sections.thesis.target_price %}
-      <div class="er-rating-bar">
-        {% if sections.thesis.rating %}
-        {% set rating_class = 'overweight' %}
-        {% if '买入' in sections.thesis.rating or 'Buy' in sections.thesis.rating %}{% set rating_class = 'buy' %}{% endif %}
-        {% if '持有' in sections.thesis.rating or 'Hold' in sections.thesis.rating %}{% set rating_class = 'hold' %}{% endif %}
-        {% if '卖出' in sections.thesis.rating or '减持' in sections.thesis.rating or 'Sell' in sections.thesis.rating %}{% set rating_class = 'sell' %}{% endif %}
-        <span class="er-rating {{ rating_class }}">{{ sections.thesis.rating }}</span>
-        {% endif %}
-        {% if sections.thesis.target_price %}
-        <span class="er-target"><span>目标价</span> {{ sections.thesis.target_price }}</span>
+  <!-- ============================================================
+       REPORT HEADER — Full Width
+       ============================================================ -->
+  <div class="report-header">
+    <div class="rh-inner">
+      <div class="eyebrow">{{ meta.eyebrow | default('Momo Paper · Equity Report') }}</div>
+      <h1>{{ meta.title }}</h1>
+      {% if meta.stock_full_name %}<div class="stock-full-name">{{ meta.stock_full_name }}</div>{% endif %}
+      {% if meta.stock_code %}<div class="stock-code">{{ meta.stock_code }}</div>{% endif %}
+      <div class="header-meta-row">
+        {% if meta.date %}<span>{% if locale == 'zh-CN' %}报告日期：{% else %}Date: {% endif %}{{ meta.date }}</span>{% endif %}
+        {% if meta.analyst %}<span>{{ meta.analyst }}</span>{% endif %}
+        {% if meta.industry %}<span>{{ meta.industry }}</span>{% endif %}
+        {% if sections.recommendation and sections.recommendation.rating %}
+        <span>
+          {% if locale == 'zh-CN' %}评级：{% else %}Rating: {% endif %}
+          <span class="rating-badge {% if '买入' in sections.recommendation.rating or 'Buy' in sections.recommendation.rating %}rating-buy{% elif '卖出' in sections.recommendation.rating or 'Sell' in sections.recommendation.rating %}rating-sell{% else %}rating-hold{% endif %}">{{ sections.recommendation.rating }}</span>
+        </span>
         {% endif %}
       </div>
+
+      {% if sections.kpis %}
+      <div class="header-kpi-row">
+        {% for kpi in sections.kpis %}
+        <div class="header-kpi-card">
+          <div class="hk-label">{{ kpi.label }}</div>
+          <div class="hk-value">{{ kpi.value }}</div>
+          {% if kpi.sub %}<div class="hk-sub">{{ kpi.sub }}</div>{% endif %}
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- ============================================================
+       MAIN CONTENT — Centered, constrained width
+       ============================================================ -->
+  <div class="er-container">
+
+    {# ===== INVESTMENT THESIS ===== #}
+    {% if sections.thesis %}
+    <div class="thesis-banner">
+      <div class="tag">{% if locale == 'zh-CN' %}投资结论{% else %}INVESTMENT THESIS{% endif %}</div>
+      {% if sections.thesis.body %}
+      <p>
+        {{ sections.thesis.body }}
+        {% if sections.thesis.rating %}
+        <strong>
+          {% if locale == 'zh-CN' %}
+            {% if '买入' in sections.thesis.rating or 'Buy' in sections.thesis.rating %}
+              好公司，便宜价格——建议买入
+            {% elif '持有' in sections.thesis.rating or 'Hold' in sections.thesis.rating %}
+              好公司，不便宜——建议持有
+            {% elif '卖出' in sections.thesis.rating or 'Sell' in sections.thesis.rating %}
+              估值过高——建议规避
+            {% else %}
+              {{ sections.thesis.rating }}
+            {% endif %}
+          {% else %}
+            {{ sections.thesis.rating }}
+          {% endif %}
+        </strong>
+        {% endif %}
+      </p>
       {% endif %}
       {% if sections.thesis.summary_points %}
-      <div class="er-thesis-strip">
-        <ul>
-          {% for point in sections.thesis.summary_points %}
-          <li>{{ point }}</li>
+      <ul class="thesis-points">
+        {% for pt in sections.thesis.summary_points %}
+        <li>{{ pt }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+    </div>
+    {% endif %}
+
+    {# ===== 1. BUSINESS SNAPSHOT / 公司概览 ===== #}
+    {% if sections.business_snapshot %}
+    <section>
+      <h2 class="section-title">{% if locale == 'zh-CN' %}一、公司概览{% else %}1. Business Snapshot{% endif %}</h2>
+      {% for para in sections.business_snapshot.body %}
+      <div class="body-text">{{ para }}</div>
+      {% endfor %}
+
+      {# Revenue & Profit Table #}
+      {% if sections.business_snapshot.financial_table %}
+      <div class="data-table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              {% for h in sections.business_snapshot.financial_table.headers %}
+              <th>{{ h }}</th>
+              {% endfor %}
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in sections.business_snapshot.financial_table.rows %}
+            <tr {% if row.highlight %}class="row-highlight"{% endif %}>
+              {% for cell in row.data %}
+              <td>{{ cell }}</td>
+              {% endfor %}
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% endif %}
+
+      {# Revenue & Profit Bar Chart #}
+      {% if sections.business_snapshot.revenue_chart %}
+      <div class="chart-frame">
+        {% if sections.business_snapshot.revenue_chart.title %}
+        <div class="chart-title">{{ sections.business_snapshot.revenue_chart.title }}</div>
+        {% endif %}
+        {% if sections.business_snapshot.revenue_chart.note %}
+        <div class="chart-note">{{ sections.business_snapshot.revenue_chart.note }}</div>
+        {% endif %}
+        {{ sections.business_snapshot.revenue_chart | render_chart }}
+      </div>
+      {% endif %}
+
+      {# ROE Trend Chart #}
+      {% if sections.business_snapshot.roe_chart %}
+      <div class="chart-frame">
+        {% if sections.business_snapshot.roe_chart.title %}
+        <div class="chart-title">{{ sections.business_snapshot.roe_chart.title }}</div>
+        {% endif %}
+        {% if sections.business_snapshot.roe_chart.note %}
+        <div class="chart-note">{{ sections.business_snapshot.roe_chart.note }}</div>
+        {% endif %}
+        {{ sections.business_snapshot.roe_chart | render_chart }}
+      </div>
+      {% endif %}
+
+      {# Moat Assessment #}
+      {% if sections.business_snapshot.moat %}
+      <div class="callout">
+        <div class="callout-label">{% if locale == 'zh-CN' %}护城河评估{% else %}Moat Assessment{% endif %}</div>
+        <p>{{ sections.business_snapshot.moat }}</p>
+      </div>
+      {% endif %}
+    </section>
+    {% endif %}
+
+    {# ===== 2. PRICE & DRIVERS / 股价走势 ===== #}
+    {% if sections.price_and_drivers %}
+    <section>
+      <h2 class="section-title">{% if locale == 'zh-CN' %}二、股价走势{% else %}2. Price & Drivers{% endif %}</h2>
+      {% for para in sections.price_and_drivers.body %}
+      <div class="body-text">{{ para }}</div>
+      {% endfor %}
+
+      {# Price History Line Chart #}
+      {% if sections.price_and_drivers.price_chart %}
+      <div class="chart-frame">
+        {% if sections.price_and_drivers.price_chart.title %}
+        <div class="chart-title">{{ sections.price_and_drivers.price_chart.title }}</div>
+        {% endif %}
+        {% if sections.price_and_drivers.price_chart.note %}
+        <div class="chart-note">{{ sections.price_and_drivers.price_chart.note }}</div>
+        {% endif %}
+        {{ sections.price_and_drivers.price_chart | render_chart }}
+      </div>
+      {% endif %}
+
+      {# Key Price Nodes Timeline #}
+      {% if sections.price_and_drivers.price_nodes %}
+      <ul class="price-nodes">
+        {% for node in sections.price_and_drivers.price_nodes %}
+        <li>
+          <div class="pn-date">{{ node.date }} <span class="pn-price">{{ node.price }}</span></div>
+          <div class="pn-desc">{{ node.description }}</div>
+        </li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+
+      {# EPS Trend Chart #}
+      {% if sections.price_and_drivers.eps_chart %}
+      <div class="chart-frame">
+        {% if sections.price_and_drivers.eps_chart.title %}
+        <div class="chart-title">{{ sections.price_and_drivers.eps_chart.title }}</div>
+        {% endif %}
+        {% if sections.price_and_drivers.eps_chart.note %}
+        <div class="chart-note">{{ sections.price_and_drivers.eps_chart.note }}</div>
+        {% endif %}
+        {{ sections.price_and_drivers.eps_chart | render_chart }}
+      </div>
+      {% endif %}
+
+      {# Price Drivers #}
+      {% if sections.price_and_drivers.drivers %}
+      <div class="callout">
+        <div class="callout-label">{% if locale == 'zh-CN' %}核心驱动因素{% else %}Key Drivers{% endif %}</div>
+        {% for driver in sections.price_and_drivers.drivers %}
+        <p style="margin-bottom:4px;"><strong>{{ driver }}</strong></p>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </section>
+    {% endif %}
+
+    {# ===== 3. VALUATION / 估值分析 ===== #}
+    {% if sections.valuation %}
+    <section>
+      <h2 class="section-title">{% if locale == 'zh-CN' %}三、估值分析{% else %}3. Valuation{% endif %}</h2>
+      {% for para in sections.valuation.body %}
+      <div class="body-text">{{ para }}</div>
+      {% endfor %}
+
+      {# Valuation Metrics Table #}
+      {% if sections.valuation.metrics_table %}
+      <table class="val-metrics-table">
+        <thead>
+          <tr>
+            {% for h in sections.valuation.metrics_table.headers %}
+            <th>{{ h }}</th>
+            {% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in sections.valuation.metrics_table.rows %}
+          <tr>
+            <td>{{ row.indicator }}</td>
+            <td>{{ row.value }}</td>
+            <td class="{{ row.eval_class | default('') }}">{{ row.evaluation }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% endif %}
+
+      {# Peer Comparison Chart #}
+      {% if sections.valuation.chart %}
+      <div class="chart-frame">
+        {% if sections.valuation.chart.title %}
+        <div class="chart-title">{{ sections.valuation.chart.title }}</div>
+        {% endif %}
+        {% if sections.valuation.chart.note %}
+        <div class="chart-note">{{ sections.valuation.chart.note }}</div>
+        {% endif %}
+        {{ sections.valuation.chart | render_chart }}
+      </div>
+      {% endif %}
+
+      {# Financial Projection Table #}
+      {% if sections.valuation.table %}
+      <div class="data-table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              {% for h in sections.valuation.table.headers %}
+              <th>{{ h }}</th>
+              {% endfor %}
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in sections.valuation.table.rows %}
+            <tr {% if row.highlight %}class="row-highlight"{% endif %}>
+              {% for cell in row.data %}
+              <td>{{ cell }}</td>
+              {% endfor %}
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% endif %}
+
+      {# Fair Value Range #}
+      {% if sections.valuation.fair_value %}
+      <div class="fair-value-box">
+        {% for item in sections.valuation.fair_value %}
+        <div class="fv-item">
+          <div class="fv-label">{{ item.label }}</div>
+          <div class="fv-value">{{ item.value }}</div>
+          {% if item.note %}<div class="fv-note">{{ item.note }}</div>{% endif %}
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      {# Valuation Insight #}
+      {% if sections.valuation.insight %}
+      <div class="callout">
+        <div class="callout-label">{% if locale == 'zh-CN' %}估值判断{% else %}Valuation Insight{% endif %}</div>
+        <p>{{ sections.valuation.insight }}</p>
+      </div>
+      {% endif %}
+    </section>
+    {% endif %}
+
+    {# ===== 4. RISKS & CATALYSTS / 风险与催化剂 ===== #}
+    {% if sections.risks_and_catalysts %}
+    <section>
+      <h2 class="section-title">{% if locale == 'zh-CN' %}四、风险与催化剂{% else %}4. Risks & Catalysts{% endif %}</h2>
+
+      {% if sections.risks_and_catalysts.risks %}
+      <div class="risk-grid">
+        {% for risk in sections.risks_and_catalysts.risks %}
+        <div class="risk-card">
+          <span class="risk-severity severity-{{ risk.severity }}">
+            {% if locale == 'zh-CN' %}
+              {% if risk.severity == 'high' %}高风险{% elif risk.severity == 'medium' %}中风险{% else %}低风险{% endif %}
+            {% else %}
+              {{ risk.severity | upper }}
+            {% endif %}
+          </span>
+          <div class="risk-title">{{ risk.title }}</div>
+          {% if risk.description %}<p>{{ risk.description }}</p>{% endif %}
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      {% if sections.risks_and_catalysts.catalysts %}
+      <div class="callout">
+        <div class="callout-label">{% if locale == 'zh-CN' %}近期催化剂{% else %}Upcoming Catalysts{% endif %}</div>
+        <ul class="catalyst-list">
+          {% for cat in sections.risks_and_catalysts.catalysts %}
+          <li>
+            <div>
+              <span class="cat-title">{{ cat.title }}</span>
+              {% if cat.timeline %}<span class="cat-timeline">{{ cat.timeline }}</span>{% endif %}
+            </div>
+            {% if cat.description %}<div class="cat-desc">{{ cat.description }}</div>{% endif %}
+          </li>
           {% endfor %}
         </ul>
       </div>
       {% endif %}
-    {% endif %}
-  </header>
-
-  {% if sections.business_snapshot %}
-  <section>
-    <h2>{% if locale == 'zh-CN' %}公司概览{% else %}Business Snapshot{% endif %}</h2>
-    {% for para in sections.business_snapshot.body %}
-    <p>{{ para }}</p>
-    {% endfor %}
-    {% if sections.business_snapshot.cards %}
-    <div class="er-card-grid">
-      {% for card in sections.business_snapshot.cards %}
-      <div class="er-fact-card">
-        <div class="er-label">{{ card.label }}</div>
-        <div class="er-value">{{ card.value }}</div>
-        {% if card.unit %}<div class="er-unit">{{ card.unit }}</div>{% endif %}
-        {% if card.change %}
-        <div class="er-change {% if card.change.startswith('+') %}er-change-up{% else %}er-change-down{% endif %}">
-          {{ card.change }}
-        </div>
-        {% endif %}
-      </div>
-      {% endfor %}
-    </div>
-    {% endif %}
-  </section>
-  {% endif %}
-
-  {% if sections.price_and_drivers %}
-  <section>
-    <h2>{% if locale == 'zh-CN' %}价格与驱动{% else %}Price and Drivers{% endif %}</h2>
-    {% for para in sections.price_and_drivers.body %}
-    <p>{{ para }}</p>
-    {% endfor %}
-
-    {% if sections.price_and_drivers.chart %}
-    <div class="er-chart-wrapper">
-      {% if sections.price_and_drivers.chart.title %}
-      <div class="er-chart-title">{{ sections.price_and_drivers.chart.title }}</div>
-      {% endif %}
-      {% if sections.price_and_drivers.chart.unit %}
-      <div class="er-chart-unit">单位：{{ sections.price_and_drivers.chart.unit }}</div>
-      {% endif %}
-      {{ sections.price_and_drivers.chart | render_chart }}
-    </div>
+    </section>
     {% endif %}
 
-    {% if sections.price_and_drivers.drivers %}
-    <ul class="er-driver-list">
-      {% for driver in sections.price_and_drivers.drivers %}
-      <li>{{ driver }}</li>
-      {% endfor %}
-    </ul>
-    {% endif %}
-  </section>
-  {% endif %}
+    {# ===== 5. INVESTMENT RECOMMENDATION / 投资建议 ===== #}
+    {% if sections.recommendation %}
+    <section>
+      <h2 class="section-title">{% if locale == 'zh-CN' %}五、投资建议{% else %}5. Investment Recommendation{% endif %}</h2>
 
-  {% if sections.valuation %}
-  <section>
-    <h2>{% if locale == 'zh-CN' %}估值{% else %}Valuation{% endif %}</h2>
-    {% for para in sections.valuation.body %}
-    <p>{{ para }}</p>
-    {% endfor %}
-
-    {% if sections.valuation.chart %}
-    <div class="er-chart-wrapper">
-      {% if sections.valuation.chart.title %}
-      <div class="er-chart-title">{{ sections.valuation.chart.title }}</div>
-      {% endif %}
-      {% if sections.valuation.chart.unit %}
-      <div class="er-chart-unit">单位：{{ sections.valuation.chart.unit }}</div>
-      {% endif %}
-      {{ sections.valuation.chart | render_chart }}
-    </div>
-    {% endif %}
-
-    {% if sections.valuation.table %}
-    <div class="er-table-wrapper">
-    <table class="data-table">
-      <thead>
-        <tr>
-          {% for h in sections.valuation.table.headers %}
-          <th>{{ h }}</th>
-          {% endfor %}
-        </tr>
-      </thead>
-      <tbody>
-        {% for row in sections.valuation.table.rows %}
-        <tr {% if loop.index == 3 %}class="highlight-row"{% endif %}>
-          {% for cell in row %}
-          <td>{{ cell }}</td>
-          {% endfor %}
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-    </div>
-    {% endif %}
-
-    {% if sections.valuation.insight %}
-    <div class="er-insight">{{ sections.valuation.insight }}</div>
-    {% endif %}
-  </section>
-  {% endif %}
-
-  {% if sections.risks_and_catalysts %}
-  <section>
-    <h2>{% if locale == 'zh-CN' %}风险与催化剂{% else %}Risks and Catalysts{% endif %}</h2>
-
-    {% if sections.risks_and_catalysts.risks %}
-    <h3 style="font-size:15px;font-weight:600;color:var(--ink);margin-bottom:4px;">
-      {% if locale == 'zh-CN' %}下行风险{% else %}Downside Risks{% endif %}
-    </h3>
-    <div class="er-risk-grid">
-      {% for risk in sections.risks_and_catalysts.risks %}
-      <div class="er-risk-card {% if risk.severity == 'high' %}s-high{% elif risk.severity == 'medium' %}s-medium{% else %}s-low{% endif %}">
-        {% if risk.severity %}
-        <span class="er-sev">
-          {% if risk.severity == 'high' %}{% if locale == 'zh-CN' %}高风险{% else %}HIGH{% endif %}
-          {% elif risk.severity == 'medium' %}{% if locale == 'zh-CN' %}中风险{% else %}MEDIUM{% endif %}
-          {% else %}{% if locale == 'zh-CN' %}低风险{% else %}LOW{% endif %}
+      <div class="verdict-box">
+        <h3>
+          {% if locale == 'zh-CN' %}
+            {% if sections.recommendation.rating %}{{ sections.recommendation.rating }}{% else %}投资评级{% endif %}
+            {% if sections.recommendation.summary %} — {{ sections.recommendation.summary }}{% endif %}
+          {% else %}
+            {% if sections.recommendation.rating %}{{ sections.recommendation.rating }}{% else %}INVESTMENT RATING{% endif %}
+            {% if sections.recommendation.summary %} — {{ sections.recommendation.summary }}{% endif %}
           {% endif %}
-        </span>
-        {% endif %}
-        <h4>{{ risk.title }}</h4>
-        <p>{{ risk.description }}</p>
-      </div>
-      {% endfor %}
-    </div>
-    {% endif %}
-
-    {% if sections.risks_and_catalysts.catalysts %}
-    <h3 style="font-size:15px;font-weight:600;color:var(--ink);margin:28px 0 4px;">
-      {% if locale == 'zh-CN' %}上行催化剂{% else %}Upside Catalysts{% endif %}
-    </h3>
-    <div class="er-cat-grid">
-      {% for cat in sections.risks_and_catalysts.catalysts %}
-      <div class="er-cat-card">
-        <div class="er-cat-dot"></div>
-        <div class="er-cat-body">
-          <h4>{{ cat.title }}</h4>
-          <p>{{ cat.description }}</p>
-          {% if cat.timeline %}<div class="er-cat-time">{{ cat.timeline }}</div>{% endif %}
+        </h3>
+        <p>{{ sections.recommendation.body }}</p>
+        {% if sections.recommendation.rating or sections.recommendation.target_price %}
+        <div class="verdict-row">
+          {% if sections.recommendation.rating %}
+          <div class="verdict-item">
+            <div class="vt-label">{% if locale == 'zh-CN' %}评级{% else %}Rating{% endif %}</div>
+            <div class="vt-val">{{ sections.recommendation.rating }}</div>
+          </div>
+          {% endif %}
+          {% if sections.recommendation.target_price %}
+          <div class="verdict-item">
+            <div class="vt-label">{% if locale == 'zh-CN' %}目标价{% else %}Target Price{% endif %}</div>
+            <div class="vt-val">{{ sections.recommendation.target_price }}</div>
+          </div>
+          {% endif %}
+          {% if sections.recommendation.horizon %}
+          <div class="verdict-item">
+            <div class="vt-label">{% if locale == 'zh-CN' %}投资周期{% else %}Horizon{% endif %}</div>
+            <div class="vt-val">{{ sections.recommendation.horizon }}</div>
+          </div>
+          {% endif %}
         </div>
+        {% endif %}
       </div>
-      {% endfor %}
-    </div>
-    {% endif %}
-  </section>
-  {% endif %}
 
-  {% if sections.recommendation %}
-  <section>
-    <h2>{% if locale == 'zh-CN' %}建议与声明{% else %}Recommendation{% endif %}</h2>
-    <div class="er-reco-block">
-      <p>{{ sections.recommendation.body }}</p>
+      {# Three-column Recommendation Cards #}
+      {% if sections.recommendation.cards %}
+      <div class="rec-cards-grid">
+        {% for card in sections.recommendation.cards %}
+        <div class="rec-card">
+          {% if card.icon %}<div class="rec-card-icon">{{ card.icon }}</div>{% endif %}
+          <h4>{{ card.title }}</h4>
+          <p>{{ card.body }}</p>
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </section>
+    {% endif %}
+
+    {# ===== FOOTER ===== #}
+    <div class="er-footer">
+      <p><strong>{% if locale == 'zh-CN' %}免责声明：{% else %}Disclaimer:{% endif %}</strong>
+      {{ meta.disclaimer | default('本报告仅供参考，不构成投资建议。投资有风险，入市需谨慎。') }}</p>
+      {% if meta.source %}<p><strong>{% if locale == 'zh-CN' %}数据来源：{% else %}Source:{% endif %}</strong>
+      {{ meta.source }}</p>{% endif %}
+      {% if meta.date %}<p><strong>{% if locale == 'zh-CN' %}报告生成时间：{% else %}Generated:{% endif %}</strong>
+      {{ meta.date }}{% if meta.analyst %} · {{ meta.analyst }}{% endif %}{% if meta.brand %} · {{ meta.brand }}{% endif %}</p>{% endif %}
     </div>
-  </section>
-  {% endif %}
-{% endblock %}
-{% block footer %}
-  <div class="er-footer-disclosure">
-    <p>{{ meta.disclaimer | default('本报告仅供参考，不构成投资建议。投资有风险，入市需谨慎。') }}</p>
-    <p style="margin-top:6px;">
-      {% if meta.date %}{{ meta.date }}{% endif %}
-      {% if meta.analyst %} · {{ meta.analyst }}{% endif %}
-    </p>
+
   </div>
-{% endblock %}
+
+  <!-- FOOTER_INJECT -->
+
+  <script>
+    (function() {
+      const KEY = 'momo-theme';
+      const toggle = document.getElementById('themeToggle');
+      const html = document.documentElement;
+
+      function setIcon(theme) { toggle.innerHTML = theme === 'light' ? '&#9790;' : '&#9788;'; }
+
+      const stored = localStorage.getItem(KEY);
+      if (stored) html.setAttribute('data-theme', stored);
+      setIcon(html.getAttribute('data-theme'));
+
+      toggle.addEventListener('click', function() {
+        const next = html.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+        html.setAttribute('data-theme', next);
+        localStorage.setItem(KEY, next);
+        setIcon(next);
+      });
+    })();
+  </script>
+</body>
+</html>

@@ -2,27 +2,26 @@
   "document_type": "stats_report",
   "locale": "zh-CN",
   "meta": {
-    "title": "交互式图表演示",
-    "subtitle": "Momo Paper 支持 5 种可编程图表类型，在 JSON 中声明 chart 对象即可自动渲染为内联 SVG。所有图表由 charts.py 在服务端渲染，无需外部依赖。",
-    "eyebrow": "Momo Paper / 图表演示",
+    "title": "可视化叙事全集",
+    "subtitle": "Momo Paper 视觉引擎展示：包含 5 种数据图表与 14 种图示原语。所有组件均支持 JSON 定义、设计令牌自适应及深色模式适配。",
+    "eyebrow": "Momo Paper / 核心视觉引擎",
     "date": "2026-05-02",
     "author": "Momo Paper",
     "period": "2026 Q1–Q2"
   },
   "sections": {
     "kpis": [
-      {"label": "图表类型", "value": "5", "change": "覆盖常用商业图表", "trend": "flat"},
-      {"label": "渲染引擎", "value": "SVG", "change": "纯 Python 实现", "trend": "flat"},
-      {"label": "数据格式", "value": "JSON", "change": "统一的 values + labels", "trend": "flat"},
-      {"label": "图表嵌入", "value": "任意 section", "change": "chart 对象即可", "trend": "flat"}
+      {"label": "数值图表", "value": "5 种", "change": "Bar/Line/Donut/K线/瀑布", "trend": "flat"},
+      {"label": "图示原语", "value": "14 种", "change": "涵盖逻辑、结构与流程", "trend": "flat"},
+      {"label": "样式方案", "value": "Token", "change": "CSS 变量全局适配", "trend": "flat"},
+      {"label": "输出格式", "value": "SVG", "change": "极轻量、无 JS 依赖", "trend": "flat"}
     ],
     "trends": {
-      "body": [
-        "以下是 Momo Paper 图表渲染能力的可视化概览。所有图表都是从 JSON 数据实时渲染的内联 SVG——无需外部库、无需 JavaScript。在任意 section 中添加 chart 对象，引擎自动识别类型并渲染。"
-      ],
+      "heading": "5 种数值图表 (Charts)",
+      "body": ["数值图表侧重于定量数据的趋势、对比和构成展示。通过 charts.py 渲染。"],
       "chart": {
         "type": "bar",
-        "title": "图表类型使用分布（模拟数据）",
+        "title": "图表库使用频率 (模拟数据)",
         "height": 280,
         "data": {
           "labels": ["柱状图", "折线图", "环形图", "K线图", "瀑布图"],
@@ -32,46 +31,248 @@
     },
     "segments": [
       {
-        "name": "bar · 柱状图",
-        "body": [
-          "适合类别对比和排名。数据格式：values: [n, ...]，配合 labels 定义类别名。",
-          "使用场景：营收对比、市场份额、各部门绩效。自动计算柱宽和间距，支持自定义高度。"
-        ]
+        "name": "Bar · 柱状图",
+        "body": ["适合类别对比。数据格式：values: [n, ...]。"],
+        "chart": {"type": "bar", "title": "各地区营收 (M)", "height": 180, "data": {"labels": ["华北", "华东", "华南", "华西"], "values": [120, 310, 240, 95]}}
       },
       {
-        "name": "line · 折线图",
-        "body": [
-          "适合时间序列和趋势展示。数据格式：values: [n, ...]，labels 定义时间点。",
-          "使用场景：MAU 增长、股价走势、温度变化。自动缩放 Y 轴，网格线辅助读数。"
-        ]
+        "name": "Line · 折线图",
+        "body": ["适合趋势展示。自动缩放 Y 轴。"],
+        "chart": {"type": "line", "title": "MAU 月度增长", "height": 180, "data": {"labels": ["Q1", "Q2", "Q3", "Q4"], "values": [850, 1200, 1150, 1600]}}
       },
       {
-        "name": "donut · 环形图",
-        "body": [
-          "适合比例分解和构成分析。数据格式：values: [n, ...]，labels 定义各段名称。",
-          "使用场景：收入构成、用户分群占比、预算分配。自动计算百分比，分类配色区分各段。"
-        ]
+        "name": "Donut · 环形图",
+        "body": ["适合构成分析。自动计算百分比。"],
+        "chart": {"type": "donut", "title": "成本构成", "height": 240, "data": {"labels": ["研发", "市场", "运营", "其他"], "values": [40, 25, 20, 15]}}
       },
       {
-        "name": "candlestick · K 线图",
-        "body": [
-          "适合金融 OHLC 价格序列。数据格式：values: [{o, h, l, c}, ...]，也可用长键名 open/high/low/close。",
-          "使用场景：股票日 K 线、加密币行情。阳线（涨）和阴线（跌）以不同颜色区分，含成交量提示。"
-        ]
+        "name": "Candlestick · K 线图",
+        "body": ["金融 OHLC 数据展示。"],
+        "chart": {"type": "candlestick", "title": "资产价格走势", "height": 240, "data": {"labels": ["D1", "D2", "D3", "D4", "D5"], "values": [{"o": 100, "h": 105, "l": 98, "c": 103}, {"o": 103, "h": 108, "l": 102, "c": 101}, {"o": 101, "h": 110, "l": 100, "c": 107}, {"o": 107, "h": 109, "l": 105, "c": 106}, {"o": 106, "h": 112, "l": 106, "c": 110}]}}
       },
       {
-        "name": "waterfall · 瀑布图",
-        "body": [
-          "适合数值分解和桥接分析。数据格式：values: [n, ...]，labels 定义各段名称。",
-          "使用场景：EBITDA 桥接、预算变化分解。正值和负值以不同颜色渲染，连接线显示累计变化轨迹。"
-        ]
+        "name": "Waterfall · 瀑布图",
+        "body": ["数值分解与桥接分析。"],
+        "chart": {"type": "waterfall", "title": "利润变动分解", "height": 240, "data": {"labels": ["期初", "增长", "成本", "汇率", "期末"], "values": [100, 30, -15, -5, 110]}}
+      }
+    ],
+    "diagrams": [
+      {
+        "name": "Flowchart · 流程图",
+        "body": ["逻辑跳转与步骤描述。采用横向标准布局：开始 -> 校验 -> 执行/重试。"],
+        "diagram": {
+          "width": 800, "height": 240, "viewBox": "0 0 800 240",
+          "elements": [
+            {"type": "capsule", "x": 40, "y": 90, "w": 80, "h": 40, "label": "开始", "style": "secondary"},
+            {"type": "line", "x1": 120, "y1": 110, "x2": 180, "y2": 110, "arrow": true},
+            {"type": "rect", "x": 180, "y": 85, "w": 100, "h": 50, "label": "输入数据", "style": "primary"},
+            {"type": "line", "x1": 280, "y1": 110, "x2": 350, "y2": 110, "arrow": true},
+            {"type": "diamond", "x": 350, "y": 70, "w": 120, "h": 80, "label": "是否合规?", "style": "accent"},
+            {"type": "line", "x1": 470, "y1": 110, "x2": 550, "y2": 110, "arrow": true, "label": "Yes"},
+            {"type": "rect", "x": 550, "y": 85, "w": 100, "h": 50, "label": "存入数据库", "style": "success"},
+            {"type": "line", "x1": 650, "y1": 110, "x2": 720, "y2": 110, "arrow": true},
+            {"type": "circle", "cx": 750, "cy": 110, "r": 25, "label": "结束", "style": "secondary"},
+            {"type": "line", "x1": 410, "y1": 150, "x2": 410, "y2": 200, "arrow": true, "label": "No"},
+            {"type": "rect", "x": 360, "y": 200, "w": 100, "h": 35, "label": "报错并退出", "style": "danger"}
+          ]
+        }
+      },
+      {
+        "name": "Swimlane · 泳道图",
+        "body": ["跨职能协作。左侧为泳道标识，流程从上至下、从左至右流动。"],
+        "diagram": {
+          "width": 800, "height": 340, "viewBox": "0 0 800 340",
+          "elements": [
+            {"type": "rect", "x": 0, "y": 0, "w": 800, "h": 100, "style": "paper", "rx": 0, "opacity": 0.4},
+            {"type": "rect", "x": 0, "y": 100, "w": 800, "h": 120, "style": "secondary", "rx": 0, "opacity": 0.1},
+            {"type": "rect", "x": 0, "y": 220, "w": 800, "h": 100, "style": "paper", "rx": 0, "opacity": 0.4},
+            {"type": "text", "x": 15, "y": 55, "label": "产品", "font_weight": "bold", "font_size": 14},
+            {"type": "text", "x": 15, "y": 165, "label": "开发", "font_weight": "bold", "font_size": 14},
+            {"type": "text", "x": 15, "y": 275, "label": "测试", "font_weight": "bold", "font_size": 14},
+            {"type": "rect", "x": 80, "y": 30, "w": 110, "h": 40, "label": "撰写 PRD"},
+            {"type": "line", "x1": 135, "y1": 70, "x2": 135, "y2": 130, "arrow": true},
+            {"type": "rect", "x": 80, "y": 130, "w": 110, "h": 40, "label": "技术方案", "style": "primary"},
+            {"type": "line", "x1": 190, "y1": 150, "x2": 260, "y2": 150, "arrow": true},
+            {"type": "rect", "x": 260, "y": 130, "w": 110, "h": 40, "label": "编写代码", "style": "primary"},
+            {"type": "line", "x1": 315, "y1": 170, "x2": 315, "y2": 250, "arrow": true},
+            {"type": "rect", "x": 260, "y": 250, "w": 110, "h": 40, "label": "功能测试", "style": "success"},
+            {"type": "line", "x1": 370, "y1": 270, "x2": 450, "y2": 270, "arrow": true},
+            {"type": "rect", "x": 450, "y": 250, "w": 110, "h": 40, "label": "压力测试", "style": "success"},
+            {"type": "line", "x1": 505, "y1": 250, "x2": 505, "y2": 70, "arrow": true, "label": "Bug反馈"},
+            {"type": "rect", "x": 450, "y": 30, "w": 110, "h": 40, "label": "确认发布", "style": "accent"}
+          ]
+        }
+      },
+      {
+        "name": "Architecture · 架构图",
+        "body": ["展示分层、组件依赖与流向。"],
+        "diagram": {
+          "width": 800, "height": 200, "viewBox": "0 0 800 200",
+          "elements": [
+            {"type": "rect", "x": 100, "y": 20, "w": 600, "h": 50, "label": "API Gateway", "style": "secondary"},
+            {"type": "rect", "x": 100, "y": 120, "w": 180, "h": 60, "label": "User Svc", "style": "primary"},
+            {"type": "rect", "x": 310, "y": 120, "w": 180, "h": 60, "label": "Order Svc", "style": "primary"},
+            {"type": "rect", "x": 520, "y": 120, "w": 180, "h": 60, "label": "Auth Svc", "style": "primary"},
+            {"type": "line", "x1": 190, "y1": 70, "x2": 190, "y2": 120, "arrow": true},
+            {"type": "line", "x1": 400, "y1": 70, "x2": 400, "y2": 120, "arrow": true},
+            {"type": "line", "x1": 610, "y1": 70, "x2": 610, "y2": 120, "arrow": true}
+          ]
+        }
+      },
+      {
+        "name": "Timeline · 时间线",
+        "body": ["关键里程碑展示。"],
+        "diagram": {
+          "width": 800, "height": 120, "viewBox": "0 0 800 120",
+          "elements": [
+            {"type": "line", "x1": 50, "y1": 60, "x2": 750, "y2": 60, "stroke_width": 4},
+            {"type": "circle", "cx": 100, "cy": 60, "r": 10, "style": "primary"},
+            {"type": "text", "x": 100, "y": 90, "label": "2024 Q1", "anchor": "middle"},
+            {"type": "circle", "cx": 300, "cy": 60, "r": 10, "style": "primary"},
+            {"type": "text", "x": 300, "y": 90, "label": "2024 Q2", "anchor": "middle"},
+            {"type": "circle", "cx": 500, "cy": 60, "r": 10, "style": "accent"},
+            {"type": "text", "x": 500, "y": 90, "label": "Current", "anchor": "middle"}
+          ]
+        }
+      },
+      {
+        "name": "Tree · 树状图",
+        "body": ["层级结构展示。"],
+        "diagram": {
+          "width": 800, "height": 200, "viewBox": "0 0 800 200",
+          "elements": [
+            {"type": "rect", "x": 350, "y": 10, "w": 100, "h": 40, "label": "Root", "style": "secondary"},
+            {"type": "line", "x1": 400, "y1": 50, "x2": 200, "y2": 100},
+            {"type": "line", "x1": 400, "y1": 50, "x2": 600, "y2": 100},
+            {"type": "rect", "x": 150, "y": 100, "w": 100, "h": 40, "label": "Child A"},
+            {"type": "rect", "x": 550, "y": 100, "w": 100, "h": 40, "label": "Child B"}
+          ]
+        }
+      },
+      {
+        "name": "Venn · 维恩图",
+        "body": ["交集与重叠演示。"],
+        "diagram": {
+          "width": 800, "height": 200, "viewBox": "0 0 800 200",
+          "elements": [
+            {"type": "circle", "cx": 350, "cy": 100, "r": 80, "style": "primary", "opacity": 0.4},
+            {"type": "circle", "cx": 450, "cy": 100, "r": 80, "style": "accent", "opacity": 0.4},
+            {"type": "text", "x": 310, "y": 105, "label": "A", "font_size": 20},
+            {"type": "text", "x": 470, "y": 105, "label": "B", "font_size": 20}
+          ]
+        }
+      },
+      {
+        "name": "Quadrant · 象限图",
+        "body": ["四象限优先级分析。"],
+        "diagram": {
+          "width": 400, "height": 400, "viewBox": "0 0 400 400",
+          "elements": [
+            {"type": "rect", "x": 40, "y": 40, "w": 320, "h": 320, "style": "paper"},
+            {"type": "line", "x1": 200, "y1": 40, "x2": 200, "y2": 360},
+            {"type": "line", "x1": 40, "y1": 200, "x2": 360, "y2": 200},
+            {"type": "text", "x": 300, "y": 30, "label": "重要性", "anchor": "middle"},
+            {"type": "text", "x": 380, "y": 210, "label": "紧急"},
+            {"type": "circle", "cx": 120, "cy": 120, "r": 15, "style": "primary", "label": "1"},
+            {"type": "circle", "cx": 280, "cy": 120, "r": 15, "style": "accent", "label": "2"},
+            {"type": "circle", "cx": 120, "cy": 280, "r": 15, "style": "success", "label": "3"},
+            {"type": "circle", "cx": 280, "cy": 280, "r": 15, "style": "warning", "label": "4"}
+          ]
+        }
+      },
+      {
+        "name": "Layer Stack · 层级堆叠",
+        "body": ["技术栈或协议栈展示。"],
+        "diagram": {
+          "width": 800, "height": 220, "viewBox": "0 0 800 220",
+          "elements": [
+            {"type": "rect", "x": 200, "y": 20, "w": 400, "h": 40, "label": "应用层", "style": "accent"},
+            {"type": "rect", "x": 220, "y": 70, "w": 360, "h": 40, "label": "框架层", "style": "primary"},
+            {"type": "rect", "x": 240, "y": 120, "w": 320, "h": 40, "label": "引擎层", "style": "secondary"},
+            {"type": "rect", "x": 260, "y": 170, "w": 280, "h": 40, "label": "基础层", "style": "paper"}
+          ]
+        }
+      },
+      {
+        "name": "State Machine · 状态机",
+        "body": ["状态转移逻辑表现。"],
+        "diagram": {
+          "width": 800, "height": 160, "viewBox": "0 0 800 160",
+          "elements": [
+            {"type": "circle", "cx": 150, "cy": 80, "r": 40, "label": "待支付", "style": "secondary"},
+            {"type": "line", "x1": 190, "y1": 80, "x2": 360, "y2": 80, "arrow": true, "label": "支付成功"},
+            {"type": "circle", "cx": 400, "cy": 80, "r": 40, "label": "已支付", "style": "primary"},
+            {"type": "line", "x1": 440, "y1": 80, "x2": 610, "y2": 80, "arrow": true, "label": "发货"},
+            {"type": "circle", "cx": 650, "cy": 80, "r": 40, "label": "待收货", "style": "success"}
+          ]
+        }
+      },
+      {
+        "name": "Bar (Primitive) · 基础条形",
+        "body": ["底层原语构建的条形图。"],
+        "diagram": {
+          "width": 600, "height": 200, "elements": [
+            {"type": "line", "x1": 50, "y1": 150, "x2": 550, "y2": 150},
+            {"type": "rect", "x": 80, "y": 50, "w": 60, "h": 100, "style": "primary"},
+            {"type": "rect", "x": 180, "y": 80, "w": 60, "h": 70, "style": "primary"},
+            {"type": "rect", "x": 280, "y": 30, "w": 60, "h": 120, "style": "accent"},
+            {"type": "rect", "x": 380, "y": 60, "w": 60, "h": 90, "style": "primary"}
+          ]
+        }
+      },
+      {
+        "name": "Line (Primitive) · 基础折线",
+        "body": ["折线原语演示。"],
+        "diagram": {
+          "width": 600, "height": 200, "elements": [
+            {"type": "polyline", "points": "50,150 150,120 250,160 350,80 450,40", "style": "primary"},
+            {"type": "circle", "cx": 450, "cy": 40, "r": 5, "style": "accent"}
+          ]
+        }
+      },
+      {
+        "name": "Donut (Primitive) · 基础环图",
+        "body": ["环形路径原语。"],
+        "diagram": {
+          "width": 400, "height": 200, "elements": [
+            {"type": "path", "d": "M 200,20 A 80,80 0 0 1 280,100", "style": "primary"},
+            {"type": "path", "d": "M 280,100 A 80,80 0 0 1 200,180", "style": "accent"},
+            {"type": "text", "x": 200, "y": 105, "label": "50%", "anchor": "middle", "font_size": 24}
+          ]
+        }
+      },
+      {
+        "name": "Waterfall (Primitive) · 基础瀑布",
+        "body": ["瀑布块原语。"],
+        "diagram": {
+          "width": 600, "height": 200, "elements": [
+            {"type": "rect", "x": 50, "y": 100, "w": 80, "h": 50, "style": "primary"},
+            {"type": "line", "x1": 130, "y1": 100, "x2": 180, "y2": 100, "dash": "4,4"},
+            {"type": "rect", "x": 180, "y": 60, "w": 80, "h": 40, "style": "success"},
+            {"type": "line", "x1": 260, "y1": 60, "x2": 310, "y2": 60, "dash": "4,4"},
+            {"type": "rect", "x": 310, "y": 60, "w": 80, "h": 90, "style": "secondary"}
+          ]
+        }
+      },
+      {
+        "name": "Candlestick (Primitive) · 基础蜡烛",
+        "body": ["金融 K 线原语。"],
+        "diagram": {
+          "width": 600, "height": 200, "elements": [
+            {"type": "line", "x1": 100, "y1": 50, "x2": 100, "y2": 150},
+            {"type": "rect", "x": 85, "y": 70, "w": 30, "h": 60, "style": "success"},
+            {"type": "line", "x1": 200, "y1": 40, "x2": 200, "y2": 160},
+            {"type": "rect", "x": 185, "y": 80, "w": 30, "h": 50, "style": "danger"}
+          ]
+        }
       }
     ],
     "method": {
       "body": [
-        "图表渲染通过 charts.py 模块完成，该模块是 momo_paper 包的一部分。所有图表输出为纯 SVG（无外部请求、无 JavaScript 依赖），并在文档中以内联方式嵌入。渲染时使用 CHART_COLORS 色板（primary #244C7A、accent #B65C3A、positive #2F6B4F、negative #9A3D3D）与设计令牌保持一致。",
-        "在 JSON 中声明图表只需添加 chart 对象：{\"type\": \"bar\", \"title\": \"...\", \"height\": 280, \"data\": {\"labels\": [...], \"values\": [...]}}。引擎的 render_chart Jinja2 过滤器自动处理渲染。",
-        "除 5 种可编程图表外，Momo Paper 还提供 14 种图示原语（架构图、流程图、象限图、泳道图、维恩图等）作为独立 HTML 文件，可直接使用或嵌入文档。"
+        "Momo Paper 的视觉叙事由两套引擎驱动：",
+        "1. Charts 引擎：专注于自动化数值呈现（Bar/Line/Donut/K线/瀑布），支持自动缩放、标签定位和百分比计算。",
+        "2. Diagrams 引擎：专注于结构化逻辑表达（架构、流程、时间线、维恩图等），支持更细粒度的 SVG 原语控制。",
+        "两者均深度集成设计令牌，确保全站视觉风格高度统一且易于扩展。"
       ]
     }
   }

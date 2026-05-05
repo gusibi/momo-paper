@@ -186,8 +186,10 @@ Use these when you need a quick one-off document or prefer working directly with
 | `research summary / 研究摘要` | `research_summary` | `assets/templates/research-summary.html` | `assets/templates/research-summary-en.html` |
 | `stats report / 数据报告 / KPI` | `stats_report` | `assets/templates/stats-report.html` | `assets/templates/stats-report-en.html` |
 | `infographic / 信息图` | `infographic` | `assets/templates/infographic.html` | `assets/templates/infographic-en.html` |
+| `landing page / 首页 / 产品页` | `landing` | `scripts/json-engine/momo_paper/templates/landing.html.j2` | `scripts/json-engine/momo_paper/templates/landing.html.j2` |
 
 > **slides** uses Python-based generation for complex layouts. The JSON engine supports it with a Jinja2 template (`slides.html.j2`) and 16:9 viewport.
+> **landing** uses its own design token system in `landing.html.j2`, separate from `assets/design-tokens.json`.
 
 ## Diagrams & Charts
 

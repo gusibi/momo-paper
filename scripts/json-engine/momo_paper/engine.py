@@ -7,6 +7,7 @@ from pathlib import Path
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 from .charts import render as render_chart
+from .diagrams import render as render_diagram
 
 DEFAULT_TEMPLATE_MAP = {
     "equity_report": "equity-report.html.j2",
@@ -106,6 +107,7 @@ def render(data_source: str | dict, template_dir: Path | None = None, template_f
         lstrip_blocks=True,
     )
     env.filters["render_chart"] = render_chart
+    env.filters["render_diagram"] = render_diagram
 
     template = env.get_template(template_name)
     return template.render(**data)

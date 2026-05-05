@@ -1,61 +1,71 @@
 {% extends "_base.html.j2" %}
 {% block title %}Momo Paper · Stats Report · {{ meta.title }}{% endblock %}
-{% block extra_css %}
+  {% block extra_css %}
   <style>
     .kpi-row {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-      gap: 16px;
-      margin-top: 20px;
+      gap: var(--space-lg);
+      margin-top: var(--space-xl);
     }
     .kpi-card {
       padding: var(--card-padding);
       background: var(--canvas);
-      border-radius: 8px;
-      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      border: var(--border-thin) solid var(--line);
       text-align: center;
     }
     .kpi-card .kpi-value {
-      font-size: 32px;
-      font-weight: 600;
+      font-size: var(--title-md);
+      font-weight: var(--font-semibold);
       color: var(--ink);
       line-height: 1.2;
     }
     .kpi-card .kpi-label {
-      font-size: 11px;
+      font-size: var(--caption);
       font-family: var(--font-mono);
       text-transform: uppercase;
-      letter-spacing: 0.04em;
+      letter-spacing: var(--letter-spacing-wide);
       color: var(--ink-subtle);
-      margin-top: 6px;
+      margin-top: var(--space-sm);
     }
     .kpi-card .kpi-change {
-      font-size: 12px;
-      margin-top: 4px;
+      font-size: var(--body-sm);
+      margin-top: var(--space-xs);
     }
     .kpi-change.up { color: var(--success); }
     .kpi-change.down { color: var(--danger); }
     .kpi-change.flat { color: var(--ink-subtle); }
     .anomaly-alert {
-      margin-top: 20px;
-      padding: 16px 20px;
+      margin-top: var(--space-xl);
+      padding: var(--space-lg) var(--space-xl);
       background: #F2D9D9;
-      border-left: 3px solid var(--danger);
-      border-radius: 0 6px 6px 0;
-      font-size: 14px;
+      border-left: var(--border-medium) solid var(--danger);
+      border-radius: 0 var(--radius-md) var(--radius-md) 0;
+      font-size: var(--body-md);
     }
     .anomaly-alert::before {
       content: "Anomaly";
       display: block;
       font-family: var(--font-mono);
-      font-size: 10px;
+      font-size: var(--caption);
       text-transform: uppercase;
-      letter-spacing: 0.04em;
+      letter-spacing: var(--letter-spacing-wide);
       color: var(--danger);
-      margin-bottom: 6px;
+      margin-bottom: var(--space-sm);
     }
+    .section-item { margin-bottom: var(--space-xl); }
+    .section-subtitle { font-size: 1rem; font-weight: 600; margin-bottom: var(--space-sm); }
+    .chart-mt { margin-top: var(--space-md); }
+    .diagram-container-styled {
+      background: var(--bg-secondary);
+      padding: var(--space-2xl);
+      border-radius: var(--radius);
+      border: 1px solid var(--border-light);
+    }
+    .mt-0 { margin-top: 0 !important; }
   </style>
-{% endblock %}
+  {% endblock %}
 {% block content %}
   <header>
     <p class="eyebrow">{{ meta.eyebrow | default('Momo Paper / stats_report / ' + locale) }}</p>
@@ -91,7 +101,7 @@
     {% endif %}
     {% if sections.trends.anomalies %}
     <div class="anomaly-alert">
-      <ul class="bullet-list" style="margin-top: 0;">
+      <ul class="bullet-list mt-0">
         {% for a in sections.trends.anomalies %}
         <li>{{ a }}</li>
         {% endfor %}
@@ -105,11 +115,35 @@
   <section>
     <h2>{% if locale == 'zh-CN' %}分布与分群{% else %}Segments{% endif %}</h2>
     {% for seg in sections.segments %}
-    <div style="margin-bottom: 24px;">
-      <h4 style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">{{ seg.name }}</h4>
+    <div class="section-item">
+      <h4 class="section-subtitle">{{ seg.name }}</h4>
       {% for para in seg.body %}
       <p>{{ para }}</p>
       {% endfor %}
+      {% if seg.chart %}
+      <div class="chart-container chart-mt">
+        {{ seg.chart | render_chart }}
+      </div>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </section>
+  {% endif %}
+
+  {% if sections.diagrams %}
+  <section>
+    <h2>{% if locale == 'zh-CN' %}图示原语{% else %}Diagram Primitives{% endif %}</h2>
+    {% for item in sections.diagrams %}
+    <div class="section-item">
+      <h4 class="section-subtitle">{{ item.name }}</h4>
+      {% for para in item.body %}
+      <p>{{ para }}</p>
+      {% endfor %}
+      {% if item.diagram %}
+      <div class="diagram-container diagram-container-styled">
+        {{ item.diagram | render_diagram }}
+      </div>
+      {% endif %}
     </div>
     {% endfor %}
   </section>

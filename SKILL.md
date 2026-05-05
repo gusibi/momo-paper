@@ -80,6 +80,7 @@ Match the user's wording to a `document_type`. For the full routing table with i
 | research summary / 研究摘要 / brief report | `research_summary` | `research-summary.html` | `research-summary-en.html` |
 | stats report / 数据报告 / KPI report | `stats_report` | `stats-report.html` | `stats-report-en.html` |
 | infographic / 信息图 / visual summary | `infographic` | `infographic.html` | `infographic-en.html` |
+| landing page / 首页 / 产品页 | `landing` | `landing.html.j2` | `landing.html.j2` |
 
 Resolution rules:
 1. Prefer `document_type + locale`.

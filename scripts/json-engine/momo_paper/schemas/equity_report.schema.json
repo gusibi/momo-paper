@@ -19,7 +19,9 @@
       "properties": {
         "title": { "type": "string", "description": "标的名称 / Company name" },
         "subtitle": { "type": "string", "description": "投资结论 / Investment thesis" },
-        "eyebrow": { "type": "string", "description": "顶部标签，如 Momo Paper / equity_report / zh-CN" },
+        "eyebrow": { "type": "string", "description": "顶部标签，如 EQUITY RESEARCH" },
+        "industry": { "type": "string", "description": "行业分类，如 Internet / Software" },
+        "ticker": { "type": "string", "description": "股票代码，如 0700.HK" },
         "date": { "type": "string", "format": "date" },
         "analyst": { "type": "string" },
         "disclaimer": { "type": "string" }

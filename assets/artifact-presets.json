@@ -207,6 +207,18 @@
         "单页图解",
         "visual summary"
       ]
+    },
+    "landing": {
+      "route": "landing.landing",
+      "surface": "landing",
+      "document_shape": "landing",
+      "phrases": [
+        "landing page",
+        "landing",
+        "首页",
+        "产品页",
+        "marketing page"
+      ]
     }
   },
   "localeTemplateMap": {
@@ -269,6 +281,10 @@
     "infographic": {
       "zh-CN": "assets/templates/infographic.html",
       "en": "assets/templates/infographic-en.html"
+    },
+    "landing": {
+      "zh-CN": "scripts/json-engine/momo_paper/templates/landing.html.j2",
+      "en": "scripts/json-engine/momo_paper/templates/landing.html.j2"
     }
   },
   "diagramTypeMap": {
@@ -1220,6 +1236,82 @@
           "forbiddenUses": [
             "Do not turn the sheet into a scrolling article.",
             "Do not use large numerics in every block."
+          ]
+        }
+      }
+    },
+    "landing": {
+      "description": "Marketing landing page with hero, features, workflows, and ecosystem sections. Uses its own design token system separate from the main design-tokens.json.",
+      "grid": {
+        "canvas": "responsive",
+        "maxWidth": 1100,
+        "gutter": 24,
+        "sectionPaddingY": 64
+      },
+      "density": "standard",
+      "motion": "minimal",
+      "typographyBias": "display-forward",
+      "allowedComponents": [
+        "hero_block",
+        "feature_card",
+        "workflow_card",
+        "doc_type_card",
+        "comparison_card",
+        "number_strip",
+        "ecosystem_card",
+        "cta_block"
+      ],
+      "allowedPatterns": [
+        "hero",
+        "features_grid",
+        "workflow_showcase",
+        "doc_type_grid",
+        "comparison",
+        "numbers",
+        "ecosystem",
+        "bottom_cta"
+      ],
+      "rules": [
+        "Uses its own design tokens in landing.html.j2, not design-tokens.json.",
+        "Theme toggle between dark (default) and light is supported.",
+        "One-page marketing style, not a document surface."
+      ],
+      "documentShapes": {
+        "landing": {
+          "purpose": "Product landing page with hero, features, workflows, document types showcase, comparison, and ecosystem sections.",
+          "sectionRecipe": [
+            "hero",
+            "features",
+            "workflows",
+            "doc_types",
+            "comparison",
+            "numbers",
+            "ecosystem",
+            "bottom_cta"
+          ],
+          "allowedComponents": [
+            "hero_block",
+            "feature_card",
+            "workflow_card",
+            "doc_type_card",
+            "comparison_card",
+            "number_strip",
+            "ecosystem_card",
+            "cta_block"
+          ],
+          "allowedPatterns": [
+            "hero",
+            "features_grid",
+            "workflow_showcase",
+            "doc_type_grid",
+            "comparison",
+            "numbers",
+            "ecosystem",
+            "bottom_cta"
+          ],
+          "forbiddenUses": [
+            "Do not use document-style prose sections.",
+            "Do not add chart frames or diagram primitives."
           ]
         }
       }

@@ -30,6 +30,7 @@ Use it when the user speaks in document names rather than internal routes.
 | `research summary / 研究摘要 / brief report` | `research_summary` | `web_dual.research_summary` | `assets/templates/research-summary.html` | `assets/templates/research-summary-en.html` |
 | `stats report / 数据报告 / KPI report` | `stats_report` | `web_dual.stats_report` | `assets/templates/stats-report.html` | `assets/templates/stats-report-en.html` |
 | `infographic / 信息图 / visual summary` | `infographic` | `visual_sheet.infographic` | `assets/templates/infographic.html` | `assets/templates/infographic-en.html` |
+| `landing page / 首页 / 产品页` | `landing` | `landing.landing` | `scripts/json-engine/momo_paper/templates/landing.html.j2` | `scripts/json-engine/momo_paper/templates/landing.html.j2` |
 
 ## Notes
 
