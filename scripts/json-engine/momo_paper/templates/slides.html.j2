@@ -2,6 +2,25 @@
 {% block title %}Momo Paper · Slides · {{ meta.title }}{% endblock %}
 {% block extra_css %}
   <style>
+    /* ===== Override document container — slides are full-screen ===== */
+    .docs {
+      padding-top: 0;
+      padding-bottom: 0;
+      max-width: 100% !important;
+    }
+    .docs .container {
+      max-width: 100% !important;
+      padding: 0 !important;
+    }
+    .docs .container--text {
+      max-width: 100% !important;
+      padding: 0 !important;
+      background: none !important;
+      border-radius: 0 !important;
+    }
+    .theme-toggle { display: none !important; }
+
+    /* ===== Slide layout ===== */
     html, body {
       height: 100%;
       overflow: hidden;
@@ -14,6 +33,7 @@
       overflow-y: scroll;
       scroll-snap-type: y mandatory;
       scroll-behavior: smooth;
+      background: #1a1a1a;
     }
     .slide {
       width: 100%;
@@ -132,9 +152,22 @@
       opacity: 0.6;
     }
 
+    /* ===== Responsive ===== */
+    @media (max-width: 768px) {
+      .slide {
+        padding: 40px 24px;
+        max-height: none;
+      }
+      .slide h1 { font-size: 32px; }
+      .slide h2 { font-size: 24px; }
+      .slide .point { font-size: 18px; }
+      .slide .bullets li { font-size: 16px; }
+      .slide-comparison { grid-template-columns: 1fr; gap: 24px; }
+    }
+
     @media print {
       html, body { height: auto; overflow: visible; background: #fff; }
-      article { height: auto; overflow: visible; scroll-snap-type: none; }
+      article { height: auto; overflow: visible; scroll-snap-type: none; background: #fff; }
       .slide {
         height: auto;
         min-height: 100vh;
