@@ -2,9 +2,9 @@
 {% block title %}Momo Paper · Case Study · {{ meta.title }}{% endblock %}
 {% block content %}
   <header class="mb-[var(--space-3xl)] text-left">
-    <p class="eyebrow block mb-[var(--space-sm)] font-mono text-[0.75rem] font-medium uppercase tracking-[0.08em] text-brand">{{ meta.eyebrow | default('Momo Paper / case_study / ' + locale) }}</p>
+    <p class="block mb-[var(--space-sm)] font-mono text-[0.75rem] font-medium uppercase tracking-[0.08em] text-brand">{{ meta.eyebrow | default('Momo Paper / case_study / ' + locale) }}</p>
     <h1>{{ meta.title }}</h1>
-    <p class="subtitle max-w-full text-[1.1rem] text-subtle md:max-w-[var(--max-width-text)]">{{ meta.subtitle }}</p>
+    <p class="max-w-full text-[1.1rem] text-subtle md:max-w-[var(--max-width-text)]">{{ meta.subtitle }}</p>
   </header>
 
   {% if sections.context %}
@@ -23,11 +23,11 @@
     <p>{{ para }}</p>
     {% endfor %}
     {% if sections.problem.metrics %}
-    <div class="card-grid">
+    <div class="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-[var(--space-lg)] my-[var(--space-xl)]">
       {% for m in sections.problem.metrics %}
-      <div class="fact-card">
-        <div class="label">{{ m.label }}</div>
-        <div class="value">{{ m.value }}</div>
+      <div class="relative overflow-hidden rounded-[var(--radius)] border border-[var(--border-light)] bg-surface3 p-[var(--space-xl)] transition-all duration-350 hover:-translate-y-0.5 hover:border-[var(--border)] hover:shadow-[var(--shadow)] before:absolute before:inset-0 before:rounded-[var(--radius)] before:bg-gradient-to-b before:from-white/[0.015] before:to-transparent before:pointer-events-none">
+        <span class="relative z-[1] mb-[var(--space-sm)] block font-mono text-[0.7rem] font-medium uppercase tracking-[0.06em] text-[var(--text-muted)]">{{ m.label }}</span>
+        <div class="relative z-[1] font-display text-[1.35rem] font-semibold leading-[1.15] text-[var(--text-heading)]">{{ m.value }}</div>
       </div>
       {% endfor %}
     </div>
@@ -45,7 +45,7 @@
     <ol class="step-list">
       {% for step in sections.approach.steps %}
       <li>
-        <div class="step-title">{{ step }}</div>
+        <div class="font-semibold text-[1.05rem] text-[var(--text-heading)] mb-[var(--space-xs)]">{{ step }}</div>
       </li>
       {% endfor %}
     </ol>
@@ -60,12 +60,12 @@
     <p>{{ para }}</p>
     {% endfor %}
     {% if sections.evidence.results %}
-    <div class="card-grid">
+    <div class="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-[var(--space-lg)] my-[var(--space-xl)]">
       {% for r in sections.evidence.results %}
-      <div class="fact-card">
-        <div class="label">{{ r.label }}</div>
-        <div class="value">{{ r.value }}</div>
-        {% if r.change %}<div class="unit">{{ r.change }}</div>{% endif %}
+      <div class="relative overflow-hidden rounded-[var(--radius)] border border-[var(--border-light)] bg-surface3 p-[var(--space-xl)] transition-all duration-350 hover:-translate-y-0.5 hover:border-[var(--border)] hover:shadow-[var(--shadow)] before:absolute before:inset-0 before:rounded-[var(--radius)] before:bg-gradient-to-b before:from-white/[0.015] before:to-transparent before:pointer-events-none">
+        <span class="relative z-[1] mb-[var(--space-sm)] block font-mono text-[0.7rem] font-medium uppercase tracking-[0.06em] text-[var(--text-muted)]">{{ r.label }}</span>
+        <div class="relative z-[1] font-display text-[1.35rem] font-semibold leading-[1.15] text-[var(--text-heading)]">{{ r.value }}</div>
+        {% if r.change %}<div class="relative z-[1] mt-[var(--space-xs)] text-[0.75rem] text-[var(--text-muted)]">{{ r.change }}</div>{% endif %}
       </div>
       {% endfor %}
     </div>
@@ -89,9 +89,9 @@
     <p>{{ para }}</p>
     {% endfor %}
     {% if sections.takeaway.lessons %}
-    <ul class="summary-strip">
+    <ul class="my-[var(--space-xl)] list-none rounded-[0_var(--radius)_var(--radius)_0] border-l-[3px] border-l-brand bg-surface2 p-[var(--space-lg)_var(--space-xl)] pl-0 before:hidden">
       {% for lesson in sections.takeaway.lessons %}
-      <li>{{ lesson }}</li>
+      <li class="relative mb-[var(--space-sm)] pl-[var(--space-xl)] text-[0.95rem] leading-[1.6] text-ink before:absolute before:left-[4px] before:top-[10px] before:h-[6px] before:w-[6px] before:rounded-full before:bg-[var(--accent-2)] before:content-[''] last:mb-0">{{ lesson }}</li>
       {% endfor %}
     </ul>
     {% endif %}

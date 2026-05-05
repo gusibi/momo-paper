@@ -2,7 +2,12 @@
 {% block title %}Momo Paper · Slides · {{ meta.title }}{% endblock %}
 {% block extra_css %}
   <style>
-    /* ===== Override document container — slides are full-screen ===== */
+    /* Slides override document container — full-screen layout */
+    html, body {
+      height: 100%;
+      overflow: hidden;
+      background: #1a1a1a;
+    }
     .docs {
       padding-top: 0;
       padding-bottom: 0;
@@ -12,20 +17,8 @@
       max-width: 100% !important;
       padding: 0 !important;
     }
-    .docs .container--text {
-      max-width: 100% !important;
-      padding: 0 !important;
-      background: none !important;
-      border-radius: 0 !important;
-    }
     .theme-toggle { display: none !important; }
 
-    /* ===== Slide layout ===== */
-    html, body {
-      height: 100%;
-      overflow: hidden;
-      background: #1a1a1a;
-    }
     article {
       max-width: 100%;
       padding: 0;
@@ -67,114 +60,25 @@
       color: var(--ink);
       margin-bottom: 32px;
     }
-    .slide .point {
-      font-size: 24px;
-      line-height: 1.5;
-      color: var(--ink-subtle);
-      margin-bottom: 40px;
-      max-width: 100%;
-    }
-    .slide .bullets {
-      list-style: none;
-      padding: 0;
-      max-width: 100%;
-    }
-    .slide .bullets li {
-      position: relative;
-      padding-left: 32px;
-      font-size: 22px;
-      line-height: 1.7;
-      color: var(--ink);
-      margin-bottom: 12px;
-    }
-    .slide .bullets li::before {
-      content: "";
-      position: absolute;
-      left: 0;
-      top: 12px;
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--brand);
-    }
-    .slide-cover {
-      background: var(--brand);
-    }
-    .slide-cover h1 {
-      color: #fff;
-      font-size: 64px;
-    }
-    .slide-cover .subtitle-cover {
-      font-size: 24px;
-      color: var(--brand-muted);
-      margin-top: 16px;
-    }
+    .slide-cover { background: var(--brand); }
+    .slide-cover h1 { color: #fff; font-size: 64px; }
+    .slide-cover .subtitle-cover { font-size: 24px; color: var(--brand-muted); margin-top: 16px; }
     .slide-cover .eyebrow-cover {
-      font-family: var(--font-mono);
-      font-size: 13px;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      color: rgba(255,255,255,0.6);
-      margin-bottom: 40px;
-    }
-    .slide-comparison {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 48px;
-      align-items: start;
-    }
-    .slide-comparison .col h3 {
-      font-family: var(--font-serif);
-      font-size: 24px;
-      font-weight: 600;
-      margin-bottom: 16px;
-      color: var(--ink);
-    }
-    .slide-comparison .col p {
-      font-size: 18px;
-      line-height: 1.6;
-      color: var(--ink-subtle);
-    }
-    .pagination {
-      position: absolute;
-      bottom: 32px;
-      right: 60px;
-      font-family: var(--font-mono);
-      font-size: 13px;
-      color: var(--ink-subtle);
-    }
-    .slide-note {
-      position: absolute;
-      bottom: 20px;
-      left: 60px;
-      font-size: 12px;
-      color: var(--ink-subtle);
-      opacity: 0.6;
+      font-family: var(--font-mono); font-size: 13px;
+      text-transform: uppercase; letter-spacing: 0.06em;
+      color: rgba(255,255,255,0.6); margin-bottom: 40px;
     }
 
-    /* ===== Responsive ===== */
     @media (max-width: 768px) {
-      .slide {
-        padding: 40px 24px;
-        max-height: none;
-      }
+      .slide { padding: 40px 24px; max-height: none; }
       .slide h1 { font-size: 32px; }
       .slide h2 { font-size: 24px; }
-      .slide .point { font-size: 18px; }
-      .slide .bullets li { font-size: 16px; }
-      .slide-comparison { grid-template-columns: 1fr; gap: 24px; }
+      .slide-cover h1 { font-size: 42px; }
     }
-
     @media print {
       html, body { height: auto; overflow: visible; background: #fff; }
       article { height: auto; overflow: visible; scroll-snap-type: none; background: #fff; }
-      .slide {
-        height: auto;
-        min-height: 100vh;
-        max-height: none;
-        page-break-after: always;
-        scroll-snap-align: none;
-      }
+      .slide { height: auto; min-height: 100vh; max-height: none; page-break-after: always; scroll-snap-align: none; }
       @page { size: 16in 9in landscape; }
     }
   </style>
@@ -182,37 +86,37 @@
 {% block content %}
   <article data-document-type="slides">
     {% for s in slides %}
-    <div class="slide{% if loop.first %} slide-cover{% endif %}{% if s.layout == 'comparison' %} slide-comparison{% endif %}">
+    <div class="slide{% if loop.first %} slide-cover{% endif %}{% if s.layout == 'comparison' %} grid grid-cols-2 items-start gap-12 max-md:grid-cols-1 max-md:gap-6{% endif %}">
       {% if loop.first %}
         <div class="eyebrow-cover">{{ meta.eyebrow | default('Momo Paper / slides') }}</div>
         <h1>{{ meta.title }}</h1>
         {% if meta.subtitle %}<div class="subtitle-cover">{{ meta.subtitle }}</div>{% endif %}
       {% elif s.layout == 'comparison' and s.bullets %}
-        <div class="col">
-          <h3>{{ s.title }}</h3>
+        <div>
+          <h3 class="font-serif text-[24px] font-semibold mb-4 text-ink">{{ s.title }}</h3>
           {% for b in s.bullets[:s.bullets|length // 2 + s.bullets|length % 2] %}
-          <p>{{ b }}</p>
+          <p class="text-[18px] leading-[1.6] text-subtle">{{ b }}</p>
           {% endfor %}
         </div>
-        <div class="col">
-          <h3>{{ s.point }}</h3>
+        <div>
+          <h3 class="font-serif text-[24px] font-semibold mb-4 text-ink">{{ s.point }}</h3>
           {% for b in s.bullets[s.bullets|length // 2 + s.bullets|length % 2:] %}
-          <p>{{ b }}</p>
+          <p class="text-[18px] leading-[1.6] text-subtle">{{ b }}</p>
           {% endfor %}
         </div>
       {% else %}
         <h2>{{ s.title }}</h2>
-        {% if s.point %}<p class="point">{{ s.point }}</p>{% endif %}
+        {% if s.point %}<p class="mb-10 max-w-full text-[24px] leading-[1.5] text-subtle max-md:text-[18px]">{{ s.point }}</p>{% endif %}
         {% if s.bullets %}
-        <ul class="bullets">
+        <ul class="max-w-full list-none pl-0">
           {% for b in s.bullets %}
-          <li>{{ b }}</li>
+          <li class="relative mb-3 pl-8 text-[22px] leading-[1.7] text-ink before:absolute before:left-0 before:top-[12px] before:h-[8px] before:w-[8px] before:rounded-full before:bg-brand before:content-[''] max-md:text-[16px]">{{ b }}</li>
           {% endfor %}
         </ul>
         {% endif %}
       {% endif %}
-      <div class="pagination">{{ loop.index }} / {{ slides | length }}</div>
-      {% if s.note %}<div class="slide-note">{{ s.note }}</div>{% endif %}
+      <div class="absolute bottom-8 right-[60px] font-mono text-[13px] text-subtle">{{ loop.index }} / {{ slides | length }}</div>
+      {% if s.note %}<div class="absolute bottom-5 left-[60px] text-[12px] text-subtle opacity-60">{{ s.note }}</div>{% endif %}
     </div>
     {% endfor %}
   </article>

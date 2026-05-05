@@ -2,42 +2,21 @@
 {% block title %}Momo Paper · Letter · {{ meta.title }}{% endblock %}
 {% block extra_css %}
   <style>
-    .letter-body p {
-      margin-bottom: 16px;
-      text-indent: 2em;
-    }
+    .letter-body p { text-indent: 2em; }
     .letter-body p:first-child { text-indent: 0; }
-    .letter-signoff {
-      margin-top: 40px;
-      padding-top: 20px;
-      border-top: 1px solid var(--line);
-    }
-    .letter-signoff .closing {
-      font-style: italic;
-      margin-bottom: 20px;
-    }
-    .letter-signoff .name {
-      font-weight: 600;
-      font-size: 16px;
-    }
-    .letter-signoff .title {
-      font-size: 13px;
-      color: var(--ink-subtle);
-      margin-top: 4px;
-    }
   </style>
 {% endblock %}
 {% block content %}
   <header class="mb-[var(--space-3xl)] text-left">
-    <p class="eyebrow block mb-[var(--space-sm)] font-mono text-[0.75rem] font-medium uppercase tracking-[0.08em] text-brand">{{ meta.eyebrow | default('Momo Paper / letter / ' + locale) }}</p>
+    <p class="block mb-[var(--space-sm)] font-mono text-[0.75rem] font-medium uppercase tracking-[0.08em] text-brand">{{ meta.eyebrow | default('Momo Paper / letter / ' + locale) }}</p>
     <h1>{{ meta.title }}</h1>
-    <p class="subtitle max-w-full text-[1.1rem] text-subtle md:max-w-[var(--max-width-text)]">{{ meta.subtitle }}</p>
+    <p class="max-w-full text-[1.1rem] text-subtle md:max-w-[var(--max-width-text)]">{{ meta.subtitle }}</p>
   </header>
 
   {% if sections.opening %}
   <section class="letter-body">
     {% for para in sections.opening.body %}
-    <p>{{ para }}</p>
+    <p class="mb-4">{{ para }}</p>
     {% endfor %}
   </section>
   {% endif %}
@@ -45,7 +24,7 @@
   {% if sections.body %}
   <section class="letter-body">
     {% for para in sections.body.paragraphs %}
-    <p>{{ para }}</p>
+    <p class="mb-4">{{ para }}</p>
     {% endfor %}
   </section>
   {% endif %}
@@ -57,9 +36,9 @@
     <p>{{ para }}</p>
     {% endfor %}
     {% if sections.request.actions %}
-    <ul class="checklist">
+    <ul class="my-[var(--space-md)] list-none pl-0">
       {% for action in sections.request.actions %}
-      <li>{{ action }}</li>
+      <li class="relative mb-[var(--space-sm)] pl-[var(--space-xl)] text-[0.95rem] leading-[1.6] text-subtle before:absolute before:left-0 before:font-bold before:text-[var(--green)] before:content-['✓']">{{ action }}</li>
       {% endfor %}
     </ul>
     {% endif %}
@@ -67,15 +46,15 @@
   {% endif %}
 
   {% if sections.signoff %}
-  <div class="letter-signoff">
-    {% if sections.signoff.closing %}<p class="closing">{{ sections.signoff.closing }}</p>{% endif %}
-    {% if sections.signoff.name %}<p class="name">{{ sections.signoff.name }}</p>{% endif %}
-    {% if sections.signoff.title %}<p class="title">{{ sections.signoff.title }}</p>{% endif %}
+  <div class="mt-10 border-t border-line pt-5">
+    {% if sections.signoff.closing %}<p class="mb-5 italic">{{ sections.signoff.closing }}</p>{% endif %}
+    {% if sections.signoff.name %}<p class="text-[16px] font-semibold">{{ sections.signoff.name }}</p>{% endif %}
+    {% if sections.signoff.title %}<p class="mt-1 text-[13px] text-subtle">{{ sections.signoff.title }}</p>{% endif %}
   </div>
   {% endif %}
 {% endblock %}
 {% block footer %}
-  <div class="footer-meta">
+  <div class="mt-[var(--space-2xl)] flex flex-wrap justify-between gap-[var(--space-sm)] border-t border-[var(--border-light)] pt-[var(--space-lg)] font-mono text-[0.75rem] text-[var(--text-muted)] max-md:flex-col">
     <span>{{ meta.date | default('') }}</span>
     <span>{{ meta.sender | default('') }}{% if meta.recipient %} → {{ meta.recipient }}{% endif %}</span>
   </div>

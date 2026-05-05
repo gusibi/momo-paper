@@ -2,9 +2,6 @@
 {% block title %}Momo Paper · Changelog · {{ meta.title }}{% endblock %}
 {% block extra_css %}
   <style>
-    .changelog-category {
-      margin-bottom: 24px;
-    }
     .changelog-category h3 {
       font-family: var(--font-mono);
       font-size: 12px;
@@ -15,54 +12,32 @@
       padding-bottom: 6px;
       border-bottom: 1px solid var(--line);
     }
-    .changelog-category ul {
-      list-style: none;
-      padding-left: 0;
-    }
-    .changelog-category li {
-      position: relative;
-      padding-left: 20px;
-      margin-bottom: 8px;
-      font-size: 14px;
-    }
-    .changelog-category li::before {
-      content: "•";
-      position: absolute;
-      left: 0;
-      color: var(--brand);
-    }
-    .cat-added h3 { color: var(--success); }
-    .cat-changed h3 { color: var(--warning); }
-    .cat-fixed h3 { color: var(--brand); }
-    .cat-deprecated h3 { color: var(--ink-subtle); }
-    .cat-removed h3 { color: var(--danger); }
-    .cat-security h3 { color: var(--danger); }
   </style>
 {% endblock %}
 {% block content %}
   <header class="mb-[var(--space-3xl)] text-left">
-    <p class="eyebrow block mb-[var(--space-sm)] font-mono text-[0.75rem] font-medium uppercase tracking-[0.08em] text-brand">{{ meta.eyebrow | default('Momo Paper / changelog / ' + locale) }}</p>
+    <p class="block mb-[var(--space-sm)] font-mono text-[0.75rem] font-medium uppercase tracking-[0.08em] text-brand">{{ meta.eyebrow | default('Momo Paper / changelog / ' + locale) }}</p>
     <h1>{{ meta.title }}</h1>
-    <p class="subtitle max-w-full text-[1.1rem] text-subtle md:max-w-[var(--max-width-text)]">{{ meta.subtitle }}</p>
+    <p class="max-w-full text-[1.1rem] text-subtle md:max-w-[var(--max-width-text)]">{{ meta.subtitle }}</p>
   </header>
 
   {% if sections.highlights %}
   <section>
     <h2>{% if locale == 'zh-CN' %}Highlights{% else %}Highlights{% endif %}</h2>
-    <ul class="summary-strip">
+    <ul class="my-[var(--space-xl)] list-none rounded-[0_var(--radius)_var(--radius)_0] border-l-[3px] border-l-brand bg-surface2 p-[var(--space-lg)_var(--space-xl)] pl-0">
       {% for item in sections.highlights['items'] %}
-      <li>{{ item }}</li>
+      <li class="relative mb-[var(--space-sm)] pl-[var(--space-xl)] text-[0.95rem] leading-[1.6] text-ink before:absolute before:left-[4px] before:top-[10px] before:h-[6px] before:w-[6px] before:rounded-full before:bg-[var(--accent-2)] before:content-[''] last:mb-0">{{ item }}</li>
       {% endfor %}
     </ul>
   </section>
   {% endif %}
 
   {% for cat in sections.changes %}
-  <div class="changelog-category cat-{{ cat.category }}">
-    <h3>{{ cat.category }}</h3>
-    <ul>
+  <div class="mb-6">
+    <h3 class="{% if cat.category == 'added' %}!text-[var(--success)]{% elif cat.category == 'changed' %}!text-[var(--warning)]{% elif cat.category == 'fixed' %}!text-brand{% elif cat.category == 'removed' or cat.category == 'security' %}!text-[var(--danger)]{% endif %}">{{ cat.category }}</h3>
+    <ul class="list-none pl-0">
       {% for item in cat['items'] %}
-      <li>{{ item }}</li>
+      <li class="relative mb-2 pl-5 text-[14px] before:absolute before:left-0 before:text-brand before:content-['•']">{{ item }}</li>
       {% endfor %}
     </ul>
   </div>
@@ -78,7 +53,7 @@
   {% endif %}
 {% endblock %}
 {% block footer %}
-  <div class="footer-meta">
+  <div class="mt-[var(--space-2xl)] flex flex-wrap justify-between gap-[var(--space-sm)] border-t border-[var(--border-light)] pt-[var(--space-lg)] font-mono text-[0.75rem] text-[var(--text-muted)] max-md:flex-col">
     <span>{{ meta.version | default('') }}</span>
     <span>{{ meta.date | default('') }}</span>
   </div>

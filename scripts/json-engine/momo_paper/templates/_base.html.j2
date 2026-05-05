@@ -45,70 +45,46 @@
   </script>
   <style>
     /* ============================================================
-       Momo Paper — Document Styles
-       Design: "The Editor's Desk" — editorial, warm, precise
+       Momo Paper — Design Tokens
        ============================================================ */
 
-    /* ===== Design Tokens — Dark Theme (default) ===== */
+    /* ===== Dark Theme (default) ===== */
     :root {
-      /* Backgrounds */
       --bg-primary: #21211e;
       --bg-secondary: #2a2a27;
       --bg-tertiary: #33332f;
       --bg-code: #1c1c1a;
       --bg-elevated: #353532;
-      /* Text */
       --text-primary: #e6e2d8;
       --text-secondary: #b5b0a4;
       --text-muted: #7a766a;
       --text-heading: #f0ece2;
-      /* Accent — Navy (momo-paper brand) */
       --accent: #3B6DA5;
       --accent-hover: #4A80BA;
       --accent-dim: #2A5480;
       --accent-glow: rgba(59, 109, 165, 0.12);
-      /* Secondary Accent — Terracotta */
       --accent-2: #D4785A;
       --accent-2-hover: #e0886a;
       --accent-2-dim: #8a4a35;
-      /* Semantic */
       --green: #7b9e6d;
       --red: #c06a5a;
       --orange: #c98d4e;
       --blue: #7b8faa;
-      /* Borders */
       --border: #3a3832;
       --border-light: #2e2d28;
-      /* Typography */
       --font-display: "Noto Serif SC", "Source Han Serif SC", "Songti SC", serif;
       --font-body: "Inter", "Noto Sans SC", "PingFang SC", sans-serif;
       --font-mono: "IBM Plex Mono", "SFMono-Regular", monospace;
-      /* Spacing */
-      --space-xs: 0.25rem;
-      --space-sm: 0.5rem;
-      --space-md: 1rem;
-      --space-lg: 1.5rem;
-      --space-xl: 2rem;
-      --space-2xl: 3rem;
-      --space-3xl: 4rem;
-      --space-4xl: 6rem;
-      /* Radii */
-      --radius-sm: 6px;
-      --radius: 10px;
-      --radius-lg: 16px;
-      --radius-xl: 24px;
-      /* Layout */
-      --max-width: 1100px;
-      --max-width-text: 720px;
-      --nav-height: 64px;
-      /* Shadows */
+      --space-xs: 0.25rem; --space-sm: 0.5rem; --space-md: 1rem;
+      --space-lg: 1.5rem; --space-xl: 2rem; --space-2xl: 3rem;
+      --space-3xl: 4rem; --space-4xl: 6rem;
+      --radius-sm: 6px; --radius: 10px; --radius-lg: 16px; --radius-xl: 24px;
+      --max-width: 1100px; --max-width-text: 720px; --nav-height: 64px;
       --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
       --shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
       --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
-      /* Transitions */
       --transition: 200ms ease;
       --transition-slow: 350ms ease;
-      /* Semantic aliases — backward compat with child templates */
       --canvas: var(--bg-secondary);
       --paper: var(--bg-elevated);
       --ink: var(--text-primary);
@@ -125,14 +101,13 @@
       --section-gap: 3.5rem;
       --shadow-soft: 0 2px 16px rgba(0, 0, 0, 0.18);
       --shadow-surface: 0 1px 2px rgba(0, 0, 0, 0.28), 0 6px 20px rgba(0, 0, 0, 0.35);
-      /* Surface hierarchy — distinct elevation levels */
       --surface-0: var(--bg-primary);
       --surface-1: var(--bg-secondary);
       --surface-2: var(--bg-tertiary);
       --surface-3: var(--bg-elevated);
     }
 
-    /* ===== Design Tokens — Light Theme ===== */
+    /* ===== Light Theme ===== */
     [data-theme="light"] {
       --bg-primary: #f8f5ee;
       --bg-secondary: #f2efe6;
@@ -178,7 +153,7 @@
     }
 
     /* ============================================================
-       Reset & Base
+       Reset & Base (element defaults, not class-based)
        ============================================================ */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html {
@@ -209,17 +184,10 @@
       background-repeat: repeat;
       background-size: 256px 256px;
     }
-    [data-theme="light"] body::before {
-      opacity: 0.025;
-    }
-    ::selection {
-      background: var(--accent-dim);
-      color: var(--bg-primary);
-    }
+    [data-theme="light"] body::before { opacity: 0.025; }
+    ::selection { background: var(--accent-dim); color: var(--bg-primary); }
 
-    /* ============================================================
-       Typography
-       ============================================================ */
+    /* ===== Typography (element defaults) ===== */
     h1, h2, h3, h4, h5, h6 {
       font-family: var(--font-display);
       font-weight: 600;
@@ -231,11 +199,7 @@
     h3 { font-size: clamp(1.1rem, 2vw, 1.4rem); }
     h4 { font-size: 1.15rem; }
     p { margin-bottom: var(--space-lg); line-height: 1.75; }
-    a {
-      color: var(--accent);
-      text-decoration: none;
-      transition: color var(--transition);
-    }
+    a { color: var(--accent); text-decoration: none; transition: color var(--transition); }
     a:hover { color: var(--accent-hover); }
     code {
       font-family: var(--font-mono);
@@ -258,11 +222,8 @@
       margin-bottom: var(--space-lg);
     }
     pre code {
-      background: none;
-      padding: 0;
-      border: none;
-      color: var(--text-primary);
-      font-size: inherit;
+      background: none; padding: 0; border: none;
+      color: var(--text-primary); font-size: inherit;
     }
     strong { font-weight: 600; color: var(--text-heading); }
     ul, ol { padding-left: var(--space-xl); margin-bottom: var(--space-md); }
@@ -301,76 +262,15 @@
     }
     tr:hover td { background: var(--bg-secondary); }
 
-    /* ============================================================
-       Layout — Document Page
-       ============================================================ */
-    .container {
-      max-width: var(--max-width);
-      margin: 0 auto;
-      padding: 0 var(--space-xl);
-    }
-    .container--text { max-width: var(--max-width-text); margin: 0 auto; }
-    .docs {
-      padding-top: calc(var(--nav-height) + var(--space-2xl));
-      padding-bottom: var(--space-4xl);
-    }
-    .docs .container--text {
-      background: var(--bg-secondary);
-      border-radius: var(--radius-sm);
-      padding: var(--space-3xl) var(--space-2xl);
-    }
-    .docs__header {
-      text-align: left;
-      margin-bottom: var(--space-3xl);
-    }
-    .docs__header .eyebrow {
-      font-family: var(--font-mono);
-      font-size: 0.75rem;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--accent);
-      margin-bottom: var(--space-sm);
-      display: block;
-    }
-    .docs__header h1 {
-      margin-bottom: var(--space-sm);
-    }
-    .docs__header .subtitle {
-      font-size: 1.1rem;
-      color: var(--text-secondary);
-      max-width: 100%;
-    }
-    .docs .container--text > header {
-      text-align: left;
-      margin-bottom: var(--space-3xl);
-    }
-    .docs .container--text > header .eyebrow {
-      font-family: var(--font-mono);
-      font-size: 0.75rem;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--accent);
-      margin-bottom: var(--space-sm);
-      display: block;
-    }
-    .docs .container--text > header h1 {
-      margin-bottom: var(--space-sm);
-    }
-    .docs .container--text > header .subtitle {
-      font-size: 1.1rem;
-      color: var(--text-secondary);
-      max-width: var(--max-width-text);
-    }
-    .docs__body h2 {
+    /* ===== Section heading accent underline (::after can't do via Tailwind variants universally) ===== */
+    .docs-body h2 {
       margin-top: var(--space-3xl);
       margin-bottom: var(--space-lg);
       padding-bottom: var(--space-md);
       border-bottom: 1px solid var(--border);
       position: relative;
     }
-    .docs__body h2::after {
+    .docs-body h2::after {
       content: '';
       position: absolute;
       bottom: -1px; left: 0;
@@ -378,285 +278,11 @@
       background: var(--accent);
       border-radius: 1px;
     }
-    .docs__body h2:first-of-type {
-      margin-top: 0;
-    }
-    .docs__body h3 {
-      margin-top: var(--space-2xl);
-      margin-bottom: var(--space-md);
-    }
-    .docs__body p { line-height: 1.8; }
+    .docs-body h2:first-of-type { margin-top: 0; }
+    .docs-body h3 { margin-top: var(--space-2xl); margin-bottom: var(--space-md); }
+    .docs-body p { line-height: 1.8; }
 
-    /* ============================================================
-       Cards
-       ============================================================ */
-    .card-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: var(--space-lg);
-      margin: var(--space-xl) 0;
-    }
-    .fact-card {
-      padding: var(--space-xl) var(--space-lg);
-      background: var(--surface-3);
-      border: 1px solid var(--border-light);
-      border-radius: var(--radius);
-      transition: all var(--transition-slow);
-      position: relative;
-      overflow: hidden;
-    }
-    .fact-card::after {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: linear-gradient(180deg, rgba(255,255,255,0.015) 0%, transparent 60%);
-      pointer-events: none;
-      border-radius: var(--radius);
-    }
-    [data-theme="light"] .fact-card::after {
-      background: linear-gradient(180deg, rgba(255,255,255,0.3) 0%, transparent 60%);
-    }
-    .fact-card:hover {
-      border-color: var(--border);
-      transform: translateY(-2px);
-      box-shadow: var(--shadow);
-    }
-    .fact-card .label {
-      font-family: var(--font-mono);
-      font-size: 0.7rem;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      color: var(--text-muted);
-      margin-bottom: var(--space-sm);
-      display: block;
-      position: relative;
-      z-index: 1;
-    }
-    .fact-card .value {
-      font-family: var(--font-display);
-      font-size: 1.35rem;
-      font-weight: 600;
-      color: var(--text-heading);
-      line-height: 1.15;
-      position: relative;
-      z-index: 1;
-    }
-    .fact-card .unit {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      margin-top: var(--space-xs);
-      position: relative;
-      z-index: 1;
-    }
-
-    /* ============================================================
-       Lists
-       ============================================================ */
-    .bullet-list, .driver-list, .checklist {
-      list-style: none;
-      padding: 0;
-      margin: var(--space-md) 0;
-    }
-    .bullet-list li, .driver-list li, .checklist li {
-      position: relative;
-      padding-left: var(--space-xl);
-      margin-bottom: var(--space-sm);
-      font-size: 0.95rem;
-      line-height: 1.6;
-      color: var(--text-secondary);
-    }
-    .bullet-list li::before {
-      content: "";
-      position: absolute;
-      left: 4px;
-      top: 10px;
-      width: 6px;
-      height: 6px;
-      background: var(--accent-2);
-      border-radius: 50%;
-    }
-    .driver-list li::before {
-      content: "\2192";
-      position: absolute;
-      left: 0;
-      color: var(--accent);
-      font-weight: 600;
-    }
-    .checklist li::before {
-      content: "\2713";
-      position: absolute;
-      left: 0;
-      color: var(--green);
-      font-weight: 700;
-    }
-
-    /* ============================================================
-       Callouts
-       ============================================================ */
-    .insight-callout {
-      margin: var(--space-xl) 0;
-      padding: var(--space-lg) var(--space-xl);
-      background: var(--surface-2);
-      border-left: 3px solid var(--accent-2);
-      border-radius: 0 var(--radius) var(--radius) 0;
-      font-size: 0.95rem;
-      line-height: 1.7;
-      color: var(--text-primary);
-      position: relative;
-    }
-    .insight-callout::before {
-      content: "Insight";
-      display: block;
-      font-family: var(--font-mono);
-      font-size: 0.65rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--accent-2);
-      margin-bottom: var(--space-sm);
-    }
-    .summary-strip {
-      margin: var(--space-xl) 0;
-      padding: var(--space-lg) var(--space-xl);
-      background: var(--surface-2);
-      border-left: 3px solid var(--accent);
-      border-radius: 0 var(--radius) var(--radius) 0;
-    }
-    .summary-strip ul { list-style: none; padding: 0; margin: 0; }
-    .summary-strip li {
-      position: relative;
-      padding-left: var(--space-xl);
-      margin-bottom: var(--space-sm);
-      font-size: 0.95rem;
-      line-height: 1.6;
-      color: var(--text-primary);
-    }
-    .summary-strip li:last-child { margin-bottom: 0; }
-    .summary-strip li::before {
-      content: "";
-      position: absolute;
-      left: 4px;
-      top: 10px;
-      width: 6px;
-      height: 6px;
-      background: var(--accent-2);
-      border-radius: 50%;
-    }
-
-    /* ============================================================
-       Badges
-       ============================================================ */
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: var(--space-sm);
-      margin-top: var(--space-lg);
-      padding: var(--space-sm) var(--space-lg);
-      background: var(--bg-code);
-      border: 1px solid var(--border-light);
-      border-radius: var(--radius-sm);
-      font-size: 0.9rem;
-    }
-    .badge .label { font-weight: 600; color: var(--accent); }
-    .badge .value { color: var(--text-secondary); font-family: var(--font-mono); font-size: 0.8rem; }
-
-    /* ============================================================
-       Risk / Catalyst / Case Cards
-       ============================================================ */
-    .risk-grid, .catalyst-grid, .case-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: var(--space-lg);
-      margin: var(--space-xl) 0;
-    }
-    .risk-card, .catalyst-card, .case-card {
-      padding: var(--space-xl);
-      background: var(--surface-3);
-      border: 1px solid var(--border-light);
-      border-radius: var(--radius);
-      transition: all var(--transition-slow);
-      position: relative;
-      overflow: hidden;
-    }
-    .risk-card::after, .catalyst-card::after, .case-card::after {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: linear-gradient(180deg, rgba(255,255,255,0.015) 0%, transparent 60%);
-      pointer-events: none;
-      border-radius: var(--radius);
-    }
-    [data-theme="light"] .risk-card::after,
-    [data-theme="light"] .catalyst-card::after,
-    [data-theme="light"] .case-card::after {
-      background: linear-gradient(180deg, rgba(255,255,255,0.3) 0%, transparent 60%);
-    }
-    .risk-card:hover, .catalyst-card:hover, .case-card:hover {
-      border-color: var(--border);
-      transform: translateY(-2px);
-      box-shadow: var(--shadow);
-    }
-    .risk-card::before, .catalyst-card::before, .case-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 3px;
-      opacity: 0;
-      transition: opacity var(--transition-slow);
-      z-index: 2;
-    }
-    .risk-card:hover::before { background: linear-gradient(90deg, var(--red), transparent); opacity: 1; }
-    .catalyst-card:hover::before { background: linear-gradient(90deg, var(--green), transparent); opacity: 1; }
-    .case-card:hover::before { background: linear-gradient(90deg, var(--accent), transparent); opacity: 1; }
-    .risk-card .severity {
-      display: inline-block;
-      padding: 2px 8px;
-      border-radius: 4px;
-      font-family: var(--font-mono);
-      font-size: 0.65rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      margin-bottom: var(--space-sm);
-      position: relative;
-      z-index: 1;
-    }
-    .severity-high { background: rgba(192,106,90,0.15); color: var(--red); }
-    .severity-medium { background: rgba(201,141,78,0.15); color: var(--orange); }
-    .severity-low { background: rgba(123,158,109,0.15); color: var(--green); }
-    [data-theme="light"] .severity-high { background: #fce4e4; }
-    [data-theme="light"] .severity-medium { background: #fef3e4; }
-    [data-theme="light"] .severity-low { background: #e4f5e4; }
-    .risk-card h4, .catalyst-card h4, .case-card h4 {
-      font-family: var(--font-display);
-      font-size: 1.1rem;
-      font-weight: 600;
-      margin-bottom: var(--space-sm);
-      color: var(--text-heading);
-      position: relative;
-      z-index: 1;
-    }
-    .risk-card p, .catalyst-card p, .case-card p {
-      font-size: 0.9rem;
-      color: var(--text-secondary);
-      line-height: 1.6;
-      margin: 0;
-      position: relative;
-      z-index: 1;
-    }
-    .catalyst-card .timeline {
-      font-family: var(--font-mono);
-      font-size: 0.75rem;
-      color: var(--accent);
-      margin-top: var(--space-sm);
-      position: relative;
-      z-index: 1;
-    }
-
-    /* ============================================================
-       Steps
-       ============================================================ */
+    /* ===== Counter‑based step numbers (Tailwind can't express counter()) ===== */
     .step-list {
       list-style: none;
       counter-reset: step;
@@ -675,8 +301,7 @@
       content: counter(step);
       position: absolute;
       left: 0; top: 0;
-      width: 36px;
-      height: 36px;
+      width: 36px; height: 36px;
       background: var(--accent);
       color: var(--bg-primary);
       border-radius: 50%;
@@ -687,230 +312,33 @@
       font-size: 0.9rem;
       font-weight: 700;
     }
-    .step-list .step-title {
-      font-weight: 600;
-      font-size: 1.05rem;
-      color: var(--text-heading);
-      margin-bottom: var(--space-xs);
-    }
-    .step-list .step-desc {
-      font-size: 0.9rem;
-      color: var(--text-secondary);
-      line-height: 1.6;
-    }
-    .step-list .step-owner {
-      font-family: var(--font-mono);
-      font-size: 0.75rem;
-      color: var(--accent);
-      margin-top: var(--space-xs);
-    }
 
-    /* ============================================================
-       Timeline
-       ============================================================ */
-    .timeline-list {
-      list-style: none;
-      position: relative;
-      padding: 0;
-      margin: var(--space-xl) 0;
-      padding-left: 28px;
-    }
-    .timeline-list::before {
-      content: "";
-      position: absolute;
-      left: 7px;
-      top: 4px;
-      bottom: 4px;
-      width: 2px;
-      background: var(--border);
-    }
-    .timeline-list li {
-      position: relative;
-      padding-left: 32px;
-      margin-bottom: var(--space-xl);
-    }
-    .timeline-list li:last-child { margin-bottom: 0; }
-    .timeline-list li::before {
-      content: "";
-      position: absolute;
-      left: -24px;
-      top: 6px;
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      background: var(--accent);
-      border: 2px solid var(--bg-primary);
-      z-index: 1;
-    }
-    .timeline-list .tl-date {
-      font-family: var(--font-mono);
-      font-size: 0.8rem;
-      color: var(--accent);
-      margin-bottom: var(--space-xs);
-    }
-    .timeline-list .tl-title {
-      font-weight: 600;
-      font-size: 1rem;
-      color: var(--text-heading);
-      margin-bottom: var(--space-xs);
-    }
-    .timeline-list .tl-desc {
-      font-size: 0.9rem;
-      color: var(--text-secondary);
-      line-height: 1.6;
-    }
-    .timeline-list li.status-completed::before { background: var(--green); }
-    .timeline-list li.status-in_progress::before { background: var(--orange); }
-    .timeline-list li.status-upcoming::before { background: var(--border); }
-
-    /* ============================================================
-       Code Blocks
-       ============================================================ */
-    .code-block {
-      margin: var(--space-xl) 0;
-      background: var(--bg-code);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      overflow: hidden;
-    }
-    .code-block .code-label {
-      padding: var(--space-sm) var(--space-md);
-      font-family: var(--font-mono);
-      font-size: 0.7rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      color: var(--text-muted);
-      border-bottom: 1px solid var(--border-light);
-      background: var(--bg-tertiary);
-    }
-    .code-block pre {
-      margin: 0;
-      padding: var(--space-lg) var(--space-xl);
-      overflow-x: auto;
-      font-family: var(--font-mono);
-      font-size: 0.85rem;
-      line-height: 1.65;
-      color: var(--text-primary);
-      white-space: pre;
-      background: none;
-      border: none;
-      border-radius: 0;
-    }
-    .code-block code { background: none; padding: 0; border: none; color: inherit; font-size: inherit; }
-
-    /* ============================================================
-       Charts
-       ============================================================ */
-    .chart-container {
-      margin: var(--space-xl) 0;
-      padding: var(--space-lg);
-      background: var(--bg-code);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-    }
-    .chart-container svg {
-      display: block;
-      width: 100%;
-    }
-
-    /* ============================================================
-       Footer / Disclosure
-       ============================================================ */
-    .disclosure {
-      margin-top: var(--space-3xl);
-      padding-top: var(--space-xl);
-      border-top: 1px solid var(--border);
-    }
-    .disclosure h3 {
-      font-size: 1.1rem;
-      margin-bottom: var(--space-sm);
-    }
-    .disclosure p {
-      font-size: 0.85rem;
-      line-height: 1.7;
-      color: var(--text-secondary);
-    }
-    .footer-meta {
-      margin-top: var(--space-2xl);
-      padding-top: var(--space-lg);
-      border-top: 1px solid var(--border-light);
-      font-family: var(--font-mono);
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: var(--space-sm);
-    }
-
-    /* ============================================================
-       Theme Toggle (standalone use only)
-       ============================================================ */
-    .theme-toggle {
-      position: fixed;
-      top: 20px;
-      right: 24px;
-      z-index: 200;
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      border: 1px solid var(--border);
-      background: var(--bg-primary);
-      color: var(--text-secondary);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1rem;
-      transition: all var(--transition);
-    }
-    .theme-toggle:hover {
-      color: var(--accent);
-      border-color: var(--accent);
-    }
-
-    /* ============================================================
-       Print
-       ============================================================ */
+    /* ===== Print ===== */
     @media print {
       body { background: #fff; color: #000; }
       .docs { padding: 0; }
       .container { max-width: var(--max-width); margin: 0 auto; padding: 0 32px; }
       section, h2 { break-inside: avoid; page-break-inside: avoid; }
-      .card-grid, .case-grid, .risk-grid { break-inside: avoid; }
       .theme-toggle { display: none !important; }
     }
 
-    /* ============================================================
-       Responsive
-       ============================================================ */
+    /* ===== Responsive ===== */
     @media (max-width: 768px) {
-      .container { padding: 0 var(--space-md); }
-      .docs { padding-top: calc(var(--nav-height) + var(--space-xl)); padding-bottom: var(--space-2xl); }
-      .docs .container--text { padding: var(--space-xl) var(--space-md); }
-      .docs__body h2 { margin-top: var(--space-xl); }
-      .footer-meta { flex-direction: column; }
+      .docs-body h2 { margin-top: var(--space-xl); }
     }
-
-    /* ===== Utility Classes ===== */
-    .mt-xs { margin-top: var(--space-xs); }
-    .mt-sm { margin-top: var(--space-sm); }
-    .mt-md { margin-top: var(--space-md); }
-    .mb-md { margin-bottom: var(--space-md); }
-    .text-sm { font-size: 13px; }
-    .text-body-lg { font-size: 1rem; line-height: 1.6; }
   </style>
   {% block extra_css %}{% endblock %}
 </head>
 <body>
   <!-- NAV_INJECT -->
 
-  <button class="theme-toggle fixed right-6 top-5 z-[200] flex h-9 w-9 items-center justify-center rounded-full border border-line bg-[var(--bg-primary)] text-base text-[var(--text-secondary)] transition-colors duration-200" id="themeToggle" aria-label="Toggle theme" title="Toggle theme">&#9788;</button>
+  <button class="theme-toggle fixed right-6 top-5 z-[200] flex h-9 w-9 items-center justify-center rounded-full border border-line bg-[var(--bg-primary)] text-base text-[var(--text-secondary)] transition-colors duration-200 hover:border-brand hover:text-brand" id="themeToggle" aria-label="Toggle theme" title="Toggle theme">&#9788;</button>
 
   <main class="docs px-0 pt-[calc(var(--nav-height)+var(--space-xl))] pb-[var(--space-2xl)] md:pt-[calc(var(--nav-height)+var(--space-2xl))] md:pb-[var(--space-4xl)]">
-    <div class="container container--text mx-auto max-w-[var(--max-width-text)] rounded-[var(--radius-sm)] bg-[var(--bg-secondary)] px-[var(--space-md)] py-[var(--space-xl)] md:px-[var(--space-2xl)] md:py-[var(--space-3xl)]">
-      {% block content %}{% endblock %}
+    <div class="container mx-auto max-w-[var(--max-width-text)] rounded-[var(--radius-sm)] bg-[var(--bg-secondary)] px-[var(--space-md)] py-[var(--space-xl)] md:px-[var(--space-2xl)] md:py-[var(--space-3xl)]">
+      <div class="docs-body">
+        {% block content %}{% endblock %}
+      </div>
       {% block footer %}{% endblock %}
     </div>
   </main>

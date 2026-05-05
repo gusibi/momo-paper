@@ -2,9 +2,9 @@
 {% block title %}Momo Paper · Portfolio · {{ meta.title }}{% endblock %}
 {% block content %}
   <header class="mb-[var(--space-3xl)] text-left">
-    <p class="eyebrow block mb-[var(--space-sm)] font-mono text-[0.75rem] font-medium uppercase tracking-[0.08em] text-brand">{{ meta.eyebrow | default('Momo Paper / portfolio / ' + locale) }}</p>
+    <p class="block mb-[var(--space-sm)] font-mono text-[0.75rem] font-medium uppercase tracking-[0.08em] text-brand">{{ meta.eyebrow | default('Momo Paper / portfolio / ' + locale) }}</p>
     <h1>{{ meta.title }}</h1>
-    <p class="subtitle max-w-full text-[1.1rem] text-subtle md:max-w-[var(--max-width-text)]">{{ meta.subtitle }}</p>
+    <p class="max-w-full text-[1.1rem] text-subtle md:max-w-[var(--max-width-text)]">{{ meta.subtitle }}</p>
   </header>
 
   {% if sections.overview %}
@@ -23,11 +23,11 @@
     {% if case.action %}<p><strong>{% if locale == 'zh-CN' %}行动：{% else %}Action: {% endif %}</strong>{{ case.action }}</p>{% endif %}
     {% if case.result %}<p><strong>{% if locale == 'zh-CN' %}结果：{% else %}Result: {% endif %}</strong>{{ case.result }}</p>{% endif %}
     {% if case.metrics %}
-    <div class="card-grid">
+    <div class="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-[var(--space-lg)] my-[var(--space-xl)]">
       {% for m in case.metrics %}
-      <div class="fact-card">
-        <div class="label">{{ m.label }}</div>
-        <div class="value">{{ m.value }}</div>
+      <div class="relative overflow-hidden rounded-[var(--radius)] border border-[var(--border-light)] bg-surface3 p-[var(--space-xl)] transition-all duration-350 hover:-translate-y-0.5 hover:border-[var(--border)] hover:shadow-[var(--shadow)] before:absolute before:inset-0 before:rounded-[var(--radius)] before:bg-gradient-to-b before:from-white/[0.015] before:to-transparent before:pointer-events-none">
+        <span class="relative z-[1] mb-[var(--space-sm)] block font-mono text-[0.7rem] font-medium uppercase tracking-[0.06em] text-[var(--text-muted)]">{{ m.label }}</span>
+        <div class="relative z-[1] font-display text-[1.35rem] font-semibold leading-[1.15] text-[var(--text-heading)]">{{ m.value }}</div>
       </div>
       {% endfor %}
     </div>
@@ -42,9 +42,9 @@
     <p>{{ para }}</p>
     {% endfor %}
     {% if sections.capabilities.skills %}
-    <ul class="bullet-list">
+    <ul class="my-[var(--space-md)] list-none pl-0">
       {% for skill in sections.capabilities.skills %}
-      <li>{{ skill }}</li>
+      <li class="relative mb-[var(--space-sm)] pl-[var(--space-xl)] text-[0.95rem] leading-[1.6] text-subtle before:absolute before:left-[4px] before:top-[10px] before:h-[6px] before:w-[6px] before:rounded-full before:bg-[var(--accent-2)] before:content-['']">{{ skill }}</li>
       {% endfor %}
     </ul>
     {% endif %}

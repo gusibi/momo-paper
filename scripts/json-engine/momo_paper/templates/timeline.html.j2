@@ -2,20 +2,20 @@
 {% block title %}Momo Paper · Timeline · {{ meta.title }}{% endblock %}
 {% block content %}
   <header class="mb-[var(--space-3xl)] text-left">
-    <p class="eyebrow block mb-[var(--space-sm)] font-mono text-[0.75rem] font-medium uppercase tracking-[0.08em] text-brand">{{ meta.eyebrow | default('Momo Paper / timeline / ' + locale) }}</p>
+    <p class="block mb-[var(--space-sm)] font-mono text-[0.75rem] font-medium uppercase tracking-[0.08em] text-brand">{{ meta.eyebrow | default('Momo Paper / timeline / ' + locale) }}</p>
     <h1>{{ meta.title }}</h1>
-    <p class="subtitle max-w-full text-[1.1rem] text-subtle md:max-w-[var(--max-width-text)]">{{ meta.subtitle }}</p>
+    <p class="max-w-full text-[1.1rem] text-subtle md:max-w-[var(--max-width-text)]">{{ meta.subtitle }}</p>
   </header>
 
   {% if sections.milestones %}
   <section>
     <h2>{% if locale == 'zh-CN' %}里程碑{% else %}Milestones{% endif %}</h2>
-    <ul class="timeline-list">
+    <ul class="relative my-[var(--space-xl)] list-none pl-[28px] before:absolute before:bottom-1 before:left-[7px] before:top-1 before:w-[2px] before:bg-line before:content-['']">
       {% for ms in sections.milestones %}
-      <li class="status-{{ ms.status | default('upcoming') }}">
-        <div class="tl-date">{{ ms.date }}</div>
-        <div class="tl-title">{{ ms.title }}</div>
-        <div class="tl-desc">{{ ms.description }}</div>
+      <li class="relative mb-[var(--space-xl)] pl-8 last:mb-0 before:absolute before:left-[-24px] before:top-[6px] before:z-[1] before:h-[12px] before:w-[12px] before:rounded-full before:border-2 before:border-[var(--bg-primary)] before:bg-brand before:content-[''] {% if ms.status == 'completed' %}before:!bg-[var(--green)]{% elif ms.status == 'in_progress' %}before:!bg-[var(--orange)]{% elif ms.status == 'upcoming' %}before:!bg-line{% endif %}">
+        <div class="mb-[var(--space-xs)] font-mono text-[0.8rem] text-brand">{{ ms.date }}</div>
+        <div class="mb-[var(--space-xs)] text-[1rem] font-semibold text-[var(--text-heading)]">{{ ms.title }}</div>
+        <div class="text-[0.9rem] leading-[1.6] text-subtle">{{ ms.description }}</div>
       </li>
       {% endfor %}
     </ul>
@@ -26,9 +26,9 @@
   <section>
     <h2>{% if locale == 'zh-CN' %}阶段说明{% else %}Phases{% endif %}</h2>
     {% for phase in sections.phases %}
-    <div class="case-card mb-md">
-      <h4>{{ phase.name }}{% if phase.period %} <span class="text-sm" style="font-family: var(--font-mono); color: var(--ink-subtle);">({{ phase.period }})</span>{% endif %}</h4>
-      <p>{{ phase.description }}</p>
+    <div class="relative mb-4 overflow-hidden rounded-[var(--radius)] border border-[var(--border-light)] bg-surface3 p-[var(--space-xl)] transition-all duration-350 hover:-translate-y-0.5 hover:border-[var(--border)] hover:shadow-[var(--shadow)] before:absolute before:inset-0 before:rounded-[var(--radius)] before:bg-gradient-to-b before:from-white/[0.015] before:to-transparent before:pointer-events-none">
+      <h4 class="relative z-[1] mb-[var(--space-sm)] font-display text-[1.1rem] font-semibold text-[var(--text-heading)]">{{ phase.name }}{% if phase.period %} <span class="font-mono text-[13px] text-subtle">({{ phase.period }})</span>{% endif %}</h4>
+      <p class="relative z-[1] mb-0 text-[0.9rem] leading-[1.6] text-subtle">{{ phase.description }}</p>
     </div>
     {% endfor %}
   </section>

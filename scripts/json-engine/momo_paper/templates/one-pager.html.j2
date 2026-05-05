@@ -2,9 +2,9 @@
 {% block title %}Momo Paper · One-Pager · {{ meta.title }}{% endblock %}
 {% block content %}
   <header class="mb-[var(--space-3xl)] text-left">
-    <p class="eyebrow block mb-[var(--space-sm)] font-mono text-[0.75rem] font-medium uppercase tracking-[0.08em] text-brand">{{ meta.eyebrow | default('Momo Paper / one_pager / ' + locale) }}</p>
+    <p class="block mb-[var(--space-sm)] font-mono text-[0.75rem] font-medium uppercase tracking-[0.08em] text-brand">{{ meta.eyebrow | default('Momo Paper / one_pager / ' + locale) }}</p>
     <h1>{{ meta.title }}</h1>
-    <p class="subtitle max-w-full text-[1.1rem] text-subtle md:max-w-[var(--max-width-text)]">{{ meta.subtitle }}</p>
+    <p class="max-w-full text-[1.1rem] text-subtle md:max-w-[var(--max-width-text)]">{{ meta.subtitle }}</p>
   </header>
 
   {% if sections.summary %}
@@ -15,16 +15,16 @@
     {% endfor %}
     {% if sections.summary.code_blocks %}
     {% for block in sections.summary.code_blocks %}
-    <div class="code-block">
-      {% if block.language %}<div class="code-label">{{ block.language }}</div>{% endif %}
-      <pre><code>{{ block.content }}</code></pre>
+    <div class="my-[var(--space-xl)] overflow-hidden rounded-[var(--radius)] border border-line bg-[var(--bg-code)]">
+      {% if block.language %}<div class="border-b border-[var(--border-light)] bg-[var(--bg-tertiary)] px-[var(--space-md)] py-[var(--space-sm)] font-mono text-[0.7rem] font-semibold uppercase tracking-[0.06em] text-[var(--text-muted)]">{{ block.language }}</div>{% endif %}
+      <pre class="m-0 overflow-x-auto whitespace-pre rounded-none border-none bg-transparent px-[var(--space-xl)] py-[var(--space-lg)] font-mono text-[0.85rem] leading-[1.65] text-ink"><code>{{ block.content }}</code></pre>
     </div>
     {% endfor %}
     {% endif %}
     {% if sections.summary.points %}
-    <ul class="summary-strip">
+    <ul class="my-[var(--space-xl)] list-none rounded-[0_var(--radius)_var(--radius)_0] border-l-[3px] border-l-brand bg-surface2 p-[var(--space-lg)_var(--space-xl)] pl-0">
       {% for point in sections.summary.points %}
-      <li>{{ point }}</li>
+      <li class="relative mb-[var(--space-sm)] pl-[var(--space-xl)] text-[0.95rem] leading-[1.6] text-ink before:absolute before:left-[4px] before:top-[10px] before:h-[6px] before:w-[6px] before:rounded-full before:bg-[var(--accent-2)] before:content-[''] last:mb-0">{{ point }}</li>
       {% endfor %}
     </ul>
     {% endif %}
@@ -39,9 +39,9 @@
     {% endfor %}
     {% if sections.context.code_blocks %}
     {% for block in sections.context.code_blocks %}
-    <div class="code-block">
-      {% if block.language %}<div class="code-label">{{ block.language }}</div>{% endif %}
-      <pre><code>{{ block.content }}</code></pre>
+    <div class="my-[var(--space-xl)] overflow-hidden rounded-[var(--radius)] border border-line bg-[var(--bg-code)]">
+      {% if block.language %}<div class="border-b border-[var(--border-light)] bg-[var(--bg-tertiary)] px-[var(--space-md)] py-[var(--space-sm)] font-mono text-[0.7rem] font-semibold uppercase tracking-[0.06em] text-[var(--text-muted)]">{{ block.language }}</div>{% endif %}
+      <pre class="m-0 overflow-x-auto whitespace-pre rounded-none border-none bg-transparent px-[var(--space-xl)] py-[var(--space-lg)] font-mono text-[0.85rem] leading-[1.65] text-ink"><code>{{ block.content }}</code></pre>
     </div>
     {% endfor %}
     {% endif %}
@@ -56,19 +56,19 @@
     {% endfor %}
     {% if sections.evidence.code_blocks %}
     {% for block in sections.evidence.code_blocks %}
-    <div class="code-block">
-      {% if block.language %}<div class="code-label">{{ block.language }}</div>{% endif %}
-      <pre><code>{{ block.content }}</code></pre>
+    <div class="my-[var(--space-xl)] overflow-hidden rounded-[var(--radius)] border border-line bg-[var(--bg-code)]">
+      {% if block.language %}<div class="border-b border-[var(--border-light)] bg-[var(--bg-tertiary)] px-[var(--space-md)] py-[var(--space-sm)] font-mono text-[0.7rem] font-semibold uppercase tracking-[0.06em] text-[var(--text-muted)]">{{ block.language }}</div>{% endif %}
+      <pre class="m-0 overflow-x-auto whitespace-pre rounded-none border-none bg-transparent px-[var(--space-xl)] py-[var(--space-lg)] font-mono text-[0.85rem] leading-[1.65] text-ink"><code>{{ block.content }}</code></pre>
     </div>
     {% endfor %}
     {% endif %}
     {% if sections.evidence.cards %}
-    <div class="card-grid">
+    <div class="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-[var(--space-lg)] my-[var(--space-xl)]">
       {% for card in sections.evidence.cards %}
-      <div class="fact-card">
-        <div class="label">{{ card.label }}</div>
-        <div class="value">{{ card.value }}</div>
-        {% if card.unit %}<div class="unit">{{ card.unit }}</div>{% endif %}
+      <div class="relative overflow-hidden rounded-[var(--radius)] border border-[var(--border-light)] bg-surface3 p-[var(--space-xl)] transition-all duration-350 hover:-translate-y-0.5 hover:border-[var(--border)] hover:shadow-[var(--shadow)] before:absolute before:inset-0 before:rounded-[var(--radius)] before:bg-gradient-to-b before:from-white/[0.015] before:to-transparent before:pointer-events-none">
+        <span class="relative z-[1] mb-[var(--space-sm)] block font-mono text-[0.7rem] font-medium uppercase tracking-[0.06em] text-[var(--text-muted)]">{{ card.label }}</span>
+        <div class="relative z-[1] font-display text-[1.35rem] font-semibold leading-[1.15] text-[var(--text-heading)]">{{ card.value }}</div>
+        {% if card.unit %}<div class="relative z-[1] mt-[var(--space-xs)] text-[0.75rem] text-[var(--text-muted)]">{{ card.unit }}</div>{% endif %}
       </div>
       {% endfor %}
     </div>
@@ -84,16 +84,16 @@
     {% endfor %}
     {% if sections.recommendation.code_blocks %}
     {% for block in sections.recommendation.code_blocks %}
-    <div class="code-block">
-      {% if block.language %}<div class="code-label">{{ block.language }}</div>{% endif %}
-      <pre><code>{{ block.content }}</code></pre>
+    <div class="my-[var(--space-xl)] overflow-hidden rounded-[var(--radius)] border border-line bg-[var(--bg-code)]">
+      {% if block.language %}<div class="border-b border-[var(--border-light)] bg-[var(--bg-tertiary)] px-[var(--space-md)] py-[var(--space-sm)] font-mono text-[0.7rem] font-semibold uppercase tracking-[0.06em] text-[var(--text-muted)]">{{ block.language }}</div>{% endif %}
+      <pre class="m-0 overflow-x-auto whitespace-pre rounded-none border-none bg-transparent px-[var(--space-xl)] py-[var(--space-lg)] font-mono text-[0.85rem] leading-[1.65] text-ink"><code>{{ block.content }}</code></pre>
     </div>
     {% endfor %}
     {% endif %}
     {% if sections.recommendation.actions %}
-    <ul class="checklist">
+    <ul class="my-[var(--space-md)] list-none pl-0">
       {% for action in sections.recommendation.actions %}
-      <li>{{ action }}</li>
+      <li class="relative mb-[var(--space-sm)] pl-[var(--space-xl)] text-[0.95rem] leading-[1.6] text-subtle before:absolute before:left-0 before:font-bold before:text-[var(--green)] before:content-['✓']">{{ action }}</li>
       {% endfor %}
     </ul>
     {% endif %}

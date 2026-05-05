@@ -1,34 +1,11 @@
 {% extends "_base.html.j2" %}
 {% block title %}Momo Paper · Long Doc · {{ meta.title }}{% endblock %}
-{% block extra_css %}
-  <style>
-    .quote-block {
-      margin: 24px 0;
-      padding: 20px 24px;
-      background: var(--canvas);
-      border-left: 3px solid var(--brand);
-      border-radius: 0 6px 6px 0;
-      font-style: italic;
-    }
-    .quote-block .quote-text {
-      font-size: 16px;
-      line-height: 1.6;
-      color: var(--ink);
-    }
-    .quote-block .quote-source {
-      margin-top: 10px;
-      font-family: var(--font-mono);
-      font-size: 11px;
-      color: var(--ink-subtle);
-      font-style: normal;
-    }
-  </style>
-{% endblock %}
+{% block extra_css %}{% endblock %}
 {% block content %}
   <header class="mb-[var(--space-3xl)] text-left">
-    <p class="eyebrow block mb-[var(--space-sm)] font-mono text-[0.75rem] font-medium uppercase tracking-[0.08em] text-brand">{{ meta.eyebrow | default('Momo Paper / long_doc / ' + locale) }}</p>
+    <p class="block mb-[var(--space-sm)] font-mono text-[0.75rem] font-medium uppercase tracking-[0.08em] text-brand">{{ meta.eyebrow | default('Momo Paper / long_doc / ' + locale) }}</p>
     <h1>{{ meta.title }}</h1>
-    <p class="subtitle max-w-full text-[1.1rem] text-subtle md:max-w-[var(--max-width-text)]">{{ meta.subtitle }}</p>
+    <p class="max-w-full text-[1.1rem] text-subtle md:max-w-[var(--max-width-text)]">{{ meta.subtitle }}</p>
   </header>
 
   {% if sections.abstract %}
@@ -38,9 +15,9 @@
     <p>{{ para }}</p>
     {% endfor %}
     {% if sections.abstract.findings %}
-    <ul class="summary-strip">
+    <ul class="my-[var(--space-xl)] list-none rounded-[0_var(--radius)_var(--radius)_0] border-l-[3px] border-l-brand bg-surface2 p-[var(--space-lg)_var(--space-xl)] pl-0">
       {% for f in sections.abstract.findings %}
-      <li>{{ f }}</li>
+      <li class="relative mb-[var(--space-sm)] pl-[var(--space-xl)] text-[0.95rem] leading-[1.6] text-ink before:absolute before:left-[4px] before:top-[10px] before:h-[6px] before:w-[6px] before:rounded-full before:bg-[var(--accent-2)] before:content-[''] last:mb-0">{{ f }}</li>
       {% endfor %}
     </ul>
     {% endif %}
@@ -55,16 +32,16 @@
     {% endfor %}
     {% if sec.code_blocks %}
     {% for block in sec.code_blocks %}
-    <div class="code-block">
-      {% if block.language %}<div class="code-label">{{ block.language }}</div>{% endif %}
-      <pre><code>{{ block.content }}</code></pre>
+    <div class="my-[var(--space-xl)] overflow-hidden rounded-[var(--radius)] border border-line bg-[var(--bg-code)]">
+      {% if block.language %}<div class="border-b border-[var(--border-light)] bg-[var(--bg-tertiary)] px-[var(--space-md)] py-[var(--space-sm)] font-mono text-[0.7rem] font-semibold uppercase tracking-[0.06em] text-[var(--text-muted)]">{{ block.language }}</div>{% endif %}
+      <pre class="m-0 overflow-x-auto whitespace-pre rounded-none border-none bg-transparent px-[var(--space-xl)] py-[var(--space-lg)] font-mono text-[0.85rem] leading-[1.65] text-ink"><code>{{ block.content }}</code></pre>
     </div>
     {% endfor %}
     {% endif %}
     {% if sec.quote %}
-    <div class="quote-block">
-      <div class="quote-text">"{{ sec.quote.text }}"</div>
-      {% if sec.quote.source %}<div class="quote-source">— {{ sec.quote.source }}</div>{% endif %}
+    <div class="my-6 rounded-[0_6px_6px_0] border-l-[3px] border-l-brand bg-[var(--canvas)] px-6 py-5 italic">
+      <div class="text-[16px] leading-[1.6] text-ink">"{{ sec.quote.text }}"</div>
+      {% if sec.quote.source %}<div class="mt-[10px] font-mono text-[11px] not-italic text-subtle">— {{ sec.quote.source }}</div>{% endif %}
     </div>
     {% endif %}
   </section>
@@ -77,9 +54,9 @@
     <p>{{ para }}</p>
     {% endfor %}
     {% if sections.conclusion.next_steps %}
-    <ul class="checklist">
+    <ul class="my-[var(--space-md)] list-none pl-0">
       {% for step in sections.conclusion.next_steps %}
-      <li>{{ step }}</li>
+      <li class="relative mb-[var(--space-sm)] pl-[var(--space-xl)] text-[0.95rem] leading-[1.6] text-subtle before:absolute before:left-0 before:font-bold before:text-[var(--green)] before:content-['✓']">{{ step }}</li>
       {% endfor %}
     </ul>
     {% endif %}
@@ -87,7 +64,7 @@
   {% endif %}
 {% endblock %}
 {% block footer %}
-  <div class="footer-meta">
+  <div class="mt-[var(--space-2xl)] flex flex-wrap justify-between gap-[var(--space-sm)] border-t border-[var(--border-light)] pt-[var(--space-lg)] font-mono text-[0.75rem] text-[var(--text-muted)] max-md:flex-col">
     <span>{{ meta.date | default('') }}</span>
     <span>{{ meta.author | default('') }}</span>
   </div>

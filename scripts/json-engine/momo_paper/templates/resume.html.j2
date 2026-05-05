@@ -2,46 +2,6 @@
 {% block title %}Momo Paper · Resume · {{ meta.title }}{% endblock %}
 {% block extra_css %}
   <style>
-    .resume-section {
-      margin-bottom: 40px;
-    }
-    .resume-section h2 {
-      font-size: 18px;
-      margin-bottom: 16px;
-    }
-    .exp-item {
-      margin-bottom: 24px;
-    }
-    .exp-item .exp-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      margin-bottom: 8px;
-    }
-    .exp-item .exp-role {
-      font-weight: 600;
-      font-size: 15px;
-    }
-    .exp-item .exp-company {
-      font-size: 14px;
-      color: var(--ink-subtle);
-    }
-    .exp-item .exp-period {
-      font-family: var(--font-mono);
-      font-size: 12px;
-      color: var(--ink-subtle);
-    }
-    .exp-item ul {
-      list-style: none;
-      padding-left: 0;
-    }
-    .exp-item li {
-      position: relative;
-      padding-left: 16px;
-      margin-bottom: 6px;
-      font-size: 14px;
-      color: var(--ink);
-    }
     .exp-item li::before {
       content: "·";
       position: absolute;
@@ -53,34 +13,34 @@
 {% endblock %}
 {% block content %}
   <header class="mb-[var(--space-3xl)] text-left">
-    <p class="eyebrow block mb-[var(--space-sm)] font-mono text-[0.75rem] font-medium uppercase tracking-[0.08em] text-brand">{{ meta.eyebrow | default('Momo Paper / resume / ' + locale) }}</p>
+    <p class="block mb-[var(--space-sm)] font-mono text-[0.75rem] font-medium uppercase tracking-[0.08em] text-brand">{{ meta.eyebrow | default('Momo Paper / resume / ' + locale) }}</p>
     <h1>{{ meta.title }}</h1>
-    <p class="subtitle max-w-full text-[1.1rem] text-subtle md:max-w-[var(--max-width-text)]">{{ meta.subtitle }}</p>
+    <p class="max-w-full text-[1.1rem] text-subtle md:max-w-[var(--max-width-text)]">{{ meta.subtitle }}</p>
   </header>
 
   {% if sections.profile %}
-  <div class="resume-section">
-    <h2>{% if locale == 'zh-CN' %}简介{% else %}Profile{% endif %}</h2>
+  <div class="mb-10">
+    <h2 class="!text-[18px] !mb-4">{% if locale == 'zh-CN' %}简介{% else %}Profile{% endif %}</h2>
     <p>{{ sections.profile.summary }}</p>
   </div>
   {% endif %}
 
   {% if sections.experience %}
-  <div class="resume-section">
-    <h2>{% if locale == 'zh-CN' %}经历{% else %}Experience{% endif %}</h2>
+  <div class="mb-10">
+    <h2 class="!text-[18px] !mb-4">{% if locale == 'zh-CN' %}经历{% else %}Experience{% endif %}</h2>
     {% for exp in sections.experience %}
-    <div class="exp-item">
-      <div class="exp-header">
+    <div class="mb-6">
+      <div class="mb-2 flex items-baseline justify-between">
         <div>
-          <div class="exp-role">{{ exp.role }}</div>
-          <div class="exp-company">{{ exp.company }}</div>
+          <div class="text-[15px] font-semibold">{{ exp.role }}</div>
+          <div class="text-[14px] text-subtle">{{ exp.company }}</div>
         </div>
-        <div class="exp-period">{{ exp.period }}</div>
+        <div class="font-mono text-[12px] text-subtle">{{ exp.period }}</div>
       </div>
       {% if exp.highlights %}
-      <ul>
+      <ul class="list-none pl-0">
         {% for hl in exp.highlights %}
-        <li>{{ hl }}</li>
+        <li class="relative mb-[6px] pl-4 text-[14px] text-ink">{{ hl }}</li>
         {% endfor %}
       </ul>
       {% endif %}
@@ -90,29 +50,29 @@
   {% endif %}
 
   {% if sections.projects %}
-  <div class="resume-section">
-    <h2>{% if locale == 'zh-CN' %}代表成果{% else %}Selected Work{% endif %}</h2>
+  <div class="mb-10">
+    <h2 class="!text-[18px] !mb-4">{% if locale == 'zh-CN' %}代表成果{% else %}Selected Work{% endif %}</h2>
     {% for proj in sections.projects %}
-    <div class="exp-item">
-      <div class="exp-role">{{ proj.name }}</div>
+    <div class="mb-6">
+      <div class="text-[15px] font-semibold">{{ proj.name }}</div>
       <p>{{ proj.description }}</p>
-      {% if proj.impact %}<p style="font-size: 13px; color: var(--ink-subtle);"><strong>{% if locale == 'zh-CN' %}影响：{% else %}Impact: {% endif %}</strong>{{ proj.impact }}</p>{% endif %}
+      {% if proj.impact %}<p class="text-[13px] text-subtle"><strong>{% if locale == 'zh-CN' %}影响：{% else %}Impact: {% endif %}</strong>{{ proj.impact }}</p>{% endif %}
     </div>
     {% endfor %}
   </div>
   {% endif %}
 
   {% if sections.education %}
-  <div class="resume-section">
-    <h2>{% if locale == 'zh-CN' %}教育背景{% else %}Education{% endif %}</h2>
+  <div class="mb-10">
+    <h2 class="!text-[18px] !mb-4">{% if locale == 'zh-CN' %}教育背景{% else %}Education{% endif %}</h2>
     {% for edu in sections.education %}
-    <div class="exp-item">
-      <div class="exp-header">
+    <div class="mb-6">
+      <div class="mb-2 flex items-baseline justify-between">
         <div>
-          <div class="exp-role">{{ edu.degree }}</div>
-          <div class="exp-company">{{ edu.school }}</div>
+          <div class="text-[15px] font-semibold">{{ edu.degree }}</div>
+          <div class="text-[14px] text-subtle">{{ edu.school }}</div>
         </div>
-        <div class="exp-period">{{ edu.year }}</div>
+        <div class="font-mono text-[12px] text-subtle">{{ edu.year }}</div>
       </div>
     </div>
     {% endfor %}
@@ -120,7 +80,7 @@
   {% endif %}
 {% endblock %}
 {% block footer %}
-  <div class="footer-meta">
+  <div class="mt-[var(--space-2xl)] flex flex-wrap justify-between gap-[var(--space-sm)] border-t border-[var(--border-light)] pt-[var(--space-lg)] font-mono text-[0.75rem] text-[var(--text-muted)] max-md:flex-col">
     <span>{{ meta.location | default('') }}</span>
     <span>{{ meta.email | default('') }}{% if meta.website %} | {{ meta.website }}{% endif %}</span>
   </div>

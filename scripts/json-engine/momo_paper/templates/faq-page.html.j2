@@ -1,42 +1,11 @@
 {% extends "_base.html.j2" %}
 {% block title %}Momo Paper · FAQ · {{ meta.title }}{% endblock %}
-{% block extra_css %}
-  <style>
-    .faq-group {
-      margin-bottom: 32px;
-    }
-    .faq-group h3 {
-      font-family: var(--font-serif);
-      font-size: 18px;
-      font-weight: 600;
-      margin-bottom: 16px;
-      color: var(--ink);
-    }
-    .faq-item {
-      margin-bottom: 16px;
-      padding: 16px 20px;
-      background: var(--canvas);
-      border-radius: 8px;
-      border: 1px solid var(--line);
-    }
-    .faq-item .question {
-      font-weight: 600;
-      font-size: 15px;
-      margin-bottom: 8px;
-      color: var(--ink);
-    }
-    .faq-item .answer {
-      font-size: 14px;
-      color: var(--ink-subtle);
-      line-height: 1.6;
-    }
-  </style>
-{% endblock %}
+{% block extra_css %}{% endblock %}
 {% block content %}
   <header class="mb-[var(--space-3xl)] text-left">
-    <p class="eyebrow block mb-[var(--space-sm)] font-mono text-[0.75rem] font-medium uppercase tracking-[0.08em] text-brand">{{ meta.eyebrow | default('Momo Paper / faq_page / ' + locale) }}</p>
+    <p class="block mb-[var(--space-sm)] font-mono text-[0.75rem] font-medium uppercase tracking-[0.08em] text-brand">{{ meta.eyebrow | default('Momo Paper / faq_page / ' + locale) }}</p>
     <h1>{{ meta.title }}</h1>
-    <p class="subtitle max-w-full text-[1.1rem] text-subtle md:max-w-[var(--max-width-text)]">{{ meta.subtitle }}</p>
+    <p class="max-w-full text-[1.1rem] text-subtle md:max-w-[var(--max-width-text)]">{{ meta.subtitle }}</p>
   </header>
 
   {% if sections.lead %}
@@ -48,12 +17,12 @@
   {% endif %}
 
   {% for group in sections.groups %}
-  <div class="faq-group">
-    <h3>{{ group.title }}</h3>
+  <div class="mb-8">
+    <h3 class="font-display text-[18px] font-semibold text-ink mb-4">{{ group.title }}</h3>
     {% for item in group['items'] %}
-    <div class="faq-item">
-      <div class="question">{{ item.question }}</div>
-      <div class="answer">{{ item.answer }}</div>
+    <div class="mb-4 rounded-lg border border-line bg-[var(--canvas)] p-4 md:p-5">
+      <div class="mb-2 text-[15px] font-semibold text-ink">{{ item.question }}</div>
+      <div class="text-[14px] leading-[1.6] text-subtle">{{ item.answer }}</div>
     </div>
     {% endfor %}
   </div>
@@ -66,7 +35,7 @@
     <p>{{ para }}</p>
     {% endfor %}
     {% if sections.summary.next_step %}
-    <div class="insight-callout">{{ sections.summary.next_step }}</div>
+    <div class="relative my-[var(--space-xl)] rounded-[0_var(--radius)_var(--radius)_0] border-l-[3px] border-l-[var(--accent-2)] bg-surface2 p-[var(--space-lg)_var(--space-xl)] text-[0.95rem] leading-[1.7] text-ink before:mb-[var(--space-sm)] before:block before:font-mono before:text-[0.65rem] before:font-semibold before:uppercase before:tracking-[0.08em] before:text-[var(--accent-2)] before:content-['Insight']">{{ sections.summary.next_step }}</div>
     {% endif %}
   </section>
   {% endif %}

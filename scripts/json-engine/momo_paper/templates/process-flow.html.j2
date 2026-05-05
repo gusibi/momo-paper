@@ -2,9 +2,9 @@
 {% block title %}Momo Paper · Process Flow · {{ meta.title }}{% endblock %}
 {% block content %}
   <header class="mb-[var(--space-3xl)] text-left">
-    <p class="eyebrow block mb-[var(--space-sm)] font-mono text-[0.75rem] font-medium uppercase tracking-[0.08em] text-brand">{{ meta.eyebrow | default('Momo Paper / process_flow / ' + locale) }}</p>
+    <p class="block mb-[var(--space-sm)] font-mono text-[0.75rem] font-medium uppercase tracking-[0.08em] text-brand">{{ meta.eyebrow | default('Momo Paper / process_flow / ' + locale) }}</p>
     <h1>{{ meta.title }}</h1>
-    <p class="subtitle max-w-full text-[1.1rem] text-subtle md:max-w-[var(--max-width-text)]">{{ meta.subtitle }}</p>
+    <p class="max-w-full text-[1.1rem] text-subtle md:max-w-[var(--max-width-text)]">{{ meta.subtitle }}</p>
   </header>
 
   {% if sections.lead %}
@@ -22,9 +22,9 @@
     <ol class="step-list">
       {% for step in sections.flow.steps %}
       <li>
-        <div class="step-title">{{ step.title }}</div>
-        <div class="step-desc">{{ step.description }}</div>
-        {% if step.owner %}<div class="step-owner">{{ step.owner }}</div>{% endif %}
+        <div class="font-semibold text-[1.05rem] text-[var(--text-heading)] mb-[var(--space-xs)]">{{ step.title }}</div>
+        <div class="text-[0.9rem] leading-[1.6] text-subtle">{{ step.description }}</div>
+        {% if step.owner %}<div class="mt-[var(--space-xs)] font-mono text-[0.75rem] text-brand">{{ step.owner }}</div>{% endif %}
       </li>
       {% endfor %}
     </ol>
@@ -38,9 +38,9 @@
     <p>{{ para }}</p>
     {% endfor %}
     {% if sections.branches.conditions %}
-    <ul class="bullet-list">
+    <ul class="my-[var(--space-md)] list-none pl-0">
       {% for cond in sections.branches.conditions %}
-      <li>{{ cond }}</li>
+      <li class="relative mb-[var(--space-sm)] pl-[var(--space-xl)] text-[0.95rem] leading-[1.6] text-subtle before:absolute before:left-[4px] before:top-[10px] before:h-[6px] before:w-[6px] before:rounded-full before:bg-[var(--accent-2)] before:content-['']">{{ cond }}</li>
       {% endfor %}
     </ul>
     {% endif %}
@@ -54,9 +54,9 @@
     <p>{{ para }}</p>
     {% endfor %}
     {% if sections.takeaways.checklist %}
-    <ul class="checklist">
+    <ul class="my-[var(--space-md)] list-none pl-0">
       {% for item in sections.takeaways.checklist %}
-      <li>{{ item }}</li>
+      <li class="relative mb-[var(--space-sm)] pl-[var(--space-xl)] text-[0.95rem] leading-[1.6] text-subtle before:absolute before:left-0 before:font-bold before:text-[var(--green)] before:content-['✓']">{{ item }}</li>
       {% endfor %}
     </ul>
     {% endif %}
