@@ -5,6 +5,44 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% block title %}Momo Paper{% endblock %}</title>
   <!-- META_INJECT -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      corePlugins: {
+        preflight: false,
+      },
+      theme: {
+        extend: {
+          colors: {
+            surface0: 'var(--surface-0)',
+            surface1: 'var(--surface-1)',
+            surface2: 'var(--surface-2)',
+            surface3: 'var(--surface-3)',
+            brand: 'var(--brand)',
+            paper: 'var(--paper)',
+            ink: 'var(--ink)',
+            subtle: 'var(--ink-subtle)',
+            line: 'var(--line)',
+          },
+          fontFamily: {
+            display: ['var(--font-display)'],
+            body: ['var(--font-body)'],
+            mono: ['var(--font-mono)'],
+          },
+          borderRadius: {
+            sm: 'var(--radius-sm)',
+            DEFAULT: 'var(--radius)',
+            lg: 'var(--radius-lg)',
+            xl: 'var(--radius-xl)',
+          },
+          boxShadow: {
+            soft: 'var(--shadow-soft)',
+            surface: 'var(--shadow-surface)',
+          },
+        },
+      },
+    };
+  </script>
   <style>
     /* ============================================================
        Momo Paper — Document Styles
@@ -868,10 +906,10 @@
 <body>
   <!-- NAV_INJECT -->
 
-  <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme" title="Toggle theme">&#9788;</button>
+  <button class="theme-toggle fixed right-6 top-5 z-[200] flex h-9 w-9 items-center justify-center rounded-full border border-line bg-[var(--bg-primary)] text-base text-[var(--text-secondary)] transition-colors duration-200" id="themeToggle" aria-label="Toggle theme" title="Toggle theme">&#9788;</button>
 
-  <main class="docs">
-    <div class="container container--text">
+  <main class="docs px-0 pt-[calc(var(--nav-height)+var(--space-xl))] pb-[var(--space-2xl)] md:pt-[calc(var(--nav-height)+var(--space-2xl))] md:pb-[var(--space-4xl)]">
+    <div class="container container--text mx-auto max-w-[var(--max-width-text)] rounded-[var(--radius-sm)] bg-[var(--bg-secondary)] px-[var(--space-md)] py-[var(--space-xl)] md:px-[var(--space-2xl)] md:py-[var(--space-3xl)]">
       {% block content %}{% endblock %}
       {% block footer %}{% endblock %}
     </div>

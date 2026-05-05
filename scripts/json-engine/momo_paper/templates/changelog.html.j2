@@ -40,10 +40,10 @@
   </style>
 {% endblock %}
 {% block content %}
-  <header>
-    <p class="eyebrow">{{ meta.eyebrow | default('Momo Paper / changelog / ' + locale) }}</p>
+  <header class="mb-[var(--space-3xl)] text-left">
+    <p class="eyebrow block mb-[var(--space-sm)] font-mono text-[0.75rem] font-medium uppercase tracking-[0.08em] text-brand">{{ meta.eyebrow | default('Momo Paper / changelog / ' + locale) }}</p>
     <h1>{{ meta.title }}</h1>
-    <p class="subtitle">{{ meta.subtitle }}</p>
+    <p class="subtitle max-w-full text-[1.1rem] text-subtle md:max-w-[var(--max-width-text)]">{{ meta.subtitle }}</p>
   </header>
 
   {% if sections.highlights %}

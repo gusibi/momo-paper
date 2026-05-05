@@ -19,7 +19,7 @@ class TestListTypes:
     def test_returns_sorted_list(self):
         types = list_types()
         assert isinstance(types, list)
-        assert len(types) == 15
+        assert len(types) == len(DEFAULT_TEMPLATE_MAP)
         assert types == sorted(types)
 
     def test_contains_expected_types(self):
@@ -93,6 +93,8 @@ class TestRender:
         assert "<!DOCTYPE html>" in html
         assert "Test Title" in html
         assert 'lang="zh-CN"' in html
+        assert "https://cdn.tailwindcss.com" in html
+        assert "corePlugins" in html
 
     def test_renders_equity_report(self, equity_data):
         html = render(equity_data)
@@ -109,13 +111,68 @@ class TestRender:
         assert "<!DOCTYPE html>" in html
 
     def test_chart_filter_renders_chart(self, equity_data):
-        html = render(equity_data)
+        html = render(
+            {
+                "document_type": "stats_report",
+                "locale": "zh-CN",
+                "meta": {
+                    "title": "Stats",
+                    "subtitle": "Chart",
+                    "eyebrow": "Momo Paper / stats_report / zh-CN",
+                },
+                "sections": {
+                    "trends": {
+                        "body": ["Trend body"],
+                        "chart": {
+                            "type": "line",
+                            "title": "Trend",
+                            "data": {
+                                "labels": ["Jan", "Feb", "Mar"],
+                                "values": [1, 2, 3],
+                            },
+                        },
+                    }
+                },
+            }
+        )
         assert "<svg" in html
 
     def test_raises_on_bad_type(self, sample_data):
         sample_data["document_type"] = "unknown"
         with pytest.raises(ValueError, match="No default template"):
             render(sample_data)
+
+    def test_renders_landing_with_tailwind_cdn(self):
+        html = render(
+            {
+                "document_type": "landing",
+                "locale": "zh-CN",
+                "meta": {"title": "Landing"},
+                "sections": {
+                    "hero": {
+                        "badge": "New",
+                        "headline": "Hello",
+                        "description": "World",
+                        "cta_buttons": [],
+                        "pipeline": [],
+                    },
+                    "features": {
+                        "label": "Features",
+                        "heading": "Heading",
+                        "description": "Desc",
+                        "cards": [],
+                    },
+                    "bottom_cta": {
+                        "heading": "CTA",
+                        "description": "Desc",
+                        "button_label": "Go",
+                        "button_url": "#",
+                    },
+                },
+            }
+        )
+        assert "https://cdn.tailwindcss.com" in html
+        assert "tailwind.config" in html
 
 
 class TestRenderToFile:
