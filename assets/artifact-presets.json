@@ -1241,7 +1241,7 @@
       }
     },
     "landing": {
-      "description": "Marketing landing page with hero, features, workflows, and ecosystem sections. Uses its own design token system separate from the main design-tokens.json.",
+      "description": "Marketing landing page with hero, features, workflows, and ecosystem sections. Uses the root Momo Paper design token contract through a landing-specific token adapter.",
       "grid": {
         "canvas": "responsive",
         "maxWidth": 1100,
@@ -1272,9 +1272,9 @@
         "bottom_cta"
       ],
       "rules": [
-        "Uses its own design tokens in landing.html.j2, not design-tokens.json.",
-        "Theme toggle between dark (default) and light is supported.",
-        "One-page marketing style, not a document surface."
+        "Uses root Momo Paper design tokens through the adapter in landing.html.j2.",
+        "Default rendering is light and paper-based; a root-token-derived dark mode toggle is supported.",
+        "One-page marketing structure, not a document surface."
       ],
       "documentShapes": {
         "landing": {

@@ -189,7 +189,7 @@ Use these when you need a quick one-off document or prefer working directly with
 | `landing page / 首页 / 产品页` | `landing` | `scripts/json-engine/momo_paper/templates/landing.html.j2` | `scripts/json-engine/momo_paper/templates/landing.html.j2` |
 
 > **slides** uses Python-based generation for complex layouts. The JSON engine supports it with a Jinja2 template (`slides.html.j2`) and 16:9 viewport.
-> **landing** uses its own design token system in `landing.html.j2`, separate from `assets/design-tokens.json`.
+> **landing** uses the root Momo Paper design token contract through an adapter in `landing.html.j2`.
 
 ## Diagrams & Charts
 

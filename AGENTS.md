@@ -15,6 +15,7 @@ The repository is split into two operating layers:
 Canonical system files:
 
 - [README.md](./README.md): public usage entrypoint
+- [DESIGN.md](./DESIGN.md): root agent-readable design contract following the Google Stitch DESIGN.md format
 - [DESIGN.md](references/DESIGN.md): taxonomy, foundations, deck recipe, non-negotiables
 - [prompt-contracts.md](references/prompt-contracts.md): route workflow, input contract, and operating rules
 - [VOICE.md](references/VOICE.md): copy tone
@@ -63,6 +64,8 @@ Do not reintroduce `preset_id` as a parallel public model.
 - Diagrams are primitives inside documents, not standalone document types.
 
 ## When editing this repo
+
+Before changing any UI, template, diagram, showcase, chart, token, or route behavior, read and follow the root [DESIGN.md](./DESIGN.md). Treat it as the first design contract for development work, then load the narrower supporting references listed below. If implementation code cannot satisfy `DESIGN.md`, stop and update the design contract and related source-of-truth files together instead of silently drifting.
 
 ### If you change the route registry
 

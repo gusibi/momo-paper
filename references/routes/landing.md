@@ -5,9 +5,9 @@ Document Shape: `landing`
 Legacy alias: None (special marketing page type)
 
 ## Notes
-- Uses its own design token system in `landing.html.j2`, separate from `assets/design-tokens.json`.
-- Supports theme toggle between dark (default) and light.
-- One-page marketing style, not a document surface.
+- Uses the root Momo Paper design token contract through a landing-specific adapter in `landing.html.j2`.
+- Default rendering is light and paper-based; a root-token-derived dark mode toggle is supported.
+- One-page marketing structure, not a document surface.
 - Rendered via JSON engine only (no direct-edit HTML template in `assets/templates/`).
 
 ## Fixed section recipe
@@ -23,7 +23,7 @@ Legacy alias: None (special marketing page type)
 ## Layout notes
 - Responsive grid layouts for features, workflows, doc types, ecosystem
 - Theme toggle button fixed at top-right
-- Hero section with radial gradient background effect
+- Hero section preserves the current centered landing-page composition
 - Card hover effects with border color transitions
 - Mobile-responsive breakpoints at 1024px, 860px, 768px, 500px
 

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ locale }}" data-theme="light">
+<html lang="{{ locale }}" data-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -32,12 +32,81 @@
     };
   </script>
   <style>
-    /* ============================================================
-       Momo Paper — Equity Report Design Tokens
-       ============================================================ */
-
-    /* ===== Light Theme (default) ===== */
+    /* ===== Design Tokens — Dark Theme (default) ===== */
     :root {
+      --bg-primary: #21211e;
+      --bg-secondary: #2a2a27;
+      --bg-tertiary: #33332f;
+      --bg-code: #1c1c1a;
+      --bg-elevated: #353532;
+      --text-primary: #e6e2d8;
+      --text-secondary: #b5b0a4;
+      --text-muted: #7a766a;
+      --text-heading: #f0ece2;
+      --accent: #3B6DA5;
+      --accent-hover: #4A80BA;
+      --accent-dim: #2A5480;
+      --accent-glow: rgba(59, 109, 165, 0.12);
+      --accent-2: #D4785A;
+      --accent-2-hover: #e0886a;
+      --accent-2-dim: #8a4a35;
+      --green: #7b9e6d;
+      --red: #c06a5a;
+      --orange: #c98d4e;
+      --blue: #7b8faa;
+      --border: #3a3832;
+      --border-light: #2e2d28;
+      --font-display: "Noto Serif SC", "Source Han Serif SC", "Songti SC", serif;
+      --font-body: "Inter", "Noto Sans SC", "PingFang SC", sans-serif;
+      --font-mono: "IBM Plex Mono", "SFMono-Regular", monospace;
+      --space-xs: 0.25rem; --space-sm: 0.5rem; --space-md: 1rem;
+      --space-lg: 1.5rem; --space-xl: 2rem; --space-2xl: 3rem;
+      --space-3xl: 4rem;
+      --radius-sm: 6px; --radius: 10px; --radius-lg: 16px;
+      --max-width: 1100px; --max-width-text: 720px;
+      --section-gap: 3.5rem;
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+      --shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+      --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
+      --canvas: var(--bg-secondary);
+      --paper: var(--bg-elevated);
+      --ink: var(--text-primary);
+      --ink-subtle: var(--text-secondary);
+      --line: var(--border);
+      --brand: var(--accent);
+      --brand-muted: var(--accent-glow);
+      --accent-muted: var(--accent-2-dim);
+      --font-sans: var(--font-body);
+      --font-serif: var(--font-display);
+      --success: var(--green);
+      --danger: var(--red);
+      --warning: var(--orange);
+      --surface-0: var(--bg-primary);
+      --surface-1: var(--bg-secondary);
+      --surface-2: var(--bg-tertiary);
+      --surface-3: var(--bg-elevated);
+      --surface-card: var(--bg-elevated);
+      --surface-card-hover: rgba(59, 109, 165, 0.08);
+      --row-highlight-bg: rgba(59, 109, 165, 0.08);
+      --header-bg: var(--bg-secondary);
+      --header-text: var(--text-heading);
+      --header-text-muted: var(--text-secondary);
+      --header-text-subtle: var(--text-muted);
+      --header-accent: var(--accent-dim);
+      --header-card-bg: var(--bg-tertiary);
+      --header-card-border: var(--border);
+      --severity-high-bg: rgba(192, 106, 90, 0.15);
+      --severity-medium-bg: rgba(201, 141, 78, 0.15);
+      --severity-low-bg: rgba(123, 158, 109, 0.15);
+      --rating-buy-bg: rgba(123, 158, 109, 0.25);
+      --rating-hold-bg: rgba(201, 141, 78, 0.25);
+      --rating-sell-bg: rgba(192, 106, 90, 0.25);
+      --rating-buy-text: var(--green);
+      --rating-hold-text: var(--orange);
+      --rating-sell-text: var(--red);
+    }
+
+    [data-theme="light"] {
       --bg-primary: #f8f5ee;
       --bg-secondary: #f2efe6;
       --bg-tertiary: #ebe7dc;
@@ -59,36 +128,6 @@
       --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
       --shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
       --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.12);
-      --green: #7b9e6d;
-      --red: #c06a5a;
-      --orange: #c98d4e;
-      --blue: #7b8faa;
-      --font-display: "Noto Serif SC", "Source Han Serif SC", "Songti SC", serif;
-      --font-body: "Inter", "Noto Sans SC", "PingFang SC", sans-serif;
-      --font-mono: "IBM Plex Mono", "SFMono-Regular", monospace;
-      --space-xs: 0.25rem; --space-sm: 0.5rem; --space-md: 1rem;
-      --space-lg: 1.5rem; --space-xl: 2rem; --space-2xl: 3rem;
-      --space-3xl: 4rem;
-      --radius-sm: 6px; --radius: 10px; --radius-lg: 16px;
-      --max-width: 1100px; --max-width-text: 720px;
-      --section-gap: 3.5rem;
-      --canvas: var(--bg-secondary);
-      --paper: var(--bg-elevated);
-      --ink: var(--text-primary);
-      --ink-subtle: var(--text-secondary);
-      --line: var(--border);
-      --brand: var(--accent);
-      --brand-muted: var(--accent-glow);
-      --font-sans: var(--font-body);
-      --font-serif: var(--font-display);
-      --success: var(--green);
-      --danger: var(--red);
-      --warning: var(--orange);
-      --surface-0: var(--bg-primary);
-      --surface-1: var(--bg-secondary);
-      --surface-2: var(--bg-tertiary);
-      --surface-3: var(--bg-elevated);
-      --surface-card: #ffffff;
       --surface-card-hover: rgba(36, 76, 122, 0.04);
       --row-highlight-bg: rgba(36, 76, 122, 0.06);
       --header-bg: #1a2d3d;
@@ -101,49 +140,12 @@
       --severity-high-bg: #fce4e4;
       --severity-medium-bg: #fef3e4;
       --severity-low-bg: #e4f5e4;
+      --rating-buy-bg: rgba(123,158,109,0.25);
+      --rating-hold-bg: rgba(201,141,78,0.25);
+      --rating-sell-bg: rgba(192,106,90,0.25);
       --rating-buy-text: #7b9e6d;
       --rating-hold-text: #e0a85c;
       --rating-sell-text: #d4806e;
-    }
-
-    /* ===== Dark Theme ===== */
-    [data-theme="dark"] {
-      --bg-primary: #21211e;
-      --bg-secondary: #2a2a27;
-      --bg-tertiary: #33332f;
-      --bg-code: #1c1c1a;
-      --bg-elevated: #353532;
-      --text-primary: #e6e2d8;
-      --text-secondary: #b5b0a4;
-      --text-muted: #7a766a;
-      --text-heading: #f0ece2;
-      --accent: #5C8DC2;
-      --accent-hover: #6ea0d4;
-      --accent-dim: #3a6090;
-      --accent-glow: rgba(92, 141, 194, 0.1);
-      --accent-2: #D4785A;
-      --accent-2-hover: #e0886a;
-      --accent-2-dim: #8a4a35;
-      --border: #3a3832;
-      --border-light: #2e2d28;
-      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
-      --shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
-      --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
-      --green: #8aaf7a;
-      --red: #d08070;
-      --orange: #d9a060;
-      --surface-card: var(--bg-elevated);
-      --surface-card-hover: rgba(92, 141, 194, 0.08);
-      --row-highlight-bg: rgba(92, 141, 194, 0.08);
-      --header-bg: #141e2a;
-      --header-card-bg: rgba(255,255,255,0.05);
-      --header-card-border: rgba(255,255,255,0.08);
-      --severity-high-bg: rgba(208, 128, 112, 0.15);
-      --severity-medium-bg: rgba(217, 160, 96, 0.15);
-      --severity-low-bg: rgba(138, 175, 122, 0.15);
-      --rating-buy-text: #8aaf7a;
-      --rating-hold-text: #d9a060;
-      --rating-sell-text: #d08070;
     }
 
     /* ===== Reset & Base ===== */
@@ -157,7 +159,7 @@
       background: var(--bg-primary);
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
-      transition: background-color 0.35s ease, color 0.35s ease;
+      transition: background-color 240ms cubic-bezier(0.2, 0, 0, 1), color 240ms cubic-bezier(0.2, 0, 0, 1);
     }
     ::selection { background: var(--accent-dim); color: #fff; }
 
@@ -184,9 +186,8 @@
 
     /* ===== Print ===== */
     @media print {
-      body { background: #fff; }
+      body { background: var(--paper); }
       .report-header { background: var(--header-bg); -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-      .theme-toggle { display: none !important; }
     }
 
     /* ===== Responsive ===== */
@@ -203,7 +204,7 @@
 <body>
   <!-- NAV_INJECT -->
 
-  <button class="theme-toggle fixed right-6 top-5 z-[200] flex h-9 w-9 items-center justify-center rounded-full border border-line bg-[var(--surface-card)] text-base text-subtle transition-all duration-200 hover:border-brand hover:text-brand" id="themeToggle" aria-label="Toggle theme" title="Toggle theme">&#9788;</button>
+  <button class="theme-toggle fixed right-6 top-5 z-[200] flex h-9 w-9 items-center justify-center rounded-full border border-line bg-[var(--surface-card)] text-base text-subtle transition-colors duration-200 hover:border-brand hover:text-brand" id="themeToggle" aria-label="Toggle theme" title="Toggle theme">&#9788;</button>
 
   <!-- ============================================================
        REPORT HEADER — Full Width
@@ -221,7 +222,7 @@
         {% if sections.recommendation and sections.recommendation.rating %}
         <span class="whitespace-nowrap">
           {% if locale == 'zh-CN' %}评级：{% else %}Rating: {% endif %}
-          <span class="inline-block rounded px-[10px] py-[2px] text-[11px] font-semibold uppercase tracking-[0.04em] {% if '买入' in sections.recommendation.rating or 'Buy' in sections.recommendation.rating %}bg-[rgba(123,158,109,0.25)] text-[var(--rating-buy-text)]{% elif '卖出' in sections.recommendation.rating or 'Sell' in sections.recommendation.rating %}bg-[rgba(192,106,90,0.25)] text-[var(--rating-sell-text)]{% else %}bg-[rgba(201,141,78,0.25)] text-[var(--rating-hold-text)]{% endif %}">{{ sections.recommendation.rating }}</span>
+          <span class="inline-block rounded px-[10px] py-[2px] text-[11px] font-semibold uppercase tracking-[0.04em] {% if '买入' in sections.recommendation.rating or 'Buy' in sections.recommendation.rating %}bg-[var(--rating-buy-bg)] text-[var(--rating-buy-text)]{% elif '卖出' in sections.recommendation.rating or 'Sell' in sections.recommendation.rating %}bg-[var(--rating-sell-bg)] text-[var(--rating-sell-text)]{% else %}bg-[var(--rating-hold-bg)] text-[var(--rating-hold-text)]{% endif %}">{{ sections.recommendation.rating }}</span>
         </span>
         {% endif %}
       </div>
@@ -564,21 +565,21 @@
   </div>
 
   <!-- FOOTER_INJECT -->
-
   <script>
     (function() {
       const KEY = 'momo-theme';
       const toggle = document.getElementById('themeToggle');
       const html = document.documentElement;
+      if (!toggle) return;
 
-      function setIcon(theme) { toggle.innerHTML = theme === 'light' ? '&#9790;' : '&#9788;'; }
+      function setIcon(theme) { toggle.innerHTML = theme === 'dark' ? '&#9790;' : '&#9788;'; }
 
       const stored = localStorage.getItem(KEY);
-      if (stored) html.setAttribute('data-theme', stored);
-      setIcon(html.getAttribute('data-theme'));
+      if (stored === 'dark' || stored === 'light') html.setAttribute('data-theme', stored);
+      setIcon(html.getAttribute('data-theme') || 'light');
 
       toggle.addEventListener('click', function() {
-        const next = html.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+        const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
         html.setAttribute('data-theme', next);
         localStorage.setItem(KEY, next);
         setIcon(next);

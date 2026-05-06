@@ -12,11 +12,11 @@
       theme: {
         extend: {
           colors: {
-            brand: 'var(--accent)',
-            paper: 'var(--bg-elevated)',
-            ink: 'var(--text-primary)',
-            subtle: 'var(--text-secondary)',
-            line: 'var(--border)',
+            brand: 'var(--brand)',
+            paper: 'var(--paper)',
+            ink: 'var(--ink)',
+            subtle: 'var(--ink-subtle)',
+            line: 'var(--line)',
           },
           fontFamily: {
             display: ['var(--font-display)'],
@@ -45,6 +45,7 @@
       --accent-glow: rgba(59, 109, 165, 0.12);
       --accent-2: #D4785A;
       --accent-2-hover: #e0886a;
+      --accent-2-dim: #8a4a35;
       --green: #7b9e6d;
       --red: #c06a5a;
       --orange: #c98d4e;
@@ -63,6 +64,19 @@
       --shadow-lg: 0 8px 32px rgba(0,0,0,0.5);
       --transition: 200ms ease;
       --transition-slow: 350ms ease;
+      --canvas: var(--bg-secondary);
+      --paper: var(--bg-elevated);
+      --ink: var(--text-primary);
+      --ink-subtle: var(--text-secondary);
+      --line: var(--border);
+      --brand: var(--accent);
+      --brand-muted: var(--accent-glow);
+      --accent-muted: var(--accent-2-dim);
+      --accent-secondary: var(--accent);
+      --success: var(--green);
+      --danger: var(--red);
+      --warning: var(--orange);
+      --data-secondary: var(--accent-dim);
     }
 
     [data-theme="light"] {
@@ -81,6 +95,7 @@
       --accent-glow: rgba(36, 76, 122, 0.08);
       --accent-2: #B65C3A;
       --accent-2-hover: #9a4d30;
+      --accent-2-dim: #d4a853;
       --border: #d8d4c8;
       --border-light: #e8e4dc;
       --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
@@ -107,9 +122,9 @@
     h2 { font-size:clamp(1.8rem,3.5vw,2.5rem); letter-spacing:-0.01em; }
     h3 { font-size:clamp(1.3rem,2.5vw,1.7rem); }
     h4 { font-size:1.15rem; }
-    a { color:var(--accent); text-decoration:none; transition:color var(--transition); }
+    a { color:var(--brand); text-decoration:none; transition:color var(--transition); }
     a:hover { color:var(--accent-hover); }
-    code { font-family:var(--font-mono); font-size:0.85em; background:var(--bg-code); padding:0.15em 0.4em; border-radius:4px; color:var(--accent); border:1px solid var(--border-light); }
+    code { font-family:var(--font-mono); font-size:0.85em; background:var(--bg-code); padding:0.15em 0.4em; border-radius:var(--radius-sm); color:var(--brand); border:1px solid var(--line); }
 
     /* ===== Container utility ===== */
     .container { max-width:var(--max-width); margin:0 auto; padding:0 var(--space-xl); }
@@ -118,13 +133,6 @@
     /* ===== Section ===== */
     .section { padding:var(--space-4xl) 0; }
 
-    /* ===== Hero background glow ===== */
-    .hero-glow::before {
-      content:''; position:absolute; top:-50%; left:50%; transform:translateX(-50%);
-      width:800px; height:800px;
-      background:radial-gradient(circle,var(--accent-glow) 0%,transparent 70%);
-      pointer-events:none;
-    }
     /* ===== Workflow card list bullet ===== */
     .workflow-highlights li::before {
       content: '';
@@ -132,45 +140,36 @@
       left: 0; top: 11px;
       width: 6px; height: 6px;
       border-radius: 50%;
-      background: var(--accent);
-    }
-
-    /* ===== CTA background glow ===== */
-    .cta-glow::before {
-      content:''; position:absolute; bottom:-40%; left:50%; transform:translateX(-50%);
-      width:600px; height:600px;
-      background:radial-gradient(circle,var(--accent-glow) 0%,transparent 70%);
-      pointer-events:none;
+      background: var(--brand);
     }
 
     @media (max-width:860px) {
       .section { padding:var(--space-2xl) 0; }
     }
-    @media print { .theme-toggle { display:none !important; } }
   </style>
 </head>
 <body>
   <!-- NAV_INJECT -->
 
-  <button class="theme-toggle fixed right-6 top-5 z-[200] flex h-9 w-9 items-center justify-center rounded-full border border-line bg-[var(--bg-primary)] text-base text-[var(--text-secondary)] transition-all duration-200 hover:border-brand hover:text-brand" id="themeToggle" aria-label="Toggle theme" title="Toggle theme">&#9788;</button>
+  <button class="theme-toggle fixed right-6 top-5 z-[200] flex h-9 w-9 items-center justify-center rounded-full border border-line bg-[var(--paper)] text-base text-[var(--ink-subtle)] transition-colors duration-200 hover:border-brand hover:text-brand" id="themeToggle" aria-label="Toggle theme" title="Toggle theme">&#9788;</button>
 
   <main>
 
     {# ===== Hero ===== #}
-    <section class="hero-glow relative overflow-hidden px-[var(--space-xl)] pt-[calc(var(--nav-height)+var(--space-4xl)+2rem)] pb-[var(--space-4xl)] text-center max-md:px-[var(--space-md)] max-md:pt-[calc(var(--nav-height)+var(--space-3xl))] max-md:pb-[var(--space-2xl)]">
+    <section class="hero-shell relative overflow-hidden px-[var(--space-xl)] pt-[calc(var(--nav-height)+var(--space-4xl)+2rem)] pb-[var(--space-4xl)] text-center max-md:px-[var(--space-md)] max-md:pt-[calc(var(--nav-height)+var(--space-3xl))] max-md:pb-[var(--space-2xl)]">
       <div class="container mx-auto max-w-[var(--max-width)] px-[var(--space-xl)]">
         {% if sections.hero.badge %}<p class="relative mb-[var(--space-lg)] font-mono text-[0.85rem] uppercase tracking-[0.15em] text-brand">{{ sections.hero.badge }}</p>{% endif %}
         <h1 class="relative mb-[var(--space-lg)] text-[clamp(2.8rem,6vw,4.5rem)] font-extrabold leading-[1.1] [&_em]:italic [&_em]:text-brand">{{ sections.hero.headline }}</h1>
         <p class="relative mx-auto mb-[var(--space-2xl)] max-w-[var(--max-width-text)] text-[1.25rem] text-[var(--text-secondary)]">{{ sections.hero.description }}</p>
         <div class="relative flex justify-center gap-[var(--space-md)] flex-wrap max-md:flex-col max-md:items-center">
           {% for btn in sections.hero.cta_buttons %}
-          <a href="{{ btn.url }}" class="inline-flex items-center gap-[var(--space-sm)] rounded-[var(--radius)] px-7 py-3 font-body text-[1rem] font-semibold no-underline transition-all duration-200 {% if btn.style == 'btn-primary' %}bg-brand text-white hover:bg-[var(--accent-hover)] hover:text-white hover:-translate-y-px hover:shadow-[0_4px_20px_var(--accent-glow)]{% else %}border-[1.5px] border-line bg-transparent text-ink hover:border-brand hover:text-brand hover:-translate-y-px{% endif %}">{{ btn.label }}</a>
+          <a href="{{ btn.url }}" class="inline-flex items-center gap-[var(--space-sm)] rounded-[var(--radius)] px-7 py-3 font-body text-[1rem] font-semibold no-underline transition-all duration-200 {% if btn.style == 'btn-primary' %}bg-brand text-white hover:bg-[var(--accent-hover)] hover:text-white hover:-translate-y-px hover:shadow-[var(--shadow-sm)]{% else %}border-[1.5px] border-line bg-transparent text-ink hover:border-brand hover:text-brand hover:-translate-y-px{% endif %}">{{ btn.label }}</a>
           {% endfor %}
         </div>
         {% if sections.hero.pipeline %}
         <div class="relative mt-[var(--space-4xl)] flex items-center justify-center gap-[var(--space-md)] flex-wrap max-sm:flex-col max-sm:gap-[var(--space-sm)] max-md:mt-[var(--space-2xl)]">
           {% for item in sections.hero.pipeline %}
-          {% if not loop.first %}<span class="font-mono text-[1.5rem] text-[var(--accent-dim)] max-sm:rotate-90">&rarr;</span>{% endif %}
+          {% if not loop.first %}<span class="font-mono text-[1.5rem] text-[var(--data-secondary)] max-sm:rotate-90">&rarr;</span>{% endif %}
           <div class="rounded-[var(--radius)] border border-line bg-[var(--bg-secondary)] px-[var(--space-xl)] py-[var(--space-md)] text-center font-mono text-[0.9rem] text-ink transition-all duration-200 hover:-translate-y-0.5 hover:border-brand hover:shadow-[var(--shadow)]">
             <div class="font-bold text-brand">{{ item.label }}</div>
             <div class="mt-[2px] text-[0.75rem] text-[var(--text-muted)]">{{ item.desc }}</div>
@@ -191,8 +190,8 @@
         </div>
         <div class="grid grid-cols-[repeat(auto-fit,minmax(320px,1fr))] gap-[var(--space-xl)] max-md:grid-cols-1">
           {% for feat in sections.features.cards %}
-          <article class="relative overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border-light)] bg-[var(--bg-elevated)] p-[var(--space-2xl)] transition-all duration-350 hover:-translate-y-[3px] hover:border-[var(--border)] hover:shadow-[var(--shadow)] before:absolute before:left-0 before:right-0 before:top-0 before:h-[3px] before:bg-gradient-to-r before:from-brand before:to-transparent before:opacity-0 before:transition-opacity before:duration-350 hover:before:opacity-100">
-            <div class="mb-[var(--space-lg)] flex h-11 w-11 items-center justify-center rounded-[var(--radius)] border border-line bg-[var(--bg-code)] font-mono text-[1.2rem] {% if feat.icon_class == 'charts' or feat.icon_class == 'mcp' %}text-[var(--accent-2)]{% elif feat.icon_class == 'diagrams' or feat.icon_class == 'print' %}text-[var(--green)]{% else %}text-brand{% endif %}">{{ feat.icon }}</div>
+          <article class="relative overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border-light)] bg-[var(--bg-elevated)] p-[var(--space-2xl)] transition-all duration-350 hover:-translate-y-[3px] hover:border-[var(--border)] hover:shadow-[var(--shadow)] before:absolute before:left-0 before:right-0 before:top-0 before:h-[3px] before:bg-brand before:opacity-0 before:transition-opacity before:duration-350 hover:before:opacity-100">
+            <div class="mb-[var(--space-lg)] flex h-11 w-11 items-center justify-center rounded-[var(--radius)] border border-line bg-[var(--bg-code)] font-mono text-[1.2rem] {% if feat.icon_class == 'charts' or feat.icon_class == 'mcp' %}text-[var(--accent-secondary)]{% elif feat.icon_class == 'diagrams' or feat.icon_class == 'print' %}text-[var(--success)]{% else %}text-brand{% endif %}">{{ feat.icon }}</div>
             <h3 class="mb-[var(--space-sm)] text-[1.3rem]">{{ feat.title }}</h3>
             <p class="!mb-0 text-[0.95rem] text-[var(--text-secondary)]">{{ feat.description }}</p>
           </article>
@@ -212,7 +211,7 @@
         </div>
         <div class="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-[var(--space-xl)] max-md:grid-cols-1">
           {% for path in sections.workflows.paths %}
-          <div class="relative overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border-light)] bg-[var(--bg-secondary)] p-[var(--space-2xl)] transition-all duration-350 hover:-translate-y-[3px] hover:border-[var(--border)] hover:shadow-[var(--shadow)] before:absolute before:left-0 before:right-0 before:top-0 before:h-[3px] before:bg-gradient-to-r before:from-[var(--accent-2)] before:to-transparent before:opacity-0 before:transition-opacity before:duration-350 hover:before:opacity-100">
+          <div class="relative overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border-light)] bg-[var(--bg-secondary)] p-[var(--space-2xl)] transition-all duration-350 hover:-translate-y-[3px] hover:border-[var(--border)] hover:shadow-[var(--shadow)] before:absolute before:left-0 before:right-0 before:top-0 before:h-[3px] before:bg-[var(--accent-secondary)] before:opacity-0 before:transition-opacity before:duration-350 hover:before:opacity-100">
             <div class="mb-[var(--space-md)] font-display text-[2.5rem] font-bold leading-none text-line">{{ path.num }}</div>
             {% if path.tag %}<span class="mb-[var(--space-md)] inline-block rounded-xl border border-[var(--border-light)] bg-[var(--bg-code)] px-[10px] py-[2px] font-mono text-[0.7rem] font-semibold uppercase tracking-[0.05em] text-brand">{{ path.tag }}</span>{% endif %}
             <h3 class="mb-[var(--space-xs)] text-[1.25rem]">{{ path.title }}</h3>
@@ -274,7 +273,7 @@
             </ul>
           </div>
           <div class="flex items-center justify-center px-0 py-[var(--space-md)] font-mono text-[1.2rem] text-brand max-md:rotate-90 max-md:px-0 max-md:py-0">vs</div>
-          <div class="compare-card--new rounded-[var(--radius-lg)] border border-[var(--accent-dim)] bg-[var(--bg-secondary)] p-[var(--space-2xl)] shadow-[0_0_40px_var(--accent-glow)] transition-all duration-350">
+          <div class="compare-card--new rounded-[var(--radius-lg)] border border-[var(--data-secondary)] bg-[var(--bg-secondary)] p-[var(--space-2xl)] shadow-[var(--shadow-sm)] transition-all duration-350">
             <span class="mb-[var(--space-md)] block font-mono text-[0.75rem] font-semibold uppercase tracking-[0.1em] text-brand">{{ sections.comparison.new_label }}</span>
             <h3 class="mb-[var(--space-md)] text-[1.5rem]">{{ sections.comparison.new_title }}</h3>
             <p class="mb-[var(--space-lg)] text-[0.9rem] text-[var(--text-secondary)]">{{ sections.comparison.new_subtitle }}</p>
@@ -327,12 +326,12 @@
     {% endif %}
 
     {# ===== CTA ===== #}
-    <section class="cta section cta-glow relative overflow-hidden text-center">
+    <section class="cta section relative overflow-hidden text-center">
       <div class="container mx-auto max-w-[var(--max-width)] px-[var(--space-xl)]">
         <h2 class="cta__title relative mb-[var(--space-md)] text-[clamp(1.8rem,4vw,2.5rem)]">{{ sections.bottom_cta.heading }}</h2>
         <p class="relative mb-[var(--space-2xl)] text-[1.15rem] text-[var(--text-secondary)]">{{ sections.bottom_cta.description }}</p>
         <div class="relative flex justify-center gap-[var(--space-md)] flex-wrap">
-          <a href="{{ sections.bottom_cta.button_url }}" class="inline-flex items-center gap-[var(--space-sm)] rounded-[var(--radius)] bg-brand px-7 py-3 font-body text-[1rem] font-semibold text-white no-underline transition-all duration-200 hover:bg-[var(--accent-hover)] hover:text-white hover:-translate-y-px hover:shadow-[0_4px_20px_var(--accent-glow)]">{{ sections.bottom_cta.button_label }}</a>
+          <a href="{{ sections.bottom_cta.button_url }}" class="inline-flex items-center gap-[var(--space-sm)] rounded-[var(--radius)] bg-brand px-7 py-3 font-body text-[1rem] font-semibold text-white no-underline transition-all duration-200 hover:bg-[var(--accent-hover)] hover:text-white hover:-translate-y-px hover:shadow-[var(--shadow-sm)]">{{ sections.bottom_cta.button_label }}</a>
         </div>
       </div>
     </section>
@@ -340,23 +339,25 @@
   </main>
 
   <!-- FOOTER_INJECT -->
-
   <script>
     (function() {
       const KEY = 'momo-theme';
       const toggle = document.getElementById('themeToggle');
       const html = document.documentElement;
+      if (!toggle) return;
       if (document.getElementById('navThemeToggle')) { toggle.style.display = 'none'; }
-      function setIcon(t) { toggle.innerHTML = t === 'light' ? '&#9790;' : '&#9788;'; }
-      const s = localStorage.getItem(KEY);
-      if (s) html.setAttribute('data-theme', s);
-      else localStorage.setItem(KEY, 'dark');
-      setIcon(html.getAttribute('data-theme'));
+
+      function setIcon(theme) { toggle.innerHTML = theme === 'dark' ? '&#9790;' : '&#9788;'; }
+
+      const stored = localStorage.getItem(KEY);
+      if (stored === 'dark' || stored === 'light') html.setAttribute('data-theme', stored);
+      setIcon(html.getAttribute('data-theme') || 'light');
+
       toggle.addEventListener('click', function() {
-        const n = html.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
-        html.setAttribute('data-theme', n);
-        localStorage.setItem(KEY, n);
-        setIcon(n);
+        const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        html.setAttribute('data-theme', next);
+        localStorage.setItem(KEY, next);
+        setIcon(next);
       });
     })();
   </script>
