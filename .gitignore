@@ -35,6 +35,10 @@ __pycache__/
 dist/
 build/
 *.egg-info/
+.venv/
+
+# Install state (machine-specific)
+.momo-install.json
 
 # Test outputs
 .pytest_cache/

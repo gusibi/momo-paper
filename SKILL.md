@@ -15,7 +15,7 @@ description: >
   voice — the system covers the style even when the format is new. Do not skip this skill even if
   the user does not explicitly mention Momo Paper. Use Chinese output when the
   user speaks Chinese or requests Chinese output.
-compatibility: requires momo CLI — install: `cd scripts/json-engine && pip install -e .` then verify with `momo list`
+compatibility: requires momo CLI — run `./install.sh` for guided setup, `./install.sh --check` to verify, `./install.sh --upgrade` to update. Install locations are recorded in `.momo-install.json`.
 ---
 
 # Momo Paper
@@ -33,17 +33,76 @@ Core principle: **conclusion first, evidence second, detail third.** Every docum
 
 ## Step 0 · Ensure CLI is installed
 
-Check that the `momo` command is available. If not, install it:
+The `momo` CLI must be available before any generation work. Use the config file to locate it reliably across installations.
 
-```bash
-# Check
-momo list
+### 0a · Locate the config file
 
-# If not found, install from the skill's bundled engine
-cd scripts/json-engine && pip install -e . && cd -
+Read `.momo-install.json` in the skill root directory (same directory as this SKILL.md). This file records where the engine was installed:
+
+```json
+{
+  "version": "0.2.2",
+  "install_dir": "/path/to/momo-paper",
+  "engine_dir": "/path/to/momo-paper/scripts/json-engine",
+  "python": "/path/to/momo-paper/scripts/json-engine/.venv/bin/python",
+  "install_date": "2026-05-06T...",
+  "last_check": "2026-05-06T..."
+}
 ```
 
-This is a one-time setup. The CLI provides `momo init`, `momo render`, `momo chart`, and `momo list`.
+If the config file exists, use `engine_dir` to find the engine and `python` as the preferred Python interpreter. The `momo` binary lives at `{engine_dir}/.venv/bin/momo`.
+
+### 0b · Verify the CLI
+
+Run the following from the recorded install directory:
+
+```bash
+# Check using the venv binary from config
+{engine_dir}/.venv/bin/momo list
+
+# Or if momo is already on PATH
+momo list
+
+# Verify version matches config
+{engine_dir}/.venv/bin/momo --version
+```
+
+### 0c · If not installed
+
+If `.momo-install.json` does not exist, or the CLI is not found at the recorded path:
+
+```bash
+# Guided install (recommended)
+./install.sh
+
+# Or install to a custom directory
+./install.sh --dir /your/preferred/path
+
+# Check status
+./install.sh --check
+```
+
+This runs `pip install -e .` inside `scripts/json-engine/`, creates (or reuses) a `.venv`, and writes `.momo-install.json`.
+
+### 0d · Version check and upgrade
+
+Compare the installed version (from `.momo-install.json` or `momo --version`) against the package version in `scripts/json-engine/pyproject.toml`. If the installed version is older:
+
+```bash
+./install.sh --upgrade
+```
+
+When the user's repo is updated (git pull), the engine source may have changed. The editable install (`pip install -e .`) means code changes take effect immediately, but if dependencies changed (e.g. new Jinja2 version), re-run `./install.sh --upgrade` to refresh them.
+
+### 0e · CLI quick reference
+
+| Command | Purpose |
+|---|---|
+| `momo list` | List 15 document types + chart types + locales |
+| `momo init -t <type> -l <locale> -o data.json` | Generate JSON skeleton |
+| `momo render -d data.json -o output.html` | Render JSON to HTML |
+| `momo chart -d data.json -k sections.<key>.chart -o chart.svg` | Extract chart as standalone SVG |
+| `momo --version` | Show installed version |
 
 ---
 
@@ -215,8 +274,14 @@ The default path is CLI-driven. Use the HTML direct-edit path only when the JSON
 
 ### 4a · Generate JSON skeleton
 
+Use the `momo` binary from the install recorded in `.momo-install.json`. If the venv binary is not on PATH, invoke it directly:
+
 ```bash
+# If momo is on PATH (after install.sh setup)
 momo init -t <document_type> -l <locale> -o data.json
+
+# Or use the full path from config
+{engine_dir}/.venv/bin/momo init -t <document_type> -l <locale> -o data.json
 ```
 
 This writes a JSON skeleton with the correct `document_type`, `locale`, and placeholder `meta` / `sections` structure. Each document type has a JSON Schema in `scripts/json-engine/momo_paper/schemas/` — read the matching schema to understand available section fields.
@@ -250,6 +315,7 @@ This writes a JSON skeleton with the correct `document_type`, `locale`, and plac
 
 ```bash
 momo render -d data.json -o output.html
+# or: {engine_dir}/.venv/bin/momo render -d data.json -o output.html
 ```
 
 For standalone chart SVG:
