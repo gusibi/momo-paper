@@ -1,0 +1,59 @@
+<section class="mp-proof-category" id="foundation">
+  <header class="mp-section-header" data-component="section_header">
+    <p class="mp-eyebrow" data-component="eyebrow">Foundation</p>
+    <h2>文档、章节与基础排版</h2>
+    <p>这些组件定义一篇 Momo Paper 文档的基本骨架：外层页面、章节、标题组、眉标和正文段落。</p>
+  </header>
+
+  <div class="mp-proof-grid">
+    <div class="mp-proof-section">
+      <div class="mp-proof-label">mp-document + mp-section</div>
+      <article class="mp-document" data-component="document">
+        <section class="mp-section" data-component="section">
+          <header class="mp-section-header" data-component="section_header">
+            <p class="mp-eyebrow" data-component="eyebrow">web_dual.explainer</p>
+            <h3>一个最小文档区块</h3>
+            <p>章节之间用稳定的边界和留白表达结构，不依赖装饰性的卡片墙。</p>
+          </header>
+          <p class="mp-body-paragraph" data-component="body_paragraph">
+            Momo Paper 的基础层优先服务长文阅读、打印导出和 agent 生成稳定性。组件名称固定后，样式可以由不同 CSS 模板接管。
+          </p>
+        </section>
+      </article>
+    </div>
+
+    <div class="mp-proof-section">
+      <div class="mp-proof-label">mp-section-header</div>
+      <header class="mp-section-header" data-component="section_header">
+        <p class="mp-eyebrow" data-component="eyebrow">Section Label</p>
+        <h3>章节标题组件</h3>
+        <p>用于每个主要章节的标题、说明和 route 上下文。</p>
+      </header>
+    </div>
+
+    <div class="mp-proof-section">
+      <div class="mp-proof-label">mp-title-block</div>
+      <header class="mp-title-block" data-component="title_block">
+        <p class="mp-eyebrow" data-component="eyebrow">Title Block</p>
+        <h2>结论先行的标题组</h2>
+        <p>适合页面开头、章节开头或幻灯片主标题。</p>
+      </header>
+    </div>
+
+    <div class="mp-proof-section">
+      <div class="mp-proof-label">mp-body-paragraph</div>
+      <p class="mp-body-paragraph" data-component="body_paragraph">
+        正文段落保持可读宽度和稳定行高，用于解释背景、证据、方法和结论。它不承担装饰职责，也不把布局规则写入内容节点。
+      </p>
+    </div>
+
+    <div class="mp-proof-section">
+      <div class="mp-proof-label">mp-page-header + mp-subtitle</div>
+      <header class="mp-page-header" data-component="page_header">
+        <p class="mp-eyebrow" data-component="eyebrow">Page Header</p>
+        <h1>页面级主标题</h1>
+        <p class="mp-subtitle" data-component="subtitle">用于站点页面（如设计系统、使用指南、FAQ 等）的顶层标题区。与 mp-title-block 不同，page-header 带底部 border 分隔线，subtitle 字号更大。</p>
+      </header>
+    </div>
+  </div>
+</section>

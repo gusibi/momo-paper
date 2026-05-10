@@ -1,0 +1,68 @@
+<section class="mp-proof-category" id="utility">
+  <header class="mp-section-header" data-component="section_header">
+    <p class="mp-eyebrow" data-component="eyebrow">Utility</p>
+    <h2>代码、列表、状态和网格</h2>
+    <p>这些是模板中已经反复出现的辅助结构。标准化后，agent 不需要临场发明列表和卡片网格。</p>
+  </header>
+
+  <div class="mp-proof-grid">
+    <div class="mp-proof-section">
+      <div class="mp-proof-label">mp-code-block</div>
+      <figure class="mp-code-block" data-component="code_block">
+        <figcaption>HTML</figcaption>
+        <pre><code>&lt;article class="mp-fact-card" data-component="fact_card"&gt;
+  &lt;span&gt;Label&lt;/span&gt;
+  &lt;strong&gt;Value&lt;/strong&gt;
+&lt;/article&gt;</code></pre>
+      </figure>
+    </div>
+
+    <div class="mp-proof-section">
+      <div class="mp-proof-label">mp-action-list</div>
+      <ul class="mp-action-list" data-component="action_list">
+        <li>把旧模板中的 utility class 收敛为组件 class。</li>
+        <li>把 chart 数据保留为独立 data island。</li>
+        <li>为 validator 增加组件白名单检查。</li>
+      </ul>
+    </div>
+
+    <div class="mp-proof-section">
+      <div class="mp-proof-label">mp-checklist</div>
+      <ul class="mp-checklist" data-component="checklist">
+        <li>HTML 可以直接打开。</li>
+        <li>CSS 可以单独替换。</li>
+        <li>组件都有 data-component 标记。</li>
+      </ul>
+    </div>
+
+    <div class="mp-proof-section">
+      <div class="mp-proof-label">mp-status-badge</div>
+      <div>
+        <span class="mp-status-badge" data-component="status_badge">stable</span>
+        <span class="mp-status-badge" data-component="status_badge" data-tone="warning">draft</span>
+        <span class="mp-status-badge" data-component="status_badge" data-tone="danger">blocked</span>
+      </div>
+    </div>
+
+    <div class="mp-proof-section">
+      <div class="mp-proof-label">mp-card-grid</div>
+      <div class="mp-card-grid" data-component="card_grid">
+        <article class="mp-fact-card" data-component="fact_card">
+          <span>Structure</span>
+          <strong>HTML</strong>
+          <p class="mp-body-paragraph" data-component="body_paragraph">语义组件负责内容结构。</p>
+        </article>
+        <article class="mp-fact-card" data-component="fact_card">
+          <span>Skin</span>
+          <strong>CSS</strong>
+          <p class="mp-body-paragraph" data-component="body_paragraph">主题模板负责视觉表达。</p>
+        </article>
+        <article class="mp-fact-card" data-component="fact_card">
+          <span>Check</span>
+          <strong>Lint</strong>
+          <p class="mp-body-paragraph" data-component="body_paragraph">后续脚本负责约束检查。</p>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
