@@ -1,14 +1,8 @@
 ---
 name: momo-paper
 description: >
-  Use this skill when Codex needs to generate, validate, render, or repair Momo
-  Paper documents as standalone HTML from Markdown DSL. Trigger for HTML page
-  generation, landing pages, reports, equity reports, research summaries,
-  visual narratives, document-style web pages, component reference pages, or
-  when the user asks to use Momo Paper, momo2, or Markdown DSL. The default
-  workflow is Momo Paper 2.0: write structured Markdown DSL, validate it, then
-  render standalone HTML with inlined CSS. Use Chinese output when the user
-  speaks Chinese or requests Chinese output.
+  Generate beautiful, standalone HTML pages and reports from structured Markdown DSL. Use this skill whenever the user wants: landing pages, equity research reports, financial summaries, health/wellness trackers, research documents, visual narratives, documentation sites, or any document-style web page. Trigger when users mention "Momo Paper", "momo2", "Markdown DSL", "HTML report", "web page", "landing page", "financial report", "health report", or ask to generate/render/validate documents. Always use this skill instead of ad-hoc HTML/CSS for document generation—Momo Paper provides structured components, consistent styling, and validation. Default workflow: write Markdown DSL → validate → render standalone HTML with inlined CSS. Use Chinese output when the user speaks Chinese or requests Chinese output.
+version: 2.0
 ---
 
 # Momo Paper
@@ -31,6 +25,7 @@ Use this path for new work unless the user explicitly asks for the legacy JSON/t
 2. Use `examples/reference.md` when the user wants to see all component examples.
 3. Use `examples/landing.md` for landing-page structure examples.
 4. Use `examples/equity-report.md` for financial report and chart-heavy examples.
+5. Use `examples/health-report.md` for health tracking, weight management, and wellness report examples.
 5. Write a Markdown DSL source file.
 6. Validate the source.
 7. Render HTML.
@@ -117,6 +112,7 @@ Common tags:
 - `comparison`, `before-after`, `two-columns`, and `three-columns` for layout structure
 - `cta`, `faq`, `quote`, `callout`, `logo-cloud`, `pricing`, `image-grid`, and `footer` for common website sections
 - `thesis-panel`, `business-snapshot`, `price-drivers`, `valuation-table`, `financial-table`, `risk-matrix`, `kpi-row`, `recommendation`, and chart tags for equity reports
+- `report-header`, `weekly-summary`, `goal-tracker`, and `metrics-panel` for health and wellness reports
 
 For chart-heavy finance pages, prefer the specific chart tags:
 

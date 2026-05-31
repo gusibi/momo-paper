@@ -856,7 +856,142 @@ Recommended fields:
 - `title`
 - `body`
 
-## 8. General Layout, Content, and Data Tags
+## 8. Health Report Tags
+
+These tags are conventions for health tracking, weight management, and wellness reports. They are still plain DSL tags: the parser treats them the same way as any other `:::tag-name` block.
+
+### `weekly-summary`
+
+Use for weekly summary and assessment.
+
+```md
+:::weekly-summary
+title: 本周总结
+period: 2026年5月25日 - 5月31日
+summary: 体重回落至目标区间，体脂率稳步下降，继续保持运动习惯。
+positives:
+  - title: 运动坚持
+    desc: 完成 5 天运动计划
+  - title: 饮食控制
+    desc: 工作日热量摄入达标
+improvements:
+  - title: 周末饮食
+    desc: 需要避免油腻食物
+  - title: 睡眠时间
+    desc: 尽量在 11 点前入睡
+:::
+```
+
+Recommended fields:
+
+- `title`
+- `period`
+- `summary`
+- `positives`
+- `positives[].title`
+- `positives[].desc`
+- `improvements`
+- `improvements[].title`
+- `improvements[].desc`
+
+### `goal-tracker`
+
+Use for goal tracking and progress.
+
+```md
+:::goal-tracker
+title: 下周目标
+goals:
+  - title: 运动目标
+    target: 5 天
+    current: 0
+    unit: 天
+    desc: 至少运动 5 天，包含 3 次有氧和 2 次力量
+  - title: 睡眠目标
+    target: 7.5
+    current: 7.3
+    unit: 小时
+    desc: 每晚 11 点前入睡，保证 7-8 小时睡眠
+  - title: 饮水目标
+    target: 2.0
+    current: 1.8
+    unit: 升
+    desc: 每天至少 2.0 升水
+:::
+```
+
+Recommended fields:
+
+- `title`
+- `goals`
+- `goals[].title`
+- `goals[].target`
+- `goals[].current`
+- `goals[].unit`
+- `goals[].desc`
+
+### `metrics-panel`
+
+Use for health metrics panel.
+
+```md
+:::metrics-panel
+title: 关键指标
+metrics:
+  - label: 周末体重
+    value: 68.2 kg
+    change: -0.8 kg
+    status: good
+  - label: BMI
+    value: 22.1
+    change: -0.3
+    status: normal
+  - label: 体脂率
+    value: 18.5%
+    change: -0.3%
+    status: good
+  - label: 运动天数
+    value: 5 天
+    change: +1 天
+    status: good
+  - label: 平均睡眠
+    value: 7.3 小时
+    change: +0.3 小时
+    status: normal
+:::
+```
+
+Recommended fields:
+
+- `title`
+- `metrics`
+- `metrics[].label`
+- `metrics[].value`
+- `metrics[].change`
+- `metrics[].status`
+
+### `report-header`
+
+Use for report header with date range and metadata.
+
+```md
+:::report-header
+title: 减脂周报
+eyebrow: Momo Coach · 第 12 周
+date_range: 2026.05.19 – 2026.05.26
+weigh_day: 2026-05-26
+:::
+```
+
+Recommended fields:
+
+- `title`
+- `eyebrow`
+- `date_range`
+- `weigh_day`
+- `meta` (for custom metadata items)
+
+## 9. General Layout, Content, and Data Tags
 
 These tags cover common website, report, and narrative-page sections. They are useful when an Agent needs richer structure than plain Markdown but does not need a route-specific financial tag.
 
@@ -1237,7 +1372,7 @@ Recommended fields:
 - `nodes`
 - `edges`
 
-## 9. Custom Tags
+## 10. Custom Tags
 
 Custom tags are valid:
 
@@ -1258,7 +1393,7 @@ The renderer preserves the tag name:
 
 This lets future renderers or downstream tools detect and enhance specific tags without changing the parser.
 
-## 10. Output Rules
+## 11. Output Rules
 
 The generic renderer outputs:
 
@@ -1276,7 +1411,7 @@ The default CLI inlines `momo-paper.css` into the generated HTML. Visual systems
 
 The output is intentionally generic. Phase 1 tests parsing and conversion, not final product-grade visual components.
 
-## 11. Validation Errors
+## 12. Validation Errors
 
 The parser fails fast on:
 
@@ -1297,7 +1432,7 @@ Errors should include as much context as possible:
 path/to/file.md: line 12: block hero: unclosed block directive
 ```
 
-## 12. Agent Writing Rules
+## 13. Agent Writing Rules
 
 Agents should follow these rules:
 

@@ -19,6 +19,12 @@ CHART_BLOCKS = {
     "line-chart",
     "waterfall-chart",
 }
+HEALTH_BLOCKS = {
+    "weekly-summary",
+    "goal-tracker",
+    "metrics-panel",
+    "report-header",
+}
 
 
 def get_default_css_path() -> Path:
@@ -66,6 +72,8 @@ def _render_node(node: MarkdownNode | BlockNode) -> str:
         return f'<section class="markdown-node"><div class="markdown-inner">{_render_markdown(node.text)}</div></section>'
     if node.name in CHART_BLOCKS:
         fields = _render_chart_block(node)
+    elif node.name in HEALTH_BLOCKS:
+        fields = _render_health_block(node)
     else:
         fields = _render_value(node.props)
     return (
@@ -174,6 +182,201 @@ def _render_chart_block(node: BlockNode) -> str:
     if node.name == "waterfall-chart":
         return _render_echart_block("waterfall-chart", node.props, _build_waterfall_option(node.props))
     return _render_value(node.props)
+
+
+def _render_health_block(node: BlockNode) -> str:
+    if node.name == "weekly-summary":
+        return _render_weekly_summary(node.props)
+    if node.name == "goal-tracker":
+        return _render_goal_tracker(node.props)
+    if node.name == "metrics-panel":
+        return _render_metrics_panel(node.props)
+    if node.name == "report-header":
+        return _render_report_header(node.props)
+    return _render_value(node.props)
+
+
+def _render_weekly_summary(props: dict[str, Any]) -> str:
+    title = props.get("title", "")
+    period = props.get("period", "")
+    summary = props.get("summary", "")
+    positives = props.get("positives", [])
+    improvements = props.get("improvements", [])
+
+    parts = ['<div class="health-block health-block--weekly-summary">']
+    if title:
+        parts.append(f'<h2 class="health-title">{_inline(str(title))}</h2>')
+    if period:
+        parts.append(f'<div class="health-period">{_inline(str(period))}</div>')
+    if summary:
+        parts.append(f'<p class="health-summary">{_inline(str(summary))}</p>')
+
+    if positives:
+        parts.append('<div class="health-section">')
+        parts.append('<h3 class="health-section-title">做得好的方面</h3>')
+        parts.append('<div class="health-list health-list--positive">')
+        for item in positives:
+            if isinstance(item, dict):
+                item_title = item.get("title", "")
+                item_desc = item.get("desc", "")
+                parts.append('<div class="health-item health-item--positive">')
+                parts.append(f'<span class="health-icon">✅</span>')
+                parts.append('<div class="health-item-content">')
+                if item_title:
+                    parts.append(f'<div class="health-item-title">{_inline(str(item_title))}</div>')
+                if item_desc:
+                    parts.append(f'<div class="health-item-desc">{_inline(str(item_desc))}</div>')
+                parts.append('</div>')
+                parts.append('</div>')
+        parts.append('</div>')
+        parts.append('</div>')
+
+    if improvements:
+        parts.append('<div class="health-section">')
+        parts.append('<h3 class="health-section-title">需要改进的方面</h3>')
+        parts.append('<div class="health-list health-list--improvement">')
+        for item in improvements:
+            if isinstance(item, dict):
+                item_title = item.get("title", "")
+                item_desc = item.get("desc", "")
+                parts.append('<div class="health-item health-item--improvement">')
+                parts.append(f'<span class="health-icon">💪</span>')
+                parts.append('<div class="health-item-content">')
+                if item_title:
+                    parts.append(f'<div class="health-item-title">{_inline(str(item_title))}</div>')
+                if item_desc:
+                    parts.append(f'<div class="health-item-desc">{_inline(str(item_desc))}</div>')
+                parts.append('</div>')
+                parts.append('</div>')
+        parts.append('</div>')
+        parts.append('</div>')
+
+    parts.append('</div>')
+    return "".join(parts)
+
+
+def _render_goal_tracker(props: dict[str, Any]) -> str:
+    title = props.get("title", "")
+    goals = props.get("goals", [])
+
+    parts = ['<div class="health-block health-block--goal-tracker">']
+    if title:
+        parts.append(f'<h2 class="health-title">{_inline(str(title))}</h2>')
+
+    if goals:
+        parts.append('<div class="goals-grid">')
+        for goal in goals:
+            if isinstance(goal, dict):
+                goal_title = goal.get("title", "")
+                target = goal.get("target", "")
+                current = goal.get("current", "")
+                unit = goal.get("unit", "")
+                desc = goal.get("desc", "")
+
+                target_num = _to_number(target) if target is not None else 0
+                current_num = _to_number(current) if current is not None else 0
+                progress = 0
+                if target_num > 0:
+                    progress = min(100, max(0, (current_num / target_num) * 100))
+
+                status_class = "goal-status--good" if progress >= 80 else "goal-status--normal" if progress >= 50 else "goal-status--warning"
+
+                parts.append('<div class="goal-card">')
+                parts.append(f'<div class="goal-title">{_inline(str(goal_title))}</div>')
+                parts.append('<div class="goal-progress">')
+                parts.append(f'<div class="goal-progress-bar" style="width: {progress}%"></div>')
+                parts.append('</div>')
+                parts.append('<div class="goal-values">')
+                parts.append(f'<span class="goal-current">{_inline(str(current))}{_inline(str(unit))}</span>')
+                parts.append(f'<span class="goal-separator">/</span>')
+                parts.append(f'<span class="goal-target">{_inline(str(target))}{_inline(str(unit))}</span>')
+                parts.append('</div>')
+                if desc:
+                    parts.append(f'<div class="goal-desc">{_inline(str(desc))}</div>')
+                parts.append('</div>')
+        parts.append('</div>')
+
+    parts.append('</div>')
+    return "".join(parts)
+
+
+def _render_metrics_panel(props: dict[str, Any]) -> str:
+    title = props.get("title", "")
+    metrics = props.get("metrics", [])
+
+    parts = ['<div class="health-block health-block--metrics-panel">']
+    if title:
+        parts.append(f'<h2 class="health-title">{_inline(str(title))}</h2>')
+
+    if metrics:
+        parts.append('<div class="metrics-grid">')
+        for metric in metrics:
+            if isinstance(metric, dict):
+                label = metric.get("label", "")
+                value = metric.get("value", "")
+                change = metric.get("change", "")
+                status = metric.get("status", "")
+
+                status_class = ""
+                if status == "good":
+                    status_class = "metric-status--good"
+                elif status == "warning":
+                    status_class = "metric-status--warning"
+                elif status == "danger":
+                    status_class = "metric-status--danger"
+
+                parts.append(f'<div class="metric-card {status_class}">')
+                parts.append(f'<div class="metric-label">{_inline(str(label))}</div>')
+                parts.append(f'<div class="metric-value">{_inline(str(value))}</div>')
+                if change:
+                    parts.append(f'<div class="metric-change">{_inline(str(change))}</div>')
+                parts.append('</div>')
+        parts.append('</div>')
+
+    parts.append('</div>')
+    return "".join(parts)
+
+
+def _render_report_header(props: dict[str, Any]) -> str:
+    title = props.get("title", "")
+    eyebrow = props.get("eyebrow", "")
+    date_range = props.get("date_range", "")
+    weigh_day = props.get("weigh_day", "")
+    meta = props.get("meta", [])
+
+    parts = ['<div class="health-block health-block--report-header">']
+    parts.append('<div class="report-header">')
+
+    parts.append('<div class="report-header-left">')
+    if title:
+        parts.append(f'<h1 class="report-title">{_inline(str(title))}</h1>')
+    if eyebrow:
+        parts.append(f'<div class="report-eyebrow">{_inline(str(eyebrow))}</div>')
+    parts.append('</div>')
+
+    has_meta = date_range or weigh_day or meta
+    if has_meta:
+        parts.append('<div class="report-header-right">')
+        parts.append('<div class="report-meta">')
+        if date_range:
+            parts.append(f'<div class="report-meta-item"><strong>{_inline(str(date_range))}</strong></div>')
+        if weigh_day:
+            parts.append(f'<div class="report-meta-item">称重日：{_inline(str(weigh_day))}</div>')
+        if meta and isinstance(meta, list):
+            for item in meta:
+                if isinstance(item, dict):
+                    label = item.get("label", "")
+                    value = item.get("value", "")
+                    if label and value:
+                        parts.append(f'<div class="report-meta-item">{_inline(str(label))}：{_inline(str(value))}</div>')
+                    elif value:
+                        parts.append(f'<div class="report-meta-item">{_inline(str(value))}</div>')
+        parts.append('</div>')
+        parts.append('</div>')
+
+    parts.append('</div>')
+    parts.append('</div>')
+    return "".join(parts)
 
 
 def _render_chart_header(props: dict[str, Any]) -> str:
