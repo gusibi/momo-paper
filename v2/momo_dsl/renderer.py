@@ -343,35 +343,60 @@ def _render_report_header(props: dict[str, Any]) -> str:
     date_range = props.get("date_range", "")
     weigh_day = props.get("weigh_day", "")
     meta = props.get("meta", [])
+    score = props.get("score", "")
+    status = props.get("status", "")
 
     parts = ['<div class="health-block health-block--report-header">']
-    parts.append('<div class="report-header">')
+    header_class = "report-header report-header--scored" if score else "report-header"
+    parts.append(f'<div class="{header_class}">')
 
     parts.append('<div class="report-header-left">')
     if title:
         parts.append(f'<h1 class="report-title">{_inline(str(title))}</h1>')
-    if eyebrow:
+    if score and date_range:
+        parts.append(f'<div class="report-date">{_inline(str(date_range))}</div>')
+    if score and meta and isinstance(meta, list):
+        parts.append('<div class="report-inline-meta">')
+        for item in meta:
+            if isinstance(item, dict):
+                label = item.get("label", "")
+                value = item.get("value", "")
+                if label and value:
+                    parts.append(f'<span>{_inline(str(label))}：{_inline(str(value))}</span>')
+                elif value:
+                    parts.append(f'<span>{_inline(str(value))}</span>')
+        parts.append('</div>')
+    elif eyebrow:
         parts.append(f'<div class="report-eyebrow">{_inline(str(eyebrow))}</div>')
     parts.append('</div>')
 
-    has_meta = date_range or weigh_day or meta
+    has_meta = score or date_range or weigh_day or meta
     if has_meta:
         parts.append('<div class="report-header-right">')
-        parts.append('<div class="report-meta">')
-        if date_range:
-            parts.append(f'<div class="report-meta-item"><strong>{_inline(str(date_range))}</strong></div>')
-        if weigh_day:
-            parts.append(f'<div class="report-meta-item">称重日：{_inline(str(weigh_day))}</div>')
-        if meta and isinstance(meta, list):
-            for item in meta:
-                if isinstance(item, dict):
-                    label = item.get("label", "")
-                    value = item.get("value", "")
-                    if label and value:
-                        parts.append(f'<div class="report-meta-item">{_inline(str(label))}：{_inline(str(value))}</div>')
-                    elif value:
-                        parts.append(f'<div class="report-meta-item">{_inline(str(value))}</div>')
-        parts.append('</div>')
+        if score:
+            if eyebrow:
+                parts.append(f'<div class="report-eyebrow">{_inline(str(eyebrow))}</div>')
+            parts.append('<div class="report-score-card">')
+            parts.append(f'<strong>{_inline(str(score))}</strong>')
+            if status:
+                parts.append(f'<span>{_inline(str(status))}</span>')
+            parts.append('</div>')
+        else:
+            parts.append('<div class="report-meta">')
+            if date_range:
+                parts.append(f'<div class="report-meta-item"><strong>{_inline(str(date_range))}</strong></div>')
+            if weigh_day:
+                parts.append(f'<div class="report-meta-item">称重日：{_inline(str(weigh_day))}</div>')
+            if meta and isinstance(meta, list):
+                for item in meta:
+                    if isinstance(item, dict):
+                        label = item.get("label", "")
+                        value = item.get("value", "")
+                        if label and value:
+                            parts.append(f'<div class="report-meta-item">{_inline(str(label))}：{_inline(str(value))}</div>')
+                        elif value:
+                            parts.append(f'<div class="report-meta-item">{_inline(str(value))}</div>')
+            parts.append('</div>')
         parts.append('</div>')
 
     parts.append('</div>')
