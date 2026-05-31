@@ -1,0 +1,1147 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>云帆科技（CF-001）深度研报</title>
+  <style>
+:root {
+  color-scheme: light;
+  --mp-ink: #172033;
+  --mp-ink-subtle: #4c566a;
+  --mp-paper: #faf8f4;
+  --mp-canvas: #f2efe8;
+  --mp-surface: #ffffff;
+  --mp-line: #d8d2c4;
+  --mp-brand: #244c7a;
+  --mp-brand-muted: #dce7f2;
+  --mp-accent: #b65c3a;
+  --mp-accent-muted: #f2e1d9;
+  --mp-font-display: "Noto Serif SC", "Source Han Serif SC", "Songti SC", serif;
+  --mp-font-body: "Inter", "Noto Sans SC", "PingFang SC", sans-serif;
+  --mp-font-mono: "IBM Plex Mono", "SFMono-Regular", monospace;
+  --mp-max: 1180px;
+  --mp-reading: 760px;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  background: var(--mp-canvas);
+  color: var(--mp-ink);
+  font-family: var(--mp-font-body);
+  line-height: 1.65;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  background: var(--mp-canvas);
+  color: var(--mp-ink);
+  overflow-wrap: anywhere;
+}
+
+.page { width: 100%; min-height: 100vh; }
+
+.doc-header,
+.markdown-node,
+.dsl-block {
+  width: 100%;
+  background: var(--mp-paper);
+}
+
+.doc-header {
+  border-bottom: 1px solid var(--mp-line);
+}
+
+.doc-header-inner,
+.markdown-inner,
+.block-inner {
+  width: min(100%, var(--mp-max));
+  margin: 0 auto;
+  padding-inline: clamp(24px, 5vw, 72px);
+}
+
+.doc-header-inner { padding-block: clamp(40px, 6vw, 72px); }
+.markdown-inner, .block-inner { padding-block: clamp(40px, 5vw, 72px); }
+
+.doc-type,
+.block-kicker,
+.field-key {
+  font-family: var(--mp-font-mono);
+  font-size: 11px;
+  font-weight: 650;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+.doc-type,
+.field-key { color: var(--mp-brand); }
+
+.block-kicker {
+  margin-bottom: 16px;
+  color: var(--mp-accent);
+}
+
+h1, h2, h3 {
+  font-family: var(--mp-font-display);
+  line-height: 1.18;
+  letter-spacing: 0;
+}
+
+h1 {
+  max-width: 860px;
+  margin: 12px 0 14px;
+  font-size: clamp(34px, 5vw, 56px);
+}
+
+h2 { margin: 0 0 14px; font-size: clamp(24px, 3vw, 36px); }
+h3 { margin: 0 0 8px; font-size: 20px; }
+
+.description {
+  max-width: var(--mp-reading);
+  margin: 0;
+  color: var(--mp-ink-subtle);
+  font-size: 17px;
+}
+
+.markdown-node p {
+  max-width: var(--mp-reading);
+  margin: 0 0 16px;
+}
+
+.markdown-node ul,
+.markdown-node ol {
+  max-width: var(--mp-reading);
+  padding-left: 24px;
+}
+
+.field { min-width: 0; }
+
+.field-key {
+  display: block;
+  margin-bottom: 6px;
+}
+
+.field--eyebrow .field-key,
+.field--title .field-key,
+.field--subtitle .field-key,
+.field--body .field-key,
+.field--desc .field-key {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
+
+.field--eyebrow > p {
+  margin: 0 0 10px;
+  color: var(--mp-brand);
+  font-family: var(--mp-font-mono);
+  font-size: 12px;
+  font-weight: 650;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+}
+
+.field--title > p {
+  max-width: 860px;
+  margin: 0;
+  font-family: var(--mp-font-display);
+  font-size: clamp(26px, 4vw, 44px);
+  font-weight: 650;
+  line-height: 1.16;
+}
+
+.field--subtitle > p,
+.field--body > p,
+.field--desc > p {
+  max-width: var(--mp-reading);
+  margin: 0;
+  color: var(--mp-ink-subtle);
+}
+
+.field--subtitle > p { font-size: 18px; }
+
+.object { display: block; }
+.object > .field + .field { margin-top: 16px; }
+
+.items {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.item {
+  min-width: 0;
+  background: var(--mp-surface);
+  border: 1px solid var(--mp-line);
+  border-radius: 8px;
+  padding: 18px;
+}
+
+.item .object > .field + .field { margin-top: 10px; }
+
+.field--primary-cta,
+.field--secondary-cta,
+.field--button {
+  display: inline-grid;
+  margin-right: 10px;
+}
+
+.field--primary-cta > .object,
+.field--secondary-cta > .object,
+.field--button > .object {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid var(--mp-line);
+  border-radius: 4px;
+  padding: 10px 14px;
+}
+
+.field--primary-cta > .object,
+.field--button > .object {
+  background: var(--mp-brand);
+  border-color: var(--mp-brand);
+  color: #fff;
+}
+
+.field--primary-cta .field-key,
+.field--secondary-cta .field-key,
+.field--button .field-key { display: none; }
+
+.field--primary-cta p,
+.field--secondary-cta p,
+.field--button p { margin: 0; }
+
+.field--href { display: none; }
+
+.dsl-block[data-block="hero"] {
+  min-height: 64vh;
+  background: var(--mp-ink);
+  color: #fff;
+}
+
+.dsl-block[data-block="hero"] .block-inner {
+  display: flex;
+  align-items: center;
+  min-height: 64vh;
+}
+
+.dsl-block[data-block="hero"] .block-kicker,
+.dsl-block[data-block="hero"] .field--eyebrow > p {
+  color: var(--mp-brand-muted);
+}
+
+.dsl-block[data-block="hero"] .field--title > p {
+  color: #fff;
+  font-size: clamp(36px, 6vw, 64px);
+}
+
+.dsl-block[data-block="hero"] .field--subtitle > p {
+  color: rgba(255, 255, 255, .76);
+}
+
+.dsl-block[data-block="hero"] .field--secondary-cta > .object {
+  border-color: rgba(255, 255, 255, .32);
+  color: #fff;
+}
+
+.dsl-block[data-block="section"],
+.dsl-block[data-block="timeline"],
+.dsl-block[data-block="faq"],
+.dsl-block[data-block="thesis-panel"],
+.dsl-block[data-block="risk-matrix"] {
+  background: var(--mp-paper);
+}
+
+.dsl-block[data-block="feature-grid"],
+.dsl-block[data-block="comparison"],
+.dsl-block[data-block="stats"],
+.dsl-block[data-block="business-snapshot"],
+.dsl-block[data-block="candlestick-chart"],
+.dsl-block[data-block="line-chart"],
+.dsl-block[data-block="bar-chart"],
+.dsl-block[data-block="donut-chart"],
+.dsl-block[data-block="waterfall-chart"],
+.dsl-block[data-block="valuation-table"],
+.dsl-block[data-block="financial-table"],
+.dsl-block[data-block="kpi-row"],
+.dsl-block[data-block="footer-note"] {
+  background: var(--mp-canvas);
+}
+
+.dsl-block[data-block="feature-grid"] .items,
+.dsl-block[data-block="stats"] .items {
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.dsl-block[data-block="comparison"] .field--left,
+.dsl-block[data-block="comparison"] .field--right {
+  background: var(--mp-surface);
+  border: 1px solid var(--mp-line);
+  border-radius: 8px;
+  padding: 22px;
+}
+
+.dsl-block[data-block="comparison"] .object,
+.dsl-block[data-block="thesis-panel"] .object,
+.dsl-block[data-block="recommendation"] .object {
+  display: grid;
+  gap: 18px;
+}
+
+.dsl-block[data-block="comparison"] .object > .field + .field,
+.dsl-block[data-block="thesis-panel"] .object > .field + .field,
+.dsl-block[data-block="recommendation"] .object > .field + .field {
+  margin-top: 0;
+}
+
+.dsl-block[data-block="cta"],
+.dsl-block[data-block="recommendation"] {
+  background: var(--mp-brand-muted);
+}
+
+.dsl-block[data-block="cta"] .block-inner {
+  display: grid;
+  gap: 20px;
+}
+
+.dsl-block[data-block="faq"] .item {
+  background: transparent;
+  border-width: 0 0 1px;
+  border-radius: 0;
+  padding: 18px 0;
+}
+
+.dsl-block[data-block="thesis-panel"] .field--rating {
+  align-items: center;
+  background: var(--mp-brand-muted);
+  border: 1px solid var(--mp-line);
+  border-radius: 999px;
+  display: inline-flex;
+  gap: 8px;
+  padding: 5px 12px;
+  width: fit-content;
+}
+
+.dsl-block[data-block="thesis-panel"] .field--rating .field-key { display: none; }
+
+.dsl-block[data-block="thesis-panel"] .field--rating p {
+  color: var(--mp-brand);
+  font-family: var(--mp-font-mono);
+  font-size: 13px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.dsl-block[data-block="thesis-panel"] .field--target-price,
+.dsl-block[data-block="thesis-panel"] .field--current-price,
+.dsl-block[data-block="hero"] .field--target-price,
+.dsl-block[data-block="hero"] .field--current-price,
+.dsl-block[data-block="hero"] .field--upside,
+.dsl-block[data-block="price-drivers"] .field--current,
+.dsl-block[data-block="price-drivers"] .field--target,
+.dsl-block[data-block="price-drivers"] .field--low-52w,
+.dsl-block[data-block="price-drivers"] .field--high-52w {
+  background: var(--mp-surface);
+  border: 1px solid var(--mp-line);
+  border-radius: 8px;
+  display: inline-grid;
+  margin: 0 10px 10px 0;
+  min-width: 150px;
+  padding: 12px 14px;
+}
+
+.dsl-block[data-block="hero"] .field--target-price,
+.dsl-block[data-block="hero"] .field--current-price,
+.dsl-block[data-block="hero"] .field--upside {
+  background: rgba(255, 255, 255, .08);
+  border-color: rgba(255, 255, 255, .22);
+}
+
+.dsl-block[data-block="thesis-panel"] .field--target-price p,
+.dsl-block[data-block="thesis-panel"] .field--current-price p,
+.dsl-block[data-block="hero"] .field--target-price p,
+.dsl-block[data-block="hero"] .field--current-price p,
+.dsl-block[data-block="hero"] .field--upside p,
+.dsl-block[data-block="price-drivers"] .field--current p,
+.dsl-block[data-block="price-drivers"] .field--target p,
+.dsl-block[data-block="price-drivers"] .field--low-52w p,
+.dsl-block[data-block="price-drivers"] .field--high-52w p,
+.dsl-block[data-block="kpi-row"] .field--value p,
+.dsl-block[data-block="stats"] .field--value p {
+  color: var(--mp-brand);
+  font-family: var(--mp-font-display);
+  font-size: clamp(24px, 3vw, 34px);
+  font-weight: 700;
+  line-height: 1.05;
+  margin: 0;
+}
+
+.dsl-block[data-block="hero"] .field--target-price p,
+.dsl-block[data-block="hero"] .field--current-price p,
+.dsl-block[data-block="hero"] .field--upside p {
+  color: #fff;
+}
+
+.dsl-block[data-block="thesis-panel"] .field--summary,
+.dsl-block[data-block="valuation-table"] .field--insight {
+  background: var(--mp-brand-muted);
+  border-radius: 0 8px 8px 0;
+  padding: 20px 22px;
+}
+
+.dsl-block[data-block="valuation-table"] .field--insight {
+  background: var(--mp-accent-muted);
+  border: 1px solid rgba(182, 92, 58, .24);
+}
+
+.dsl-block[data-block="thesis-panel"] .field--summary .field-key { display: none; }
+
+.dsl-block[data-block="thesis-panel"] .field--summary p,
+.dsl-block[data-block="recommendation"] .field--body p {
+  color: var(--mp-ink);
+  font-size: 17px;
+  line-height: 1.75;
+  max-width: 900px;
+}
+
+.dsl-block[data-block="business-snapshot"] .field--facts .items,
+.dsl-block[data-block="kpi-row"] .field--items .items {
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+}
+
+.dsl-block[data-block="business-snapshot"] .field--facts .item,
+.dsl-block[data-block="kpi-row"] .field--items .item {
+  background: var(--mp-brand-muted);
+  border-color: rgba(36, 76, 122, .18);
+}
+
+.dsl-block[data-block="business-snapshot"] .field--value p,
+.dsl-block[data-block="kpi-row"] .field--value p {
+  color: var(--mp-brand);
+  font-family: var(--mp-font-display);
+  font-size: clamp(26px, 3vw, 38px);
+  font-weight: 700;
+  line-height: 1.05;
+  margin: 0;
+}
+
+.dsl-block[data-block="business-snapshot"] .field--label p,
+.dsl-block[data-block="kpi-row"] .field--label p,
+.dsl-block[data-block="kpi-row"] .field--note p {
+  color: var(--mp-ink-subtle);
+  margin: 0;
+}
+
+.dsl-block[data-block="price-drivers"] .field--price > .object {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+}
+
+.dsl-block[data-block="price-drivers"] .field--drivers .items,
+.dsl-block[data-block="thesis-panel"] .field--drivers .items,
+.dsl-block[data-block="recommendation"] .field--actions .items {
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+.dsl-block[data-block="candlestick-chart"] .field--items .items,
+.dsl-block[data-block="line-chart"] .field--items .items,
+.dsl-block[data-block="bar-chart"] .field--items .items,
+.dsl-block[data-block="donut-chart"] .field--segments .items,
+.dsl-block[data-block="waterfall-chart"] .field--items .items {
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+}
+
+.dsl-block[data-block="candlestick-chart"] .field--items .item,
+.dsl-block[data-block="line-chart"] .field--items .item,
+.dsl-block[data-block="bar-chart"] .field--items .item,
+.dsl-block[data-block="donut-chart"] .field--segments .item,
+.dsl-block[data-block="waterfall-chart"] .field--items .item {
+  background: var(--mp-surface);
+  min-height: 150px;
+}
+
+.dsl-block[data-block="line-chart"] .field--value p,
+.dsl-block[data-block="bar-chart"] .field--value p,
+.dsl-block[data-block="waterfall-chart"] .field--value p,
+.dsl-block[data-block="donut-chart"] .field--center-value p {
+  color: var(--mp-brand);
+  font-family: var(--mp-font-display);
+  font-size: clamp(24px, 3vw, 34px);
+  font-weight: 700;
+  line-height: 1.05;
+  margin: 0;
+}
+
+.dsl-block[data-block="candlestick-chart"] .field--open,
+.dsl-block[data-block="candlestick-chart"] .field--high,
+.dsl-block[data-block="candlestick-chart"] .field--low,
+.dsl-block[data-block="candlestick-chart"] .field--close {
+  display: inline-grid;
+  margin: 0 8px 8px 0;
+}
+
+.dsl-block[data-block="candlestick-chart"] .field--open p,
+.dsl-block[data-block="candlestick-chart"] .field--high p,
+.dsl-block[data-block="candlestick-chart"] .field--low p,
+.dsl-block[data-block="candlestick-chart"] .field--close p {
+  background: var(--mp-brand-muted);
+  border: 1px solid rgba(36, 76, 122, .18);
+  border-radius: 4px;
+  color: var(--mp-brand);
+  font-family: var(--mp-font-mono);
+  font-size: 12px;
+  margin: 0;
+  padding: 4px 7px;
+}
+
+.dsl-block[data-block="bar-chart"] .field--share p,
+.dsl-block[data-block="line-chart"] .field--growth p,
+.dsl-block[data-block="waterfall-chart"] .field--type p {
+  color: var(--mp-accent);
+  font-family: var(--mp-font-mono);
+  font-size: 12px;
+  font-weight: 650;
+  margin: 0;
+}
+
+.dsl-block[data-block="donut-chart"] .field--center-value {
+  background: var(--mp-brand-muted);
+  border: 1px solid rgba(36, 76, 122, .18);
+  border-radius: 999px;
+  display: grid;
+  min-height: 150px;
+  place-items: center;
+  text-align: center;
+  width: min(150px, 100%);
+}
+
+.dsl-block[data-block="donut-chart"] .field--center-label p {
+  color: var(--mp-ink-subtle);
+  font-family: var(--mp-font-mono);
+  font-size: 12px;
+  margin: 0;
+}
+
+.chart-block {
+  display: grid;
+  gap: 18px;
+}
+
+.chart-header {
+  display: grid;
+  gap: 8px;
+}
+
+.chart-title {
+  margin: 0;
+}
+
+.chart-subtitle {
+  color: var(--mp-ink-subtle);
+  margin: 0;
+  max-width: var(--mp-reading);
+}
+
+.chart-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 20px;
+  margin: 0;
+}
+
+.chart-meta > div {
+  display: grid;
+  gap: 4px;
+}
+
+.chart-meta dt {
+  color: var(--mp-brand);
+  font-family: var(--mp-font-mono);
+  font-size: 11px;
+  font-weight: 650;
+  letter-spacing: .04em;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.chart-meta dd {
+  margin: 0;
+}
+
+.chart-surface {
+  background:
+    linear-gradient(to top, rgba(36, 76, 122, .05), rgba(36, 76, 122, 0) 56%),
+    var(--mp-surface);
+  border: 1px solid var(--mp-line);
+  border-radius: 12px;
+  overflow-x: auto;
+  padding: 18px;
+}
+
+.chart-surface--table {
+  padding: 0;
+}
+
+.chart-surface--echart {
+  padding: 18px;
+}
+
+.echart-canvas {
+  block-size: 360px;
+  inline-size: 100%;
+  min-inline-size: 0;
+}
+
+.chart-block--donut-chart .echart-canvas {
+  block-size: 420px;
+}
+
+.charts-css,
+.chart-table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.charts-css caption,
+.chart-table caption {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
+
+.charts-css th,
+.charts-css td,
+.chart-table th,
+.chart-table td {
+  padding: 10px 12px;
+}
+
+.charts-css th,
+.chart-table th {
+  color: var(--mp-ink);
+  font-weight: 600;
+  text-align: left;
+}
+
+.charts-css td {
+  --size: 0;
+  min-width: 120px;
+  position: relative;
+  vertical-align: bottom;
+}
+
+.charts-css.bar tbody tr + tr th,
+.charts-css.bar tbody tr + tr td,
+.chart-table tbody tr + tr th,
+.chart-table tbody tr + tr td {
+  border-top: 1px solid rgba(216, 210, 196, .7);
+}
+
+.charts-css.bar td::before,
+.charts-css.bar td::after {
+  content: "";
+  left: 12px;
+  position: absolute;
+}
+
+.charts-css.bar td::before {
+  background: rgba(36, 76, 122, .08);
+  border-radius: 6px;
+  inset: 10px 12px;
+}
+
+.charts-css.bar td::after {
+  background: linear-gradient(90deg, rgba(36, 76, 122, .94), rgba(92, 127, 163, .78));
+  border-radius: 6px;
+  bottom: 10px;
+  top: 10px;
+  width: calc((100% - 24px) * var(--size));
+}
+
+.charts-css .data,
+.charts-css .note {
+  position: relative;
+  z-index: 1;
+}
+
+.charts-css .data {
+  color: var(--mp-ink);
+  display: inline-block;
+  font-family: var(--mp-font-display);
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.charts-css .note {
+  color: var(--mp-ink-subtle);
+  display: inline-block;
+  font-family: var(--mp-font-mono);
+  font-size: 11px;
+  margin-left: 10px;
+}
+
+.chart-block--waterfall .step-positive::after {
+  background: linear-gradient(90deg, rgba(47, 107, 79, .94), rgba(47, 107, 79, .68));
+}
+
+.chart-block--waterfall .step-negative::after {
+  background: linear-gradient(90deg, rgba(154, 61, 61, .94), rgba(154, 61, 61, .72));
+}
+
+.chart-block--waterfall .step-start::after,
+.chart-block--waterfall .step-end::after {
+  background: linear-gradient(90deg, rgba(36, 76, 122, .94), rgba(36, 76, 122, .78));
+}
+
+.charts-css.line {
+  table-layout: fixed;
+}
+
+.charts-css.line tbody tr {
+  position: relative;
+}
+
+.charts-css.line tbody tr::before {
+  background:
+    linear-gradient(to top, rgba(76, 86, 106, .08), rgba(76, 86, 106, .08) 1px, transparent 1px, transparent 25%),
+    linear-gradient(90deg, rgba(36, 76, 122, .26), rgba(36, 76, 122, .26));
+  background-size: 100% 25%, calc(100% - 48px) 4px;
+  background-position: left top, 24px calc(100% - 48px);
+  background-repeat: repeat-y, no-repeat;
+  content: "";
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+}
+
+.charts-css.line td {
+  block-size: 280px;
+  padding: 20px 10px 16px;
+}
+
+.charts-css.line td::before,
+.charts-css.line td::after {
+  content: "";
+  left: 50%;
+  position: absolute;
+  transform: translateX(-50%);
+}
+
+.charts-css.line td::before {
+  background: rgba(36, 76, 122, .2);
+  border-radius: 999px;
+  bottom: 52px;
+  height: calc((100% - 96px) * var(--size));
+  width: 2px;
+}
+
+.charts-css.line td::after {
+  background: var(--mp-brand);
+  border: 3px solid var(--mp-paper);
+  border-radius: 999px;
+  bottom: calc(52px + ((100% - 96px) * var(--size)) - 7px);
+  box-shadow: 0 0 0 1px rgba(36, 76, 122, .18);
+  height: 14px;
+  width: 14px;
+}
+
+.charts-css.line .label,
+.charts-css.line .data,
+.charts-css.line .note {
+  display: block;
+  position: relative;
+  text-align: center;
+  z-index: 1;
+}
+
+.charts-css.line .label {
+  color: var(--mp-ink);
+  font-family: var(--mp-font-mono);
+  font-size: 11px;
+  font-weight: 650;
+  margin-top: 178px;
+}
+
+.charts-css.line .data {
+  font-size: 18px;
+  margin-top: 8px;
+}
+
+.charts-css.line .note {
+  margin-left: 0;
+  margin-top: 4px;
+}
+
+.chart-donut-layout {
+  align-items: center;
+  display: grid;
+  gap: 24px;
+  grid-template-columns: minmax(220px, 260px) minmax(0, 1fr);
+}
+
+.chart-donut {
+  --chart-color-1: var(--mp-brand);
+  --chart-color-2: var(--mp-data-secondary);
+  --chart-color-3: var(--mp-accent);
+  --chart-color-4: var(--mp-data-positive);
+  --donut-stops:
+    var(--chart-color-1) 0turn 0.72turn,
+    var(--chart-color-2) 0.72turn 0.86turn,
+    var(--chart-color-3) 0.86turn 0.9turn,
+    var(--chart-color-4) 0.9turn 1turn;
+  aspect-ratio: 1;
+  background:
+    radial-gradient(circle at center, var(--mp-paper) 0 56%, transparent 56.5%),
+    conic-gradient(var(--donut-stops));
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1px rgba(36, 76, 122, .14);
+  display: grid;
+  place-items: center;
+  width: min(240px, 100%);
+}
+
+.chart-donut > div {
+  display: grid;
+  gap: 6px;
+  justify-items: center;
+  text-align: center;
+}
+
+.chart-donut strong {
+  color: var(--mp-brand);
+  font-family: var(--mp-font-display);
+  font-size: 34px;
+  line-height: 1;
+}
+
+.chart-donut span {
+  color: var(--mp-ink-subtle);
+  font-family: var(--mp-font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+}
+
+.chart-donut-legend {
+  display: grid;
+  gap: 12px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.chart-donut-legend li {
+  align-items: center;
+  background: var(--mp-surface);
+  border: 1px solid var(--mp-line);
+  border-radius: 8px;
+  display: grid;
+  gap: 10px;
+  grid-template-columns: auto 1fr auto;
+  padding: 12px 14px;
+}
+
+.chart-donut-legend .swatch {
+  border-radius: 999px;
+  height: 10px;
+  width: 10px;
+}
+
+.chart-donut-legend .swatch-1 { background: var(--mp-brand); }
+.chart-donut-legend .swatch-2 { background: var(--mp-data-secondary); }
+.chart-donut-legend .swatch-3 { background: var(--mp-accent); }
+.chart-donut-legend .swatch-4 { background: var(--mp-data-positive); }
+
+.chart-donut-legend .label {
+  color: var(--mp-ink);
+}
+
+.chart-donut-legend strong {
+  color: var(--mp-brand);
+  font-family: var(--mp-font-display);
+  font-size: 18px;
+}
+
+.chart-table thead th {
+  background: rgba(36, 76, 122, .06);
+  border-bottom: 1px solid var(--mp-line);
+  font-family: var(--mp-font-mono);
+  font-size: 11px;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+.chart-table td {
+  color: var(--mp-ink-subtle);
+}
+
+.chart-table .trend-up {
+  color: var(--mp-data-positive);
+  font-weight: 700;
+}
+
+.chart-table .trend-down {
+  color: var(--mp-data-negative);
+  font-weight: 700;
+}
+
+@media (max-width: 900px) {
+  .chart-donut-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .chart-donut {
+    justify-self: center;
+  }
+}
+
+.dsl-block[data-block="valuation-table"] .field--rows .items,
+.dsl-block[data-block="financial-table"] .field--rows .items {
+  display: grid;
+  gap: 0;
+  grid-template-columns: 1fr;
+  overflow-x: auto;
+}
+
+.dsl-block[data-block="valuation-table"] .field--rows .item,
+.dsl-block[data-block="financial-table"] .field--rows .item {
+  border-radius: 0;
+  border-width: 0 0 1px;
+  display: block;
+  padding: 0;
+}
+
+.dsl-block[data-block="valuation-table"] .field--rows .item:first-child,
+.dsl-block[data-block="financial-table"] .field--rows .item:first-child {
+  border-top: 1px solid var(--mp-line);
+}
+
+.dsl-block[data-block="valuation-table"] .field--rows .item > .object,
+.dsl-block[data-block="financial-table"] .field--rows .item > .object {
+  display: grid;
+  gap: 0;
+  grid-template-columns: minmax(180px, 1.4fr) repeat(3, minmax(120px, 1fr));
+}
+
+.dsl-block[data-block="financial-table"] .field--rows .item > .object {
+  grid-template-columns: minmax(190px, 1.5fr) repeat(4, minmax(110px, 1fr));
+}
+
+.dsl-block[data-block="valuation-table"] .field--rows .item .field,
+.dsl-block[data-block="financial-table"] .field--rows .item .field {
+  border-inline-start: 1px solid var(--mp-line);
+  padding: 14px 16px;
+}
+
+.dsl-block[data-block="valuation-table"] .field--rows .item .field:first-child,
+.dsl-block[data-block="financial-table"] .field--rows .item .field:first-child {
+  border-inline-start: 0;
+}
+
+.dsl-block[data-block="valuation-table"] .field--rows .item .field-key,
+.dsl-block[data-block="financial-table"] .field--rows .item .field-key {
+  color: var(--mp-ink-subtle);
+}
+
+.dsl-block[data-block="valuation-table"] .field--rows .item p,
+.dsl-block[data-block="financial-table"] .field--rows .item p { margin: 0; }
+
+.dsl-block[data-block="risk-matrix"] .field--risks .items {
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.dsl-block[data-block="risk-matrix"] .field--risks .item {
+  background: var(--mp-accent-muted);
+  border-color: rgba(182, 92, 58, .26);
+}
+
+.dsl-block[data-block="risk-matrix"] .field--severity p {
+  background: var(--mp-paper);
+  border: 1px solid rgba(182, 92, 58, .26);
+  border-radius: 999px;
+  color: var(--mp-accent);
+  display: inline-flex;
+  font-family: var(--mp-font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  margin: 0;
+  padding: 3px 8px;
+  text-transform: uppercase;
+}
+
+.dsl-block[data-block="risk-matrix"] .field--catalysts .items {
+  grid-template-columns: 1fr;
+}
+
+.dsl-block[data-block="risk-matrix"] .field--catalysts .item {
+  background: transparent;
+  border-width: 0 0 1px;
+  border-radius: 0;
+  padding: 18px 0;
+}
+
+.dsl-block[data-block="catalyst-timeline"] {
+  background: var(--mp-paper);
+}
+
+.dsl-block[data-block="catalyst-timeline"] .field--items .items {
+  grid-template-columns: 1fr;
+}
+
+.dsl-block[data-block="catalyst-timeline"] .field--items .item {
+  background: transparent;
+  border-width: 0 0 1px;
+  border-radius: 0;
+  padding: 18px 0 18px 24px;
+  position: relative;
+}
+
+.dsl-block[data-block="catalyst-timeline"] .field--items .item::before {
+  background: var(--mp-accent);
+  content: "";
+  height: 7px;
+  left: 0;
+  position: absolute;
+  top: 30px;
+  width: 7px;
+}
+
+.dsl-block[data-block="recommendation"] .field--actions .item {
+  background: rgba(255, 255, 255, .68);
+}
+
+.dsl-block[data-block="footer-note"] .block-inner {
+  padding-top: 28px;
+  padding-bottom: 36px;
+}
+
+.dsl-block[data-block="footer-note"] .block-kicker,
+.dsl-block[data-block="footer-note"] .field--title {
+  display: none;
+}
+
+.dsl-block[data-block="footer-note"] .field--body p {
+  color: var(--mp-ink-subtle);
+  font-family: var(--mp-font-mono);
+  font-size: 12px;
+  max-width: none;
+}
+
+code {
+  background: var(--mp-surface);
+  border: 1px solid var(--mp-line);
+  border-radius: 4px;
+  font-family: var(--mp-font-mono);
+  padding: 1px 5px;
+}
+
+a { color: var(--mp-brand); }
+
+@media (max-width: 760px) {
+  .doc-header-inner,
+  .markdown-inner,
+  .block-inner {
+    padding-inline: 22px;
+  }
+
+  .dsl-block[data-block="valuation-table"] .field--rows .item > .object {
+    grid-template-columns: 1fr;
+  }
+
+  .dsl-block[data-block="valuation-table"] .field--rows .item .field {
+    border-inline-start: 0;
+    border-top: 1px solid var(--mp-line);
+  }
+}
+
+@media print {
+  body { background: #fff; }
+
+  .doc-header-inner,
+  .markdown-inner,
+  .block-inner {
+    width: auto;
+    padding: 24px;
+  }
+
+  .dsl-block { break-inside: avoid; }
+
+  .dsl-block[data-block="hero"] {
+    min-height: auto;
+    color: var(--mp-ink);
+    background: #fff;
+  }
+
+  .dsl-block[data-block="hero"] .block-inner { min-height: auto; }
+  .dsl-block[data-block="hero"] .field--title > p { color: var(--mp-ink); }
+}
+
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="doc-header">
+      <div class="doc-header-inner">
+        <div class="doc-type">equity_report</div>
+        <h1>云帆科技（CF-001）深度研报</h1>
+        <p class="description">AI 商业化与海外扩张驱动的 SaaS 龙头重估样例。</p>
+      </div>
+    </header>
+    <section class="dsl-block" data-block="hero"><div class="block-inner"><div class="block-kicker">hero</div><div class="object"><div class="field field--eyebrow"><span class="field-key">eyebrow</span><p>Momo Paper · Equity Report</p></div><div class="field field--title"><span class="field-key">title</span><p>云帆科技（CF-001）深度研报</p></div><div class="field field--subtitle"><span class="field-key">subtitle</span><p>AI 助手商业化提速，海外收入占比快速提升，当前估值尚未充分反映利润弹性。</p></div><div class="field field--rating"><span class="field-key">rating</span><div class="object"><div class="field field--label"><span class="field-key">label</span><p>买入</p></div><div class="field field--target-price"><span class="field-key">target price</span><p>HK$ 285</p></div><div class="field field--current-price"><span class="field-key">current price</span><p>HK$ 198</p></div><div class="field field--upside"><span class="field-key">upside</span><p>44%</p></div></div></div><div class="field field--primary-cta"><span class="field-key">primary cta</span><div class="object"><div class="field field--label"><span class="field-key">label</span><p>查看投资结论</p></div><div class="field field--href"><span class="field-key">href</span><p>#</p></div></div></div><div class="field field--secondary-cta"><span class="field-key">secondary cta</span><div class="object"><div class="field field--label"><span class="field-key">label</span><p>查看风险</p></div><div class="field field--href"><span class="field-key">href</span><p>#</p></div></div></div></div></div></section>
+<section class="dsl-block" data-block="thesis-panel"><div class="block-inner"><div class="block-kicker">thesis-panel</div><div class="object"><div class="field field--title"><span class="field-key">title</span><p>投资结论</p></div><div class="field field--rating"><span class="field-key">rating</span><p>买入</p></div><div class="field field--target-price"><span class="field-key">target price</span><p>HK$ 285</p></div><div class="field field--current-price"><span class="field-key">current price</span><p>HK$ 198</p></div><div class="field field--summary"><span class="field-key">summary</span><p>云帆科技是企业协作 SaaS 龙头，AI 助手功能正在推动付费转化率和 ARPU 同步提升。当前 FY2026 Forward P/E 32x，低于 SaaS 同行中位数 40x，目标价对应 45x P/E。</p></div><div class="field field--drivers"><span class="field-key">drivers</span><ul class="items"><li class="item"><div class="object"><div class="field field--title"><span class="field-key">title</span><p>AI 商业化加速</p></div><div class="field field--desc"><span class="field-key">desc</span><p>Q1 AI 付费用户环比增长 65%，ARPU 提升开始体现。</p></div></div></li><li class="item"><div class="object"><div class="field field--title"><span class="field-key">title</span><p>海外市场扩张</p></div><div class="field field--desc"><span class="field-key">desc</span><p>东南亚日活企业用户同比增长 80%，海外收入占比提升至 18%。</p></div></div></li><li class="item"><div class="object"><div class="field field--title"><span class="field-key">title</span><p>生态效应增强</p></div><div class="field field--desc"><span class="field-key">desc</span><p>ISV 合作伙伴突破 350 家，平台交易额持续增长。</p></div></div></li></ul></div></div></div></section>
+<section class="markdown-node"><div class="markdown-inner"><h2>公司概览</h2>
+<p>云帆科技是国内企业协作平台龙头，核心产品包括即时通讯、文档协作、项目管理三大模块。2025 年推出 AI 助手功能后，付费转化率和 ARPU 均显著提升，这是结构性改善而非一次性收益。</p></div></section>
+<section class="dsl-block" data-block="business-snapshot"><div class="block-inner"><div class="block-kicker">business-snapshot</div><div class="object"><div class="field field--title"><span class="field-key">title</span><p>业务快照</p></div><div class="field field--body"><span class="field-key">body</span><p>客户覆盖互联网、金融、制造等行业，头部客户续费率高达 97%。公司经营现金流充沛，自由现金流持续高于净利润。</p></div><div class="field field--facts"><span class="field-key">facts</span><ul class="items"><li class="item"><div class="object"><div class="field field--label"><span class="field-key">label</span><p>头部客户续费率</p></div><div class="field field--value"><span class="field-key">value</span><p>97%</p></div></div></li><li class="item"><div class="object"><div class="field field--label"><span class="field-key">label</span><p>海外收入占比</p></div><div class="field field--value"><span class="field-key">value</span><p>18%</p></div></div></li><li class="item"><div class="object"><div class="field field--label"><span class="field-key">label</span><p>ISV 合作伙伴</p></div><div class="field field--value"><span class="field-key">value</span><p>350+</p></div></div></li><li class="item"><div class="object"><div class="field field--label"><span class="field-key">label</span><p>东南亚企业日活增速</p></div><div class="field field--value"><span class="field-key">value</span><p>80%</p></div></div></li></ul></div></div></div></section>
+<section class="dsl-block" data-block="price-drivers"><div class="block-inner"><div class="block-kicker">price-drivers</div><div class="object"><div class="field field--title"><span class="field-key">title</span><p>股价与核心驱动</p></div><div class="field field--body"><span class="field-key">body</span><p>当前股价 HK$ 198，对应 FY2026 Forward P/E 32x。市场尚未充分定价 AI 功能带来的 ARPU 提升和海外扩张潜力。</p></div><div class="field field--price"><span class="field-key">price</span><div class="object"><div class="field field--current"><span class="field-key">current</span><p>HK$ 198</p></div><div class="field field--low-52w"><span class="field-key">low 52w</span><p>HK$ 132</p></div><div class="field field--high-52w"><span class="field-key">high 52w</span><p>HK$ 218</p></div><div class="field field--target"><span class="field-key">target</span><p>HK$ 285</p></div></div></div><div class="field field--drivers"><span class="field-key">drivers</span><ul class="items"><li class="item"><div class="object"><div class="field field--title"><span class="field-key">title</span><p>AI 付费用户增长</p></div><div class="field field--metric"><span class="field-key">metric</span><p>Q1 +65% QoQ</p></div><div class="field field--desc"><span class="field-key">desc</span><p>AI 助手从试用转向付费，企业版渗透率提升。</p></div></div></li><li class="item"><div class="object"><div class="field field--title"><span class="field-key">title</span><p>海外收入翻倍</p></div><div class="field field--metric"><span class="field-key">metric</span><p>东南亚 DAU +80%</p></div><div class="field field--desc"><span class="field-key">desc</span><p>本地化渠道和合作伙伴带来新增量。</p></div></div></li><li class="item"><div class="object"><div class="field field--title"><span class="field-key">title</span><p>平台生态强化</p></div><div class="field field--metric"><span class="field-key">metric</span><p>ISV +120%</p></div><div class="field field--desc"><span class="field-key">desc</span><p>生态交易额增长推动平台型估值切换。</p></div></div></li></ul></div></div></div></section>
+<section class="dsl-block" data-block="candlestick-chart"><div class="block-inner"><div class="block-kicker">candlestick-chart</div><div class="chart-block chart-block--echart chart-block--candlestick-chart"><div class="chart-header"><h2 class="chart-title">股价区间与月度 K 线</h2><p class="chart-subtitle">底部逐级抬高，回调未破中期趋势。</p></div><dl class="chart-meta"><div><dt>X 轴</dt><dd>2025-01 至 2026-05</dd></div><div><dt>Y 轴</dt><dd>HKD</dd></div></dl><div class="chart-surface chart-surface--echart"><div class="echart-canvas" data-chart-kind="candlestick-chart"></div><script type="application/json" class="echart-config">{"animation": false, "grid": {"left": 64, "right": 24, "top": 28, "bottom": 52, "containLabel": true}, "tooltip": {"trigger": "axis", "axisPointer": {"type": "cross"}, "formatter": {"__js_function__": "function(params){const p = params[0]; const d = p.data || []; const note = p.data && p.data.note ? `<br/>备注: ${p.data.note}` : ''; return `${p.axisValue}<br/>开: ${d[0]}<br/>收: ${d[1]}<br/>低: ${d[2]}<br/>高: ${d[3]}${note}`;}"}}, "xAxis": {"type": "category", "data": ["2025-01", "2025-05", "2025-09", "2026-01", "2026-05"], "scale": true, "boundaryGap": true, "axisLine": {"lineStyle": {"color": "#d8d2c4"}}, "axisLabel": {"color": "#4c566a", "interval": 0}}, "yAxis": {"type": "value", "name": "HKD", "scale": true, "splitArea": {"show": false}, "splitLine": {"lineStyle": {"color": "rgba(76, 86, 106, 0.12)"}}, "axisLabel": {"color": "#4c566a"}}, "series": [{"type": "candlestick", "data": [{"value": [140.0, 148.0, 132.0, 155.0], "note": "AI 助手进入公开测试"}, {"value": [162.0, 181.0, 154.0, 188.0], "note": "Q1 付费转化率超预期"}, {"value": [176.0, 198.0, 168.0, 205.0], "note": "海外收入占比提升"}, {"value": [192.0, 205.0, 180.0, 218.0], "note": "ISV 生态交易额加速"}, {"value": [205.0, 198.0, 190.0, 212.0], "note": "估值回落至买入区间上沿"}], "itemStyle": {"color": "#2f6b4f", "color0": "#9a3d3d", "borderColor": "#2f6b4f", "borderColor0": "#9a3d3d"}}]}</script></div></div></div></section>
+<section class="dsl-block" data-block="line-chart"><div class="block-inner"><div class="block-kicker">line-chart</div><div class="chart-block chart-block--echart chart-block--line-chart"><div class="chart-header"><h2 class="chart-title">AI 付费用户趋势</h2><p class="chart-subtitle">付费用户从试点进入规模化阶段。</p></div><dl class="chart-meta"><div><dt>单位</dt><dd>万人</dd></div></dl><div class="chart-surface chart-surface--echart"><div class="echart-canvas" data-chart-kind="line-chart"></div><script type="application/json" class="echart-config">{"color": ["#244c7a"], "grid": {"left": 64, "right": 24, "top": 24, "bottom": 48, "containLabel": true}, "tooltip": {"trigger": "axis", "formatter": {"__js_function__": "function(params){const item = params[0]; const growth = item.data.growth ? `<br/>增速: ${item.data.growth}` : ''; return `${item.axisValue}<br/>数值: ${item.data.value}${growth}`;}"}}, "xAxis": {"type": "category", "boundaryGap": false, "data": ["2025 Q1", "2025 Q2", "2025 Q3", "2025 Q4", "2026 Q1"], "axisLine": {"lineStyle": {"color": "#d8d2c4"}}, "axisLabel": {"color": "#4c566a", "interval": 0}}, "yAxis": {"type": "value", "name": "万人", "nameTextStyle": {"color": "#4c566a"}, "splitLine": {"lineStyle": {"color": "rgba(76, 86, 106, 0.12)"}}, "axisLabel": {"color": "#4c566a"}}, "series": [{"type": "line", "smooth": true, "symbolSize": 10, "lineStyle": {"width": 4}, "areaStyle": {"color": "rgba(36, 76, 122, 0.12)"}, "data": [{"value": 18.0, "growth": "baseline"}, {"value": 27.0, "growth": "+50%"}, {"value": 39.0, "growth": "+44%"}, {"value": 52.0, "growth": "+33%"}, {"value": 65.0, "growth": "+25%"}]}]}</script></div></div></div></section>
+<section class="dsl-block" data-block="bar-chart"><div class="block-inner"><div class="block-kicker">bar-chart</div><div class="chart-block chart-block--echart chart-block--bar-chart"><div class="chart-header"><h2 class="chart-title">收入结构变化</h2><p class="chart-subtitle">AI 与海外业务贡献新增收入。</p></div><dl class="chart-meta"><div><dt>单位</dt><dd>亿元</dd></div></dl><div class="chart-surface chart-surface--echart"><div class="echart-canvas" data-chart-kind="bar-chart"></div><script type="application/json" class="echart-config">{"color": ["#244c7a"], "grid": {"left": 72, "right": 24, "top": 20, "bottom": 48, "containLabel": true}, "tooltip": {"trigger": "axis", "axisPointer": {"type": "shadow"}, "formatter": {"__js_function__": "function(params){const item = params[0]; const note = item.data.share ? `<br/>占比: ${item.data.share}` : ''; return `${item.axisValue}<br/>数值: ${item.data.value}${note}`;}"}}, "xAxis": {"type": "category", "data": ["协作订阅", "AI 助手", "ISV 生态", "海外订阅"], "axisTick": {"show": false}, "axisLine": {"lineStyle": {"color": "#d8d2c4"}}, "axisLabel": {"color": "#4c566a", "interval": 0}}, "yAxis": {"type": "value", "name": "亿元", "nameTextStyle": {"color": "#4c566a"}, "splitLine": {"lineStyle": {"color": "rgba(76, 86, 106, 0.12)"}}, "axisLabel": {"color": "#4c566a"}}, "series": [{"type": "bar", "barWidth": "44%", "itemStyle": {"borderRadius": [6, 6, 0, 0]}, "label": {"show": true, "position": "top", "color": "#172033"}, "data": [{"value": 28.4, "share": "58%"}, {"value": 8.6, "share": "18%"}, {"value": 6.1, "share": "13%"}, {"value": 5.4, "share": "11%"}]}]}</script></div></div></div></section>
+<section class="dsl-block" data-block="donut-chart"><div class="block-inner"><div class="block-kicker">donut-chart</div><div class="chart-block chart-block--echart chart-block--donut-chart"><div class="chart-header"><h2 class="chart-title">收入地区占比</h2><p class="chart-subtitle">海外收入仍处早期，但增长斜率更高。</p></div><div class="chart-surface chart-surface--echart"><div class="echart-canvas" data-chart-kind="donut-chart"></div><script type="application/json" class="echart-config">{"color": ["#244c7a", "#5c7fa3", "#b65c3a", "#2f6b4f", "#8eaac3"], "tooltip": {"trigger": "item", "formatter": "{b}: {c}"}, "legend": {"bottom": 0, "left": "center", "textStyle": {"color": "#4c566a"}, "itemWidth": 10, "itemHeight": 10}, "graphic": [{"type": "group", "left": "center", "top": "center", "children": [{"type": "text", "style": {"text": "18%", "fill": "#244c7a", "font": "700 30px Noto Serif SC"}}, {"type": "text", "top": 34, "style": {"text": "海外收入占比", "fill": "#4c566a", "font": "500 11px IBM Plex Mono"}}]}], "series": [{"type": "pie", "radius": ["56%", "74%"], "center": ["50%", "42%"], "label": {"show": false}, "labelLine": {"show": false}, "data": [{"name": "中国内地", "value": 72.0}, {"name": "东南亚", "value": 14.0}, {"name": "其他海外", "value": 4.0}, {"name": "生态分成", "value": 10.0}]}]}</script></div></div></div></section>
+<section class="dsl-block" data-block="waterfall-chart"><div class="block-inner"><div class="block-kicker">waterfall-chart</div><div class="chart-block chart-block--echart chart-block--waterfall-chart"><div class="chart-header"><h2 class="chart-title">目标价桥</h2><p class="chart-subtitle">从当前价到目标价的主要贡献项。</p></div><dl class="chart-meta"><div><dt>起点</dt><dd>HK$ 198</dd></div><div><dt>终点</dt><dd>HK$ 285</dd></div></dl><div class="chart-surface chart-surface--echart"><div class="echart-canvas" data-chart-kind="waterfall-chart"></div><script type="application/json" class="echart-config">{"grid": {"left": 64, "right": 24, "top": 24, "bottom": 56, "containLabel": true}, "tooltip": {"trigger": "axis", "axisPointer": {"type": "shadow"}, "formatter": {"__js_function__": "function(params){const rows = params.filter(Boolean).filter(p => p.data !== '-'); if (!rows.length) return ''; const item = rows[rows.length - 1]; return `${item.axisValue}<br/>${item.seriesName}: ${item.data}`;}"}}, "legend": {"bottom": 0, "textStyle": {"color": "#4c566a"}}, "xAxis": {"type": "category", "data": ["当前股价", "AI ARPU 重估", "海外收入上修", "生态平台溢价", "合规折价", "目标价"], "axisLabel": {"color": "#4c566a", "interval": 0}, "axisLine": {"lineStyle": {"color": "#d8d2c4"}}}, "yAxis": {"type": "value", "splitLine": {"lineStyle": {"color": "rgba(76, 86, 106, 0.12)"}}, "axisLabel": {"color": "#4c566a"}}, "series": [{"name": "基线", "type": "bar", "stack": "total", "silent": true, "itemStyle": {"color": "transparent"}, "data": [0.0, 198.0, 236.0, 260.0, 270.0, 0.0]}, {"name": "上行", "type": "bar", "stack": "total", "itemStyle": {"color": "#2f6b4f", "borderRadius": [6, 6, 0, 0]}, "data": ["-", 38.0, 24.0, 18.0, "-", "-"]}, {"name": "下行", "type": "bar", "stack": "total", "itemStyle": {"color": "#9a3d3d", "borderRadius": [6, 6, 0, 0]}, "data": ["-", "-", "-", "-", 8.0, "-"]}, {"name": "总值", "type": "bar", "stack": "total", "itemStyle": {"color": "#244c7a", "borderRadius": [6, 6, 0, 0]}, "data": [198.0, "-", "-", "-", "-", 285.0]}]}</script></div></div></div></section>
+<section class="dsl-block" data-block="valuation-table"><div class="block-inner"><div class="block-kicker">valuation-table</div><div class="object"><div class="field field--title"><span class="field-key">title</span><p>估值</p></div><div class="field field--method"><span class="field-key">method</span><p>P/E 与 EV/Revenue 双维度估值</p></div><div class="field field--summary"><span class="field-key">summary</span><p>给予 FY2026 目标 P/E 45x，对应目标价 HK$ 285。若 AI 商业化超预期，目标价可上调至 HK$ 320。</p></div><div class="field field--rows"><span class="field-key">rows</span><ul class="items"><li class="item"><div class="object"><div class="field field--metric"><span class="field-key">metric</span><p>FY2026 Forward P/E</p></div><div class="field field--current"><span class="field-key">current</span><p>32x</p></div><div class="field field--peer-median"><span class="field-key">peer median</span><p>40x</p></div><div class="field field--target"><span class="field-key">target</span><p>45x</p></div></div></li><li class="item"><div class="object"><div class="field field--metric"><span class="field-key">metric</span><p>FY2026 EV/Revenue</p></div><div class="field field--current"><span class="field-key">current</span><p>8.5x</p></div><div class="field field--peer-median"><span class="field-key">peer median</span><p>10.2x</p></div><div class="field field--target"><span class="field-key">target</span><p>11.5x</p></div></div></li><li class="item"><div class="object"><div class="field field--metric"><span class="field-key">metric</span><p>PEG</p></div><div class="field field--current"><span class="field-key">current</span><p>0.76</p></div><div class="field field--peer-median"><span class="field-key">peer median</span><p>1.1</p></div><div class="field field--target"><span class="field-key">target</span><p>0.95</p></div></div></li></ul></div><div class="field field--insight"><span class="field-key">insight</span><div class="object"><div class="field field--title"><span class="field-key">title</span><p>安全边际</p></div><div class="field field--desc"><span class="field-key">desc</span><p>32x P/E 买一家利润增速 40%+ 的 SaaS 龙头，估值仍有重评空间。合理买入区间为 HK$ 180-200。</p></div></div></div></div></div></section>
+<section class="dsl-block" data-block="financial-table"><div class="block-inner"><div class="block-kicker">financial-table</div><div class="object"><div class="field field--title"><span class="field-key">title</span><p>财务预测</p></div><div class="field field--subtitle"><span class="field-key">subtitle</span><p>增长由 AI 商业化和海外订阅共同驱动。</p></div><div class="field field--rows"><span class="field-key">rows</span><ul class="items"><li class="item"><div class="object"><div class="field field--metric"><span class="field-key">metric</span><p>营收（亿元）</p></div><div class="field field--fy2024"><span class="field-key">fy2024</span><p>23.1</p></div><div class="field field--fy2025"><span class="field-key">fy2025</span><p>32.8</p></div><div class="field field--fy2026e"><span class="field-key">fy2026e</span><p>48.5</p></div><div class="field field--fy2027e"><span class="field-key">fy2027e</span><p>65.2</p></div></div></li><li class="item"><div class="object"><div class="field field--metric"><span class="field-key">metric</span><p>YoY 增长</p></div><div class="field field--fy2024"><span class="field-key">fy2024</span><p>27%</p></div><div class="field field--fy2025"><span class="field-key">fy2025</span><p>42%</p></div><div class="field field--fy2026e"><span class="field-key">fy2026e</span><p>48%</p></div><div class="field field--fy2027e"><span class="field-key">fy2027e</span><p>34%</p></div></div></li><li class="item"><div class="object"><div class="field field--metric"><span class="field-key">metric</span><p>毛利率</p></div><div class="field field--fy2024"><span class="field-key">fy2024</span><p>75%</p></div><div class="field field--fy2025"><span class="field-key">fy2025</span><p>78%</p></div><div class="field field--fy2026e"><span class="field-key">fy2026e</span><p>80%</p></div><div class="field field--fy2027e"><span class="field-key">fy2027e</span><p>81%</p></div></div></li><li class="item"><div class="object"><div class="field field--metric"><span class="field-key">metric</span><p>Non-GAAP 净利（亿元）</p></div><div class="field field--fy2024"><span class="field-key">fy2024</span><p>3.4</p></div><div class="field field--fy2025"><span class="field-key">fy2025</span><p>5.8</p></div><div class="field field--fy2026e"><span class="field-key">fy2026e</span><p>9.2</p></div><div class="field field--fy2027e"><span class="field-key">fy2027e</span><p>13.5</p></div></div></li><li class="item"><div class="object"><div class="field field--metric"><span class="field-key">metric</span><p>净利率</p></div><div class="field field--fy2024"><span class="field-key">fy2024</span><p>14.7%</p></div><div class="field field--fy2025"><span class="field-key">fy2025</span><p>17.7%</p></div><div class="field field--fy2026e"><span class="field-key">fy2026e</span><p>19.0%</p></div><div class="field field--fy2027e"><span class="field-key">fy2027e</span><p>20.7%</p></div></div></li></ul></div></div></div></section>
+<section class="dsl-block" data-block="risk-matrix"><div class="block-inner"><div class="block-kicker">risk-matrix</div><div class="object"><div class="field field--title"><span class="field-key">title</span><p>风险与催化剂</p></div><div class="field field--risks"><span class="field-key">risks</span><ul class="items"><li class="item"><div class="object"><div class="field field--severity"><span class="field-key">severity</span><p>high</p></div><div class="field field--title"><span class="field-key">title</span><p>AI 合规政策风险</p></div><div class="field field--desc"><span class="field-key">desc</span><p>监管机构可能出台 AI 生成内容备案要求，增加合规成本并延缓功能上线节奏。</p></div></div></li><li class="item"><div class="object"><div class="field field--severity"><span class="field-key">severity</span><p>high</p></div><div class="field field--title"><span class="field-key">title</span><p>竞品价格战</p></div><div class="field field--desc"><span class="field-key">desc</span><p>飞书、钉钉等竞品可能以低价策略争夺中腰部客户，挤压利润空间。</p></div></div></li><li class="item"><div class="object"><div class="field field--severity"><span class="field-key">severity</span><p>medium</p></div><div class="field field--title"><span class="field-key">title</span><p>海外拓展不及预期</p></div><div class="field field--desc"><span class="field-key">desc</span><p>东南亚付费意愿低于国内，海外收入占比目标可能延后达成。</p></div></div></li><li class="item"><div class="object"><div class="field field--severity"><span class="field-key">severity</span><p>low</p></div><div class="field field--title"><span class="field-key">title</span><p>汇率波动</p></div><div class="field field--desc"><span class="field-key">desc</span><p>海外收入以美元和新加坡元计价，人民币升值可能影响报表收入。</p></div></div></li></ul></div><div class="field field--catalysts"><span class="field-key">catalysts</span><ul class="items"><li class="item"><div class="object"><div class="field field--date"><span class="field-key">date</span><p>2026 Q3</p></div><div class="field field--title"><span class="field-key">title</span><p>AI 付费用户突破 100 万</p></div><div class="field field--desc"><span class="field-key">desc</span><p>验证 AI 商业化路径，触发估值重评。</p></div></div></li><li class="item"><div class="object"><div class="field field--date"><span class="field-key">date</span><p>2026 Q4</p></div><div class="field field--title"><span class="field-key">title</span><p>ISV 平台交易额突破 ¥25 亿</p></div><div class="field field--desc"><span class="field-key">desc</span><p>验证平台模式可扩展性，推动估值向平台型 SaaS 切换。</p></div></div></li></ul></div></div></div></section>
+<section class="dsl-block" data-block="catalyst-timeline"><div class="block-inner"><div class="block-kicker">catalyst-timeline</div><div class="object"><div class="field field--title"><span class="field-key">title</span><p>未来 12 个月催化剂</p></div><div class="field field--items"><span class="field-key">items</span><ul class="items"><li class="item"><div class="object"><div class="field field--date"><span class="field-key">date</span><p>2026 Q2</p></div><div class="field field--title"><span class="field-key">title</span><p>Q2 财报披露</p></div><div class="field field--desc"><span class="field-key">desc</span><p>重点关注 AI 收入占比是否突破 15%。</p></div></div></li><li class="item"><div class="object"><div class="field field--date"><span class="field-key">date</span><p>2026 Q3</p></div><div class="field field--title"><span class="field-key">title</span><p>AI 付费用户突破 100 万</p></div><div class="field field--desc"><span class="field-key">desc</span><p>若达成，将验证 AI 商业化路径。</p></div></div></li><li class="item"><div class="object"><div class="field field--date"><span class="field-key">date</span><p>2026 Q3</p></div><div class="field field--title"><span class="field-key">title</span><p>海外大客户签约</p></div><div class="field field--desc"><span class="field-key">desc</span><p>东南亚 3-5 家大型企业客户签约将建立标杆案例。</p></div></div></li><li class="item"><div class="object"><div class="field field--date"><span class="field-key">date</span><p>2026 Q4</p></div><div class="field field--title"><span class="field-key">title</span><p>ISV 平台交易额突破 ¥25 亿</p></div><div class="field field--desc"><span class="field-key">desc</span><p>推动估值向平台型 SaaS 切换。</p></div></div></li></ul></div></div></div></section>
+<section class="dsl-block" data-block="kpi-row"><div class="block-inner"><div class="block-kicker">kpi-row</div><div class="object"><div class="field field--title"><span class="field-key">title</span><p>关键指标</p></div><div class="field field--items"><span class="field-key">items</span><ul class="items"><li class="item"><div class="object"><div class="field field--label"><span class="field-key">label</span><p>目标价</p></div><div class="field field--value"><span class="field-key">value</span><p>HK$ 285</p></div><div class="field field--note"><span class="field-key">note</span><p>较当前价上涨 44%</p></div></div></li><li class="item"><div class="object"><div class="field field--label"><span class="field-key">label</span><p>当前股价</p></div><div class="field field--value"><span class="field-key">value</span><p>HK$ 198</p></div><div class="field field--note"><span class="field-key">note</span><p>FY2026 Forward P/E 32x</p></div></div></li><li class="item"><div class="object"><div class="field field--label"><span class="field-key">label</span><p>AI 付费用户</p></div><div class="field field--value"><span class="field-key">value</span><p>65 万</p></div><div class="field field--note"><span class="field-key">note</span><p>Q1 环比增长 65%</p></div></div></li><li class="item"><div class="object"><div class="field field--label"><span class="field-key">label</span><p>海外收入占比</p></div><div class="field field--value"><span class="field-key">value</span><p>18%</p></div><div class="field field--note"><span class="field-key">note</span><p>同比快速提升</p></div></div></li><li class="item"><div class="object"><div class="field field--label"><span class="field-key">label</span><p>头部客户续费率</p></div><div class="field field--value"><span class="field-key">value</span><p>97%</p></div><div class="field field--note"><span class="field-key">note</span><p>企业客户粘性强</p></div></div></li></ul></div></div></div></section>
+<section class="dsl-block" data-block="recommendation"><div class="block-inner"><div class="block-kicker">recommendation</div><div class="object"><div class="field field--title"><span class="field-key">title</span><p>最终建议</p></div><div class="field field--body"><span class="field-key">body</span><p>给予「买入」评级，目标价 HK$ 285。云帆科技平台护城河深、AI 商业化加速、海外拓展贡献增量。当前估值未充分反映 AI 驱动的增长加速和海外扩张潜力。</p></div><div class="field field--actions"><span class="field-key">actions</span><ul class="items"><li class="item"><div class="object"><div class="field field--title"><span class="field-key">title</span><p>建仓区间</p></div><div class="field field--desc"><span class="field-key">desc</span><p>建议在 HK$ 180-200 区间分批建仓。</p></div></div></li><li class="item"><div class="object"><div class="field field--title"><span class="field-key">title</span><p>止损位</p></div><div class="field field--desc"><span class="field-key">desc</span><p>若跌破 HK$ 165 且基本面恶化，应重新评估。</p></div></div></li><li class="item"><div class="object"><div class="field field--title"><span class="field-key">title</span><p>上修条件</p></div><div class="field field--desc"><span class="field-key">desc</span><p>若 AI ARPU 提升超过 50%，目标价可上调至 HK$ 320。</p></div></div></li></ul></div></div></div></section>
+<section class="dsl-block" data-block="footer-note"><div class="block-inner"><div class="block-kicker">footer-note</div><div class="object"><div class="field field--title"><span class="field-key">title</span><p>免责声明</p></div><div class="field field--body"><span class="field-key">body</span><p>本报告基于公开财务数据生成，仅供研究参考，不构成买卖建议。投资有风险，入市需谨慎。</p></div></div></div></section>
+  </main>
+  
+  <script src="https://cdn.jsdelivr.net/npm/echarts@6/dist/echarts.min.js"></script>
+  <script>
+    (() => {
+      const revive = (value) => {
+        if (Array.isArray(value)) return value.map(revive);
+        if (value && typeof value === "object") {
+          if (typeof value.__js_function__ === "string") {
+            return Function(`return (${value.__js_function__})`)();
+          }
+          for (const key of Object.keys(value)) value[key] = revive(value[key]);
+        }
+        return value;
+      };
+      const nodes = document.querySelectorAll(".echart-config");
+      const charts = [];
+      for (const node of nodes) {
+        const canvas = node.previousElementSibling;
+        if (!canvas || typeof echarts === "undefined") continue;
+        const option = revive(JSON.parse(node.textContent));
+        const chart = echarts.init(canvas, null, { renderer: "svg" });
+        chart.setOption(option);
+        charts.push(chart);
+      }
+      window.addEventListener("resize", () => charts.forEach(chart => chart.resize()));
+    })();
+  </script>
+</body>
+</html>

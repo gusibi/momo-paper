@@ -27,10 +27,10 @@ The runtime is a parser and converter. It does not generate business components 
 
 Use this path for new work unless the user explicitly asks for the legacy JSON/template system.
 
-1. Read `v2/REFERENCE.md` when writing or repairing DSL syntax, choosing tags, or explaining supported blocks.
-2. Use `v2/examples/reference.md` when the user wants to see all component examples.
-3. Use `v2/examples/landing.md` for landing-page structure examples.
-4. Use `v2/examples/equity-report.md` for financial report and chart-heavy examples.
+1. Read `references/REFERENCE.md` when writing or repairing DSL syntax, choosing tags, or explaining supported blocks.
+2. Use `examples/reference.md` when the user wants to see all component examples.
+3. Use `examples/landing.md` for landing-page structure examples.
+4. Use `examples/equity-report.md` for financial report and chart-heavy examples.
 5. Write a Markdown DSL source file.
 6. Validate the source.
 7. Render HTML.
@@ -41,17 +41,18 @@ Use this path for new work unless the user explicitly asks for the legacy JSON/t
 Prefer the installed console script when available:
 
 ```bash
-cd /path/to/momo-paper/v2
+cd /path/to/momo-paper-skill
+python -m pip install -e runtime
 momo2 validate examples/reference.md
 momo2 render examples/reference.md -o dist/reference.html
 ```
 
-If `momo2` is not installed or not on `PATH`, run the module directly from `v2`:
+If `momo2` is not installed or not on `PATH`, run the module directly from the bundled runtime:
 
 ```bash
-cd /path/to/momo-paper/v2
-PYTHONPATH=. python -m momo_dsl.cli validate examples/reference.md
-PYTHONPATH=. python -m momo_dsl.cli render examples/reference.md -o dist/reference.html
+cd /path/to/momo-paper-skill
+PYTHONPATH=runtime python -m momo_dsl.cli validate examples/reference.md
+PYTHONPATH=runtime python -m momo_dsl.cli render examples/reference.md -o dist/reference.html
 ```
 
 Rendering writes one standalone HTML file. CSS is inlined into `<style>`. To use another visual system, pass a CSS file to inline:
@@ -104,7 +105,7 @@ items:
 
 ## Tag Selection
 
-Use documented tags from `v2/REFERENCE.md` when possible. The parser accepts custom valid tags, but documented tags give better default styling and clearer Agent behavior.
+Use documented tags from `references/REFERENCE.md` when possible. The parser accepts custom valid tags, but documented tags give better default styling and clearer Agent behavior.
 
 Common tags:
 
@@ -153,7 +154,7 @@ When changing visuals:
 Default CSS lives at:
 
 ```txt
-v2/momo_dsl/styles/momo-paper.css
+runtime/momo_dsl/styles/momo-paper.css
 ```
 
 ## Validation
@@ -161,16 +162,16 @@ v2/momo_dsl/styles/momo-paper.css
 Before handing off generated or changed DSL, run:
 
 ```bash
-cd v2
-PYTHONPATH=. python -m momo_dsl.cli validate <input.md>
-PYTHONPATH=. python -m momo_dsl.cli render <input.md> -o <output.html>
+cd /path/to/momo-paper-skill
+PYTHONPATH=runtime python -m momo_dsl.cli validate <input.md>
+PYTHONPATH=runtime python -m momo_dsl.cli render <input.md> -o <output.html>
 ```
 
 When changing parser, renderer, CLI, examples, or CSS behavior, also run:
 
 ```bash
-cd v2
-PYTHONPATH=. python -m unittest discover -s tests -v
+cd /path/to/momo-paper-skill
+PYTHONPATH=runtime python -m unittest discover -s tests -v
 ```
 
 If validation fails, repair the DSL at the reported line/block. Do not loosen parser rules unless the user explicitly asks to expand the DSL.
