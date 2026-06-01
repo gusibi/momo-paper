@@ -1,253 +1,129 @@
-# Momo Paper
+# Momo Paper 2.0 DSL
 
-> A routed design system for documents and visual narratives.
-> 用一套路由规则统一 one-pager、长文、简历、幻灯片、研报、信息图与文档内图示。
+Momo Paper 2.0 converts Agent-generated Markdown DSL into standalone HTML.
 
-**Demo & Showcase:** [momo.eztoolab.com](https://momo.eztoolab.com) — 全部 15 种文档类型的在线渲染示例，含使用指南、图表演示和设计系统文档。
-
-## Two Approaches
-
-Momo Paper gives you two ways to create documents:
-
-| | Direct HTML Templates | JSON Rendering Engine |
-|---|---|---|
-| **How** | Pick a starter HTML, fill in content | Write structured JSON, engine renders to HTML |
-| **Best for** | Quick one-offs, manual editing | AI agents, batch generation, API-driven workflows |
-| **Design tokens** | Hardcoded in each template | Centralized, applied automatically |
-| **Charts** | Static SVG from `assets/diagrams/` | Programmatic via `charts.py` (5 types) |
-| **Validation** | None | JSON Schema per document type |
-| **Output** | Standalone HTML files | Print-safe HTML with CSS custom properties |
-
-Both approaches share the same design tokens, typography, and visual language.
+The runtime is a parser and converter. It does not define business components in Python. Tags such as `hero`, `feature-grid`, and `cta` are Agent-facing writing conventions. The parser accepts any valid `:::tag-name` block, validates syntax and metadata, and renders it as HTML with `data-block="tag-name"`.
 
 ## Quick Start
 
-**Prerequisites:** Python 3.10+
+```bash
+cd v2
+PYTHONPATH=. python -m momo_dsl.cli validate examples/landing.md
+PYTHONPATH=. python -m momo_dsl.cli render examples/landing.md -o dist/landing.html
+```
+
+`render` writes a single standalone HTML file with CSS inlined into `<style>`. To use a different visual system, pass a CSS file to inline:
 
 ```bash
-# 1. Create and activate a virtual environment
-python3 -m venv .venv
-source .venv/bin/activate
-
-# 2. Install the JSON engine
-cd scripts/json-engine
-pip install -e .
-
-# 3. List available document types
-momo list
-
-# 4. Generate a skeleton and render your first document
-momo init -t one_pager -o my-doc.json
-# edit my-doc.json with your content
-momo render -d my-doc.json -o my-doc.html
-# open my-doc.html in your browser
+PYTHONPATH=. python -m momo_dsl.cli render examples/landing.md -o dist/landing.html --css themes/report.css
 ```
 
-That's it. You now have a print-safe, design-token-aware HTML document.
-
-## JSON Rendering Engine
-
-The engine (`scripts/json-engine/`) takes structured JSON data and renders it through Jinja2 templates with centralized design tokens.
-
-### Install
+After package installation:
 
 ```bash
-cd scripts/json-engine
-
-# Editable install (for development)
-pip install -e .
-
-# With dev dependencies (tests)
-pip install -e ".[dev]"
+momo2 validate examples/landing.md
+momo2 render examples/landing.md -o dist/landing.html
 ```
 
-This gives you two CLI entry points: `momo` and `momo-paper` (they're the same).
+## Minimal Document
 
-### CLI Commands
+```md
+---
+document_type: landing
+locale: en
+title: AI Agent Sandbox Platform
+description: Policy-based runtime for safer AI agents.
+---
 
-```bash
-# List all 15 document types (with Chinese + English names)
-momo list
+## Why DSL
 
-# Generate a JSON skeleton for any type
-momo init -t equity_report -o my-report.json
-momo init -t slides -o my-deck.json
-momo init -t resume -l en -o my-resume.json
+AI should generate **structure**, not fragile HTML.
 
-# Render JSON to HTML
-momo render -d my-report.json -o output/report.html
-
-# Render from stdin
-cat my-report.json | momo render -d - -o output.html
-
-# Render a chart as standalone SVG
-momo chart -d my-report.json -k sections.trends.chart -o chart.svg
-
-# Batch render all sample files
-python render_all.py
+:::hero
+eyebrow: Agent Runtime
+title: Run AI agents safely
+subtitle: Give agents tools without losing control.
+primary_cta:
+  label: Start Free
+  href: /signup
+:::
 ```
 
-### JSON Data Format
+## Required Frontmatter
 
-Every document shares this top-level structure (except `slides`, which uses `slides` instead of `sections`):
+Every document must start with frontmatter:
 
-```json
-{
-  "document_type": "equity_report",
-  "locale": "zh-CN",
-  "meta": {
-    "title": "...",
-    "subtitle": "...",
-    "eyebrow": "Momo Paper / equity_report / zh-CN",
-    "date": "2025-04-27",
-    "author": "..."
-  },
-  "sections": {
-    ...
-  }
-}
+```md
+---
+document_type: landing
+locale: zh-CN
+title: Page title
+---
 ```
 
-| Field | Description |
-|---|---|
-| `document_type` | One of 15 supported types (see `momo list`) |
-| `locale` | `zh-CN` or `en` (auto-switches section headings) |
-| `meta` | Title, subtitle, and optional fields (eyebrow, date, author) |
-| `sections` | Document-specific content, defined by JSON Schema in `momo_paper/schemas/` |
+Required fields:
 
-### Embedding Charts
+- `document_type`
+- `locale`
+- `title`
 
-Add a `chart` object inside any section. The engine renders it to inline SVG.
+Optional common fields:
 
-```json
-{
-  "chart": {
-    "type": "line",
-    "title": "MAU Growth",
-    "height": 260,
-    "data": {
-      "labels": ["Jan", "Feb", "Mar"],
-      "values": [100, 120, 150]
-    }
-  }
-}
+- `description`
+- `author`
+- `date`
+
+`document_type: dashboard` is invalid.
+
+## Block Syntax
+
+Use fenced DSL blocks for structured content:
+
+```md
+:::tag-name
+key: value
+nested:
+  key: value
+items:
+  - title: First item
+    desc: Description
+:::
 ```
 
-**Programmatic chart types** (data-driven, rendered by `charts.py`):
+Tag names must:
 
-| Type | Use case | Data shape |
-|---|---|---|
-| `bar` | Category comparison | `values: [n, ...]` |
-| `line` | Time series, trends | `values: [n, ...]` |
-| `donut` | Proportional breakdown | `values: [n, ...]` |
-| `candlestick` | OHLC price history | `values: [{o,h,l,c}, ...]` |
-| `waterfall` | Value decomposition, bridge | `values: [n, ...]` |
+- start with a lowercase letter
+- use only lowercase letters, numbers, and hyphens
+- match `^[a-z][a-z0-9-]*$`
 
-For K-line/candlestick, use short keys (`o`, `h`, `l`, `c`) or long keys (`open`, `high`, `low`, `close`).
+## Recommended Agent Tags
 
-### Run Tests
+These tags are recommended for landing-style documents. They are conventions, not Python component classes.
 
-```bash
-cd scripts/json-engine
-pip install -e ".[dev]"
-python -m pytest tests/ -v
-```
+| Tag | Use |
+| --- | --- |
+| `hero` | Opening claim, subtitle, and calls to action |
+| `section` | Generic content section |
+| `feature-grid` | Feature or capability list |
+| `timeline` | Steps, process, roadmap, or milestones |
+| `comparison` | Before/after or left/right contrast |
+| `stats` | Metrics and short quantified claims |
+| `cta` | Action section |
+| `faq` | Question and answer list |
 
-### MCP Tool
+The parser also accepts other valid tags, for example `:::custom-block`.
 
-The engine can be called as an MCP server tool (`momo-paper-render`). See `scripts/json-engine/mcp-tool.json` for the definition.
+## Supported Markdown
 
-## Direct HTML Templates
+The Markdown subset outside DSL blocks supports:
 
-The `assets/templates/` directory contains 30 standalone HTML files (15 types x 2 locales). These are the direct-edit approach:
+- `#`, `##`, `###` headings
+- paragraphs
+- unordered lists using `-`
+- ordered lists using `1.`
+- links: `[label](https://example.com)`
+- bold: `**text**`
+- italic: `*text*`
+- inline code: `` `code` ``
 
-- Open the template, replace placeholder content with your own
-- No CLI, no JSON, no build step — just HTML and CSS
-- Design tokens are embedded as CSS custom properties in each file
-
-Use these when you need a quick one-off document or prefer working directly with HTML.
-
-## Document Types
-
-| User says | Type | CN template | EN template |
-|---|---|---|---|
-| `one-pager / 方案 / 执行摘要` | `one_pager` | `assets/templates/one-pager.html` | `assets/templates/one-pager-en.html` |
-| `white paper / 白皮书 / 长文` | `long_doc` | `assets/templates/long-doc.html` | `assets/templates/long-doc-en.html` |
-| `letter / 信件 / 推荐信 / memo` | `letter` | `assets/templates/letter.html` | `assets/templates/letter-en.html` |
-| `portfolio / 作品集` | `portfolio` | `assets/templates/portfolio.html` | `assets/templates/portfolio-en.html` |
-| `resume / CV / 简历` | `resume` | `assets/templates/resume.html` | `assets/templates/resume-en.html` |
-| `slides / PPT / deck / 演示` | `slides` | `assets/templates/slides.py` | `assets/templates/slides-en.py` |
-| `equity report / 研报 / 估值分析` | `equity_report` | `assets/templates/equity-report.html` | `assets/templates/equity-report-en.html` |
-| `changelog / 更新日志 / release notes` | `changelog` | `assets/templates/changelog.html` | `assets/templates/changelog-en.html` |
-| `process flow / 流程图说明 / SOP` | `process_flow` | `assets/templates/process-flow.html` | `assets/templates/process-flow-en.html` |
-| `timeline / 时间线 / roadmap` | `timeline` | `assets/templates/timeline.html` | `assets/templates/timeline-en.html` |
-| `faq / 常见问题` | `faq_page` | `assets/templates/faq-page.html` | `assets/templates/faq-page-en.html` |
-| `case study / 案例拆解 / 项目复盘` | `case_study` | `assets/templates/case-study.html` | `assets/templates/case-study-en.html` |
-| `research summary / 研究摘要` | `research_summary` | `assets/templates/research-summary.html` | `assets/templates/research-summary-en.html` |
-| `stats report / 数据报告 / KPI` | `stats_report` | `assets/templates/stats-report.html` | `assets/templates/stats-report-en.html` |
-| `infographic / 信息图` | `infographic` | `assets/templates/infographic.html` | `assets/templates/infographic-en.html` |
-| `landing page / 首页 / 产品页` | `landing` | `scripts/json-engine/momo_paper/templates/landing.html.j2` | `scripts/json-engine/momo_paper/templates/landing.html.j2` |
-
-> **slides** uses Python-based generation for complex layouts. The JSON engine supports it with a Jinja2 template (`slides.html.j2`) and 16:9 viewport.
-> **landing** uses the root Momo Paper design token contract through an adapter in `landing.html.j2`.
-
-## Diagrams & Charts
-
-14 diagram primitives in `assets/diagrams/`. The 5 programmatic chart types (bar, line, donut, candlestick, waterfall) can also be rendered via the JSON engine — see [Embedding Charts](#embedding-charts).
-
-| Diagram | Template | Programmatic? |
-|---|---|---|
-| Architecture / 架构图 | `architecture.html` | — |
-| Flowchart / 流程图 | `flowchart.html` | — |
-| Quadrant / 象限图 | `quadrant.html` | — |
-| Bar chart / 柱状图 | `bar-chart.html` | yes |
-| Line chart / 折线图 | `line-chart.html` | yes |
-| Donut chart / 环形图 | `donut-chart.html` | yes |
-| Candlestick / K线 | `candlestick.html` | yes |
-| Waterfall / 瀑布图 | `waterfall.html` | yes |
-| State machine / 状态机 | `state-machine.html` | — |
-| Timeline / 时间线 | `timeline.html` | — |
-| Swimlane / 泳道图 | `swimlane.html` | — |
-| Tree / 树状图 | `tree.html` | — |
-| Layer stack / 分层图 | `layer-stack.html` | — |
-| Venn / 维恩图 | `venn.html` | — |
-
-## Development
-
-```bash
-# Install with dev dependencies
-cd scripts/json-engine
-pip install -e ".[dev]"
-
-# Run tests
-python -m pytest tests/ -v
-
-# Batch render all samples
-python render_all.py
-
-# Render a sample to verify
-momo render -d momo_paper/examples/sample-letter.json -o /tmp/letter.html
-```
-
-## Files Reference
-
-| File | Purpose |
-|---|---|
-| `scripts/json-engine/momo_paper/engine.py` | Core rendering engine |
-| `scripts/json-engine/momo_paper/cli.py` | CLI entry point (Click) |
-| `scripts/json-engine/momo_paper/charts.py` | SVG chart rendering (5 types) |
-| `scripts/json-engine/momo_paper/templates/*.html.j2` | Jinja2 templates (15 types) |
-| `scripts/json-engine/momo_paper/schemas/*.schema.json` | JSON Schema per document type |
-| `scripts/json-engine/momo_paper/examples/sample-*.json` | Sample data files |
-| `scripts/json-engine/render_all.py` | Batch render all samples via engine API |
-| `scripts/json-engine/tests/` | Test suite (69 tests) |
-| `assets/design-tokens.json` | Design tokens (colors, fonts, spacing) |
-| `assets/artifact-presets.json` | Machine-readable route registry |
-| `references/DESIGN.md` | Taxonomy, foundations, non-negotiables |
-| `references/prompt-contracts.md` | Agent workflow rules and input contracts |
-| `references/` | Per-route reference docs |
-
-## Current Exclusions
-
-- `dashboard` is intentionally out of scope
-- `comparison_matrix` and `topic_cover` remain pattern candidates, not document types
+See [REFERENCE.md](REFERENCE.md) for the complete syntax reference, Agent guidance, examples, and validation rules.
