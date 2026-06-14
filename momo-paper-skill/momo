@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+#
+# momo — self-locating wrapper for the bundled Momo Paper runtime.
+#
+# Locates its own directory via BASH_SOURCE, so the bundled `runtime/` is found
+# no matter where this skill is installed — no hardcoded paths, no `pip install`.
+#
+# Usage (from anywhere):
+#   /path/to/momo-paper/momo validate input.md
+#   /path/to/momo-paper/momo render  input.md -o output.html
+#
+# Both input.md and output.html may be relative to your current directory or
+# absolute; this wrapper does not change the working directory.
+set -euo pipefail
+
+SKILL_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# The runtime uses `str | None` syntax → requires Python >= 3.10.
+if ! python3 -c 'import sys; sys.exit(0 if sys.version_info >= (3, 10) else 1)'; then
+    echo "momo-paper requires Python >= 3.10 (your python3 is $(python3 -V 2>&1))." >&2
+    echo "On macOS, /usr/bin/python3 is often 3.9 — use a newer interpreter." >&2
+    exit 1
+fi
+
+exec env PYTHONPATH="$SKILL_DIR/runtime" python3 -m momo_dsl.cli "$@"

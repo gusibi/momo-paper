@@ -1,3 +1,10 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>黄金投资日报</title>
+  <style>
 :root {
   color-scheme: light;
   --mp-ink: #172033;
@@ -39,89 +46,6 @@ body {
 }
 
 .page { width: 100%; min-height: 100vh; }
-
-html { scroll-behavior: smooth; }
-
-/* Anchor targets sit below the sticky nav. */
-.doc-header,
-.dsl-block,
-.markdown-node { scroll-margin-top: 80px; }
-
-/* Sticky navigation / menu (`:::nav`). */
-.dsl-nav {
-  position: sticky;
-  top: 0;
-  z-index: 50;
-  background: color-mix(in srgb, var(--mp-paper) 88%, transparent);
-  backdrop-filter: saturate(140%) blur(10px);
-  border-bottom: 1px solid var(--mp-line);
-}
-
-.nav-inner {
-  width: min(100%, var(--mp-max));
-  margin: 0 auto;
-  padding-inline: clamp(24px, 5vw, 72px);
-  padding-block: 13px;
-  display: flex;
-  align-items: center;
-  gap: 14px 22px;
-  flex-wrap: wrap;
-}
-
-.nav-brand {
-  margin-right: auto;
-  color: var(--mp-ink);
-  font-family: var(--mp-font-display);
-  font-size: 17px;
-  font-weight: 700;
-  text-decoration: none;
-  white-space: nowrap;
-}
-
-.nav-links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px 18px;
-}
-
-.nav-link {
-  color: var(--mp-ink-subtle);
-  font-family: var(--mp-font-mono);
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: .03em;
-  text-decoration: none;
-  text-transform: uppercase;
-  padding-block: 4px;
-  border-bottom: 2px solid transparent;
-  transition: color .15s ease, border-color .15s ease;
-}
-
-.nav-link:hover,
-.nav-link:focus-visible {
-  color: var(--mp-brand);
-  border-bottom-color: var(--mp-brand);
-}
-
-.nav-cta {
-  background: var(--mp-brand);
-  border-radius: 6px;
-  color: #fff;
-  font-family: var(--mp-font-mono);
-  font-size: 12px;
-  font-weight: 650;
-  letter-spacing: .02em;
-  padding: 8px 14px;
-  text-decoration: none;
-  white-space: nowrap;
-}
-
-.nav-cta:hover,
-.nav-cta:focus-visible { background: var(--mp-ink); }
-
-@media (max-width: 640px) {
-  .nav-brand { margin-right: 0; width: 100%; }
-}
 
 .doc-header,
 .markdown-node,
@@ -2273,3 +2197,28 @@ a { color: var(--mp-brand); }
   .dsl-block[data-block="hero"] .block-inner { min-height: auto; }
   .dsl-block[data-block="hero"] .field--title > p { color: var(--mp-ink); }
 }
+
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="doc-header">
+      <div class="doc-header-inner">
+        <div class="doc-type">equity_report</div>
+        <h1>黄金投资日报</h1>
+        <p class="description">每日金价、七维评分与操作策略 · Momo Paper Research</p>
+      </div>
+    </header>
+    <section class="dsl-block" data-block="report-header"><div class="block-inner"><div class="block-kicker">report-header</div><div class="health-block health-block--report-header"><div class="report-header report-header--scored"><div class="report-header-left"><div class="report-eyebrow">V9 GOLD DAILY · 第 162 期</div><h1 class="report-title">今日金价研判</h1><div class="report-inline-meta"><span class="report-date">2026年6月9日 周一 17:00</span><span>伦敦现货：$4,440.78 (-1.24%)</span></div></div><div class="report-header-right"><div class="report-status">偏空</div><div class="report-score-card"><strong>33</strong><span>综合评分 · /100</span></div></div></div></div></div></section>
+<section class="dsl-block" data-block="callout"><div class="block-inner"><div class="block-kicker">callout</div><div class="object"><div class="field field--tone"><span class="field-key">tone</span><p>insight</p></div><div class="field field--title"><span class="field-key">title</span><p>今日研判</p></div><div class="field field--body"><span class="field-key">body</span><p>暴跌后技术性反弹，明日 FOMC 会议定方向。非农强劲推升加息预期，金价承压，建议等待决议落地再做大仓位。</p></div></div></div></section>
+<section class="dsl-block" data-block="market-snapshot"><div class="block-inner"><div class="block-kicker">market-snapshot</div><div class="object"><div class="field field--title"><span class="field-key">title</span><p>市场快照</p></div><div class="field field--items"><span class="field-key">items</span><ul class="items"><li class="item"><div class="object"><div class="field field--label"><span class="field-key">label</span><p>伦敦现货黄金</p></div><div class="field field--value"><span class="field-key">value</span><p>$4,440.78</p></div><div class="field field--note"><span class="field-key">note</span><p>-1.24%</p></div></div></li><li class="item"><div class="object"><div class="field field--label"><span class="field-key">label</span><p>沪金 AU9999</p></div><div class="field field--value"><span class="field-key">value</span><p>¥948 /克</p></div><div class="field field--note"><span class="field-key">note</span><p>同步走弱</p></div></div></li><li class="item"><div class="object"><div class="field field--label"><span class="field-key">label</span><p>美元指数 DXY</p></div><div class="field field--value"><span class="field-key">value</span><p>~100.0</p></div><div class="field field--note"><span class="field-key">note</span><p>强势反弹</p></div></div></li><li class="item"><div class="object"><div class="field field--label"><span class="field-key">label</span><p>离岸人民币</p></div><div class="field field--value"><span class="field-key">value</span><p>6.8157</p></div><div class="field field--note"><span class="field-key">note</span><p>USD/CNY</p></div></div></li><li class="item"><div class="object"><div class="field field--label"><span class="field-key">label</span><p>10Y 美债收益率</p></div><div class="field field--value"><span class="field-key">value</span><p>4.35–4.50%</p></div><div class="field field--note"><span class="field-key">note</span><p>高位运行</p></div></div></li><li class="item"><div class="object"><div class="field field--label"><span class="field-key">label</span><p>SPDR 持仓</p></div><div class="field field--value"><span class="field-key">value</span><p>1,019.92 吨</p></div><div class="field field--note"><span class="field-key">note</span><p>周五减持 5.2 吨</p></div></div></li></ul></div></div></div></section>
+<section class="dsl-block" data-block="scoring-breakdown"><div class="block-inner"><div class="block-kicker">scoring-breakdown</div><div class="object"><div class="field field--title"><span class="field-key">title</span><p>七维评分</p></div><div class="field field--formula"><span class="field-key">formula</span><p>价格动量 20% · 美元利率 20% · 通胀 15% · 地缘 15% · 资金 15% · 情绪 10% · 事件 5%</p></div><div class="field field--weighted-total"><span class="field-key">weighted total</span><p>33 / 100</p></div><div class="field field--items"><span class="field-key">items</span><ul class="items"><li class="item"><div class="object"><div class="field field--factor"><span class="field-key">factor</span><p>价格动量</p></div><div class="field field--weight"><span class="field-key">weight</span><p>20%</p></div><div class="field field--score"><span class="field-key">score</span><p>3</p></div></div></li><li class="item"><div class="object"><div class="field field--factor"><span class="field-key">factor</span><p>美元 / 利率</p></div><div class="field field--weight"><span class="field-key">weight</span><p>20%</p></div><div class="field field--score"><span class="field-key">score</span><p>2</p></div></div></li><li class="item"><div class="object"><div class="field field--factor"><span class="field-key">factor</span><p>通胀环境</p></div><div class="field field--weight"><span class="field-key">weight</span><p>15%</p></div><div class="field field--score"><span class="field-key">score</span><p>5</p></div></div></li><li class="item"><div class="object"><div class="field field--factor"><span class="field-key">factor</span><p>地缘政治</p></div><div class="field field--weight"><span class="field-key">weight</span><p>15%</p></div><div class="field field--score"><span class="field-key">score</span><p>5</p></div></div></li><li class="item"><div class="object"><div class="field field--factor"><span class="field-key">factor</span><p>资金流向</p></div><div class="field field--weight"><span class="field-key">weight</span><p>15%</p></div><div class="field field--score"><span class="field-key">score</span><p>2</p></div></div></li><li class="item"><div class="object"><div class="field field--factor"><span class="field-key">factor</span><p>市场情绪</p></div><div class="field field--weight"><span class="field-key">weight</span><p>10%</p></div><div class="field field--score"><span class="field-key">score</span><p>3</p></div></div></li><li class="item"><div class="object"><div class="field field--factor"><span class="field-key">factor</span><p>事件风险</p></div><div class="field field--weight"><span class="field-key">weight</span><p>5%</p></div><div class="field field--score"><span class="field-key">score</span><p>6</p></div></div></li></ul></div></div></div></section>
+<section class="dsl-block" data-block="driver-logic"><div class="block-inner"><div class="block-kicker">driver-logic</div><div class="object"><div class="field field--title"><span class="field-key">title</span><p>核心驱动逻辑</p></div><div class="field field--items"><span class="field-key">items</span><ul class="items"><li class="item"><div class="object"><div class="field field--index"><span class="field-key">index</span><p>1</p></div><div class="field field--body"><span class="field-key">body</span><p>周五非农新增 <strong>17.2 万</strong> 远超预期的 8 万，劳动力市场韧性强化加息预期，美元与美债收益率同步走高，金价单日重挫 1.24%。</p></div></div></li><li class="item"><div class="object"><div class="field field--index"><span class="field-key">index</span><p>2</p></div><div class="field field--body"><span class="field-key">body</span><p>技术面看，金价跌破 $4,500 后出现技术性反弹，但量能不足，$4,440 一线反复争夺，下方关注 $4,380 实物需求支撑位。</p></div></div></li><li class="item"><div class="object"><div class="field field--index"><span class="field-key">index</span><p>3</p></div><div class="field field--body"><span class="field-key">body</span><p>资金面持续承压：SPDR 周五减持 5.2 吨，5 月全球黄金 ETF 净流出约 <strong>20 亿美元</strong>，短线资金避险情绪降温。</p></div></div></li><li class="item"><div class="object"><div class="field field--index"><span class="field-key">index</span><p>4</p></div><div class="field field--body"><span class="field-key">body</span><p>长期支撑仍在：中国央行已连续 <strong>18 个月</strong> 增持黄金，去美元化与央行购金的中长期逻辑未变。</p></div></div></li></ul></div></div></div></section>
+<section class="dsl-block" data-block="risk-matrix"><div class="block-inner"><div class="block-kicker">risk-matrix</div><div class="object"><div class="field field--title"><span class="field-key">title</span><p>风险与催化剂</p></div><div class="field field--risks"><span class="field-key">risks</span><ul class="items"><li class="item"><div class="object"><div class="field field--severity"><span class="field-key">severity</span><p>高</p></div><div class="field field--title"><span class="field-key">title</span><p>FOMC 确认加息路径</p></div><div class="field field--desc"><span class="field-key">desc</span><p>若明日决议或点阵图偏鹰，金价可能下探 $4,380 甚至 $4,300。</p></div></div></li><li class="item"><div class="object"><div class="field field--severity"><span class="field-key">severity</span><p>中</p></div><div class="field field--title"><span class="field-key">title</span><p>美元持续走强</p></div><div class="field field--desc"><span class="field-key">desc</span><p>DXY 站稳 100 上方将持续压制以美元计价的黄金。</p></div></div></li></ul></div><div class="field field--catalysts"><span class="field-key">catalysts</span><ul class="items"><li class="item"><div class="object"><div class="field field--date"><span class="field-key">date</span><p>6/10</p></div><div class="field field--title"><span class="field-key">title</span><p>FOMC 利率决议</p></div><div class="field field--desc"><span class="field-key">desc</span><p>本周绝对核心，决定金价方向与波动幅度。</p></div></div></li><li class="item"><div class="object"><div class="field field--date"><span class="field-key">date</span><p>持续</p></div><div class="field field--title"><span class="field-key">title</span><p>央行购金</p></div><div class="field field--desc"><span class="field-key">desc</span><p>新兴市场央行增持构成中长期价格底部。</p></div></div></li></ul></div></div></div></section>
+<section class="dsl-block" data-block="action-guidance"><div class="block-inner"><div class="block-kicker">action-guidance</div><div class="object"><div class="field field--title"><span class="field-key">title</span><p>操作指引</p></div><div class="field field--items"><span class="field-key">items</span><ul class="items"><li class="item"><div class="object"><div class="field field--title"><span class="field-key">title</span><p>长线配置</p></div><div class="field field--desc"><span class="field-key">desc</span><p>去美元化逻辑不变，$4,300–4,400 区间分批配置，不追高。</p></div></div></li><li class="item"><div class="object"><div class="field field--title"><span class="field-key">title</span><p>中线观察</p></div><div class="field field--desc"><span class="field-key">desc</span><p>明日 FOMC 是关键方向催化剂，决议落地前不宜重仓。</p></div></div></li><li class="item"><div class="object"><div class="field field--title"><span class="field-key">title</span><p>短线等待</p></div><div class="field field--desc"><span class="field-key">desc</span><p>决议前预计 $4,380–4,500 震荡，破位再跟，反弹不接刀。</p></div></div></li></ul></div></div></div></section>
+<section class="dsl-block" data-block="watchlist"><div class="block-inner"><div class="block-kicker">watchlist</div><div class="object"><div class="field field--title"><span class="field-key">title</span><p>本周关注</p></div><div class="field field--items"><span class="field-key">items</span><ul class="items"><li class="item"><p>周二(6/10) 美联储 FOMC 利率决议与点阵图 — 绝对核心</p></li><li class="item"><p>鲍威尔新闻发布会对后续加息路径的措辞</p></li><li class="item"><p>SPDR 黄金 ETF 持仓变化与 ETF 资金流向</p></li><li class="item"><p>$4,380 实物需求支撑位是否有效</p></li></ul></div></div></div></section>
+<section class="dsl-block" data-block="footer-note"><div class="block-inner"><div class="block-kicker">footer-note</div><div class="object"><div class="field field--title"><span class="field-key">title</span><p>数据来源与免责声明</p></div><div class="field field--sources"><span class="field-key">sources</span><ul class="items"><li class="item"><p>金投网</p></li><li class="item"><p>百度财经</p></li><li class="item"><p>东方财富</p></li><li class="item"><p>新浪财经</p></li><li class="item"><p>钛媒体</p></li></ul></div><div class="field field--body"><span class="field-key">body</span><p>版本 V9 · 评分维度与权重固定。本报告由数据汇总自动生成，仅供研究参考，不构成任何投资建议。市场有风险，入市需谨慎。</p></div></div></div></section>
+  </main>
+  
+</body>
+</html>

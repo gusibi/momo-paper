@@ -2,6 +2,7 @@
 name: momo-paper
 description: >
   Generate beautiful, standalone HTML pages and reports from structured Markdown DSL. Use this skill whenever the user wants: landing pages, equity research reports, financial summaries, health/wellness trackers, research documents, visual narratives, documentation sites, or any document-style web page. Trigger when users mention "Momo Paper", "momo2", "Markdown DSL", "HTML report", "web page", "landing page", "financial report", "health report", or ask to generate/render/validate documents. Always use this skill instead of ad-hoc HTML/CSS for document generation—Momo Paper provides structured components, consistent styling, and validation. Default workflow: write Markdown DSL → validate → render standalone HTML with inlined CSS. Use Chinese output when the user speaks Chinese or requests Chinese output.
+argument-hint: "[output_path] — optional file path for the generated HTML"
 version: 2.0
 ---
 
@@ -26,34 +27,72 @@ Use this path for new work unless the user explicitly asks for the legacy JSON/t
 3. Use `examples/landing.md` for landing-page structure examples.
 4. Use `examples/equity-report.md` for financial report and chart-heavy examples.
 5. Use `examples/health-report.md` for health tracking, weight management, and wellness report examples.
-5. Write a Markdown DSL source file.
-6. Validate the source.
-7. Render HTML.
-8. Inspect the output path and report the validation/render result.
+6. Write a Markdown DSL source file.
+7. Validate the source.
+8. Render HTML to a file. See [Output Path](#output-path).
+9. Return only the output file path. Do NOT return the HTML content as a string.
+
+### Output Path
+
+The rendered HTML must always be written to a file. The calling Agent receives only the file path, not the HTML content.
+
+- If the user provides an output path (via `output_path` argument or explicitly in the conversation), use that path directly.
+- If no output path is specified, default to `dist/output.html` under the skill directory.
+- The caller Agent decides what to do with the file (read, upload, preview, etc.) — this skill does not handle those operations.
+
+Example with user-specified path:
+
+```bash
+momo2 render input.md -o /Users/me/reports/my-report.html
+```
+
+Example with default path:
+
+```bash
+momo2 render input.md -o dist/output.html
+```
 
 ## CLI
 
-Prefer the installed console script when available:
+This skill bundles a complete, zero-dependency `runtime/` copy of the engine, so
+**no installation is needed** (no `pip install`). The bundled `momo` wrapper script
+sits next to this SKILL.md and self-locates its own `runtime/` via `BASH_SOURCE`, so
+it works no matter where this skill is installed.
+
+Find this skill's directory (`SKILL_DIR` — the folder that contains this SKILL.md;
+you already know its absolute path from loading this skill), then call the wrapper.
+Do NOT hardcode any user-specific or machine-specific path.
 
 ```bash
-cd /path/to/momo-paper-skill
-python -m pip install -e runtime
-momo2 validate examples/reference.md
-momo2 render examples/reference.md -o dist/reference.html
+# SKILL_DIR = absolute directory of THIS skill (the folder holding this SKILL.md).
+SKILL_DIR=/absolute/path/to/this/momo-paper-skill
+
+"$SKILL_DIR/momo" validate input.md
+"$SKILL_DIR/momo" render  input.md -o output.html
 ```
 
-If `momo2` is not installed or not on `PATH`, run the module directly from the bundled runtime:
+`input.md` / `output.html` may be relative to your current directory or absolute —
+the wrapper does not change the working directory, so you can run it from anywhere.
+
+The wrapper handles the Python interpreter and `PYTHONPATH` for you. If you cannot use
+the wrapper, the equivalent direct call is (note `runtime` must be resolved against
+`SKILL_DIR`, not your current directory):
 
 ```bash
-cd /path/to/momo-paper-skill
-PYTHONPATH=runtime python -m momo_dsl.cli validate examples/reference.md
-PYTHONPATH=runtime python -m momo_dsl.cli render examples/reference.md -o dist/reference.html
+PYTHONPATH="$SKILL_DIR/runtime" python3 -m momo_dsl.cli validate input.md
+PYTHONPATH="$SKILL_DIR/runtime" python3 -m momo_dsl.cli render  input.md -o output.html
 ```
+
+> Requires Python >= 3.10 (the runtime uses `str | None` syntax). The wrapper checks
+> this and fails with a clear message. On macOS, `/usr/bin/python3` is often 3.9 and
+> would otherwise fail with a cryptic `TypeError: unsupported operand type(s) for |`.
+> (Optional, for interactive use only: `pip install -e "$SKILL_DIR/runtime"` gives a
+> global `momo2` command; not needed for the wrapper above.)
 
 Rendering writes one standalone HTML file. CSS is inlined into `<style>`. To use another visual system, pass a CSS file to inline:
 
 ```bash
-PYTHONPATH=. python -m momo_dsl.cli render input.md -o output.html --css themes/custom.css
+"$SKILL_DIR/momo" render input.md -o output.html --css "$SKILL_DIR/themes/custom.css"
 ```
 
 Do not leave the generated page dependent on an external CSS file unless the user explicitly asks for that.
@@ -155,19 +194,20 @@ runtime/momo_dsl/styles/momo-paper.css
 
 ## Validation
 
-Before handing off generated or changed DSL, run:
+Before handing off generated or changed DSL, run (`$SKILL_DIR` = this skill's
+directory, see the CLI section above):
 
 ```bash
-cd /path/to/momo-paper-skill
-PYTHONPATH=runtime python -m momo_dsl.cli validate <input.md>
-PYTHONPATH=runtime python -m momo_dsl.cli render <input.md> -o <output.html>
+"$SKILL_DIR/momo" validate <input.md>
+"$SKILL_DIR/momo" render <input.md> -o <output.html>
 ```
 
-When changing parser, renderer, CLI, examples, or CSS behavior, also run:
+When changing parser, renderer, CLI, examples, or CSS behavior, also run the test
+suite (this one needs the skill dir as CWD because tests use relative paths):
 
 ```bash
-cd /path/to/momo-paper-skill
-PYTHONPATH=runtime python -m unittest discover -s tests -v
+cd "$SKILL_DIR"
+PYTHONPATH=runtime python3 -m unittest discover -s tests -v
 ```
 
 If validation fails, repair the DSL at the reported line/block. Do not loosen parser rules unless the user explicitly asks to expand the DSL.

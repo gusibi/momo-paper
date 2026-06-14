@@ -52,7 +52,7 @@ def render_html(document: Document, css: str | None = None) -> str:
 </head>
 <body>
   <main class="page">
-    <header class="doc-header">
+    <header class="doc-header" id="top">
       <div class="doc-header-inner">
         <div class="doc-type">{escape(str(meta.get("document_type", "")))}</div>
         <h1>{escape(title)}</h1>
@@ -70,15 +70,60 @@ def render_html(document: Document, css: str | None = None) -> str:
 def _render_node(node: MarkdownNode | BlockNode) -> str:
     if isinstance(node, MarkdownNode):
         return f'<section class="markdown-node"><div class="markdown-inner">{_render_markdown(node.text)}</div></section>'
+    if node.name == "nav":
+        return _render_nav(node.props if isinstance(node.props, dict) else {})
+
+    props = node.props
+    section_id = ""
+    if isinstance(props, dict):
+        if props.get("id"):
+            section_id = f' id="{escape(str(props["id"]))}"'
+        if "id" in props:
+            props = {k: v for k, v in props.items() if k != "id"}
+
     if node.name in CHART_BLOCKS:
-        fields = _render_chart_block(node)
+        fields = _render_chart_block(node.name, props)
     elif node.name in HEALTH_BLOCKS:
-        fields = _render_health_block(node)
+        fields = _render_health_block(node.name, props)
     else:
-        fields = _render_value(node.props)
+        fields = _render_value(props)
     return (
-        f'<section class="dsl-block" data-block="{escape(node.name)}">'
+        f'<section class="dsl-block" data-block="{escape(node.name)}"{section_id}>'
         f'<div class="block-inner"><div class="block-kicker">{escape(node.name)}</div>{fields}</div></section>'
+    )
+
+
+def _render_nav(props: dict[str, Any]) -> str:
+    brand = props.get("brand", "")
+    items = props.get("items", []) or []
+    cta = props.get("cta")
+
+    links: list[str] = []
+    for item in items:
+        if isinstance(item, dict):
+            label = item.get("label", "")
+            href = item.get("href", "")
+            links.append(f'<a class="nav-link" href="{escape(str(href))}">{_inline(str(label))}</a>')
+
+    brand_html = ""
+    if brand:
+        brand_html = f'<a class="nav-brand" href="#top">{_inline(str(brand))}</a>'
+
+    cta_html = ""
+    if isinstance(cta, dict) and cta.get("label"):
+        cta_html = (
+            f'<a class="nav-cta" href="{escape(str(cta.get("href", "#")))}">'
+            f'{_inline(str(cta.get("label")))}</a>'
+        )
+
+    return (
+        '<nav class="dsl-nav" data-block="nav">'
+        '<div class="nav-inner">'
+        f"{brand_html}"
+        f'<div class="nav-links">{"".join(links)}</div>'
+        f"{cta_html}"
+        "</div>"
+        "</nav>"
     )
 
 
@@ -170,30 +215,30 @@ def _inline(text: str) -> str:
     return safe
 
 
-def _render_chart_block(node: BlockNode) -> str:
-    if node.name == "bar-chart":
-        return _render_echart_block("bar-chart", node.props, _build_bar_option(node.props))
-    if node.name == "line-chart":
-        return _render_echart_block("line-chart", node.props, _build_line_option(node.props))
-    if node.name == "donut-chart":
-        return _render_echart_block("donut-chart", node.props, _build_donut_option(node.props))
-    if node.name == "candlestick-chart":
-        return _render_echart_block("candlestick-chart", node.props, _build_candlestick_option(node.props))
-    if node.name == "waterfall-chart":
-        return _render_echart_block("waterfall-chart", node.props, _build_waterfall_option(node.props))
-    return _render_value(node.props)
+def _render_chart_block(name: str, props: dict[str, Any]) -> str:
+    if name == "bar-chart":
+        return _render_echart_block("bar-chart", props, _build_bar_option(props))
+    if name == "line-chart":
+        return _render_echart_block("line-chart", props, _build_line_option(props))
+    if name == "donut-chart":
+        return _render_echart_block("donut-chart", props, _build_donut_option(props))
+    if name == "candlestick-chart":
+        return _render_echart_block("candlestick-chart", props, _build_candlestick_option(props))
+    if name == "waterfall-chart":
+        return _render_echart_block("waterfall-chart", props, _build_waterfall_option(props))
+    return _render_value(props)
 
 
-def _render_health_block(node: BlockNode) -> str:
-    if node.name == "weekly-summary":
-        return _render_weekly_summary(node.props)
-    if node.name == "goal-tracker":
-        return _render_goal_tracker(node.props)
-    if node.name == "metrics-panel":
-        return _render_metrics_panel(node.props)
-    if node.name == "report-header":
-        return _render_report_header(node.props)
-    return _render_value(node.props)
+def _render_health_block(name: str, props: dict[str, Any]) -> str:
+    if name == "weekly-summary":
+        return _render_weekly_summary(props)
+    if name == "goal-tracker":
+        return _render_goal_tracker(props)
+    if name == "metrics-panel":
+        return _render_metrics_panel(props)
+    if name == "report-header":
+        return _render_report_header(props)
+    return _render_value(props)
 
 
 def _render_weekly_summary(props: dict[str, Any]) -> str:
@@ -343,61 +388,93 @@ def _render_report_header(props: dict[str, Any]) -> str:
     date_range = props.get("date_range", "")
     weigh_day = props.get("weigh_day", "")
     meta = props.get("meta", [])
-    score = props.get("score", "")
-    status = props.get("status", "")
+    score = props.get("score", None)
+
+    if score is not None:
+        return _render_report_header_scored(props)
 
     parts = ['<div class="health-block health-block--report-header">']
-    header_class = "report-header report-header--scored" if score else "report-header"
-    parts.append(f'<div class="{header_class}">')
+    parts.append('<div class="report-header">')
 
     parts.append('<div class="report-header-left">')
     if title:
         parts.append(f'<h1 class="report-title">{_inline(str(title))}</h1>')
-    if score and date_range:
-        parts.append(f'<div class="report-date">{_inline(str(date_range))}</div>')
-    if score and meta and isinstance(meta, list):
-        parts.append('<div class="report-inline-meta">')
+    if eyebrow:
+        parts.append(f'<div class="report-eyebrow">{_inline(str(eyebrow))}</div>')
+    parts.append('</div>')
+
+    has_meta = date_range or weigh_day or meta
+    if has_meta:
+        parts.append('<div class="report-header-right">')
+        parts.append('<div class="report-meta">')
+        if date_range:
+            parts.append(f'<div class="report-meta-item"><strong>{_inline(str(date_range))}</strong></div>')
+        if weigh_day:
+            parts.append(f'<div class="report-meta-item">称重日：{_inline(str(weigh_day))}</div>')
+        if meta and isinstance(meta, list):
+            for item in meta:
+                if isinstance(item, dict):
+                    label = item.get("label", "")
+                    value = item.get("value", "")
+                    if label and value:
+                        parts.append(f'<div class="report-meta-item">{_inline(str(label))}：{_inline(str(value))}</div>')
+                    elif value:
+                        parts.append(f'<div class="report-meta-item">{_inline(str(value))}</div>')
+        parts.append('</div>')
+        parts.append('</div>')
+
+    parts.append('</div>')
+    parts.append('</div>')
+    return "".join(parts)
+
+
+def _render_report_header_scored(props: dict[str, Any]) -> str:
+    title = props.get("title", "")
+    eyebrow = props.get("eyebrow", "")
+    date_range = props.get("date_range", "")
+    status = props.get("status", "")
+    score = props.get("score", "")
+    score_label = props.get("score_label", "综合评分")
+    score_max = props.get("score_max", "")
+    meta = props.get("meta", [])
+
+    parts = ['<div class="health-block health-block--report-header">']
+    parts.append('<div class="report-header report-header--scored">')
+
+    parts.append('<div class="report-header-left">')
+    if eyebrow:
+        parts.append(f'<div class="report-eyebrow">{_inline(str(eyebrow))}</div>')
+    if title:
+        parts.append(f'<h1 class="report-title">{_inline(str(title))}</h1>')
+    inline_bits: list[str] = []
+    if date_range:
+        inline_bits.append(f'<span class="report-date">{_inline(str(date_range))}</span>')
+    if meta and isinstance(meta, list):
         for item in meta:
             if isinstance(item, dict):
                 label = item.get("label", "")
                 value = item.get("value", "")
                 if label and value:
-                    parts.append(f'<span>{_inline(str(label))}：{_inline(str(value))}</span>')
+                    inline_bits.append(f'<span>{_inline(str(label))}：{_inline(str(value))}</span>')
                 elif value:
-                    parts.append(f'<span>{_inline(str(value))}</span>')
-        parts.append('</div>')
-    elif eyebrow:
-        parts.append(f'<div class="report-eyebrow">{_inline(str(eyebrow))}</div>')
+                    inline_bits.append(f'<span>{_inline(str(value))}</span>')
+    if inline_bits:
+        parts.append('<div class="report-inline-meta">' + "".join(inline_bits) + '</div>')
     parts.append('</div>')
 
-    has_meta = score or date_range or weigh_day or meta
-    if has_meta:
-        parts.append('<div class="report-header-right">')
-        if score:
-            if eyebrow:
-                parts.append(f'<div class="report-eyebrow">{_inline(str(eyebrow))}</div>')
-            parts.append('<div class="report-score-card">')
-            parts.append(f'<strong>{_inline(str(score))}</strong>')
-            if status:
-                parts.append(f'<span>{_inline(str(status))}</span>')
-            parts.append('</div>')
-        else:
-            parts.append('<div class="report-meta">')
-            if date_range:
-                parts.append(f'<div class="report-meta-item"><strong>{_inline(str(date_range))}</strong></div>')
-            if weigh_day:
-                parts.append(f'<div class="report-meta-item">称重日：{_inline(str(weigh_day))}</div>')
-            if meta and isinstance(meta, list):
-                for item in meta:
-                    if isinstance(item, dict):
-                        label = item.get("label", "")
-                        value = item.get("value", "")
-                        if label and value:
-                            parts.append(f'<div class="report-meta-item">{_inline(str(label))}：{_inline(str(value))}</div>')
-                        elif value:
-                            parts.append(f'<div class="report-meta-item">{_inline(str(value))}</div>')
-            parts.append('</div>')
-        parts.append('</div>')
+    parts.append('<div class="report-header-right">')
+    if status:
+        parts.append(f'<div class="report-status">{_inline(str(status))}</div>')
+    score_text = f"{escape(str(score))}"
+    if score_max not in (None, ""):
+        label_line = f"{_inline(str(score_label))} · /{_inline(str(score_max))}"
+    else:
+        label_line = _inline(str(score_label))
+    parts.append('<div class="report-score-card">')
+    parts.append(f'<strong>{score_text}</strong>')
+    parts.append(f'<span>{label_line}</span>')
+    parts.append('</div>')
+    parts.append('</div>')
 
     parts.append('</div>')
     parts.append('</div>')
