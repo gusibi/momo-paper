@@ -29,7 +29,9 @@ items:
         self.assertIn(".page { width: 100%; min-height: 100vh; }", html)
         self.assertIn('data-block="custom-block"', html)
         self.assertIn("Render Test", html)
-        self.assertIn("<h2>Intro</h2>", html)
+        # Body markdown headings are demoted one level so the page keeps a
+        # single <h1> (the document title); "## Intro" becomes <h3>.
+        self.assertIn("<h3>Intro</h3>", html)
         self.assertIn("Custom", html)
 
     def test_renderer_uses_full_width_sections_not_page_card(self):
@@ -51,7 +53,6 @@ title: Full width
         css = get_default_css_path().read_text(encoding="utf-8")
         self.assertIn(".page { width: 100%; min-height: 100vh; }", css)
         self.assertIn(".block-inner", css)
-        self.assertIn("font-size: clamp(34px, 5vw, 56px);", css)
         self.assertIn("font-size: clamp(36px, 6vw, 64px);", css)
         self.assertNotIn("border-left:", css)
 

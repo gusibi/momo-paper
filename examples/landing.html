@@ -1,3 +1,10 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI Agent Sandbox Platform</title>
+  <style>
 :root {
   color-scheme: light;
 
@@ -2922,3 +2929,30 @@ a { color: var(--mp-brand); }
 .hljs-link { color: var(--mp-brand); text-decoration: underline; }
 .hljs-emphasis { font-style: italic; }
 .hljs-strong { font-weight: 700; }
+
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="doc-header" id="top">
+      <div class="doc-header-inner">
+        <div class="doc-type">landing</div>
+        <h1>AI Agent Sandbox Platform</h1>
+        <p class="description">Policy-based runtime for safer AI agents.</p>
+      </div>
+    </header>
+    <section class="dsl-block" data-block="hero"><div class="block-inner"><div class="object"><div class="field field--eyebrow"><span class="field-key">eyebrow</span><p>Agent Runtime</p></div><div class="field field--title"><span class="field-key">title</span><p>Run AI agents safely with policy-based control</p></div><div class="field field--subtitle"><span class="field-key">subtitle</span><p>Give agents tools, files and browser access without losing control.</p></div><div class="field field--primary-cta"><a class="object" href="/signup">Start Free</a></div><div class="field field--secondary-cta"><a class="object" href="/docs">View Docs</a></div></div></div></section>
+<section class="markdown-node"><div class="markdown-inner"><h3>Why DSL</h3>
+<p>AI should generate <strong>structure</strong>, not fragile HTML. Momo Paper parses the generated DSL and turns it into stable standalone HTML.</p></div></section>
+<section class="dsl-block" data-block="section"><div class="block-inner"><div class="object"><div class="field field--title"><span class="field-key">title</span><p>What the runtime does</p></div><div class="field field--body"><span class="field-key">body</span><p>The runtime parses frontmatter, Markdown, and structured blocks. It does not define business components in Python.</p></div><div class="field field--points"><span class="field-key">points</span><ul class="items"><li class="item"><p>Validate Agent-generated DSL.</p></li><li class="item"><p>Convert valid blocks into generic HTML sections.</p></li><li class="item"><p>Preserve tag names for downstream tools.</p></li></ul></div></div></div></section>
+<section class="dsl-block" data-block="feature-grid"><div class="block-inner"><div class="object"><div class="field field--columns"><span class="field-key">columns</span><p>3</p></div><div class="field field--items"><span class="field-key">items</span><ul class="items"><li class="item"><div class="object"><div class="field field--title"><span class="field-key">title</span><p>Policy-first permissions</p></div><div class="field field--desc"><span class="field-key">desc</span><p>Define which tools can run automatically and which need approval.</p></div></div></li><li class="item"><div class="object"><div class="field field--title"><span class="field-key">title</span><p>Isolated runtime</p></div><div class="field field--desc"><span class="field-key">desc</span><p>Run operations inside controlled environments.</p></div></div></li><li class="item"><div class="object"><div class="field field--title"><span class="field-key">title</span><p>Stable rendering</p></div><div class="field field--desc"><span class="field-key">desc</span><p>Keep HTML output predictable.</p></div></div></li></ul></div></div></div></section>
+<section class="dsl-block" data-block="timeline"><div class="block-inner"><div class="object"><div class="field field--title"><span class="field-key">title</span><p>How it works</p></div><div class="field field--items"><span class="field-key">items</span><ul class="items"><li class="item"><div class="object"><div class="field field--step"><span class="field-key">step</span><p>1</p></div><div class="field field--title"><span class="field-key">title</span><p>Write DSL</p></div><div class="field field--desc"><span class="field-key">desc</span><p>Agent creates Markdown with structured blocks.</p></div></div></li><li class="item"><div class="object"><div class="field field--step"><span class="field-key">step</span><p>2</p></div><div class="field field--title"><span class="field-key">title</span><p>Validate</p></div><div class="field field--desc"><span class="field-key">desc</span><p>Momo Paper reports syntax and metadata errors.</p></div></div></li><li class="item"><div class="object"><div class="field field--step"><span class="field-key">step</span><p>3</p></div><div class="field field--title"><span class="field-key">title</span><p>Render HTML</p></div><div class="field field--desc"><span class="field-key">desc</span><p>The same DSL becomes standalone HTML.</p></div></div></li></ul></div></div></div></section>
+<section class="dsl-block" data-block="comparison"><div class="block-inner"><div class="object"><div class="field field--title"><span class="field-key">title</span><p>Before vs After</p></div><div class="field field--left"><span class="field-key">left</span><div class="object"><div class="field field--title"><span class="field-key">title</span><p>Direct HTML</p></div><div class="field field--items"><span class="field-key">items</span><ul class="items"><li class="item"><p>Hard to validate</p></li><li class="item"><p>Easy to drift</p></li></ul></div></div></div><div class="field field--right"><span class="field-key">right</span><div class="object"><div class="field field--title"><span class="field-key">title</span><p>Markdown DSL</p></div><div class="field field--items"><span class="field-key">items</span><ul class="items"><li class="item"><p>Easy to parse</p></li><li class="item"><p>Stable output</p></li></ul></div></div></div></div></div></section>
+<section class="dsl-block" data-block="stats"><div class="block-inner"><div class="object"><div class="field field--items"><span class="field-key">items</span><ul class="items"><li class="item"><div class="object"><div class="field field--value"><span class="field-key">value</span><p>1</p></div><div class="field field--label"><span class="field-key">label</span><p>Source Markdown DSL file</p></div></div></li><li class="item"><div class="object"><div class="field field--value"><span class="field-key">value</span><p>100%</p></div><div class="field field--label"><span class="field-key">label</span><p>HTML generated from parsed structure</p></div></div></li></ul></div></div></div></section>
+<section class="dsl-block" data-block="cta"><div class="block-inner"><div class="object"><div class="field field--title"><span class="field-key">title</span><p>Generate the page</p></div><div class="field field--button"><a class="object" href="/render">Render HTML</a></div></div></div></section>
+<section class="dsl-block" data-block="faq"><div class="block-inner"><div class="object"><div class="field field--items"><span class="field-key">items</span><ul class="items"><li class="item"><div class="object"><div class="field field--question"><span class="field-key">question</span><p>Does the runtime define components?</p></div><div class="field field--answer"><span class="field-key">answer</span><p>No. It parses user-defined tags and renders generic HTML.</p></div></div></li><li class="item"><div class="object"><div class="field field--question"><span class="field-key">question</span><p>Can Agents use recommended tags?</p></div><div class="field field--answer"><span class="field-key">answer</span><p>Yes. The tags are documented conventions for consistent generation.</p></div></div></li></ul></div></div></div></section>
+  </main>
+  
+  
+</body>
+</html>

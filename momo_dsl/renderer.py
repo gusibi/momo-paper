@@ -11,7 +11,12 @@ from typing import Any
 from .parser import BlockNode, Document, MarkdownNode
 
 DEFAULT_CSS_FILENAME = "momo-paper.css"
-ECHARTS_CDN = "https://cdn.jsdelivr.net/npm/echarts@6/dist/echarts.min.js"
+# CDN assets are served from npmmirror (Alibaba), a 1:1 npm mirror with reliable
+# access from mainland China; both scripts degrade gracefully if unreachable.
+ECHARTS_CDN = "https://registry.npmmirror.com/echarts/5.6.0/files/dist/echarts.min.js"
+# Syntax highlighting engine (common-language build). Token COLORS come from the
+# active theme's own `.hljs-*` rules, so highlighting matches each design.
+HLJS_CDN = "https://registry.npmmirror.com/@highlightjs/cdn-assets/11.9.0/files/highlight.min.js"
 CHART_BLOCKS = {
     "bar-chart",
     "candlestick-chart",
@@ -25,6 +30,10 @@ HEALTH_BLOCKS = {
     "metrics-panel",
     "report-header",
 }
+# Fields that represent a single action and carry an `href`. They render as a
+# real anchor so the link works and is keyboard-focusable, instead of a div
+# with a hidden href.
+ACTION_FIELDS = {"primary-cta", "secondary-cta", "button", "cta"}
 
 
 def get_default_css_path() -> Path:
@@ -40,6 +49,7 @@ def render_html(document: Document, css: str | None = None) -> str:
     nodes = "\n".join(_render_node(node) for node in document.nodes)
     css_text = css if css is not None else get_default_css_path().read_text(encoding="utf-8")
     chart_runtime = _render_chart_runtime() if any(isinstance(node, BlockNode) and node.name in CHART_BLOCKS for node in document.nodes) else ""
+    highlight_runtime = _render_highlight_runtime() if any(isinstance(node, MarkdownNode) and "```" in node.text for node in document.nodes) else ""
     return f"""<!DOCTYPE html>
 <html lang="{escape(lang)}">
 <head>
@@ -62,6 +72,7 @@ def render_html(document: Document, css: str | None = None) -> str:
     {nodes}
   </main>
   {chart_runtime}
+  {highlight_runtime}
 </body>
 </html>
 """
@@ -74,12 +85,16 @@ def _render_node(node: MarkdownNode | BlockNode) -> str:
         return _render_nav(node.props if isinstance(node.props, dict) else {})
 
     props = node.props
-    section_id = ""
+    attrs = ""
     if isinstance(props, dict):
+        # `id` and `layout` are presentation hints, not content: lift them onto
+        # the section element (as id / data-layout) and drop them from props.
         if props.get("id"):
-            section_id = f' id="{escape(str(props["id"]))}"'
-        if "id" in props:
-            props = {k: v for k, v in props.items() if k != "id"}
+            attrs += f' id="{escape(str(props["id"]))}"'
+        if props.get("layout"):
+            attrs += f' data-layout="{escape(str(props["layout"]))}"'
+        if "id" in props or "layout" in props:
+            props = {k: v for k, v in props.items() if k not in {"id", "layout"}}
 
     if node.name in CHART_BLOCKS:
         fields = _render_chart_block(node.name, props)
@@ -88,8 +103,8 @@ def _render_node(node: MarkdownNode | BlockNode) -> str:
     else:
         fields = _render_value(props)
     return (
-        f'<section class="dsl-block" data-block="{escape(node.name)}"{section_id}>'
-        f'<div class="block-inner"><div class="block-kicker">{escape(node.name)}</div>{fields}</div></section>'
+        f'<section class="dsl-block" data-block="{escape(node.name)}"{attrs}>'
+        f'<div class="block-inner">{fields}</div></section>'
     )
 
 
@@ -139,6 +154,14 @@ def _render_value(value: Any) -> str:
 
 def _render_field(key: str, value: Any) -> str:
     class_name = re.sub(r"[^a-z0-9-]+", "-", str(key).lower().replace("_", "-")).strip("-")
+    if class_name in ACTION_FIELDS and isinstance(value, dict) and value.get("href"):
+        label = value.get("label", value.get("text", ""))
+        href = escape(str(value.get("href")))
+        return (
+            f'<div class="field field--{escape(class_name)}">'
+            f'<a class="object" href="{href}">{_inline(str(label))}</a>'
+            "</div>"
+        )
     return (
         f'<div class="field field--{escape(class_name)}">'
         f'<span class="field-key">{escape(str(key).replace("_", " "))}</span>'
@@ -147,12 +170,25 @@ def _render_field(key: str, value: Any) -> str:
     )
 
 
+def _md_table_cells(row: str) -> list[str]:
+    return [c.strip() for c in row.strip().strip("|").split("|")]
+
+
+def _md_table_is_separator(row: str) -> bool:
+    cells = _md_table_cells(row)
+    return bool(cells) and all(re.fullmatch(r":?-{1,}:?", c) for c in cells)
+
+
 def _render_markdown(text: str) -> str:
     lines = text.splitlines()
     out: list[str] = []
     paragraph: list[str] = []
     list_items: list[str] = []
     list_type: str | None = None
+    quote: list[str] = []
+    table: list[str] = []
+    code: list[str] | None = None
+    code_lang = ""
 
     def flush_paragraph() -> None:
         if paragraph:
@@ -167,51 +203,125 @@ def _render_markdown(text: str) -> str:
             list_items.clear()
             list_type = None
 
+    def flush_quote() -> None:
+        if quote:
+            inner = "".join(f"<p>{_inline(q)}</p>" for q in quote)
+            out.append(f"<blockquote>{inner}</blockquote>")
+            quote.clear()
+
+    def flush_table() -> None:
+        if not table:
+            return
+        rows = table[:]
+        table.clear()
+        if len(rows) >= 2 and _md_table_is_separator(rows[1]):
+            header = _md_table_cells(rows[0])
+            body = [_md_table_cells(r) for r in rows[2:]]
+            thead = "<thead><tr>" + "".join(f'<th scope="col">{_inline(c)}</th>' for c in header) + "</tr></thead>"
+            trs = "".join("<tr>" + "".join(f"<td>{_inline(c)}</td>" for c in r) + "</tr>" for r in body)
+            out.append(f'<div class="table-scroll"><table>{thead}<tbody>{trs}</tbody></table></div>')
+        else:
+            for r in rows:
+                out.append(f"<p>{_inline(r)}</p>")
+
+    def flush_all() -> None:
+        flush_paragraph()
+        flush_list()
+        flush_quote()
+        flush_table()
+
     for raw in lines:
+        # Fenced code blocks are copied verbatim (no inline processing).
+        if code is not None:
+            if raw.strip().startswith("```"):
+                lang = f' class="language-{escape(code_lang)}"' if code_lang else ""
+                out.append(f"<pre><code{lang}>{escape(chr(10).join(code))}</code></pre>")
+                code = None
+                code_lang = ""
+            else:
+                code.append(raw)
+            continue
+
         line = raw.strip()
+        is_table_row = line.startswith("|")
+        if table and not is_table_row:
+            flush_table()
+        if line.startswith("```"):
+            flush_all()
+            code = []
+            code_lang = line[3:].strip()
+            continue
         if not line:
+            flush_all()
+            continue
+        if is_table_row:
             flush_paragraph()
             flush_list()
+            flush_quote()
+            table.append(line)
+            continue
+        if line in {"---", "***", "___"}:
+            flush_all()
+            out.append("<hr>")
+            continue
+        if line.startswith("> "):
+            flush_paragraph()
+            flush_list()
+            quote.append(line[2:])
             continue
         if line.startswith("### "):
-            flush_paragraph()
-            flush_list()
-            out.append(f"<h3>{_inline(line[4:])}</h3>")
+            flush_all()
+            # Demoted one level: the page <h1> is the document title in the
+            # header, so body headings start at <h2> to keep a single h1.
+            out.append(f"<h4>{_inline(line[4:])}</h4>")
         elif line.startswith("## "):
-            flush_paragraph()
-            flush_list()
-            out.append(f"<h2>{_inline(line[3:])}</h2>")
+            flush_all()
+            out.append(f"<h3>{_inline(line[3:])}</h3>")
         elif line.startswith("# "):
-            flush_paragraph()
-            flush_list()
-            out.append(f"<h1>{_inline(line[2:])}</h1>")
+            flush_all()
+            out.append(f"<h2>{_inline(line[2:])}</h2>")
         elif line.startswith("- "):
             flush_paragraph()
+            flush_quote()
             if list_type not in {None, "ul"}:
                 flush_list()
             list_type = "ul"
             list_items.append(f"<li>{_inline(line[2:])}</li>")
         elif re.match(r"^\d+\.\s+", line):
             flush_paragraph()
+            flush_quote()
             if list_type not in {None, "ol"}:
                 flush_list()
             list_type = "ol"
             list_items.append(f"<li>{_inline(re.sub(r'^\d+\.\s+', '', line))}</li>")
         else:
             flush_list()
+            flush_quote()
             paragraph.append(line)
 
-    flush_paragraph()
-    flush_list()
+    if code is not None:  # unterminated fence — emit what we have
+        out.append(f"<pre><code>{escape(chr(10).join(code))}</code></pre>")
+    flush_all()
     return "\n".join(out)
 
 
 def _inline(text: str) -> str:
     safe = escape(text)
-    safe = re.sub(r"`([^`]+)`", r"<code>\1</code>", safe)
+    # Stash inline code so its content is not re-processed (a literal
+    # `![x](y)` inside backticks must stay literal, not become an image).
+    spans: list[str] = []
+
+    def _stash(match: re.Match[str]) -> str:
+        spans.append(match.group(1))
+        return f"\x00{len(spans) - 1}\x00"
+
+    safe = re.sub(r"`([^`]+)`", _stash, safe)
+    # Images before links so the `[..](..)` of an image is not matched as a link.
+    safe = re.sub(r"!\[([^\]]*)\]\(([^)]+)\)", r'<img src="\2" alt="\1" loading="lazy">', safe)
     safe = re.sub(r"\*\*([^*]+)\*\*", r"<strong>\1</strong>", safe)
     safe = re.sub(r"\*([^*]+)\*", r"<em>\1</em>", safe)
     safe = re.sub(r"\[([^\]]+)\]\(([^)]+)\)", r'<a href="\2">\1</a>', safe)
+    safe = re.sub(r"\x00(\d+)\x00", lambda m: f"<code>{spans[int(m.group(1))]}</code>", safe)
     return safe
 
 
@@ -398,7 +508,7 @@ def _render_report_header(props: dict[str, Any]) -> str:
 
     parts.append('<div class="report-header-left">')
     if title:
-        parts.append(f'<h1 class="report-title">{_inline(str(title))}</h1>')
+        parts.append(f'<h2 class="report-title">{_inline(str(title))}</h2>')
     if eyebrow:
         parts.append(f'<div class="report-eyebrow">{_inline(str(eyebrow))}</div>')
     parts.append('</div>')
@@ -445,7 +555,7 @@ def _render_report_header_scored(props: dict[str, Any]) -> str:
     if eyebrow:
         parts.append(f'<div class="report-eyebrow">{_inline(str(eyebrow))}</div>')
     if title:
-        parts.append(f'<h1 class="report-title">{_inline(str(title))}</h1>')
+        parts.append(f'<h2 class="report-title">{_inline(str(title))}</h2>')
     inline_bits: list[str] = []
     if date_range:
         inline_bits.append(f'<span class="report-date">{_inline(str(date_range))}</span>')
@@ -773,6 +883,18 @@ def _js_function(arg_name: str, body: str) -> dict[str, str]:
     return {"__js_function__": f"function({arg_name}){{{body}}}"}
 
 
+def _render_highlight_runtime() -> str:
+    return f"""
+  <script src="{HLJS_CDN}"></script>
+  <script>
+    (() => {{
+      if (typeof hljs === "undefined") return;
+      hljs.configure({{ ignoreUnescapedHTML: true }});
+      document.querySelectorAll("pre code").forEach((el) => hljs.highlightElement(el));
+    }})();
+  </script>"""
+
+
 def _render_chart_runtime() -> str:
     return f"""
   <script src="{ECHARTS_CDN}"></script>
@@ -788,12 +910,66 @@ def _render_chart_runtime() -> str:
         }}
         return value;
       }};
+      // Resolve chart colors from the active theme's CSS variables so the same
+      // markup renders correctly under any stylesheet. Each variable falls back
+      // to the color baked into the option when it is not defined.
+      const css = getComputedStyle(document.documentElement);
+      const v = (name) => css.getPropertyValue(name).trim();
+      const merge = (base, extra) => Object.assign({{}}, base || {{}}, extra);
+      const applyTheme = (opt) => {{
+        const series = ["--chart-1", "--chart-2", "--chart-3", "--chart-4", "--chart-5"].map(v).filter(Boolean);
+        if (series.length) opt.color = series;
+        const axisLine = v("--chart-axis-line");
+        const splitLine = v("--chart-split-line");
+        const axisLabel = v("--chart-axis-label");
+        const axisName = v("--chart-axis-name");
+        const legend = v("--chart-legend");
+        const dataLabel = v("--chart-data-label");
+        for (const ax of ["xAxis", "yAxis"]) {{
+          let group = opt[ax];
+          if (!group) continue;
+          for (const a of (Array.isArray(group) ? group : [group])) {{
+            if (axisLine) a.axisLine = merge(a.axisLine, {{ lineStyle: merge(a.axisLine && a.axisLine.lineStyle, {{ color: axisLine }}) }});
+            if (splitLine) a.splitLine = merge(a.splitLine, {{ lineStyle: merge(a.splitLine && a.splitLine.lineStyle, {{ color: splitLine }}) }});
+            if (axisLabel) a.axisLabel = merge(a.axisLabel, {{ color: axisLabel }});
+            if (axisName) a.nameTextStyle = merge(a.nameTextStyle, {{ color: axisName }});
+          }}
+        }}
+        if (legend && opt.legend) {{
+          for (const l of (Array.isArray(opt.legend) ? opt.legend : [opt.legend])) l.textStyle = merge(l.textStyle, {{ color: legend }});
+        }}
+        const up = v("--chart-up");
+        const down = v("--chart-down");
+        for (const s of (opt.series || [])) {{
+          if (dataLabel && s.label && s.label.show) s.label = merge(s.label, {{ color: dataLabel }});
+          if (s.type === "candlestick" && (up || down)) {{
+            s.itemStyle = merge(s.itemStyle, {{
+              color: up || (s.itemStyle && s.itemStyle.color),
+              color0: down || (s.itemStyle && s.itemStyle.color0),
+              borderColor: up || (s.itemStyle && s.itemStyle.borderColor),
+              borderColor0: down || (s.itemStyle && s.itemStyle.borderColor0),
+            }});
+          }}
+          if (s.type === "bar" && s.name === "上行" && up) s.itemStyle = merge(s.itemStyle, {{ color: up }});
+          if (s.type === "bar" && s.name === "下行" && down) s.itemStyle = merge(s.itemStyle, {{ color: down }});
+          if (s.type === "bar" && s.name === "总值" && series[0]) s.itemStyle = merge(s.itemStyle, {{ color: series[0] }});
+          if (s.type === "line" && series[0]) s.areaStyle = merge(s.areaStyle, {{ color: v("--chart-area") || (s.areaStyle && s.areaStyle.color) }});
+        }}
+        const centerValue = v("--chart-center-value");
+        const centerLabel = v("--chart-center-label");
+        for (const g of (opt.graphic || [])) {{
+          const kids = g.children || [];
+          if (kids[0] && centerValue) kids[0].style = merge(kids[0].style, {{ fill: centerValue }});
+          if (kids[1] && centerLabel) kids[1].style = merge(kids[1].style, {{ fill: centerLabel }});
+        }}
+        return opt;
+      }};
       const nodes = document.querySelectorAll(".echart-config");
       const charts = [];
       for (const node of nodes) {{
         const canvas = node.previousElementSibling;
         if (!canvas || typeof echarts === "undefined") continue;
-        const option = revive(JSON.parse(node.textContent));
+        const option = applyTheme(revive(JSON.parse(node.textContent)));
         const chart = echarts.init(canvas, null, {{ renderer: "svg" }});
         chart.setOption(option);
         charts.push(chart);

@@ -1,0 +1,10 @@
+{
+  "id": "markdown-to-mp",
+  "name": "Markdown to 公众号",
+  "version": "0.1.0",
+  "minAppVersion": "1.4.0",
+  "description": "将当前笔记一键转换为微信公众号排版，复制即可粘贴到公众号编辑器。支持本地图片自动上传到 Cloudflare R2 / S3 图床。",
+  "author": "gusibi",
+  "authorUrl": "https://github.com/gusibi/momo-paper",
+  "isDesktopOnly": true
+}

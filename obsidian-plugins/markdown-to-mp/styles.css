@@ -1,0 +1,60 @@
+.mp-preview-modal {
+  width: min(720px, 90vw);
+}
+
+.mp-preview-view {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 0;
+}
+
+.mp-preview-toolbar {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--background-modifier-border);
+  flex-wrap: wrap;
+}
+
+.mp-preview-toolbar .mp-preview-select {
+  flex: 1;
+  min-width: 120px;
+}
+
+.mp-preview-filename {
+  padding: 6px 12px;
+  font-size: 12px;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--background-modifier-border);
+}
+
+.mp-preview-canvas {
+  flex: 1;
+  overflow: auto;
+  padding: 0;
+  /* 中性背景，让主题色块铺满预览、无白边色差 */
+  background: var(--background-secondary);
+}
+
+/* 主题容器（section）已自带背景与内边距，铺满预览宽度 */
+.mp-preview-canvas > div > section {
+  display: block;
+}
+
+/* 预览中给图片真实的悬浮交互（复制到公众号则保留静态阴影） */
+.mp-preview-canvas img {
+  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.1),
+    box-shadow 0.2s ease;
+}
+.mp-preview-canvas img:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08), 0 22px 40px -14px rgba(0, 0, 0, 0.28);
+}
+
+.mp-preview-empty {
+  color: var(--text-muted);
+  text-align: center;
+  padding: 32px 16px;
+}

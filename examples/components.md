@@ -22,6 +22,8 @@ items:
     href: "#charts"
   - label: 金融
     href: "#finance"
+  - label: 评分
+    href: "#scoring"
   - label: 健康
     href: "#health"
 cta:
@@ -708,8 +710,128 @@ body: 本报告仅供研究参考，不构成买卖建议。
 :::
 
 :::section
+id: scoring
+title: 六、评分报告组件
+body: 面向打分型分析报告的专用组件：综合评分、市场快照、评分明细、驱动逻辑、操作指引与关注清单。
+:::
+
+## score-summary · 综合评分
+
+用于报告开头的综合评分卡：分数、状态标签与一句话结论。
+
+:::score-summary
+title: 综合评分
+score: 5.5
+status: 中性偏多
+summary: 多空因素交织，方向性催化剂落地前以区间震荡对待，仓位保持中性。
+:::
+
+## market-snapshot · 市场快照
+
+用于并排展示一组关键市场指标，每项含数值与备注。
+
+:::market-snapshot
+title: 市场快照
+items:
+  - label: 现货黄金
+    value: $4,540.30
+    note: 周末休市
+  - label: 沪金 AU9999
+    value: 984.02 元/克
+    note: 上周收盘
+  - label: 美元指数
+    value: ~99.0
+    note: 从 99.5 回落
+  - label: 10Y 美债
+    value: ~4.50%
+    note: 高位回落
+  - label: SPDR 持仓
+    value: ~1,032 吨
+    note: 持续流出
+  - label: VIX
+    value: 低位
+    note: 等催化剂
+:::
+
+## scoring-breakdown · 评分明细
+
+用于展示加权评分的构成：公式、加权总分与各因子明细。
+
+:::scoring-breakdown
+title: 评分明细
+formula: 6×20% + 6×20% + 6×15% + 5×15% + 4×15% + 6×10% + 5×5% = 5.5
+weighted_total: 5.5
+items:
+  - factor: 价格动量
+    weight: 20%
+    score: 6 分
+  - factor: 美元/利率
+    weight: 20%
+    score: 6 分
+  - factor: 通胀环境
+    weight: 15%
+    score: 6 分
+  - factor: 地缘政治
+    weight: 15%
+    score: 5 分
+  - factor: 资金流向
+    weight: 15%
+    score: 4 分
+  - factor: 市场情绪
+    weight: 10%
+    score: 6 分
+  - factor: 事件风险
+    weight: 5%
+    score: 5 分
+:::
+
+## driver-logic · 驱动逻辑
+
+用于编号列出核心驱动因素的推理链条，每条是一段说明。
+
+:::driver-logic
+title: 核心驱动逻辑
+items:
+  - index: 1
+    body: 金价上周深 V 反转，$4,380 确认实物需求底部，双底形态形成中，突破 $4,600 可上探 $4,800。
+  - index: 2
+    body: 核心 PCE 环比 +0.2% 低于预期、GDP 下修，缓解加息恐慌，美元回落至 ~99。
+  - index: 3
+    body: 本周焦点为周五非农，>100k 利空、50–100k 中性、<50k 强化降息预期利好黄金。
+  - index: 4
+    body: 地缘停火协议接近达成，避险溢价边际回落。
+:::
+
+## action-guidance · 操作指引
+
+用于给出分场景的行动建议，每条含标题与说明。
+
+:::action-guidance
+title: 操作指引
+items:
+  - title: 长线配置
+    desc: 央行购金与去美元化逻辑不变，$4,400–4,500 区间分批配置。
+  - title: 中线观察
+    desc: 本周五非农是关键方向催化剂，决定突破 $4,600 或回测 $4,400。
+  - title: 短线等待
+    desc: 非农前预计区间震荡，双底偏多但需数据确认。
+:::
+
+## watchlist · 关注清单
+
+用于罗列需要持续跟踪的事件，每项一行。
+
+:::watchlist
+title: 本周关注
+items:
+  - 周五美国 5 月非农（预期 85k–96k）为核心焦点
+  - 非农后市场对下次 FOMC 加息概率重新定价
+  - 地缘停火协议落地进展
+:::
+
+:::section
 id: health
-title: 六、健康报告组件
+title: 七、健康报告组件
 body: 面向体重管理与健康追踪的专用组件：报告头、周总结、目标追踪与指标面板。
 :::
 

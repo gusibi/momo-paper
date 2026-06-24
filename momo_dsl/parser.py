@@ -64,10 +64,19 @@ def parse_text(text: str, path: str | None = None) -> Document:
             nodes.append(MarkdownNode(text=raw, line=markdown_start))
         markdown_buffer = []
 
+    in_fence = False
     while i < len(lines):
         line = lines[i]
         stripped = line.strip()
-        if stripped.startswith(":::") and stripped != ":::":
+        # Inside a fenced code block, `:::` is literal text, not a block start.
+        if stripped.startswith("```"):
+            in_fence = not in_fence
+            if not markdown_buffer and stripped:
+                markdown_start = i + 1
+            markdown_buffer.append(line)
+            i += 1
+            continue
+        if not in_fence and stripped.startswith(":::") and stripped != ":::":
             flush_markdown()
             block_name = stripped[3:].strip()
             block_line = i + 1

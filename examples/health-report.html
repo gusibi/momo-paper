@@ -1,3 +1,10 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>健康周报</title>
+  <style>
 :root {
   color-scheme: light;
 
@@ -2922,3 +2929,111 @@ a { color: var(--mp-brand); }
 .hljs-link { color: var(--mp-brand); text-decoration: underline; }
 .hljs-emphasis { font-style: italic; }
 .hljs-strong { font-weight: 700; }
+
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="doc-header" id="top">
+      <div class="doc-header-inner">
+        <div class="doc-type">health_report</div>
+        <h1>健康周报</h1>
+        <p class="description">体重变化与健康目标跟踪</p>
+      </div>
+    </header>
+    <section class="dsl-block" data-block="report-header"><div class="block-inner"><div class="health-block health-block--report-header"><div class="report-header"><div class="report-header-left"><h2 class="report-title">减脂周报</h2><div class="report-eyebrow">Momo Coach · 第 12 周</div></div><div class="report-header-right"><div class="report-meta"><div class="report-meta-item"><strong>2026.05.19 – 2026.05.26</strong></div><div class="report-meta-item">称重日：2026-05-26</div></div></div></div></div></div></section>
+<section class="dsl-block" data-block="metrics-panel"><div class="block-inner"><div class="health-block health-block--metrics-panel"><h2 class="health-title">关键指标</h2><div class="metrics-grid"><div class="metric-card metric-status--good"><div class="metric-label">周末体重</div><div class="metric-value">68.2 kg</div><div class="metric-change">-0.8 kg</div></div><div class="metric-card "><div class="metric-label">BMI</div><div class="metric-value">22.1</div><div class="metric-change">-0.3</div></div><div class="metric-card metric-status--good"><div class="metric-label">体脂率</div><div class="metric-value">18.5%</div><div class="metric-change">-0.3%</div></div><div class="metric-card metric-status--good"><div class="metric-label">运动天数</div><div class="metric-value">5 天</div><div class="metric-change">+1 天</div></div><div class="metric-card "><div class="metric-label">平均睡眠</div><div class="metric-value">7.3 小时</div><div class="metric-change">+0.3 小时</div></div></div></div></div></section>
+<section class="dsl-block" data-block="weekly-summary"><div class="block-inner"><div class="health-block health-block--weekly-summary"><h2 class="health-title">本周总结</h2><div class="health-period">2026年5月19日 - 5月26日</div><p class="health-summary">本周整体表现良好，体重持续回落至目标区间。运动习惯保持稳定，有氧运动完成度较高。饮食控制方面，工作日表现好于周末，需要继续保持。</p><div class="health-section"><h3 class="health-section-title">做得好的方面</h3><div class="health-list health-list--positive"><div class="health-item health-item--positive"><span class="health-icon">✅</span><div class="health-item-content"><div class="health-item-title">运动坚持</div><div class="health-item-desc">坚持运动 5 天，包含 3 次有氧运动和 2 次力量训练</div></div></div><div class="health-item health-item--positive"><span class="health-icon">✅</span><div class="health-item-content"><div class="health-item-title">饮食控制</div><div class="health-item-desc">工作日饮食控制良好，热量摄入在目标范围内</div></div></div><div class="health-item health-item--positive"><span class="health-icon">✅</span><div class="health-item-content"><div class="health-item-title">睡眠质量</div><div class="health-item-desc">睡眠质量提升，深睡占比增加</div></div></div><div class="health-item health-item--positive"><span class="health-icon">✅</span><div class="health-item-content"><div class="health-item-title">饮水量</div><div class="health-item-desc">饮水量达标，平均每天 2.0 升</div></div></div></div></div><div class="health-section"><h3 class="health-section-title">需要改进的方面</h3><div class="health-list health-list--improvement"><div class="health-item health-item--improvement"><span class="health-icon">💪</span><div class="health-item-content"><div class="health-item-title">周末饮食</div><div class="health-item-desc">周末饮食偏油腻，热量摄入超标</div></div></div><div class="health-item health-item--improvement"><span class="health-icon">💪</span><div class="health-item-content"><div class="health-item-title">睡眠时间</div><div class="health-item-desc">有 2 天熬夜到 12 点后</div></div></div><div class="health-item health-item--improvement"><span class="health-icon">💪</span><div class="health-item-content"><div class="health-item-title">蔬菜摄入</div><div class="health-item-desc">蔬菜摄入量略低于目标</div></div></div><div class="health-item health-item--improvement"><span class="health-icon">💪</span><div class="health-item-content"><div class="health-item-title">训练强度</div><div class="health-item-desc">力量训练强度可以适当增加</div></div></div></div></div></div></div></section>
+<section class="dsl-block" data-block="line-chart"><div class="block-inner"><div class="chart-block chart-block--echart chart-block--line-chart"><div class="chart-header"><h2 class="chart-title">体重趋势</h2><p class="chart-subtitle">过去 8 周体重变化</p></div><dl class="chart-meta"><div><dt>单位</dt><dd>kg</dd></div></dl><div class="chart-surface chart-surface--echart"><div class="echart-canvas" data-chart-kind="line-chart"></div><script type="application/json" class="echart-config">{"color": ["#244c7a"], "grid": {"left": 64, "right": 24, "top": 24, "bottom": 48, "containLabel": true}, "tooltip": {"trigger": "axis", "formatter": {"__js_function__": "function(params){const item = params[0]; const growth = item.data.growth ? `<br/>增速: ${item.data.growth}` : ''; return `${item.axisValue}<br/>数值: ${item.data.value}${growth}`;}"}}, "xAxis": {"type": "category", "boundaryGap": false, "data": ["第 5 周", "第 6 周", "第 7 周", "第 8 周", "第 9 周", "第 10 周", "第 11 周", "第 12 周"], "axisLine": {"lineStyle": {"color": "#d8d2c4"}}, "axisLabel": {"color": "#4c566a", "interval": 0}}, "yAxis": {"type": "value", "name": "kg", "nameTextStyle": {"color": "#4c566a"}, "splitLine": {"lineStyle": {"color": "rgba(76, 86, 106, 0.12)"}}, "axisLabel": {"color": "#4c566a"}}, "series": [{"type": "line", "smooth": true, "symbolSize": 10, "lineStyle": {"width": 4}, "areaStyle": {"color": "rgba(36, 76, 122, 0.12)"}, "data": [{"value": 71.2, "growth": "baseline"}, {"value": 70.8, "growth": "-0.6%"}, {"value": 70.5, "growth": "-0.4%"}, {"value": 69.8, "growth": "-1.0%"}, {"value": 69.5, "growth": "-0.4%"}, {"value": 69.0, "growth": "-0.7%"}, {"value": 69.0, "growth": "0.0%"}, {"value": 68.2, "growth": "-1.2%"}]}]}</script></div></div></div></section>
+<section class="dsl-block" data-block="bar-chart"><div class="block-inner"><div class="chart-block chart-block--echart chart-block--bar-chart"><div class="chart-header"><h2 class="chart-title">每日运动消耗</h2><p class="chart-subtitle">本周热量消耗统计</p></div><dl class="chart-meta"><div><dt>单位</dt><dd>kcal</dd></div></dl><div class="chart-surface chart-surface--echart"><div class="echart-canvas" data-chart-kind="bar-chart"></div><script type="application/json" class="echart-config">{"color": ["#244c7a"], "grid": {"left": 72, "right": 24, "top": 20, "bottom": 48, "containLabel": true}, "tooltip": {"trigger": "axis", "axisPointer": {"type": "shadow"}, "formatter": {"__js_function__": "function(params){const item = params[0]; const note = item.data.share ? `<br/>占比: ${item.data.share}` : ''; return `${item.axisValue}<br/>数值: ${item.data.value}${note}`;}"}}, "xAxis": {"type": "category", "data": ["周一", "周二", "周三", "周四", "周五", "周六", "周日"], "axisTick": {"show": false}, "axisLine": {"lineStyle": {"color": "#d8d2c4"}}, "axisLabel": {"color": "#4c566a", "interval": 0}}, "yAxis": {"type": "value", "name": "kcal", "nameTextStyle": {"color": "#4c566a"}, "splitLine": {"lineStyle": {"color": "rgba(76, 86, 106, 0.12)"}}, "axisLabel": {"color": "#4c566a"}}, "series": [{"type": "bar", "barWidth": "44%", "itemStyle": {"borderRadius": [6, 6, 0, 0]}, "label": {"show": true, "position": "top", "color": "#172033"}, "data": [{"value": 420.0, "share": "有氧"}, {"value": 380.0, "share": "力量"}, {"value": 0.0, "share": "休息"}, {"value": 450.0, "share": "有氧"}, {"value": 360.0, "share": "力量"}, {"value": 520.0, "share": "有氧"}, {"value": 0.0, "share": "休息"}]}]}</script></div></div></div></section>
+<section class="dsl-block" data-block="goal-tracker"><div class="block-inner"><div class="health-block health-block--goal-tracker"><h2 class="health-title">下周目标</h2><div class="goals-grid"><div class="goal-card"><div class="goal-title">运动目标</div><div class="goal-progress"><div class="goal-progress-bar" style="width: 0%"></div></div><div class="goal-values"><span class="goal-current">0天</span><span class="goal-separator">/</span><span class="goal-target">5天</span></div><div class="goal-desc">至少运动 5 天，包含 3 次有氧和 2 次力量训练</div></div><div class="goal-card"><div class="goal-title">饮食目标</div><div class="goal-progress"><div class="goal-progress-bar" style="width: 0%"></div></div><div class="goal-values"><span class="goal-current">0天</span><span class="goal-separator">/</span><span class="goal-target">7天</span></div><div class="goal-desc">控制热量摄入，周末也要保持规律</div></div><div class="goal-card"><div class="goal-title">睡眠目标</div><div class="goal-progress"><div class="goal-progress-bar" style="width: 97.33333333333333%"></div></div><div class="goal-values"><span class="goal-current">7.3小时</span><span class="goal-separator">/</span><span class="goal-target">7.5小时</span></div><div class="goal-desc">每晚 11 点前入睡，保证 7-8 小时睡眠</div></div><div class="goal-card"><div class="goal-title">饮水目标</div><div class="goal-progress"><div class="goal-progress-bar" style="width: 90.0%"></div></div><div class="goal-values"><span class="goal-current">1.8升</span><span class="goal-separator">/</span><span class="goal-target">2.0升</span></div><div class="goal-desc">每天至少 2.0 升水</div></div></div></div></div></section>
+<section class="dsl-block" data-block="comparison"><div class="block-inner"><div class="object"><div class="field field--title"><span class="field-key">title</span><p>本周 vs 上周</p></div><div class="field field--left"><span class="field-key">left</span><div class="object"><div class="field field--title"><span class="field-key">title</span><p>第 11 周</p></div><div class="field field--items"><span class="field-key">items</span><ul class="items"><li class="item"><p>体重 69.0 kg</p></li><li class="item"><p>运动 4 天</p></li><li class="item"><p>平均睡眠 7.0 小时</p></li><li class="item"><p>体脂率 18.8%</p></li></ul></div></div></div><div class="field field--right"><span class="field-key">right</span><div class="object"><div class="field field--title"><span class="field-key">title</span><p>第 12 周</p></div><div class="field field--items"><span class="field-key">items</span><ul class="items"><li class="item"><p>体重 68.2 kg ✅</p></li><li class="item"><p>运动 5 天 ✅</p></li><li class="item"><p>平均睡眠 7.3 小时 ✅</p></li><li class="item"><p>体脂率 18.5% ✅</p></li></ul></div></div></div></div></div></section>
+<section class="dsl-block" data-block="stats"><div class="block-inner"><div class="object"><div class="field field--items"><span class="field-key">items</span><ul class="items"><li class="item"><div class="object"><div class="field field--value"><span class="field-key">value</span><p>-0.8 kg</p></div><div class="field field--label"><span class="field-key">label</span><p>周体重变化</p></div></div></li><li class="item"><div class="object"><div class="field field--value"><span class="field-key">value</span><p>5/7</p></div><div class="field field--label"><span class="field-key">label</span><p>运动达标率</p></div></div></li><li class="item"><div class="object"><div class="field field--value"><span class="field-key">value</span><p>7.3 小时</p></div><div class="field field--label"><span class="field-key">label</span><p>平均睡眠</p></div></div></li><li class="item"><div class="object"><div class="field field--value"><span class="field-key">value</span><p>2.0 升</p></div><div class="field field--label"><span class="field-key">label</span><p>日均饮水</p></div></div></li></ul></div></div></div></section>
+<section class="dsl-block" data-block="cta"><div class="block-inner"><div class="object"><div class="field field--title"><span class="field-key">title</span><p>开始新的一周</p></div><div class="field field--body"><span class="field-key">body</span><p>设定目标，坚持执行，下周会更好！</p></div><div class="field field--button"><a class="object" href="#">设置下周目标</a></div></div></div></section>
+<section class="dsl-block" data-block="faq"><div class="block-inner"><div class="object"><div class="field field--items"><span class="field-key">items</span><ul class="items"><li class="item"><div class="object"><div class="field field--question"><span class="field-key">question</span><p>体重波动多少是正常的？</p></div><div class="field field--answer"><span class="field-key">answer</span><p>每天 1-2 kg 的波动是正常的，受水分、食物摄入等因素影响。建议关注周平均变化而非单日数据。</p></div></div></li><li class="item"><div class="object"><div class="field field--question"><span class="field-key">question</span><p>如何提高运动坚持率？</p></div><div class="field field--answer"><span class="field-key">answer</span><p>建议把运动时间固定在每天同一时段，选择自己喜欢的运动方式，设置可实现的小目标。</p></div></div></li><li class="item"><div class="object"><div class="field field--question"><span class="field-key">question</span><p>平台期怎么办？</p></div><div class="field field--answer"><span class="field-key">answer</span><p>可以尝试调整运动强度或方式，增加力量训练比例，或者适当调整饮食结构。</p></div></div></li></ul></div></div></div></section>
+<section class="dsl-block" data-block="footer-note"><div class="block-inner"><div class="object"><div class="field field--title"><span class="field-key">title</span><p>免责声明</p></div><div class="field field--body"><span class="field-key">body</span><p>本报告基于自记录数据生成，仅供参考，不构成医疗建议。如有健康问题，请咨询专业医生。</p></div></div></div></section>
+  </main>
+  
+  <script src="https://registry.npmmirror.com/echarts/5.6.0/files/dist/echarts.min.js"></script>
+  <script>
+    (() => {
+      const revive = (value) => {
+        if (Array.isArray(value)) return value.map(revive);
+        if (value && typeof value === "object") {
+          if (typeof value.__js_function__ === "string") {
+            return Function(`return (${value.__js_function__})`)();
+          }
+          for (const key of Object.keys(value)) value[key] = revive(value[key]);
+        }
+        return value;
+      };
+      // Resolve chart colors from the active theme's CSS variables so the same
+      // markup renders correctly under any stylesheet. Each variable falls back
+      // to the color baked into the option when it is not defined.
+      const css = getComputedStyle(document.documentElement);
+      const v = (name) => css.getPropertyValue(name).trim();
+      const merge = (base, extra) => Object.assign({}, base || {}, extra);
+      const applyTheme = (opt) => {
+        const series = ["--chart-1", "--chart-2", "--chart-3", "--chart-4", "--chart-5"].map(v).filter(Boolean);
+        if (series.length) opt.color = series;
+        const axisLine = v("--chart-axis-line");
+        const splitLine = v("--chart-split-line");
+        const axisLabel = v("--chart-axis-label");
+        const axisName = v("--chart-axis-name");
+        const legend = v("--chart-legend");
+        const dataLabel = v("--chart-data-label");
+        for (const ax of ["xAxis", "yAxis"]) {
+          let group = opt[ax];
+          if (!group) continue;
+          for (const a of (Array.isArray(group) ? group : [group])) {
+            if (axisLine) a.axisLine = merge(a.axisLine, { lineStyle: merge(a.axisLine && a.axisLine.lineStyle, { color: axisLine }) });
+            if (splitLine) a.splitLine = merge(a.splitLine, { lineStyle: merge(a.splitLine && a.splitLine.lineStyle, { color: splitLine }) });
+            if (axisLabel) a.axisLabel = merge(a.axisLabel, { color: axisLabel });
+            if (axisName) a.nameTextStyle = merge(a.nameTextStyle, { color: axisName });
+          }
+        }
+        if (legend && opt.legend) {
+          for (const l of (Array.isArray(opt.legend) ? opt.legend : [opt.legend])) l.textStyle = merge(l.textStyle, { color: legend });
+        }
+        const up = v("--chart-up");
+        const down = v("--chart-down");
+        for (const s of (opt.series || [])) {
+          if (dataLabel && s.label && s.label.show) s.label = merge(s.label, { color: dataLabel });
+          if (s.type === "candlestick" && (up || down)) {
+            s.itemStyle = merge(s.itemStyle, {
+              color: up || (s.itemStyle && s.itemStyle.color),
+              color0: down || (s.itemStyle && s.itemStyle.color0),
+              borderColor: up || (s.itemStyle && s.itemStyle.borderColor),
+              borderColor0: down || (s.itemStyle && s.itemStyle.borderColor0),
+            });
+          }
+          if (s.type === "bar" && s.name === "上行" && up) s.itemStyle = merge(s.itemStyle, { color: up });
+          if (s.type === "bar" && s.name === "下行" && down) s.itemStyle = merge(s.itemStyle, { color: down });
+          if (s.type === "bar" && s.name === "总值" && series[0]) s.itemStyle = merge(s.itemStyle, { color: series[0] });
+          if (s.type === "line" && series[0]) s.areaStyle = merge(s.areaStyle, { color: v("--chart-area") || (s.areaStyle && s.areaStyle.color) });
+        }
+        const centerValue = v("--chart-center-value");
+        const centerLabel = v("--chart-center-label");
+        for (const g of (opt.graphic || [])) {
+          const kids = g.children || [];
+          if (kids[0] && centerValue) kids[0].style = merge(kids[0].style, { fill: centerValue });
+          if (kids[1] && centerLabel) kids[1].style = merge(kids[1].style, { fill: centerLabel });
+        }
+        return opt;
+      };
+      const nodes = document.querySelectorAll(".echart-config");
+      const charts = [];
+      for (const node of nodes) {
+        const canvas = node.previousElementSibling;
+        if (!canvas || typeof echarts === "undefined") continue;
+        const option = applyTheme(revive(JSON.parse(node.textContent)));
+        const chart = echarts.init(canvas, null, { renderer: "svg" });
+        chart.setOption(option);
+        charts.push(chart);
+      }
+      window.addEventListener("resize", () => charts.forEach(chart => chart.resize()));
+    })();
+  </script>
+  
+</body>
+</html>

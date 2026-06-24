@@ -1,0 +1,20 @@
+{
+  "name": "markdown-to-mp",
+  "version": "0.1.0",
+  "description": "Convert Obsidian notes to WeChat Official Account (公众号) layout and copy to clipboard.",
+  "main": "main.js",
+  "scripts": {
+    "dev": "node esbuild.config.mjs",
+    "build": "tsc -noEmit -skipLibCheck && node esbuild.config.mjs production"
+  },
+  "keywords": ["obsidian", "wechat", "公众号", "markdown"],
+  "author": "gusibi",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "builtin-modules": "^3.3.0",
+    "esbuild": "^0.20.0",
+    "obsidian": "latest",
+    "typescript": "^5.4.0"
+  }
+}
