@@ -1,0 +1,200 @@
+/* Momo Paper product site chrome — navigation, footer, theme switcher.
+   Uses the active theme's `--mp-*` design tokens so it adapts to both the
+   Momo Paper and Vercel stylesheets automatically. */
+
+.has-site-chrome { padding-top: 64px; }
+
+/* Screen-reader-only: keeps a single semantic <h1> on hero-led landing pages
+   without a second visible title. */
+.visually-hidden {
+  position: absolute;
+  width: 1px; height: 1px;
+  margin: -1px; padding: 0; border: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* ---------------------------------------------------------------- nav --- */
+.site-nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 64px;
+  z-index: 100;
+  background: color-mix(in srgb, var(--mp-paper) 85%, transparent);
+  backdrop-filter: saturate(180%) blur(12px);
+  border-bottom: 1px solid transparent;
+  transition: background var(--mp-dur-standard, 200ms) var(--mp-ease, ease),
+              border-color var(--mp-dur-standard, 200ms) var(--mp-ease, ease);
+}
+.site-nav.scrolled {
+  background: color-mix(in srgb, var(--mp-paper) 92%, transparent);
+  border-bottom-color: var(--mp-line);
+}
+.site-nav-inner {
+  max-width: var(--mp-max, 1120px);
+  margin: 0 auto;
+  height: 100%;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+.site-nav-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--mp-font-display);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--mp-ink);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.site-nav-mark {
+  width: 30px; height: 30px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 7px;
+  background: var(--mp-brand);
+  color: var(--mp-paper);
+  font-family: var(--mp-font-mono);
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+.site-nav-links {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+.site-nav-link {
+  color: var(--mp-ink-subtle);
+  text-decoration: none;
+  font-size: 0.94rem;
+  font-weight: 500;
+  padding: 4px 0;
+  border-bottom: 2px solid transparent;
+  transition: color var(--mp-dur-micro, 120ms) var(--mp-ease, ease);
+  white-space: nowrap;
+}
+.site-nav-link:hover { color: var(--mp-brand); }
+.site-nav-link.active {
+  color: var(--mp-brand);
+  border-bottom-color: var(--mp-brand);
+}
+
+/* ----------------------------------------------------- theme switch --- */
+.theme-switch {
+  display: inline-flex;
+  padding: 3px;
+  gap: 2px;
+  border: 1px solid var(--mp-line);
+  border-radius: 999px;
+  background: var(--mp-canvas);
+}
+.theme-option {
+  appearance: none;
+  border: 0;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  line-height: 1;
+  padding: 6px 12px;
+  border-radius: 999px;
+  color: var(--mp-ink-subtle);
+  background: transparent;
+  transition: color var(--mp-dur-micro, 120ms) var(--mp-ease, ease),
+              background var(--mp-dur-micro, 120ms) var(--mp-ease, ease);
+}
+.theme-option:hover { color: var(--mp-ink); }
+.theme-option.active {
+  color: var(--mp-paper);
+  background: var(--mp-brand);
+}
+
+/* ------------------------------------------------------- mobile nav --- */
+.site-nav-burger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  padding: 6px;
+}
+.site-nav-burger span {
+  display: block;
+  width: 22px; height: 2px;
+  border-radius: 2px;
+  background: var(--mp-ink);
+}
+
+@media (max-width: 820px) {
+  .site-nav-burger { display: flex; }
+  .site-nav-links {
+    position: fixed;
+    top: 64px; left: 0; right: 0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 20px 24px;
+    background: var(--mp-paper);
+    border-bottom: 1px solid var(--mp-line);
+    transform: translateY(-12px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--mp-dur-standard, 200ms) var(--mp-ease, ease),
+                transform var(--mp-dur-standard, 200ms) var(--mp-ease, ease);
+  }
+  .site-nav-links.open {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+/* ------------------------------------------------------------ footer --- */
+.site-footer {
+  border-top: 1px solid var(--mp-line);
+  margin-top: 64px;
+  padding: 40px 0;
+  color: var(--mp-ink-subtle);
+  font-size: 0.9rem;
+}
+.site-footer-inner {
+  max-width: var(--mp-max, 1120px);
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.site-footer-left,
+.site-footer-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.site-footer a {
+  color: var(--mp-ink-subtle);
+  text-decoration: none;
+  transition: color var(--mp-dur-micro, 120ms) var(--mp-ease, ease);
+}
+.site-footer a:hover { color: var(--mp-brand); }
+.site-footer .dot { color: var(--mp-line-active); }
+
+@media (max-width: 600px) {
+  .site-footer-inner { flex-direction: column; text-align: center; }
+  .site-footer-left, .site-footer-right { justify-content: center; }
+}
+
+@media print {
+  .site-nav, .site-footer { display: none; }
+  .has-site-chrome { padding-top: 0; }
+}

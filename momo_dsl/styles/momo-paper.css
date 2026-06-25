@@ -431,6 +431,29 @@ h4 { margin: 0 0 8px; font-size: 16px; }
   clip: rect(0 0 0 0);
 }
 
+/* Structural container keys are layout plumbing, not content — never surface
+   them as labels. (Blocks that DO want a labelled group, e.g. risk-matrix's
+   risks/catalysts, opt back in with their own rule.) */
+.field--items > .field-key,
+.field--columns > .field-key,
+.field--cards > .field-key,
+.field--rows > .field-key,
+.field--segments > .field-key,
+.field--metrics > .field-key,
+.field--points > .field-key,
+.field--bullets > .field-key,
+.field--actions > .field-key,
+.field--steps > .field-key,
+.field--plans > .field-key,
+.field--features > .field-key,
+.field--goals > .field-key,
+.field--logos > .field-key,
+.field--images > .field-key,
+.field--left > .field-key,
+.field--right > .field-key,
+.field--before > .field-key,
+.field--after > .field-key { display: none; }
+
 .field--eyebrow > p {
   margin: 0 0 10px;
   color: var(--mp-brand);
@@ -597,6 +620,18 @@ h4 { margin: 0 0 8px; font-size: 16px; }
 .dsl-block[data-block="feature-grid"] .items,
 .dsl-block[data-block="stats"] .items {
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+/* Honor an explicit `columns: N` hint (lifted to data-columns by the renderer)
+   instead of auto-fitting, so the author's intended column count is respected. */
+.dsl-block[data-block="feature-grid"][data-columns="2"] .items { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.dsl-block[data-block="feature-grid"][data-columns="3"] .items { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.dsl-block[data-block="feature-grid"][data-columns="4"] .items { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+@media (max-width: 760px) {
+  .dsl-block[data-block="feature-grid"][data-columns] .items {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
 }
 
 .dsl-block[data-block="comparison"] .field--left,

@@ -87,14 +87,23 @@ def _render_node(node: MarkdownNode | BlockNode) -> str:
     props = node.props
     attrs = ""
     if isinstance(props, dict):
-        # `id` and `layout` are presentation hints, not content: lift them onto
-        # the section element (as id / data-layout) and drop them from props.
+        # `id`, `layout`, and a scalar `columns` are presentation hints, not
+        # content: lift them onto the section element (as id / data-* attrs) and
+        # drop them from props so they don't render as stray fields. A *list*
+        # `columns` (e.g. three-columns) is real content and is left alone.
+        drop: set[str] = set()
         if props.get("id"):
             attrs += f' id="{escape(str(props["id"]))}"'
+            drop.add("id")
         if props.get("layout"):
             attrs += f' data-layout="{escape(str(props["layout"]))}"'
-        if "id" in props or "layout" in props:
-            props = {k: v for k, v in props.items() if k not in {"id", "layout"}}
+            drop.add("layout")
+        cols = props.get("columns")
+        if cols is not None and not isinstance(cols, (list, dict)):
+            attrs += f' data-columns="{escape(str(cols))}"'
+            drop.add("columns")
+        if drop:
+            props = {k: v for k, v in props.items() if k not in drop}
 
     if node.name in CHART_BLOCKS:
         fields = _render_chart_block(node.name, props)
@@ -271,12 +280,14 @@ def _render_markdown(text: str) -> str:
             continue
         if line.startswith("### "):
             flush_all()
-            # Demoted one level: the page <h1> is the document title in the
-            # header, so body headings start at <h2> to keep a single h1.
-            out.append(f"<h4>{_inline(line[4:])}</h4>")
+            out.append(f"<h3>{_inline(line[4:])}</h3>")
         elif line.startswith("## "):
             flush_all()
-            out.append(f"<h3>{_inline(line[3:])}</h3>")
+            # The page <h1> is the document title (doc-header, or a host-page
+            # sr-only h1). Body sections map straight to <h2>, subsections to
+            # <h3> — no level skips, and `#` is clamped to <h2> so the page
+            # never has a second <h1>.
+            out.append(f"<h2>{_inline(line[3:])}</h2>")
         elif line.startswith("# "):
             flush_all()
             out.append(f"<h2>{_inline(line[2:])}</h2>")
@@ -596,7 +607,9 @@ def _render_chart_header(props: dict[str, Any]) -> str:
     title = props.get("title")
     subtitle = props.get("subtitle")
     if title is not None:
-        parts.append(f'<h2 class="chart-title">{_inline(str(title))}</h2>')
+        # A chart is a sub-component that sits under a section heading, so its
+        # title is an <h3> — keeping it below body <h2> sections in the outline.
+        parts.append(f'<h3 class="chart-title">{_inline(str(title))}</h3>')
     if subtitle is not None:
         parts.append(f'<p class="chart-subtitle">{_inline(str(subtitle))}</p>')
     parts.append("</div>")

@@ -127,3 +127,7 @@ The Markdown subset outside DSL blocks supports:
 - inline code: `` `code` ``
 
 See [REFERENCE.md](REFERENCE.md) for the complete syntax reference, Agent guidance, examples, and validation rules.
+
+## Product Site
+
+The product website (https://momo.eztoolab.com) is built from this DSL — it both introduces Momo Paper and dogfoods the engine. Each page is a Markdown DSL file under `site/content/`, rendered by `site/build.py` with shared navigation, SEO metadata, and a Momo Paper / Vercel theme switcher. See [site/README.md](site/README.md) for how it works and how to build it locally.

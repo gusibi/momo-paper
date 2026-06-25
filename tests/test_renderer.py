@@ -29,9 +29,9 @@ items:
         self.assertIn(".page { width: 100%; min-height: 100vh; }", html)
         self.assertIn('data-block="custom-block"', html)
         self.assertIn("Render Test", html)
-        # Body markdown headings are demoted one level so the page keeps a
-        # single <h1> (the document title); "## Intro" becomes <h3>.
-        self.assertIn("<h3>Intro</h3>", html)
+        # The page keeps a single <h1> (the document title); body sections map
+        # straight to <h2> with no level skip, so "## Intro" becomes <h2>.
+        self.assertIn("<h2>Intro</h2>", html)
         self.assertIn("Custom", html)
 
     def test_renderer_uses_full_width_sections_not_page_card(self):
