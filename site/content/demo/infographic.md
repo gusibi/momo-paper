@@ -2,19 +2,19 @@
 document_type: infographic
 locale: zh-CN
 title: Momo Paper 2026 引擎能力一览
-description: 一份信息图概览：文档类型、图表能力、设计令牌和生态集成。
+description: 一份信息图概览：文档样板、图表能力、设计令牌和生态集成。
 ---
 
-Momo Paper 是一个面向文档与视觉叙事的路由式设计系统。以下是一份信息图概览，用可视化的方式展示了引擎的核心能力。
+Momo Paper 是一个面向文档与视觉叙事的 Markdown DSL 文档引擎。以下是一份信息图概览，用可视化的方式展示了引擎的核心能力。
 
 :::stats
 items:
   - value: 15
-    label: 文档类型 × 中英文双模板
+    label: 文档样板
   - value: 5
-    label: 可编程图表
-  - value: 14
-    label: 图示原语可嵌入文档
+    label: 图表块
+  - value: 4
+    label: 健康块
   - value: 2
     label: 可切换视觉主题
 :::
@@ -33,8 +33,8 @@ items:
     title: 校验
     desc: 引擎校验 frontmatter 与块结构
   - step: 3
-    title: 路由
-    desc: 根据 document_type 决定文档语义
+    title: 标注语义
+    desc: document_type 标注文档语义，引导 Skill 选模板
   - step: 4
     title: 渲染
     desc: 块约定 + 设计令牌 = HTML 输出
@@ -46,10 +46,10 @@ items:
     desc: 可在浏览器中查看、打印或分享
 :::
 
-## 文档类型使用分布（社区调研）
+## 文档样板使用分布（社区调研）
 
 :::donut-chart
-title: 文档类型使用分布
+title: 文档样板使用分布
 center_value: 100%
 center_label: 社区调研
 segments:
@@ -70,5 +70,5 @@ segments:
 :::callout
 tone: insight
 title: 核心价值主张
-body: Momo Paper 让文档排版从「手工调 CSS」升级为「声明式路由」。你的内容 + 我们的设计令牌 = 永远排版精良、打印就绪的文档。整个系统的设计哲学是「约束即解放」——通过预定义的模板和设计令牌，消除排版决策的认知负担，让用户（和 AI agent）专注于内容本身。
+body: Momo Paper 让文档排版从「手工调 CSS」升级为「声明式 DSL」。你的内容 + 我们的设计令牌 = 永远排版精良、打印就绪的文档。整个系统的设计哲学是「约束即解放」——通过预定义的样板和设计令牌，消除排版决策的认知负担，让用户（和 AI agent）专注于内容本身。
 :::

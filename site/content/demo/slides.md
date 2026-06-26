@@ -8,7 +8,7 @@ description: slides 类型用 :::slide 的多种 layout 组织演示文稿，16:
 :::hero
 eyebrow: 开源项目 · 2026
 title: Momo Paper 项目路演
-subtitle: 面向文档与视觉叙事的路由式设计系统
+subtitle: 面向文档与视觉叙事的 Markdown DSL 文档引擎
 :::
 
 :::slide
@@ -24,11 +24,11 @@ points:
 
 :::slide
 eyebrow: 核心方案
-title: 设计令牌 + 路由规则 + DSL 引擎 = 一致的设计语言
+title: 设计令牌 + 结构化块 + DSL 引擎 = 一致的设计语言
 points:
-  - 15 种文档类型，覆盖商业、学术、个人全场景
+  - 15 份文档样板，覆盖商业、学术、个人全场景
   - 设计令牌（颜色/字体/间距）集中管理，自动注入
-  - 结构校验确保数据结构正确
+  - 块字段约定确保数据结构一致
   - 内置 @media print 规则，屏幕和纸张表现一致
 :::
 
@@ -60,9 +60,9 @@ eyebrow: 数据一览
 title: 从零到可用的完整项目
 metrics:
   - value: 15
-    label: 文档类型
-  - value: 14
-    label: 图示原语
+    label: 文档样板
+  - value: 5
+    label: 图表块
   - value: 2
     label: 可切换主题
 :::
@@ -70,10 +70,10 @@ metrics:
 :::slide
 layout: closing
 eyebrow: 下一步
-title: 开源社区 + 更多文档类型 + 在线 playground
+title: 开源社区 + 更多样板 + 在线 playground
 points:
   - GitHub 开源：github.com/gusibi/momo-paper
-  - 规划中的类型：dashboard、comparison matrix、topic cover
+  - 规划中的样板：dashboard、comparison matrix、topic cover
   - 在线 playground：浏览器内编辑实时预览
-  - 欢迎贡献新的文档类型和图示原语
+  - 欢迎贡献新的文档样板与结构化块
 :::

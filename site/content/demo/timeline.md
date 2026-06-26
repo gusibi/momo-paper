@@ -10,13 +10,13 @@ title: 里程碑
 items:
   - step: 2025.10
     title: 项目启动 ✓
-    desc: 确定路由式设计系统的核心架构，完成 15 种文档类型的分类和设计令牌初版。
+    desc: 确定 Markdown DSL 引擎的核心架构，完成 15 份文档样板的分类和设计令牌初版。
   - step: 2025.12
     title: 引擎 v0.1 ✓
-    desc: Python CLI + 模板引擎上线，支持前 5 种文档类型的渲染。
+    desc: Python CLI + 模板引擎上线，支持前 5 份文档样板的渲染。
   - step: 2026.01
     title: v0.2 发布 ✓
-    desc: 扩展至全部 15 种文档类型，新增 3 种图表（bar/line/donut）。
+    desc: 扩展至全部 15 份文档样板，新增 3 种图表（bar/line/donut）。
   - step: 2026.03
     title: v3.0 重构 ✓
     desc: 项目结构重组为 agentskills.io 规范，新增 slides 类型和 candlestick/waterfall 图表。
@@ -31,7 +31,7 @@ items:
     desc: 浏览器内编辑器 + 实时预览，降低新用户上手门槛。
   - step: 2026.07
     title: Dashboard 类型（计划）
-    desc: 新增 dashboard 文档类型，支持多图表布局和实时数据绑定。
+    desc: 新增 dashboard 文档样板，支持多图表布局和实时数据绑定。
   - step: 2026.08
     title: 多语言支持（计划）
     desc: 扩展至日文、韩文模板，完善 CJK 排版细节。
@@ -44,7 +44,7 @@ items:
 
 ### Phase 1: 基础建设（2025.10 — 2026.03）
 
-搭建引擎核心架构，覆盖全部 15 种文档类型，建立设计令牌和图表系统。已交付：CLI、模板、结构校验、图表引擎。
+搭建引擎核心架构，覆盖全部 15 份文档样板，建立设计令牌和图表系统。已交付：CLI、模板、结构校验、图表引擎。
 
 ### Phase 2: 生态完善（2026.04 — 2026.06）
 

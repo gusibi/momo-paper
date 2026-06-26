@@ -24,12 +24,13 @@ site/
 ├── content/          # 页面源文件（Markdown DSL），每个文件 = 一个页面
 │   ├── index.md          # 首页
 │   ├── guide.md          # 使用指南
-│   ├── types.md          # 文档类型
+│   ├── types.md          # 文档样板
+│   ├── components.md     # 组件目录
 │   ├── demo.md           # 示例画廊（索引）
 │   ├── charts.md         # 图表演示
 │   ├── faq.md            # 常见问题
 │   ├── design.md         # 设计系统
-│   └── demo/             # 15 种文档类型的 demo 子页
+│   └── demo/             # 15 份文档样板的 demo 子页
 │       ├── one-pager.md
 │       ├── equity-report.md
 │       └── ...
@@ -56,14 +57,15 @@ site/
 |------|--------|-----|---------------|
 | 首页 | `content/index.md` | `/` | landing |
 | 使用指南 | `content/guide.md` | `/guide/` | long_doc |
-| 文档类型 | `content/types.md` | `/types/` | portfolio |
+| 文档样板 | `content/types.md` | `/types/` | portfolio |
+| 组件目录 | `content/components.md` | `/components/` | long_doc |
 | 示例画廊 | `content/demo.md` | `/demo/` | one_pager |
 | 图表演示 | `content/charts.md` | `/charts/` | stats_report |
 | 常见问题 | `content/faq.md` | `/faq/` | faq_page |
 | 设计系统 | `content/design.md` | `/design/` | one_pager |
 | 15 个 demo 子页 | `content/demo/*.md` | `/demo/<slug>/` | 对应类型 |
 
-15 个 demo 子页对应 15 种文档类型：one-pager、long-doc、letter、portfolio、resume、slides、equity-report、changelog、process-flow、timeline、faq-page、case-study、research-summary、stats-report、infographic。
+15 个 demo 子页对应 15 份文档样板：one-pager、long-doc、letter、portfolio、resume、slides、equity-report、changelog、process-flow、timeline、faq-page、case-study、research-summary、stats-report、infographic。
 
 ## 编写页面
 

@@ -65,12 +65,23 @@ def parse_text(text: str, path: str | None = None) -> Document:
         markdown_buffer = []
 
     in_fence = False
+    fence_len = 0
     while i < len(lines):
         line = lines[i]
         stripped = line.strip()
         # Inside a fenced code block, `:::` is literal text, not a block start.
+        # Track the opening fence's backtick count: a shorter inner fence (e.g.
+        # ``` inside ````) is literal code, and only a fence at least as long
+        # closes the block (CommonMark).
         if stripped.startswith("```"):
-            in_fence = not in_fence
+            n = len(stripped) - len(stripped.lstrip("`"))
+            if in_fence:
+                if n >= fence_len and n == len(stripped):
+                    in_fence = False
+                    fence_len = 0
+            else:
+                in_fence = True
+                fence_len = n
             if not markdown_buffer and stripped:
                 markdown_start = i + 1
             markdown_buffer.append(line)

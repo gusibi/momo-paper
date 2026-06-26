@@ -265,6 +265,59 @@ h4 { margin: 0 0 8px; font-size: 16px; }
 .markdown-node > h2:first-child,
 .markdown-node > h3:first-child { margin-top: 0; }
 
+/* A heading-only section is a label for the following block, not its own band.
+   It drops the band padding and borrows the next block's band color (paper by
+   default, canvas when the next block is a canvas-band block) so the heading
+   introduces its content with no detached colored strip. */
+.markdown-node.markdown-node--label { background: var(--mp-paper); }
+.markdown-node--label .markdown-inner { padding-block: 0; }
+.markdown-node--label h2,
+.markdown-node--label h3,
+.markdown-node--label h4 { margin-top: 0; margin-bottom: 0; }
+.markdown-node--label:first-of-type h2,
+.markdown-node--label:first-of-type h3 { margin-top: 0; }
+.markdown-node--label + .dsl-block:not([data-block="hero"]):not([data-block="slide"]) .block-inner {
+  padding-block-start: 16px;
+}
+.markdown-node:has(+ .dsl-block[data-block="faq"]) .markdown-inner {
+  padding-block-end: 16px;
+}
+.markdown-node--label:has(+ .dsl-block[data-block="faq"]) .markdown-inner {
+  padding-block: 0;
+}
+.markdown-node:has(+ .dsl-block[data-block="faq"]) h2:last-child,
+.markdown-node:has(+ .dsl-block[data-block="faq"]) h3:last-child,
+.markdown-node:has(+ .dsl-block[data-block="faq"]) h4:last-child {
+  margin-bottom: 0;
+}
+.markdown-node:has(+ .dsl-block[data-block="faq"]) + .dsl-block[data-block="faq"] .block-inner {
+  padding-block-start: 16px;
+}
+/* Canvas-band blocks: the label goes transparent to sit on the page canvas and
+   match the block that follows. Keep this list in sync with the band rules above. */
+.markdown-node--label:has(+ .dsl-block[data-block="feature-grid"]),
+.markdown-node--label:has(+ .dsl-block[data-block="comparison"]),
+.markdown-node--label:has(+ .dsl-block[data-block="stats"]),
+.markdown-node--label:has(+ .dsl-block[data-block="logo-cloud"]),
+.markdown-node--label:has(+ .dsl-block[data-block="pricing"]),
+.markdown-node--label:has(+ .dsl-block[data-block="image-grid"]),
+.markdown-node--label:has(+ .dsl-block[data-block="card-grid"]),
+.markdown-node--label:has(+ .dsl-block[data-block="table"]),
+.markdown-node--label:has(+ .dsl-block[data-block="chart"]),
+.markdown-node--label:has(+ .dsl-block[data-block="funnel"]),
+.markdown-node--label:has(+ .dsl-block[data-block="diagram"]),
+.markdown-node--label:has(+ .dsl-block[data-block="business-snapshot"]),
+.markdown-node--label:has(+ .dsl-block[data-block="candlestick-chart"]),
+.markdown-node--label:has(+ .dsl-block[data-block="line-chart"]),
+.markdown-node--label:has(+ .dsl-block[data-block="bar-chart"]),
+.markdown-node--label:has(+ .dsl-block[data-block="donut-chart"]),
+.markdown-node--label:has(+ .dsl-block[data-block="waterfall-chart"]),
+.markdown-node--label:has(+ .dsl-block[data-block="valuation-table"]),
+.markdown-node--label:has(+ .dsl-block[data-block="financial-table"]),
+.markdown-node--label:has(+ .dsl-block[data-block="kpi-row"]),
+.markdown-node--label:has(+ .dsl-block[data-block="footer-note"]),
+.markdown-node--label:has(+ .dsl-block[data-block="slide"]) { background: none; }
+
 .markdown-node blockquote {
   max-width: var(--mp-reading);
   margin: 0 0 16px;
@@ -672,11 +725,31 @@ h4 { margin: 0 0 8px; font-size: 16px; }
   gap: 20px;
 }
 
+.dsl-block[data-block="faq"] .items {
+  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
 .dsl-block[data-block="faq"] .item {
-  background: transparent;
-  border-width: 0 0 1px;
-  border-radius: 0;
-  padding: 18px 0;
+  background: var(--mp-canvas);
+  border: 1px solid var(--mp-line);
+  border-radius: 8px;
+  padding: 20px 22px;
+}
+
+.dsl-block[data-block="faq"] .field--question > p {
+  color: var(--mp-ink);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.dsl-block[data-block="faq"] .field--answer > p {
+  color: var(--mp-ink-subtle);
+  font-size: 15px;
+  line-height: 1.7;
+  margin: 0;
 }
 
 .dsl-block[data-block="thesis-panel"] .field--rating {

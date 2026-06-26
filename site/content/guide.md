@@ -5,21 +5,21 @@ title: Momo Paper 使用指南
 description: 推荐通过 Skill 方式使用——AI agent 自动处理安装和渲染。也支持手动 CLI 和直接 HTML 模板两种替代工作流。
 ---
 
-使用 Momo Paper 最简单的方式是通过 Claude Code Skill——AI agent 自动完成从安装到渲染的全部步骤，你只需要说出想要什么文档。
+使用 Momo Paper 最简单的方式是通过 Claude Code Skill：AI agent 自动完成从安装到渲染的全部步骤，你只需描述想要什么文档。
 
-如果你偏好手动操作，也可以直接使用 CLI 命令或编辑 HTML 模板。三种方式共享同一套设计令牌，输出效果完全一致。
+偏好手动操作时，可直接使用 CLI 命令或编辑 HTML 模板。三种方式共享同一套设计令牌，输出效果一致。
 
 :::callout
 tone: insight
 title: 三条工作流速览
-body: 推荐方式 Skill（AI agent 全自动处理安装和渲染）· 备选方式 CLI 手动（momo2 validate → render）· 快速方式直接 HTML 模板（打开文件 → 编辑内容 → 浏览器预览）。5 种可编程图表，嵌入 DSL 的 chart 块即可。
+body: 推荐方式 Skill（AI agent 全自动处理安装和渲染）· 备选方式 CLI 手动（momo2 validate → render）· 快速方式直接 HTML 模板（打开文件 → 编辑内容 → 浏览器预览）。5 种图表块，嵌入 DSL 的 chart 块即可。
 :::
 
 ## 推荐方式：通过 Skill 使用
 
-Momo Paper 提供了 Claude Code Skill（SKILL.md），这是最推荐的使用方式。你不需要手动安装任何东西——当你告诉 AI agent 你想要创建什么文档时，Skill 会自动触发。
+Momo Paper 提供 Claude Code Skill（SKILL.md），这是最推荐的使用方式。无需手动安装——告诉 AI agent 想要创建什么文档，Skill 会自动触发。
 
-Skill 会自动处理：检查并安装 momo2 CLI → 选择合适的文档类型 → 生成 Markdown DSL 骨架 → 引导你填充内容 → 渲染 HTML。整个过程你只需要描述需求、确认内容即可。
+Skill 自动处理：检查并安装 momo2 CLI → 选择合适的文档样板 → 生成 Markdown DSL 骨架 → 引导填充内容 → 渲染 HTML。整个过程只需描述需求、确认内容。
 
 ```text
 # 你只需要这样说：
@@ -73,7 +73,7 @@ momo2 render examples/landing.md -o dist/landing.html --css momo_dsl/styles/verc
 
 每个文档都以 frontmatter 开头，声明文档类型和元数据，正文混合使用 Markdown 与 `:::block` 结构化块。
 
-- **document_type**：决定文档语义，例如 landing、long_doc、equity_report 等。
+- **document_type**：文档语义标签，例如 landing、long_doc、equity_report，出现在页头并引导 Skill 选模板。引擎不按类型校验结构。
 - **locale**：zh-CN 或 en。
 - **title / description**：文档标题与摘要，用于页头和 SEO。
 - **正文**：普通 Markdown 写散文，`:::tag-name` 块写结构化内容，块以 `:::` 结束。
@@ -138,12 +138,12 @@ items:
 - 无需 CLI、DSL 或构建步骤——只需要 HTML 和 CSS。
 - 设计令牌以 CSS 自定义属性的形式嵌入在每个文件中。
 
-适合需要快速生成一次性文档、或者更偏好直接操作 HTML 的场景。三种方式共享同一套设计令牌、字体系统和视觉语言，输出效果完全一致。
+适合需要快速生成一次性文档、或偏好直接操作 HTML 的场景。三种方式共享同一套设计令牌、字体系统与视觉语言。
 
 :::cta
 title: 开始创建你的第一份文档
-body: 无论你选择哪种方式——Skill（AI 自动）、CLI（手动命令）还是 HTML 模板（直接编辑）——输出的文档都共享同一套精心调校的设计语言。
+body: 无论选择哪种方式——Skill（AI 自动）、CLI（手动命令）还是 HTML 模板（直接编辑）——输出都共享同一套设计令牌。
 button:
-  label: 浏览文档类型
+  label: 浏览文档样板
   href: /types/
 :::

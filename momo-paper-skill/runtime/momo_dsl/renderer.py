@@ -80,21 +80,39 @@ def render_html(document: Document, css: str | None = None) -> str:
 
 def _render_node(node: MarkdownNode | BlockNode) -> str:
     if isinstance(node, MarkdownNode):
-        return f'<section class="markdown-node"><div class="markdown-inner">{_render_markdown(node.text)}</div></section>'
+        # A section whose text is only headings is a label for the block that
+        # follows (e.g. `## 使用方式` right before a `:::faq`). Render it as a
+        # label, not its own padded band, so it doesn't form a detached colored
+        # strip above the content it introduces.
+        stripped = node.text.strip()
+        is_label = bool(stripped) and all(
+            line.lstrip().startswith("#") for line in stripped.splitlines() if line.strip()
+        )
+        cls = "markdown-node markdown-node--label" if is_label else "markdown-node"
+        return f'<section class="{cls}"><div class="markdown-inner">{_render_markdown(node.text)}</div></section>'
     if node.name == "nav":
         return _render_nav(node.props if isinstance(node.props, dict) else {})
 
     props = node.props
     attrs = ""
     if isinstance(props, dict):
-        # `id` and `layout` are presentation hints, not content: lift them onto
-        # the section element (as id / data-layout) and drop them from props.
+        # `id`, `layout`, and a scalar `columns` are presentation hints, not
+        # content: lift them onto the section element (as id / data-* attrs) and
+        # drop them from props so they don't render as stray fields. A *list*
+        # `columns` (e.g. three-columns) is real content and is left alone.
+        drop: set[str] = set()
         if props.get("id"):
             attrs += f' id="{escape(str(props["id"]))}"'
+            drop.add("id")
         if props.get("layout"):
             attrs += f' data-layout="{escape(str(props["layout"]))}"'
-        if "id" in props or "layout" in props:
-            props = {k: v for k, v in props.items() if k not in {"id", "layout"}}
+            drop.add("layout")
+        cols = props.get("columns")
+        if cols is not None and not isinstance(cols, (list, dict)):
+            attrs += f' data-columns="{escape(str(cols))}"'
+            drop.add("columns")
+        if drop:
+            props = {k: v for k, v in props.items() if k not in drop}
 
     if node.name in CHART_BLOCKS:
         fields = _render_chart_block(node.name, props)
@@ -189,6 +207,7 @@ def _render_markdown(text: str) -> str:
     table: list[str] = []
     code: list[str] | None = None
     code_lang = ""
+    code_fence_len = 0
 
     def flush_paragraph() -> None:
         if paragraph:
@@ -233,11 +252,17 @@ def _render_markdown(text: str) -> str:
     for raw in lines:
         # Fenced code blocks are copied verbatim (no inline processing).
         if code is not None:
-            if raw.strip().startswith("```"):
+            # A closing fence must be backticks-only and at least as long as the
+            # opening fence, so a shorter inner fence (e.g. ``` inside ````) is
+            # treated as literal code, not a close.
+            stripped_close = raw.strip()
+            close_len = len(stripped_close) - len(stripped_close.lstrip("`"))
+            if close_len >= code_fence_len and close_len == len(stripped_close):
                 lang = f' class="language-{escape(code_lang)}"' if code_lang else ""
                 out.append(f"<pre><code{lang}>{escape(chr(10).join(code))}</code></pre>")
                 code = None
                 code_lang = ""
+                code_fence_len = 0
             else:
                 code.append(raw)
             continue
@@ -249,7 +274,8 @@ def _render_markdown(text: str) -> str:
         if line.startswith("```"):
             flush_all()
             code = []
-            code_lang = line[3:].strip()
+            code_fence_len = len(line) - len(line.lstrip("`"))
+            code_lang = line[code_fence_len:].strip()
             continue
         if not line:
             flush_all()
@@ -271,12 +297,14 @@ def _render_markdown(text: str) -> str:
             continue
         if line.startswith("### "):
             flush_all()
-            # Demoted one level: the page <h1> is the document title in the
-            # header, so body headings start at <h2> to keep a single h1.
-            out.append(f"<h4>{_inline(line[4:])}</h4>")
+            out.append(f"<h3>{_inline(line[4:])}</h3>")
         elif line.startswith("## "):
             flush_all()
-            out.append(f"<h3>{_inline(line[3:])}</h3>")
+            # The page <h1> is the document title (doc-header, or a host-page
+            # sr-only h1). Body sections map straight to <h2>, subsections to
+            # <h3> — no level skips, and `#` is clamped to <h2> so the page
+            # never has a second <h1>.
+            out.append(f"<h2>{_inline(line[3:])}</h2>")
         elif line.startswith("# "):
             flush_all()
             out.append(f"<h2>{_inline(line[2:])}</h2>")
@@ -596,7 +624,9 @@ def _render_chart_header(props: dict[str, Any]) -> str:
     title = props.get("title")
     subtitle = props.get("subtitle")
     if title is not None:
-        parts.append(f'<h2 class="chart-title">{_inline(str(title))}</h2>')
+        # A chart is a sub-component that sits under a section heading, so its
+        # title is an <h3> — keeping it below body <h2> sections in the outline.
+        parts.append(f'<h3 class="chart-title">{_inline(str(title))}</h3>')
     if subtitle is not None:
         parts.append(f'<p class="chart-subtitle">{_inline(str(subtitle))}</p>')
     parts.append("</div>")

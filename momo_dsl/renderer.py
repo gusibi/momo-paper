@@ -80,7 +80,16 @@ def render_html(document: Document, css: str | None = None) -> str:
 
 def _render_node(node: MarkdownNode | BlockNode) -> str:
     if isinstance(node, MarkdownNode):
-        return f'<section class="markdown-node"><div class="markdown-inner">{_render_markdown(node.text)}</div></section>'
+        # A section whose text is only headings is a label for the block that
+        # follows (e.g. `## 使用方式` right before a `:::faq`). Render it as a
+        # label, not its own padded band, so it doesn't form a detached colored
+        # strip above the content it introduces.
+        stripped = node.text.strip()
+        is_label = bool(stripped) and all(
+            line.lstrip().startswith("#") for line in stripped.splitlines() if line.strip()
+        )
+        cls = "markdown-node markdown-node--label" if is_label else "markdown-node"
+        return f'<section class="{cls}"><div class="markdown-inner">{_render_markdown(node.text)}</div></section>'
     if node.name == "nav":
         return _render_nav(node.props if isinstance(node.props, dict) else {})
 
@@ -198,6 +207,7 @@ def _render_markdown(text: str) -> str:
     table: list[str] = []
     code: list[str] | None = None
     code_lang = ""
+    code_fence_len = 0
 
     def flush_paragraph() -> None:
         if paragraph:
@@ -242,11 +252,17 @@ def _render_markdown(text: str) -> str:
     for raw in lines:
         # Fenced code blocks are copied verbatim (no inline processing).
         if code is not None:
-            if raw.strip().startswith("```"):
+            # A closing fence must be backticks-only and at least as long as the
+            # opening fence, so a shorter inner fence (e.g. ``` inside ````) is
+            # treated as literal code, not a close.
+            stripped_close = raw.strip()
+            close_len = len(stripped_close) - len(stripped_close.lstrip("`"))
+            if close_len >= code_fence_len and close_len == len(stripped_close):
                 lang = f' class="language-{escape(code_lang)}"' if code_lang else ""
                 out.append(f"<pre><code{lang}>{escape(chr(10).join(code))}</code></pre>")
                 code = None
                 code_lang = ""
+                code_fence_len = 0
             else:
                 code.append(raw)
             continue
@@ -258,7 +274,8 @@ def _render_markdown(text: str) -> str:
         if line.startswith("```"):
             flush_all()
             code = []
-            code_lang = line[3:].strip()
+            code_fence_len = len(line) - len(line.lstrip("`"))
+            code_lang = line[code_fence_len:].strip()
             continue
         if not line:
             flush_all()
