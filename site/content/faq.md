@@ -26,7 +26,7 @@ items:
 :::faq
 items:
   - question: document_type 有什么作用？
-    answer: document_type 是 frontmatter 中的语义标签，出现在页头并引导 Skill 选择模板。引擎不按类型做结构校验——任意类型都可使用全部组件。常见取值见文档样板页。
+    answer: document_type 是 frontmatter 中的语义标签，出现在页头并引导 Skill 选择模板。引擎不按类型做结构校验——任意类型都可使用全部组件。常见取值见示例画廊。
   - question: Markdown DSL 的结构是什么？
     answer: 每个文档以 frontmatter 开头（document_type、locale、title、description），正文混排 Markdown 散文与 :::block 结构化块，块以 ::: 结束。语法详见组件目录页。
   - question: 如何嵌入图表？

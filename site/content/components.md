@@ -426,8 +426,6 @@ brand: Momo Paper
 items:
   - label: 使用指南
     href: /guide/
-  - label: 文档样板
-    href: /types/
   - label: 示例画廊
     href: /demo/
 cta:
@@ -441,8 +439,6 @@ brand: Momo Paper
 items:
   - label: 使用指南
     href: /guide/
-  - label: 文档样板
-    href: /types/
   - label: 示例画廊
     href: /demo/
 cta:

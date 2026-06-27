@@ -24,7 +24,6 @@ site/
 ├── content/          # 页面源文件（Markdown DSL），每个文件 = 一个页面
 │   ├── index.md          # 首页
 │   ├── guide.md          # 使用指南
-│   ├── types.md          # 文档样板
 │   ├── components.md     # 组件目录
 │   ├── demo.md           # 示例画廊（索引）
 │   ├── charts.md         # 图表演示
@@ -57,7 +56,6 @@ site/
 |------|--------|-----|---------------|
 | 首页 | `content/index.md` | `/` | landing |
 | 使用指南 | `content/guide.md` | `/guide/` | long_doc |
-| 文档样板 | `content/types.md` | `/types/` | portfolio |
 | 组件目录 | `content/components.md` | `/components/` | long_doc |
 | 示例画廊 | `content/demo.md` | `/demo/` | one_pager |
 | 图表演示 | `content/charts.md` | `/charts/` | stats_report |

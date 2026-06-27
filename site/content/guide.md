@@ -144,6 +144,6 @@ items:
 title: 开始创建你的第一份文档
 body: 无论选择哪种方式——Skill（AI 自动）、CLI（手动命令）还是 HTML 模板（直接编辑）——输出都共享同一套设计令牌。
 button:
-  label: 浏览文档样板
-  href: /types/
+  label: 浏览示例画廊
+  href: /demo/
 :::

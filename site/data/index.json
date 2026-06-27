@@ -11,7 +11,7 @@
       "description": "Momo Paper 是一个路由式设计系统，将 15 种文档类型、5 种可编程图表和 14 种图示原语统一到一套设计令牌中。无论是手动编写 JSON 还是让 AI agent 调用引擎，输出始终排版精良、打印就绪。",
       "cta_buttons": [
         {"label": "快速开始", "url": "/guide/", "style": "btn-primary"},
-        {"label": "浏览文档类型", "url": "/types/", "style": "btn-outline"},
+        {"label": "浏览示例画廊", "url": "/demo/", "style": "btn-outline"},
         {"label": "GitHub", "url": "https://github.com/gusibi/momo-paper", "style": "btn-outline"}
       ],
       "pipeline": [
