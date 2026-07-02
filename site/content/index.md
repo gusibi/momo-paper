@@ -2,7 +2,7 @@
 document_type: landing
 locale: zh-CN
 title: Momo Paper — 给 AI Agent 用的省 token 文档引擎
-description: 给 AI Agent 用的省 token 文档引擎。Agent 写简洁 Markdown DSL，Momo Paper 渲染为排版精良的单文件 HTML——比手写 HTML/CSS 省 token、样式稳定、可校验。Claude Code Skill 开箱即用，CLI 可接入任意 Agent。
+description: 给 AI Agent 用的省 token 文档引擎。Agent 写简洁 Markdown DSL，Momo Paper 渲染为排版精良的单文件 HTML——比手写 HTML/CSS 省 token、样式稳定、可校验。通过 Skill 自动使用。
 show_header: false
 ---
 
@@ -57,66 +57,13 @@ items:
     desc: 所有样式内置 @media print 规则，自动处理背景、边距与分页，无需为打印单独准备文档。
 :::
 
-## 三种使用方式
+## 用 Skill 使用
 
-输出共享同一套设计令牌，选择最顺手的工作流即可。
-
-### 01 · Claude Code Skill
-
-用自然语言描述需求，Skill 自动选择文档样板、构造 DSL、调用引擎渲染并预览。适合多数场景，也是 Agent 集成最顺的入口。
+Skill 自动选择文档样板、构造 DSL、调用引擎渲染并预览。Agent 只需描述想要的文档，Skill 负责校验、渲染、落地——无需手动跑命令，也无需编辑 HTML。
 
 - 自然语言驱动，自动构造 DSL
 - 自动选择样板与组件
-- 渲染并在浏览器预览
-
-### 02 · CLI 命令行
-
-通过 `momo2` 命令手动校验与渲染，适合需要精确控制或接入 CI/CD 与任意 Agent 运行时的场景。
-
-- `momo2 validate` 校验语法与元数据
-- `momo2 render` 输出单文件 HTML
-- 支持 `--css` 指定自定义主题
-
-### 03 · 直接编辑 HTML 模板
-
-打开渲染好的独立 HTML 文件，替换占位内容即可。零依赖，适合快速原型。
-
-- 无需 Python 或 Node.js
-- 设计令牌以 CSS 变量内联
-- 浏览器直接预览
-
-## 15 份文档样板
-
-引擎本身是通用渲染器，不按类型校验结构。以下 15 份样板由示例画廊与 Skill 引导提供，作为编写各类文档的起点——每份都有约定的章节结构与中英文版本。
-
-:::card-grid
-title: 覆盖常见文档场景
-cards:
-  - title: 方案 / 执行摘要
-    desc: 摘要 → 背景 → 证据 → 建议
-  - title: 白皮书 / 长文
-    desc: 可迭代章节 + 引用块 + 结论
-  - title: 信件 / 推荐信
-    desc: 信头、正文、请求、签名
-  - title: 作品集
-    desc: 案例卡片 + 数据指标卡
-  - title: 简历 / CV
-    desc: 经历时间线 + 技能标签
-  - title: 幻灯片
-    desc: 16:9 视口，多种布局
-  - title: 研报 / 估值分析
-    desc: KPI + K 线图 + 风险矩阵
-  - title: 更新日志
-    desc: 按变更类型分类
-  - title: 流程 / SOP
-    desc: 步骤编号 + 负责人标注
-  - title: 时间线
-    desc: completed / in_progress / upcoming
-  - title: 常见问题
-    desc: 分组问答卡片
-  - title: 案例拆解
-    desc: 背景 → 问题 → 方案 → 结果
-:::
+- 校验通过后渲染单文件 HTML
 
 :::stats
 items:
@@ -124,8 +71,6 @@ items:
     label: 图表块
   - value: 4
     label: 健康块
-  - value: 15
-    label: 文档样板
   - value: 2
     label: 内置主题
 :::

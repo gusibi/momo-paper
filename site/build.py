@@ -97,7 +97,7 @@ NAV_ITEMS = [
 # ---------------------------------------------------------------------------
 PAGE_META = {
     "index": {
-        "description": "Momo Paper 是给 AI Agent 用的省 token 文档引擎。Agent 写简洁 Markdown DSL，引擎渲染为排版精良、打印就绪的单文件 HTML——比手写 HTML/CSS 省 token、样式稳定、可校验。含 5 种图表块、4 种健康块、15 份文档样板，Claude Code Skill 开箱即用，CLI 可接入任意 Agent。",
+        "description": "Momo Paper 是给 AI Agent 用的省 token 文档引擎。Agent 写简洁 Markdown DSL，引擎渲染为排版精良、打印就绪的单文件 HTML——比手写 HTML/CSS 省 token、样式稳定、可校验。含 5 种图表块、4 种健康块，通过 Skill 自动使用。",
         "schema_type": "SoftwareApplication",
     },
     "guide": {
@@ -562,12 +562,12 @@ Momo Paper 是给 AI Agent 用的省 token 文档引擎：Agent 写简洁 Markdo
 - **nav 块**: 文档内导航
 - **双主题系统**: Momo Paper 暖调与 Vercel 极简，共享 --mp-* 变量，一键切换
 - **打印安全**: 所有样式内置 @media print 规则
-- **AI Agent 集成**: Claude Code Skill + CLI
+- **AI Agent 集成**: 通过 Skill 自动使用（平台无关的 SKILL.md）
 
 ## 关键页面
 
 - [首页]({BASE_URL}/) — 项目概述与核心能力
-- [使用指南]({BASE_URL}/guide/) — 三种工作流：Skill（AI 自动）、CLI（手动）、HTML 模板（直接编辑）
+- [使用指南]({BASE_URL}/guide/) — Agent 使用手册：为何不手写 HTML、省 token 原理、Skill 安装与 validate 闭环、真实 token 对比
 - [组件目录]({BASE_URL}/components/) — 全部组件的渲染效果与 DSL 源码
 - [示例画廊]({BASE_URL}/demo/) — 全部 15 份样板的结构说明与渲染示例
 - [图表演示]({BASE_URL}/charts/) — 5 种图表块的交互示例与 DSL 源码
