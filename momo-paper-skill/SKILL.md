@@ -71,6 +71,12 @@ SKILL_DIR=/absolute/path/to/this/momo-paper-skill
 "$SKILL_DIR/momo" render  input.md -o output.html
 ```
 
+Additional commands:
+
+- `validate input.md --json` — emit `{"ok":..., "errors":[{message,line,block,path}]}` for programmatic repair.
+- `bench input.md` — compare DSL token cost vs rendered HTML; add `--json` for machine output.
+- `render input.md -o out.pdf --format pdf` — print to PDF. Requires the optional `playwright` dependency (`pip install playwright && playwright install chromium`).
+
 `input.md` / `output.html` may be relative to your current directory or absolute —
 the wrapper does not change the working directory, so you can run it from anywhere.
 

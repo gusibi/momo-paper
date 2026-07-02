@@ -41,6 +41,19 @@ THEMES = [
 ]
 DEFAULT_THEME = "momo"
 
+# Google Analytics 4 measurement ID. The gtag.js snippet is injected into the
+# <head> of every page. Set to None to disable tracking.
+GA_TRACKING_ID = "G-PFQ7JF6HNH"
+GA_SCRIPT = f"""<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id={GA_TRACKING_ID}"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){{dataLayer.push(arguments);}}
+  gtag('js', new Date());
+
+  gtag('config', '{GA_TRACKING_ID}');
+</script>""" if GA_TRACKING_ID else ""
+
 # (content_file, url_path, page_id)
 PAGES = [
     ("index.md", "index.html", "index"),
@@ -84,11 +97,11 @@ NAV_ITEMS = [
 # ---------------------------------------------------------------------------
 PAGE_META = {
     "index": {
-        "description": "Momo Paper 是一个开源的 Markdown DSL 文档引擎，输入 frontmatter 与结构化块，输出排版精良、打印就绪的单文件 HTML。含 5 种图表块、4 种健康块、一组通用结构组件与 15 份文档样板，双主题令牌一键切换。",
+        "description": "Momo Paper 是给 AI Agent 用的省 token 文档引擎。Agent 写简洁 Markdown DSL，引擎渲染为排版精良、打印就绪的单文件 HTML——比手写 HTML/CSS 省 token、样式稳定、可校验。含 5 种图表块、4 种健康块、15 份文档样板，Claude Code Skill 开箱即用，CLI 可接入任意 Agent。",
         "schema_type": "SoftwareApplication",
     },
     "guide": {
-        "description": "Momo Paper 使用指南：推荐通过 Claude Code Skill 自动使用，也支持 CLI 手动渲染和直接 HTML 模板编辑三种工作流。安装、命令参考、Markdown DSL 格式和图表嵌入完整说明。",
+        "description": "Agent 使用手册：为什么不要让 Agent 直接写 HTML、Momo DSL 如何省 token、在 Agent 中安装与调用、validate → render 闭环，以及真实 token 对比。",
         "schema_type": "TechArticle",
     },
     "components": {
@@ -420,6 +433,7 @@ def assemble_page(document, url_path: str, page_id: str) -> str:
   {theme_links()}
   <link rel="stylesheet" href="/assets/site.css">
   {THEME_BOOT_SCRIPT}
+  {GA_SCRIPT}
 </head>
 <body>
   {render_nav(page_id)}
@@ -528,11 +542,11 @@ def generate_sitemap():
 def generate_llms_txt():
     content = f"""# Momo Paper
 
-> 开源 Markdown DSL 文档引擎。输入 frontmatter 与结构化块，输出排版精良、打印就绪的单文件 HTML。含 5 种图表块、4 种健康块与一组通用结构组件。
+> 给 AI Agent 用的省 token 文档引擎。Agent 写简洁 Markdown DSL，Momo Paper 渲染为排版精良、打印就绪的单文件 HTML——比手写 HTML/CSS 省 token、样式稳定、可校验。含 5 种图表块、4 种健康块与一组通用结构组件。
 
 ## 项目简介
 
-Momo Paper 是一个开源的文档生成引擎，输入 Markdown DSL，输出排版精良、打印就绪的 HTML 文档。引擎是通用渲染器：解析 frontmatter + Markdown 散文 + :::block 结构化块，渲染为单文件 HTML。`document_type` 是语义标签（出现在页头、引导 Skill 选模板），引擎不按类型做结构校验。
+Momo Paper 是给 AI Agent 用的省 token 文档引擎：Agent 写简洁 Markdown DSL，引擎渲染为排版精良、打印就绪的单文件 HTML。比起让 Agent 手写 HTML/CSS，DSL 更省 token、样式稳定、可校验。引擎是通用渲染器：解析 frontmatter + Markdown 散文 + :::block 结构化块，渲染为单文件 HTML。`document_type` 是语义标签（出现在页头、引导 Skill 选模板），引擎不按类型做结构校验。
 
 - GitHub: https://github.com/gusibi/momo-paper
 - License: MIT

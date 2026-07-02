@@ -5,14 +5,14 @@ title: 常见问题
 description: 关于 Momo Paper 安装、使用与设计系统的常见问题解答。涵盖 DSL 引擎、AI agent 集成、图表嵌入、主题令牌与打印支持。
 ---
 
-Momo Paper 是一个 Markdown DSL 文档引擎：输入 frontmatter 与结构化块，输出排版精良、打印就绪的单文件 HTML。以下是按主题分组的常见问题。
+Momo Paper 是给 AI Agent 用的省 token 文档引擎：Agent 写简洁 Markdown DSL，引擎渲染为排版精良、打印就绪的单文件 HTML——比手写 HTML/CSS 省 token、样式稳定、可校验。以下是按主题分组的常见问题。
 
 ## 快速入门
 
 :::faq
 items:
   - question: Momo Paper 是什么？
-    answer: 一个开源的文档引擎。解析 Markdown DSL（frontmatter + :::block），渲染为单文件 HTML。内置 5 种图表块、4 种健康块与一组通用结构组件，支持双主题切换。可直接编辑 HTML 模板，也可通过 DSL 驱动渲染。
+    answer: 给 AI Agent 用的省 token 文档引擎。Agent 写简洁 Markdown DSL（frontmatter + :::block），引擎渲染为单文件 HTML。比起让 Agent 手写 HTML/CSS，DSL 更省 token、样式稳定、可校验。内置 5 种图表块、4 种健康块与一组通用结构组件，支持双主题切换。可直接编辑 HTML 模板，也可通过 DSL 驱动渲染。
   - question: 需要什么前置条件？
     answer: 直接编辑 HTML 模板无需任何前置条件，打开文件改内容即可。使用 DSL 引擎需要 Python 3.10+。通过 Claude Code Skill 使用时，Skill 自动处理安装。
   - question: 如何安装 DSL 引擎？

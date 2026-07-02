@@ -1,15 +1,15 @@
 ---
 document_type: landing
 locale: zh-CN
-title: Momo Paper — Markdown DSL 文档引擎
-description: 一个开源的 Markdown DSL 文档引擎，输入 frontmatter 与结构化块，输出排版精良、打印就绪的单文件 HTML。含 5 种图表块、4 种健康块与一组通用结构组件，双主题令牌一键切换。
+title: Momo Paper — 给 AI Agent 用的省 token 文档引擎
+description: 给 AI Agent 用的省 token 文档引擎。Agent 写简洁 Markdown DSL，Momo Paper 渲染为排版精良的单文件 HTML——比手写 HTML/CSS 省 token、样式稳定、可校验。Claude Code Skill 开箱即用，CLI 可接入任意 Agent。
 show_header: false
 ---
 
 :::hero
-eyebrow: 开源文档引擎 · 2.1
-title: 用 Markdown DSL 产出排版精良的 HTML 文档
-subtitle: Momo Paper 是一个零依赖的文档引擎。frontmatter 声明元数据，正文混排 Markdown 散文与 :::block 结构化块，引擎渲染为单文件 HTML，屏幕与打印表现一致。
+eyebrow: AI Agent 文档生成 · 2.1
+title: 给 AI Agent 用的省 token 文档生成
+subtitle: 让 Agent 只写简洁 Markdown DSL，Momo Paper 渲染为排版精良的单文件 HTML。比让 Agent 手写 HTML/CSS 省 token、样式稳定、可校验——别再让 Agent 从零拼 HTML。
 primary_cta:
   label: 查看使用指南
   href: /guide/
@@ -18,15 +18,22 @@ secondary_cta:
   href: /components/
 :::
 
-:::three-columns
-title: 从声明到成品
-columns:
-  - title: 声明
-    body: frontmatter 写元数据，:::block 写结构化内容
-  - title: 渲染
-    body: 引擎解析 DSL，输出单文件 HTML
-  - title: 输出
-    body: CSS 内联，屏幕与打印一致
+:::comparison
+title: 为什么不让 Agent 直接写 HTML
+left:
+  title: Agent 手写 HTML/CSS
+  items:
+    - token 占用大，CSS 反复重复输出
+    - 样式随 prompt 漂移，每次结果不一致
+    - 修改成本高，改一处往往要重写一段
+    - 无法校验，出错只能人工排查
+right:
+  title: Agent 写 Momo DSL
+  items:
+    - 紧凑的结构化块，token 更省
+    - 渲染器补全 HTML/CSS，样式始终稳定
+    - 改字段即改文档，修改成本低
+    - momo2 validate 校验语法与元数据
 :::
 
 ## 引擎实际提供什么
@@ -56,7 +63,7 @@ items:
 
 ### 01 · Claude Code Skill
 
-用自然语言描述需求，Skill 自动选择文档样板、构造 DSL、调用引擎渲染并预览。适合多数场景。
+用自然语言描述需求，Skill 自动选择文档样板、构造 DSL、调用引擎渲染并预览。适合多数场景，也是 Agent 集成最顺的入口。
 
 - 自然语言驱动，自动构造 DSL
 - 自动选择样板与组件
@@ -64,7 +71,7 @@ items:
 
 ### 02 · CLI 命令行
 
-通过 `momo2` 命令手动校验与渲染，适合需要精确控制或接入 CI/CD 的场景。
+通过 `momo2` 命令手动校验与渲染，适合需要精确控制或接入 CI/CD 与任意 Agent 运行时的场景。
 
 - `momo2 validate` 校验语法与元数据
 - `momo2 render` 输出单文件 HTML
@@ -131,8 +138,8 @@ items:
 - [设计系统](/design/) — 色彩、字体、间距令牌与设计哲学
 
 :::cta
-title: 三分钟产出第一份文档
-body: 安装一行命令，Markdown DSL 声明内容，引擎渲染 HTML。打开浏览器即可看到排版精良、打印就绪的文档。
+title: 让 Agent 三分钟产出第一份文档
+body: 告诉 Agent 想要什么文档，Skill 自动生成 Markdown DSL 并渲染为 HTML——打开浏览器即可看到排版精良、打印就绪的成品。
 button:
   label: 查看使用指南
   href: /guide/

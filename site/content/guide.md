@@ -1,148 +1,162 @@
 ---
 document_type: long_doc
 locale: zh-CN
-title: Momo Paper 使用指南
-description: 推荐通过 Skill 方式使用——AI agent 自动处理安装和渲染。也支持手动 CLI 和直接 HTML 模板两种替代工作流。
+title: Agent 使用手册
+description: 为什么不要让 Agent 直接写 HTML、Momo DSL 如何省 token、在 Agent 中安装与调用、validate → render 闭环，以及真实 token 对比。
 ---
 
-使用 Momo Paper 最简单的方式是通过 Claude Code Skill：AI agent 自动完成从安装到渲染的全部步骤，你只需描述想要什么文档。
+这份手册写给让 AI Agent 生成文档的人。核心观点一句话：**Agent 不应该手写 HTML，应该写紧凑的 Markdown DSL，再由 Momo Paper 渲染成 HTML。**
 
-偏好手动操作时，可直接使用 CLI 命令或编辑 HTML 模板。三种方式共享同一套设计令牌，输出效果一致。
+## 01 · 为什么不要让 Agent 直接写 HTML
+
+让 Agent 直接输出 HTML 看似可行，实际有三个痛点：
+
+:::comparison
+title: Agent 手写 HTML vs 写 Momo DSL
+left:
+  title: Agent 手写 HTML/CSS
+  items:
+    - token 占用大，CSS 在每份文档里反复输出
+    - 样式随 prompt 漂移，每次生成结果不一致
+    - 修改成本高，改一处往往要重写一段结构
+    - 无法校验，出错只能人工排查
+right:
+  title: Agent 写 Momo DSL
+  items:
+    - 紧凑的结构化块，token 更省
+    - 渲染器补全 HTML/CSS，样式始终稳定
+    - 改字段即改文档，修改成本低
+    - momo2 validate 校验语法与元数据
+:::
+
+HTML 是给浏览器的渲染目标，不是给 Agent 的书写格式。让 Agent 写 HTML，等于让它每次都重新发明一遍样式系统——又费 token，又不稳定。
+
+## 02 · Momo DSL 如何节省 token
+
+Momo Paper 把「内容声明」和「样式补全」分开：
+
+- **Agent 只写 DSL**：frontmatter 元数据 + Markdown 散文 + `:::block` 结构化块。这是 Agent 实际输出的 token。
+- **渲染器补全 HTML/CSS**：主题 CSS 是固定资产，跨所有文档复用，不占 Agent 的输出 token。
+
+所以省 token 的来源不是魔法，而是把重复的样式声明从 Agent 输出里移走，交给渲染器。
 
 :::callout
 tone: insight
-title: 三条工作流速览
-body: 推荐方式 Skill（AI agent 全自动处理安装和渲染）· 备选方式 CLI 手动（momo2 validate → render）· 快速方式直接 HTML 模板（打开文件 → 编辑内容 → 浏览器预览）。5 种图表块，嵌入 DSL 的 chart 块即可。
+title: 两种口径，别混
+body: 对比 token 节省时有两个口径。body-based：DSL vs Agent 手写时会输出的 HTML 主体标记——这是每份文档真正省下的。vs-total：DSL vs 含主题 CSS 的完整 HTML——这个数字更大，但 CSS 是跨文档复用的固定成本，不该算进单份文档的节省。下面的真实对比两个口径都给。
 :::
 
-## 推荐方式：通过 Skill 使用
+## 03 · 在 Agent 中使用
 
-Momo Paper 提供 Claude Code Skill（SKILL.md），这是最推荐的使用方式。无需手动安装——告诉 AI agent 想要创建什么文档，Skill 会自动触发。
+Momo Paper 的 skill 是**一份平台无关的 `SKILL.md`**——skill 本质是一段文本，不分平台，Claude Code、Codex、自研 Agent 读的是同一份文件。区别只在 skill 目录装在哪、由谁触发。
 
-Skill 自动处理：检查并安装 momo2 CLI → 选择合适的文档样板 → 生成 Markdown DSL 骨架 → 引导填充内容 → 渲染 HTML。整个过程只需描述需求、确认内容。
+### Claude Code Skill（推荐）
 
-```text
-# 你只需要这样说：
-"帮我生成一份 Q2 产品增长方案"
-"帮我做一份简历"
-"把这个数据分析渲染成报告"
-
-# Skill 会自动：
-# 1. 检测并安装 momo2 CLI（如未安装）
-# 2. 选择合适的文档类型
-# 3. 生成 Markdown DSL
-# 4. 渲染为 HTML 文档
-# 5. 打开浏览器预览
-```
-
-## 手动安装 CLI
-
-如果你需要直接使用 CLI 命令（而非通过 Skill），可以手动安装引擎。前提条件：Python 3.10+。
+把 `momo-paper-skill/` 目录放到 Claude Code 扫描的 skills 路径，例如 `~/.claude/skills/momo-paper/` 或项目内 `.claude/skills/momo-paper/`。Claude Code 读 `SKILL.md` 的 `description` 决定何时触发，触发后调用自带的 `momo` wrapper：
 
 ```bash
-# 1. 创建并激活虚拟环境
-python3 -m venv .venv
-source .venv/bin/activate
+"$SKILL_DIR/momo" validate input.md
+"$SKILL_DIR/momo" render  input.md -o output.html
+```
 
-# 2. 安装引擎（可编辑模式）
+skill 自带完整 `runtime/`，**无需 `pip install`**。wrapper 通过 `BASH_SOURCE` 自定位，无硬编码路径。唯一要求是 `python3 >= 3.10`。
+
+### 手动 CLI
+
+偏好命令行或要接入 CI/CD 时，直接安装引擎（Python 3.10+）：
+
+```bash
+python3 -m venv .venv && source .venv/bin/activate
 pip install -e .
 
-# 3.（可选）安装开发依赖，运行测试
-pip install -e ".[dev]"
-
-# 验证安装
-momo2 --help
+momo2 validate examples/landing.md
+momo2 render  examples/landing.md -o dist/landing.html
 ```
 
-## CLI 命令参考
+### 自研 Agent
 
-安装完成后，你会获得 momo2 命令，用于校验和渲染 Markdown DSL 文档。
+skill 自带的 `momo` 是个普通 bash 脚本，从你的 Agent 工具层调用即可。由你的 Agent 决定何时触发（用 `SKILL.md` 的 `description` 作为触发判据）：
 
 ```bash
-# 校验 DSL 文件的语法和必填元数据
-momo2 validate examples/landing.md
-
-# 将 DSL 渲染为单文件 HTML（CSS 内联）
-momo2 render examples/landing.md -o dist/landing.html
-
-# 使用不同的视觉主题渲染
-momo2 render examples/landing.md -o dist/landing.html --css momo_dsl/styles/vercel.css
+SKILL_DIR=/absolute/path/to/momo-paper-skill
+"$SKILL_DIR/momo" validate input.md
+"$SKILL_DIR/momo" render  input.md -o output.html
+"$SKILL_DIR/momo" bench   input.md
 ```
 
-## Markdown DSL 数据格式
+Codex 等其他 Agent 平台读的是同一份 `SKILL.md`，只是 skill 目录位置按各自约定放置。
 
-每个文档都以 frontmatter 开头，声明文档类型和元数据，正文混合使用 Markdown 与 `:::block` 结构化块。
+## 04 · validate → render 闭环
 
-- **document_type**：文档语义标签，例如 landing、long_doc、equity_report，出现在页头并引导 Skill 选模板。引擎不按类型校验结构。
-- **locale**：zh-CN 或 en。
-- **title / description**：文档标题与摘要，用于页头和 SEO。
-- **正文**：普通 Markdown 写散文，`:::tag-name` 块写结构化内容，块以 `:::` 结束。
+Agent 集成最怕生成失败后不知道怎么修。Momo Paper 的做法是**结构化错误 + Agent 自修**：
 
-```md
----
-document_type: one_pager
-locale: zh-CN
-title: Q2 增长方案
-description: 聚焦留存与激活
----
+```bash
+# 1. 校验，失败时输出结构化 JSON
+momo2 validate report.md --json
+```
 
-## 执行摘要
+失败时返回：
 
-本方案的核心目标是提升留存与激活。
+```json
+{
+  "ok": false,
+  "errors": [
+    {
+      "message": "invalid block tag name",
+      "path": "report.md",
+      "line": 42,
+      "block": "chart"
+    }
+  ]
+}
+```
+
+Agent 读 `line` 和 `block` 定位问题，改 DSL 后重新校验。通过后渲染：
+
+```bash
+# 2. 渲染为单文件 HTML（CSS 内联）
+momo2 render report.md -o report.html
+```
+
+:::callout
+tone: insight
+title: 为什么没有 momo repair 命令
+body: 半结构化 DSL 的修复本质是 LLM 的活——该由 Agent 读 validate --json 的错误后自己改，而不是让 CLI 猜怎么改。确定性 repair 对这种输入不现实，也容易改错。结构化错误 + Agent 自修才是稳定闭环。
+:::
+
+## 05 · 真实 token 对比
+
+以下数字由 `momo2 bench` 实测生成，可复现。tokenizer 默认用 tiktoken（未安装时回退到 chars/4 估算并标注）。
 
 :::stats
 items:
-  - value: +18%
-    label: DAU
-  - value: +8pp
-    label: 留存
+  - value: 81.1%
+    label: 投资报告 body 节省
+  - value: 70.9%
+    label: 落地页 body 节省
+  - value: 20,020
+    label: 主题 CSS（跨文档复用）
 :::
 
-:::recommendation
-title: 行动建议
-actions:
-  - title: Phase 1
-    desc: 重设计 onboarding
-:::
+| 文档 | DSL token | HTML 主体 token | 每文档节省 | vs 完整 HTML |
+| --- | --- | --- | --- | --- |
+| 投资报告（equity-report） | 1,497 | 7,927 | 81.1% | 94.6% |
+| 落地页（landing） | 534 | 1,837 | 70.9% | 97.6% |
+
+「每文档节省」是 DSL vs Agent 手写时会输出的 HTML 主体标记——这是单份文档真正省下的。「vs 完整 HTML」含主题 CSS，数字更大但 CSS 是跨文档复用的固定成本。自己复现：
+
+```bash
+momo2 bench examples/equity-report.md
+momo2 bench examples/equity-report.md --json
 ```
 
-## 嵌入图表
+## 06 · 常见模板
 
-在正文中声明 chart 块，引擎会自动渲染为交互式图表。支持 5 种图表类型：
-
-- **bar-chart（柱状图）**：适合类别对比，items 含 label / value / share。
-- **line-chart（折线图）**：适合时间序列和趋势，items 含 period / value / growth。
-- **donut-chart（环形图）**：适合比例分解，segments 含 label / value，可设 center_value。
-- **candlestick-chart（K 线图）**：适合 OHLC 价格序列，items 含 date / open / high / low / close。
-- **waterfall-chart（瀑布图）**：适合数值分解和桥接，items 含 label / value / type。
-
-```md
-:::line-chart
-title: 月度活跃用户
-unit: 万
-items:
-  - period: 1月
-    value: 240
-  - period: 2月
-    value: 258
-  - period: 3月
-    value: 275
-:::
-```
-
-## 直接 HTML 模板（替代方式）
-
-如果你不想用 Skill 或 CLI，可以直接编辑渲染好的独立 HTML 文件。这是零门槛的「直接编辑」模式：
-
-- 打开模板，替换占位内容为你自己的文字。
-- 无需 CLI、DSL 或构建步骤——只需要 HTML 和 CSS。
-- 设计令牌以 CSS 自定义属性的形式嵌入在每个文件中。
-
-适合需要快速生成一次性文档、或偏好直接操作 HTML 的场景。三种方式共享同一套设计令牌、字体系统与视觉语言。
+引擎本身是通用渲染器，不按类型校验结构。`document_type` 是语义标签，引导选模板。常见起点见[示例画廊](/demo/)，全部组件与 DSL 源码见[组件目录](/components/)。
 
 :::cta
-title: 开始创建你的第一份文档
-body: 无论选择哪种方式——Skill（AI 自动）、CLI（手动命令）还是 HTML 模板（直接编辑）——输出都共享同一套设计令牌。
+title: 让 Agent 生成第一份文档
+body: 告诉 Agent 想要什么文档，Skill 自动生成 Markdown DSL 并渲染为单文件 HTML——比手写 HTML 省 token、样式稳定、可校验。
 button:
   label: 浏览示例画廊
   href: /demo/
