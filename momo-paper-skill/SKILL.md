@@ -22,15 +22,16 @@ The runtime is a parser and converter. It does not generate business components 
 
 Use this path for new work unless the user explicitly asks for the legacy JSON/template system.
 
-1. Read `references/REFERENCE.md` when writing or repairing DSL syntax, choosing tags, or explaining supported blocks.
-2. Use `examples/reference.md` when the user wants to see all component examples.
-3. Use `examples/landing.md` for landing-page structure examples.
-4. Use `examples/equity-report.md` for financial report and chart-heavy examples.
-5. Use `examples/health-report.md` for health tracking, weight management, and wellness report examples.
-6. Write a Markdown DSL source file.
-7. Validate the source.
-8. Render HTML to a file. See [Output Path](#output-path).
-9. Return only the output file path. Do NOT return the HTML content as a string.
+1. Choose a formal template when the task matches one of the available schemas. Read `references/templates/INDEX.md`, then read only that template's reference.
+2. Use `"$SKILL_DIR/momo" schema list` or `schema describe <name>` when you need machine-readable template details.
+3. Read `references/REFERENCE.md` for open DSL syntax, experimental tags, or repair guidance not covered by a formal template.
+4. Use `examples/reference.md` when the user wants to see all component examples.
+5. Use `examples/landing-page.md`, `examples/research-summary.md`, or `examples/deep-research.md` for the three formal flagship templates.
+6. Existing finance, health, slides, and other examples remain experimental open-mode documents unless a formal schema reference exists.
+7. Write a Markdown DSL source file. Do not add a schema or DSL version field; `document_type` and distinctive blocks select the current compatible schema.
+8. Validate the source with `--json`. Repair every reported error, then validate again.
+9. Render HTML to a file. See [Output Path](#output-path).
+10. Return only the output file path. Do NOT return the HTML content as a string.
 
 ### Output Path
 
@@ -43,13 +44,13 @@ The rendered HTML must always be written to a file. The calling Agent receives o
 Example with user-specified path:
 
 ```bash
-momo2 render input.md -o /Users/me/reports/my-report.html
+"$SKILL_DIR/momo" render input.md -o /Users/me/reports/my-report.html
 ```
 
 Example with default path:
 
 ```bash
-momo2 render input.md -o dist/output.html
+"$SKILL_DIR/momo" render input.md -o dist/output.html
 ```
 
 ## CLI
@@ -73,9 +74,13 @@ SKILL_DIR=/absolute/path/to/this/momo-paper-skill
 
 Additional commands:
 
-- `validate input.md --json` — emit `{"ok":..., "errors":[{message,line,block,path}]}` for programmatic repair.
+- `schema list` — list formal template contracts available to the Skill.
+- `schema describe <name>` — print one machine schema; add `--json` for raw data.
+- `validate input.md --json` — infer a formal schema when possible and emit all semantic errors and warnings. Add `--schema <name>` to select a contract explicitly.
 - `bench input.md` — compare DSL token cost vs rendered HTML; add `--json` for machine output.
 - `render input.md -o out.pdf --format pdf` — print to PDF. Requires the optional `playwright` dependency (`pip install playwright && playwright install chromium`).
+
+`validate` is strict for a uniquely selected formal template. Experimental or ambiguous documents use free mode with warnings. `render` is permissive: syntactically valid unknown blocks and fields are preserved through generic rendering rather than discarded.
 
 `input.md` / `output.html` may be relative to your current directory or absolute —
 the wrapper does not change the working directory, so you can run it from anywhere.
@@ -93,7 +98,7 @@ PYTHONPATH="$SKILL_DIR/runtime" python3 -m momo_dsl.cli render  input.md -o outp
 > this and fails with a clear message. On macOS, `/usr/bin/python3` is often 3.9 and
 > would otherwise fail with a cryptic `TypeError: unsupported operand type(s) for |`.
 > (Optional, for interactive use only: `pip install -e "$SKILL_DIR/runtime"` gives a
-> global `momo2` command; not needed for the wrapper above.)
+> global `momo` command; not needed for the wrapper above.)
 
 Rendering writes one standalone HTML file. CSS is inlined into `<style>`. To use another visual system, pass a CSS file to inline:
 

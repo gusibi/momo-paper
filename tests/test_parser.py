@@ -3,6 +3,7 @@ from pathlib import Path
 
 from momo_dsl.errors import DslError
 from momo_dsl.parser import BlockNode, MarkdownNode, parse_file, parse_text
+from momo_dsl.schema import validate_document
 
 
 VALID = """---
@@ -201,22 +202,24 @@ button:
 :::
 """)
 
-    def test_rejects_dashboard_document_type(self):
-        with self.assertRaisesRegex(DslError, "dashboard"):
-            parse_text("""---
+    def test_reports_dashboard_document_type_as_semantic_error(self):
+        doc = parse_text("""---
 document_type: dashboard
 locale: en
 title: Test
 ---
 """)
+        report = validate_document(doc)
+        self.assertIn("invalid_document_type", [error.code for error in report.errors])
 
-    def test_rejects_missing_locale(self):
-        with self.assertRaisesRegex(DslError, "locale"):
-            parse_text("""---
+    def test_reports_missing_locale_as_semantic_error(self):
+        doc = parse_text("""---
 document_type: landing
 title: Test
 ---
 """)
+        report = validate_document(doc)
+        self.assertIn("missing_field", [error.code for error in report.errors])
 
 
 if __name__ == "__main__":

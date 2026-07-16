@@ -23,6 +23,7 @@ sys.path.insert(0, str(ENGINE_DIR))
 
 from momo_dsl import renderer  # noqa: E402
 from momo_dsl.parser import BlockNode, MarkdownNode, parse_file  # noqa: E402
+from momo_dsl.schema import validate_document  # noqa: E402
 
 SITE_DIR = Path(__file__).resolve().parent
 CONTENT_DIR = SITE_DIR / "content"
@@ -77,9 +78,16 @@ PAGES = [
     ("demo/faq-page.md", "demo/faq-page/index.html", "demo"),
     ("demo/case-study.md", "demo/case-study/index.html", "demo"),
     ("demo/research-summary.md", "demo/research-summary/index.html", "demo"),
+    ("demo/deep-research.md", "demo/deep-research/index.html", "demo"),
     ("demo/stats-report.md", "demo/stats-report/index.html", "demo"),
     ("demo/infographic.md", "demo/infographic/index.html", "demo"),
 ]
+
+STRICT_PAGE_SCHEMAS = {
+    "index.md": "landing-page",
+    "demo/research-summary.md": "research-summary",
+    "demo/deep-research.md": "deep-research",
+}
 
 # Top navigation entries: (url, label, page_id)
 NAV_ITEMS = [
@@ -97,11 +105,11 @@ NAV_ITEMS = [
 # ---------------------------------------------------------------------------
 PAGE_META = {
     "index": {
-        "description": "Momo Paper 是给 AI Agent 用的省 token 文档引擎。Agent 写简洁 Markdown DSL，引擎渲染为排版精良、打印就绪的单文件 HTML——比手写 HTML/CSS 省 token、样式稳定、可校验。含 5 种图表块、4 种健康块，通过 Skill 自动使用。",
+        "description": "Momo Paper 是 AI Agent 的文档编译器。Agent 生成紧凑、可验证的 Markdown DSL，Momo Paper 通过 Schema 校验并输出品牌一致、打印就绪的 HTML 与 PDF。",
         "schema_type": "SoftwareApplication",
     },
     "guide": {
-        "description": "Agent 使用手册：为什么不要让 Agent 直接写 HTML、Momo DSL 如何省 token、在 Agent 中安装与调用、validate → render 闭环，以及真实 token 对比。",
+        "description": "Agent 文档编译器使用手册：Schema 发现、strict/free 校验、Agent 自修、HTML/PDF 渲染与真实 token A/B 方法。",
         "schema_type": "TechArticle",
     },
     "components": {
@@ -140,7 +148,8 @@ DEMO_TYPE_NAMES = {
     "timeline": ("时间线 / Roadmap", "竖线时间线，三种状态"),
     "faq-page": ("常见问题", "分组问答卡片"),
     "case-study": ("案例拆解", "背景、问题、方案、结果"),
-    "research-summary": ("研究摘要", "论题 + 关键发现 + 方法说明"),
+    "research-summary": ("研究摘要", "研究问题 + 关键发现 + 影响分析 + 方法与来源"),
+    "deep-research": ("深度研究报告", "执行摘要 + 证据 + 反方观点 + 方法 + 来源"),
     "stats-report": ("数据报告 / KPI", "KPI 大数字 + 趋势折线图"),
     "infographic": ("信息图", "大数字 + 环形图 + 步骤路径"),
 }
@@ -203,6 +212,7 @@ def render_nav(active_page_id: str) -> str:
     <button class="site-nav-burger" id="siteNavBurger" aria-label="Menu"><span></span><span></span><span></span></button>
     <div class="site-nav-links" id="siteNavLinks">
       {"".join(links)}
+      <a class="site-nav-link" href="https://github.com/gusibi/momo-paper#quick-start">GitHub 试用</a>
       <div class="theme-switch" role="group" aria-label="主题切换">{options}</div>
     </div>
   </div>
@@ -430,6 +440,7 @@ def assemble_page(document, url_path: str, page_id: str) -> str:
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{_esc(title)}</title>
   {build_meta_block(url_path, page_id, title, description)}
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   {theme_links()}
   <link rel="stylesheet" href="/assets/site.css">
   {THEME_BOOT_SCRIPT}
@@ -459,7 +470,8 @@ def copy_assets():
     for _, _, filename in THEMES:
         shutil.copy(styles_dir / filename, ASSETS_DIR / filename)
     shutil.copy(SITE_DIR / "site.css", ASSETS_DIR / "site.css")
-    print(f"  OK: copied {len(THEMES)} theme stylesheets + site.css")
+    shutil.copy(SITE_DIR / "favicon.svg", OUTPUT_DIR / "favicon.svg")
+    print(f"  OK: copied {len(THEMES)} theme stylesheets + site.css + favicon.svg")
 
 
 def generate_robots_txt():
@@ -567,7 +579,7 @@ Momo Paper 是给 AI Agent 用的省 token 文档引擎：Agent 写简洁 Markdo
 ## 关键页面
 
 - [首页]({BASE_URL}/) — 项目概述与核心能力
-- [使用指南]({BASE_URL}/guide/) — Agent 使用手册：为何不手写 HTML、省 token 原理、Skill 安装与 validate 闭环、真实 token 对比
+- [使用指南]({BASE_URL}/guide/) — Agent 使用手册：为何不手写 HTML、省 token 原理、Skill 安装与 validate 闭环、可复现的工程估算
 - [组件目录]({BASE_URL}/components/) — 全部组件的渲染效果与 DSL 源码
 - [示例画廊]({BASE_URL}/demo/) — 全部 15 份样板的结构说明与渲染示例
 - [图表演示]({BASE_URL}/charts/) — 5 种图表块的交互示例与 DSL 源码
@@ -590,22 +602,57 @@ Momo Paper 是给 AI Agent 用的省 token 文档引擎：Agent 写简洁 Markdo
 # ---------------------------------------------------------------------------
 # Build
 # ---------------------------------------------------------------------------
+def _format_validation_issue(issue) -> str:
+    parts = []
+    if issue.path:
+        parts.append(issue.path)
+    if issue.line is not None:
+        parts.append(f"line {issue.line}")
+    if issue.block:
+        parts.append(f"block {issue.block}")
+    if issue.field:
+        parts.append(f"field {issue.field}")
+    location = ": ".join(parts)
+    return f"[{issue.code}] {location}: {issue.message}" if location else f"[{issue.code}] {issue.message}"
+
+
+def preflight_pages():
+    prepared = []
+    failures = []
+    for content_file, url_path, page_id in PAGES:
+        src = CONTENT_DIR / content_file
+        if not src.exists():
+            failures.append(f"missing page source: {content_file}")
+            continue
+        document = parse_file(src)
+        schema_name = STRICT_PAGE_SCHEMAS.get(content_file)
+        report = validate_document(document, schema_name=schema_name)
+        if report.errors:
+            failures.extend(_format_validation_issue(issue) for issue in report.errors)
+        for warning in report.warnings:
+            print(f"  WARN: {_format_validation_issue(warning)}")
+        prepared.append((content_file, url_path, page_id, document, report))
+
+    if failures:
+        details = "\n".join(f"  - {failure}" for failure in failures)
+        raise RuntimeError(f"site preflight failed:\n{details}")
+    return prepared
+
+
 def build():
+    prepared = preflight_pages()
+
     if OUTPUT_DIR.exists():
         shutil.rmtree(OUTPUT_DIR)
     OUTPUT_DIR.mkdir()
 
-    for content_file, url_path, page_id in PAGES:
-        src = CONTENT_DIR / content_file
-        if not src.exists():
-            print(f"  SKIP: {content_file} not found")
-            continue
-        document = parse_file(src)
+    for content_file, url_path, page_id, document, report in prepared:
         html = assemble_page(document, url_path, page_id)
         out_path = OUTPUT_DIR / url_path
         out_path.parent.mkdir(parents=True, exist_ok=True)
         out_path.write_text(html, encoding="utf-8")
-        print(f"  OK: {content_file} -> {url_path}")
+        contract = report.schema or "experimental/free"
+        print(f"  OK: {content_file} [{contract}] -> {url_path}")
 
     copy_assets()
     generate_robots_txt()

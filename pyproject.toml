@@ -14,10 +14,11 @@ dependencies = []
 pdf = ["playwright>=1.40"]
 
 [project.scripts]
+momo = "momo_dsl.cli:main"
 momo2 = "momo_dsl.cli:main"
 
 [tool.setuptools.packages.find]
 include = ["momo_dsl*"]
 
 [tool.setuptools.package-data]
-momo_dsl = ["styles/*.css"]
+momo_dsl = ["styles/*.css", "schemas/*.json"]

@@ -1,0 +1,65 @@
+{
+  "name": "research-summary",
+  "title": "Research Summary",
+  "description": "A concise research deliverable organized around a question, findings, implications, method, limitations, and traceable sources.",
+  "document_types": ["research-summary"],
+  "distinctive_blocks": ["research-question", "key-findings", "implications", "methodology", "sources"],
+  "frontmatter": {
+    "required": ["document_type", "locale", "title"],
+    "properties": {
+      "document_type": {"type": "string", "enum": ["research-summary"]},
+      "locale": {"type": "string", "min_length": 1},
+      "title": {"type": "string", "min_length": 1},
+      "description": {"type": "string"},
+      "author": {"type": "string"},
+      "date": {"type": "string"}
+    },
+    "additional_properties": false
+  },
+  "composition": {
+    "allowed_blocks": ["research-question", "key-findings", "implications", "methodology", "limitations", "sources", "callout"],
+    "required_blocks": ["research-question", "key-findings"],
+    "ordering": [["research-question", "key-findings"], ["key-findings", "implications"], ["key-findings", "methodology"], ["key-findings", "sources"], ["limitations", "sources"]]
+  },
+  "blocks": {
+    "research-question": {
+      "min_occurs": 1,
+      "max_occurs": 1,
+      "required": ["question"],
+      "properties": {"question": {"type": "string", "min_length": 1}, "scope": {"type": "string"}},
+      "additional_properties": false
+    },
+    "key-findings": {
+      "min_occurs": 1,
+      "max_occurs": 1,
+      "required": ["items"],
+      "properties": {"title": {"type": "string"}, "items": {"$ref": "finding-items"}},
+      "additional_properties": false
+    },
+    "implications": {
+      "max_occurs": 1,
+      "required": ["items"],
+      "properties": {"title": {"type": "string"}, "items": {"$ref": "titled-items"}},
+      "additional_properties": false
+    },
+    "methodology": {
+      "max_occurs": 1,
+      "required": ["summary"],
+      "properties": {"title": {"type": "string"}, "summary": {"type": "string", "min_length": 1}, "methods": {"type": "array", "items": {"type": "string"}}, "sample": {"type": "string"}},
+      "additional_properties": false
+    },
+    "limitations": {
+      "max_occurs": 1,
+      "required": ["items"],
+      "properties": {"title": {"type": "string"}, "items": {"type": "array", "items": {"type": "string"}}},
+      "additional_properties": false
+    },
+    "sources": {"$ref": "sources-block", "max_occurs": 1},
+    "callout": {"properties": {"tone": {"type": "string"}, "title": {"type": "string"}, "body": {"type": "string"}}, "additional_properties": false}
+  },
+  "definitions": {
+    "finding-items": {"type": "array", "min_items": 1, "items": {"type": "object", "required": ["title", "body"], "properties": {"title": {"type": "string", "min_length": 1}, "body": {"type": "string", "min_length": 1}, "citations": {"type": "array", "items": {"type": "string"}}}, "additional_properties": false}},
+    "titled-items": {"type": "array", "min_items": 1, "items": {"type": "object", "required": ["title"], "properties": {"title": {"type": "string"}, "body": {"type": "string"}, "desc": {"type": "string"}}, "additional_properties": false}},
+    "sources-block": {"required": ["items"], "properties": {"title": {"type": "string"}, "items": {"type": "array", "min_items": 1, "items": {"type": "object", "required": ["id", "title", "url"], "properties": {"id": {"type": "string", "min_length": 1}, "title": {"type": "string", "min_length": 1}, "url": {"type": "string", "min_length": 1}, "publisher": {"type": "string"}, "published_at": {"type": "string"}, "accessed_at": {"type": "string"}}, "additional_properties": false}}}, "additional_properties": false}
+  }
+}

@@ -21,15 +21,15 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Install dependencies
-        run: |
-          cd scripts/json-engine
-          pip install -e ".[dev]"
-
       - name: Run tests
+        run: PYTHONPATH=. python -m unittest discover -s tests -v
+
+      - name: Verify Skill bundle
         run: |
-          cd scripts/json-engine
-          python -m pytest tests/ -v
+          ./scripts/sync-skill.sh
+          git diff --exit-code -- momo-paper-skill
+          ./momo-paper-skill/momo schema list
+          ./momo-paper-skill/momo validate examples/deep-research.md --json
 
   lint:
     runs-on: ubuntu-latest
@@ -45,4 +45,4 @@ jobs:
         run: pip install ruff
 
       - name: Run ruff
-        run: ruff check scripts/json-engine/momo_paper/ scripts/json-engine/tests/
+        run: ruff check momo_dsl tests scripts/generate-schema-references.py

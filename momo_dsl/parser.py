@@ -7,7 +7,7 @@ syntax, fail-fast errors, and source line numbers.
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 import re
 from typing import Any
@@ -28,6 +28,7 @@ class BlockNode:
     name: str
     props: Any
     line: int
+    prop_lines: dict[str, int] = field(default_factory=dict)
 
 
 @dataclass
@@ -35,6 +36,7 @@ class Document:
     meta: dict[str, Any]
     nodes: list[MarkdownNode | BlockNode]
     path: str | None = None
+    meta_lines: dict[str, int] = field(default_factory=dict)
 
 
 def parse_file(path: str | Path) -> Document:
@@ -48,7 +50,9 @@ def parse_text(text: str, path: str | None = None) -> Document:
         raise DslError("missing frontmatter opening ---", path=path, line=1)
 
     end = _find_frontmatter_end(lines, path)
-    frontmatter = _parse_data(lines[1:end], path=path, start_line=2, context="frontmatter")
+    frontmatter_lines = lines[1:end]
+    frontmatter = _parse_data(frontmatter_lines, path=path, start_line=2, context="frontmatter")
+    meta_lines = _collect_data_lines(frontmatter_lines, start_line=2)
     if not isinstance(frontmatter, dict):
         raise DslError("frontmatter must be key/value data", path=path, line=1)
 
@@ -95,13 +99,21 @@ def parse_text(text: str, path: str | None = None) -> Document:
                 raise DslError("invalid block tag name", path=path, line=block_line, block=block_name)
             body_start = i + 1
             close = _find_block_end(lines, body_start, path, block_name, block_line)
+            block_lines = lines[body_start:close]
             props = _parse_data(
-                lines[body_start:close],
+                block_lines,
                 path=path,
                 start_line=body_start + 1,
                 context=f"block {block_name}",
             )
-            nodes.append(BlockNode(name=block_name, props=props, line=block_line))
+            nodes.append(
+                BlockNode(
+                    name=block_name,
+                    props=props,
+                    line=block_line,
+                    prop_lines=_collect_data_lines(block_lines, start_line=body_start + 1),
+                )
+            )
             i = close + 1
             markdown_start = i + 1
             continue
@@ -112,27 +124,13 @@ def parse_text(text: str, path: str | None = None) -> Document:
         i += 1
 
     flush_markdown()
-    document = Document(meta=frontmatter, nodes=nodes, path=path)
-    validate_document(document)
-    return document
+    return Document(meta=frontmatter, nodes=nodes, path=path, meta_lines=meta_lines)
 
 
-def validate_document(document: Document) -> None:
-    meta = document.meta
-    path = document.path
-    doc_type = meta.get("document_type")
-    if not doc_type:
-        raise DslError("frontmatter missing required field: document_type", path=path, line=1)
-    if doc_type == "dashboard":
-        raise DslError("dashboard is not a valid document_type", path=path, line=1)
-    if not meta.get("locale"):
-        raise DslError("frontmatter missing required field: locale", path=path, line=1)
-    if not meta.get("title"):
-        raise DslError("frontmatter missing required field: title", path=path, line=1)
+def validate_document(document: Document):
+    from .schema import validate_document as validate_schema_document
 
-    for node in document.nodes:
-        if isinstance(node, BlockNode) and not TAG_RE.match(node.name):
-            raise DslError("invalid block tag name", path=path, line=node.line, block=node.name)
+    return validate_schema_document(document)
 
 
 def _find_frontmatter_end(lines: list[str], path: str | None) -> int:
@@ -153,6 +151,47 @@ def _find_block_end(
         if lines[i].strip() == ":::":
             return i
     raise DslError("unclosed block directive", path=path, line=block_line, block=block_name)
+
+
+def _collect_data_lines(lines: list[str], start_line: int) -> dict[str, int]:
+    paths: dict[str, int] = {}
+    stack: list[tuple[int, str]] = []
+    list_indexes: dict[tuple[int, str], int] = {}
+
+    for offset, raw in enumerate(lines):
+        stripped = raw.strip()
+        if not stripped or raw.lstrip().startswith("#"):
+            continue
+        indent = len(raw) - len(raw.lstrip(" "))
+        while stack and stack[-1][0] >= indent:
+            stack.pop()
+
+        line = start_line + offset
+        if stripped.startswith("- "):
+            parent = stack[-1][1] if stack else ""
+            key = (indent, parent)
+            index = list_indexes.get(key, 0)
+            list_indexes[key] = index + 1
+            item_path = f"{parent}[{index}]" if parent else f"[{index}]"
+            item_text = stripped[2:].strip()
+            if ":" in item_text and not _looks_like_url(item_text):
+                field_name = item_text.split(":", 1)[0].strip()
+                field_path = f"{item_path}.{field_name}"
+                paths[field_path] = line
+                stack.append((indent, item_path))
+            else:
+                paths[item_path] = line
+            continue
+
+        if ":" not in stripped:
+            continue
+        field_name = stripped.split(":", 1)[0].strip()
+        parent = stack[-1][1] if stack else ""
+        field_path = f"{parent}.{field_name}" if parent else field_name
+        paths[field_path] = line
+        stack.append((indent, field_path))
+
+    return paths
 
 
 def _parse_data(lines: list[str], path: str | None, start_line: int, context: str) -> Any:

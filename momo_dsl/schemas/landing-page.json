@@ -1,0 +1,103 @@
+{
+  "name": "landing-page",
+  "title": "Landing Page",
+  "description": "A document-style responsive landing page with a clear claim, supporting sections, and calls to action.",
+  "document_types": ["landing-page", "landing"],
+  "distinctive_blocks": ["hero", "feature-grid", "cta", "faq"],
+  "frontmatter": {
+    "required": ["document_type", "locale", "title"],
+    "properties": {
+      "document_type": {"type": "string", "enum": ["landing-page", "landing"]},
+      "locale": {"type": "string", "min_length": 1},
+      "title": {"type": "string", "min_length": 1},
+      "description": {"type": "string"},
+      "author": {"type": "string"},
+      "date": {"type": "string"},
+      "show_header": {"type": ["boolean", "string"]}
+    },
+    "additional_properties": false
+  },
+  "composition": {
+    "allowed_blocks": ["nav", "hero", "section", "feature-grid", "card-grid", "stats", "comparison", "timeline", "steps", "cta", "faq", "quote", "callout", "footer"],
+    "required_blocks": ["hero"],
+    "ordering": [["nav", "hero"], ["hero", "footer"]]
+  },
+  "blocks": {
+    "nav": {
+      "max_occurs": 1,
+      "properties": {
+        "brand": {"type": "string"},
+        "items": {"type": "array", "items": {"type": "object", "required": ["label", "href"], "properties": {"label": {"type": "string", "min_length": 1}, "href": {"type": "string", "min_length": 1}}, "additional_properties": false}},
+        "cta": {"$ref": "action"}
+      },
+      "additional_properties": false
+    },
+    "hero": {
+      "min_occurs": 1,
+      "max_occurs": 1,
+      "required": ["title"],
+      "properties": {
+        "eyebrow": {"type": "string"},
+        "title": {"type": "string", "min_length": 1},
+        "subtitle": {"type": "string"},
+        "primary_cta": {"$ref": "action"},
+        "secondary_cta": {"$ref": "action"}
+      },
+      "additional_properties": false
+    },
+    "section": {
+      "required": ["title"],
+      "properties": {"title": {"type": "string"}, "body": {"type": "string"}, "points": {"type": "array", "items": {"type": "string"}}},
+      "additional_properties": false
+    },
+    "feature-grid": {
+      "required": ["items"],
+      "properties": {"title": {"type": "string"}, "columns": {"type": "integer", "minimum": 1, "maximum": 4}, "items": {"$ref": "titled-items"}},
+      "additional_properties": false
+    },
+    "card-grid": {
+      "required": ["items"],
+      "properties": {"title": {"type": "string"}, "columns": {"type": "integer", "minimum": 1, "maximum": 4}, "items": {"$ref": "titled-items"}},
+      "additional_properties": false
+    },
+    "stats": {
+      "required": ["items"],
+      "properties": {"title": {"type": "string"}, "items": {"type": "array", "min_items": 1, "items": {"type": "object", "required": ["value", "label"], "properties": {"value": {"type": ["string", "integer", "number"]}, "label": {"type": "string"}, "note": {"type": "string"}}, "additional_properties": false}}},
+      "additional_properties": false
+    },
+    "comparison": {
+      "required": ["left", "right"],
+      "properties": {"title": {"type": "string"}, "left": {"$ref": "comparison-side"}, "right": {"$ref": "comparison-side"}},
+      "additional_properties": false
+    },
+    "timeline": {
+      "required": ["items"],
+      "properties": {"title": {"type": "string"}, "items": {"$ref": "step-items"}},
+      "additional_properties": false
+    },
+    "steps": {
+      "required": ["items"],
+      "properties": {"title": {"type": "string"}, "items": {"$ref": "step-items"}},
+      "additional_properties": false
+    },
+    "cta": {
+      "required": ["title"],
+      "properties": {"title": {"type": "string"}, "body": {"type": "string"}, "button": {"$ref": "action"}},
+      "additional_properties": false
+    },
+    "faq": {
+      "required": ["items"],
+      "properties": {"title": {"type": "string"}, "items": {"type": "array", "min_items": 1, "items": {"type": "object", "required": ["question", "answer"], "properties": {"question": {"type": "string"}, "answer": {"type": "string"}}, "additional_properties": false}}},
+      "additional_properties": false
+    },
+    "quote": {"properties": {"quote": {"type": "string"}, "author": {"type": "string"}, "role": {"type": "string"}}, "additional_properties": false},
+    "callout": {"properties": {"tone": {"type": "string"}, "title": {"type": "string"}, "body": {"type": "string"}}, "additional_properties": false},
+    "footer": {"properties": {"brand": {"type": "string"}, "body": {"type": "string"}, "items": {"type": "array", "items": {"$ref": "action"}}}, "additional_properties": false}
+  },
+  "definitions": {
+    "action": {"type": "object", "required": ["label", "href"], "properties": {"label": {"type": "string", "min_length": 1}, "href": {"type": "string", "min_length": 1}}, "additional_properties": false},
+    "titled-items": {"type": "array", "min_items": 1, "items": {"type": "object", "required": ["title"], "properties": {"title": {"type": "string", "min_length": 1}, "desc": {"type": "string"}, "body": {"type": "string"}}, "additional_properties": false}},
+    "comparison-side": {"type": "object", "required": ["title", "items"], "properties": {"title": {"type": "string"}, "items": {"type": "array", "items": {"type": "string"}}}, "additional_properties": false},
+    "step-items": {"type": "array", "min_items": 1, "items": {"type": "object", "required": ["title"], "properties": {"step": {"type": ["string", "integer"]}, "title": {"type": "string"}, "desc": {"type": "string"}}, "additional_properties": false}}
+  }
+}

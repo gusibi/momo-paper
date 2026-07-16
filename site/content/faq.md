@@ -5,20 +5,20 @@ title: 常见问题
 description: 关于 Momo Paper 安装、使用与设计系统的常见问题解答。涵盖 DSL 引擎、AI agent 集成、图表嵌入、主题令牌与打印支持。
 ---
 
-Momo Paper 是给 AI Agent 用的省 token 文档引擎：Agent 写简洁 Markdown DSL，引擎渲染为排版精良、打印就绪的单文件 HTML——比手写 HTML/CSS 省 token、样式稳定、可校验。以下是按主题分组的常见问题。
+Momo Paper 是 AI Agent 的文档编译器：Agent 生成 Markdown DSL，正式模板通过 Schema 校验，渲染器输出品牌一致、打印就绪的 HTML/PDF。以下是按主题分组的常见问题。
 
 ## 快速入门
 
 :::faq
 items:
   - question: Momo Paper 是什么？
-    answer: 给 AI Agent 用的省 token 文档引擎。Agent 写简洁 Markdown DSL（frontmatter + :::block），引擎渲染为单文件 HTML。比起让 Agent 手写 HTML/CSS，DSL 更省 token、样式稳定、可校验。内置 5 种图表块、4 种健康块与一组通用结构组件，支持双主题切换。可直接编辑 HTML 模板，也可通过 DSL 驱动渲染。
+    answer: AI Agent 的文档编译器。Agent 生成紧凑 Markdown DSL，正式模板用机器 Schema 校验章节、字段和引用，渲染器输出 HTML/PDF。Token 更少是潜在收益之一，核心价值是结果可验证、可复现且品牌一致。
   - question: 需要什么前置条件？
     answer: 直接编辑 HTML 模板无需任何前置条件，打开文件改内容即可。使用 DSL 引擎需要 Python 3.10+。通过 Claude Code Skill 使用时，Skill 自动处理安装。
   - question: 如何安装 DSL 引擎？
-    answer: 在仓库根目录运行 pip install -e .。安装后获得 momo2 命令：momo2 --help 查看用法，momo2 validate 校验 DSL，momo2 render 渲染 HTML。
+    answer: 在仓库根目录运行 pip install -e .。安装后获得 momo 命令：momo --help 查看用法，momo validate 校验 DSL，momo render 渲染 HTML。旧的 momo2 命令继续作为兼容别名。
   - question: 可以在 AI agent 中使用吗？
-    answer: 可以。仓库提供 Claude Code Skill 定义（SKILL.md），agent 通过 bash 调用 momo2 CLI 生成文档。当前实际可用的集成路径是 Skill + CLI。
+    answer: 可以。仓库提供平台无关的 Skill 定义（SKILL.md），Agent 通过自带的 momo wrapper 生成文档。当前实际可用的集成路径是 Skill + CLI。
 :::
 
 ## 引擎使用
@@ -26,7 +26,7 @@ items:
 :::faq
 items:
   - question: document_type 有什么作用？
-    answer: document_type 是 frontmatter 中的语义标签，出现在页头并引导 Skill 选择模板。引擎不按类型做结构校验——任意类型都可使用全部组件。常见取值见示例画廊。
+    answer: 正式 document_type 会选择对应 Schema，校验文档组成、block 字段、顺序和引用；当前包括 landing-page、research-summary、deep-research。未注册类型进入 experimental/free mode，未知 block 和字段仍可渲染。
   - question: Markdown DSL 的结构是什么？
     answer: 每个文档以 frontmatter 开头（document_type、locale、title、description），正文混排 Markdown 散文与 :::block 结构化块，块以 ::: 结束。语法详见组件目录页。
   - question: 如何嵌入图表？
@@ -34,7 +34,7 @@ items:
   - question: 支持哪些语言？
     answer: 支持 zh-CN 与 en 两种 locale。locale 字段控制页面 lang 属性与排版。中英文各有完整样板。
   - question: 如何批量渲染？
-    answer: 编写脚本循环调用 momo2 render，或直接调用 momo_dsl 的 parse_file 与 render_html API。本站点的 site/build.py 是一个批量渲染多页站点的完整示例。
+    answer: 编写脚本循环调用 momo render，或直接调用 momo_dsl 的 parse_file 与 render_html API。本站点的 site/build.py 是一个批量渲染多页站点的完整示例。
 :::
 
 ## 设计与定制
@@ -53,5 +53,5 @@ items:
 
 :::footer-note
 title: 持续演进
-body: Momo Paper 正在持续演进。当前 15 份文档样板覆盖大多数商业与个人文档场景。如有新样板或功能建议，欢迎在 github.com/gusibi/momo-paper 参与贡献。
+body: 当前三个正式 Schema 模板承担兼容承诺，其余页面作为 experimental/free 示例保留。新模板只有在具备机器 Schema、Skill reference、示例与测试后才升级为正式契约。
 :::

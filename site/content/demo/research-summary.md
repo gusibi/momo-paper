@@ -1,54 +1,76 @@
 ---
-document_type: research_summary
+document_type: research-summary
 locale: zh-CN
-title: AI 辅助文档生成工具市场研究
-description: 对 12 款主流工具的横向对比研究，评估其在企业文档场景中的适用性。
+title: Agent 文档生成方案研究摘要
+description: 使用正式 research-summary Schema 展示研究问题、关键发现、影响、方法、限制与可追溯来源。
 ---
 
-## 研究论题
+:::callout
+tone: insight
+title: 正式模板说明
+body: 本页通过 research-summary Schema 严格校验。站点构建会检查必需章节、字段类型、block 顺序和 citation 引用关系，失败时不会覆盖上一版站点输出。
+:::
 
-随着大语言模型（LLM）在企业中的快速渗透，AI 辅助文档生成成为一个快速增长的市场。然而，市场上大多数工具关注的是「内容生成」而非「设计质量」——生成的文档缺乏一致的视觉语言和专业的排版规范。
+:::research-question
+question: 当 AI Agent 需要生成可交付的正式文档时，为什么应该先输出结构化 DSL，再由文档编译器生成 HTML 或 PDF？
+scope: 关注输出 token、结构可验证性、视觉一致性、修改成本和跨 Agent 复用。
+:::
 
-本研究的核心问题是：是否存在一种方式，将 AI 的内容生成能力与专业设计系统结合起来？Momo Paper 的 DSL 引擎 + MCP 工具正是对此问题的回答。
+:::key-findings
+title: 关键发现
+items:
+  - title: Agent 输出应当被编译，而不是直接成为最终页面
+    body: HTML 是浏览器渲染目标。DSL 让 Agent 只表达内容与语义结构，把重复布局、主题和打印规则交给固定渲染器。
+    citations:
+      - compiler-contract
+  - title: Schema 校验提供直接的 Agent 修复闭环
+    body: validate 一次返回全部错误、字段路径、block 和行号，Agent 可以针对性修改，而不必重新检查整份 HTML。
+    citations:
+      - schema-runtime
+  - title: 严格契约与开放渲染可以同时存在
+    body: 正式模板使用 strict Schema；未注册的文档类型进入 free mode，未知 block 和字段仍会被通用 renderer 保留。
+    citations:
+      - schema-runtime
+:::
 
-## 关键发现
+:::implications
+title: 对 Agent 工作流的影响
+items:
+  - title: 模板成为可执行契约
+    body: Skill 不再只给 Agent 一份示例，而是提供可以被 Python 验证的文档结构。
+  - title: 视觉系统可以独立演进
+    body: 同一份 DSL 可以切换主题和输出格式，而不要求 Agent 重写内容。
+  - title: 站点本身成为持续回归测试
+    body: 官网首页和两个研究页面必须 strict 通过后，构建器才会生成新的静态站点。
+:::
 
-### 发现 1：LLM 原始 HTML 输出的排版合格率仅 12%
+:::methodology
+title: 验证方法
+summary: 先审计现有 parser、renderer 与 Skill 的职责，再用三个正式模板建立端到端链路，并保留旧示例验证 free mode 兼容性。
+methods:
+  - 校验 landing-page、research-summary 与 deep-research 三个正式模板
+  - 检查旧 equity、health、slides 等示例仍能进入 free mode 并渲染
+  - 对 direct HTML 与 DSL 使用相同任务和质量门槛执行真实 A/B benchmark
+sample: 官网首页、研究摘要、深度研究报告，以及现有 experimental demo 画廊。
+:::
 
-我们测试了 3 个主流 LLM 直接生成 HTML 的质量。在 100 份样本中，仅 12 份在视觉一致性上达到可接受水平。主要问题包括：字体层级混乱（78%）、颜色使用不规范（65%）、无打印支持（100%）。
+:::limitations
+title: 当前边界
+items:
+  - Token 收益仍需以相同模型、相同任务和相同质量门槛的 API usage 实验为准。
+  - 当前引用系统校验 source ID 完整性，尚未实现复杂脚注编号和引用样式。
+  - ECharts 与代码高亮的完全离线打包、PDF 高级分页仍属于后续工作。
+:::
 
-*证据：测试模型 Claude Opus 4.7、GPT-4o、Gemini 2.5 Pro；各生成 100 份 one-pager 文档。*
-
-### 发现 2：结构化 DSL + 设计系统可将合格率提升至 100%
-
-当 LLM 输出结构化 Markdown DSL（而非原始 HTML），并由专门的设计系统引擎渲染时，排版质量达到 100% 一致。关键区别在于：DSL 只承载内容，排版由预定义的设计令牌和主题控制。
-
-*证据：使用 Momo Paper 引擎 + 结构校验；100 份测试样本全部通过视觉审查。*
-
-### 发现 3：MCP 工具模式将 agent 工作流集成成本降至接近零
-
-将文档渲染引擎封装为 MCP 工具后，AI agent 无需理解 CSS 或排版规则——只需构造符合约定的 DSL 内容，调用渲染工具即可。集成时间从预估的 2-3 周降至 30 分钟。
-
-*证据：基于 Momo Paper MCP 工具定义的 Claude Code 集成测试。*
-
-## 影响分析
-
-研究结果表明，市场存在一个明确的机会窗口：将「AI 内容生成」和「设计系统渲染」解耦，让 LLM 专注于结构化数据产出，由专业引擎负责视觉呈现。
-
-这种架构的优势在于双方可以在各自领域独立进化——LLM 变得更擅长结构化输出，设计系统变得更丰富和精细——而不需要对方做出任何改变。
-
-对于企业而言，这意味着可以在不增加设计团队负担的情况下，让 AI agent 产出品牌一致、打印就绪的文档。
-
-## 方法说明
-
-本研究采用混合方法：技术测试部分使用 3 个主流 LLM 各生成 100 份文档，由 3 位资深设计师进行盲评打分（1-5 分，评估维度包括字体层级、颜色一致性、间距规范、打印质量）。市场分析部分覆盖 12 款工具的功能对比和适用场景分析。
-
-研究的局限性包括：LLM 版本迭代快速，测试结果在 3-6 个月后可能不再准确；样本量虽具统计意义，但未覆盖所有文档样板；设计师评审主观性无法完全消除，但通过 3 人独立打分后取均值来降低偏差。
-
-**数据来源**
-
-- Claude Opus 4.7 HTML Generation Test (2026.04)
-- GPT-4o Structured Output Benchmark (2026.04)
-- Gemini 2.5 Pro Document Generation Test (2026.04)
-- Momo Paper MCP Integration Test Report (2026.04)
-- Enterprise Document Tooling Landscape 2026 (Gartner)
+:::sources
+title: 来源
+items:
+  - id: compiler-contract
+    title: Momo Paper Agent-native Document Compiler
+    url: https://github.com/gusibi/momo-paper
+    publisher: Momo Paper
+  - id: schema-runtime
+    title: Momo Paper Machine Schema Runtime
+    url: https://github.com/gusibi/momo-paper/tree/main/momo_dsl
+    publisher: Momo Paper
+:::

@@ -1,0 +1,90 @@
+{
+  "name": "deep-research",
+  "title": "Deep Research Report",
+  "description": "An evidence-heavy research report with an executive summary, findings, methodology, limitations, counterarguments, recommendations, and traceable sources.",
+  "document_types": ["deep-research"],
+  "distinctive_blocks": ["research-header", "executive-summary", "evidence", "counterarguments", "recommendations", "sources"],
+  "frontmatter": {
+    "required": ["document_type", "locale", "title"],
+    "properties": {
+      "document_type": {"type": "string", "enum": ["deep-research"]},
+      "locale": {"type": "string", "min_length": 1},
+      "title": {"type": "string", "min_length": 1},
+      "description": {"type": "string"},
+      "author": {"type": "string"},
+      "date": {"type": "string"}
+    },
+    "additional_properties": false
+  },
+  "composition": {
+    "allowed_blocks": ["research-header", "research-question", "executive-summary", "key-findings", "evidence", "counterarguments", "methodology", "limitations", "recommendations", "sources", "callout"],
+    "required_blocks": ["research-header", "executive-summary", "key-findings", "methodology", "sources"],
+    "ordering": [["research-header", "executive-summary"], ["executive-summary", "key-findings"], ["key-findings", "evidence"], ["key-findings", "methodology"], ["methodology", "limitations"], ["recommendations", "sources"], ["limitations", "sources"]]
+  },
+  "blocks": {
+    "research-header": {
+      "min_occurs": 1,
+      "max_occurs": 1,
+      "required": ["topic"],
+      "properties": {"topic": {"type": "string", "min_length": 1}, "scope": {"type": "string"}, "period": {"type": "string"}, "status": {"type": "string", "enum": ["draft", "reviewed", "final"]}},
+      "additional_properties": false
+    },
+    "research-question": {
+      "max_occurs": 1,
+      "required": ["question"],
+      "properties": {"question": {"type": "string"}, "scope": {"type": "string"}},
+      "additional_properties": false
+    },
+    "executive-summary": {
+      "min_occurs": 1,
+      "max_occurs": 1,
+      "required": ["summary"],
+      "properties": {"title": {"type": "string"}, "summary": {"type": "string", "min_length": 1}, "citations": {"type": "array", "items": {"type": "string"}}},
+      "additional_properties": false
+    },
+    "key-findings": {
+      "min_occurs": 1,
+      "max_occurs": 1,
+      "required": ["items"],
+      "properties": {"title": {"type": "string"}, "items": {"$ref": "finding-items"}},
+      "additional_properties": false
+    },
+    "evidence": {
+      "required": ["items"],
+      "properties": {"title": {"type": "string"}, "items": {"type": "array", "min_items": 1, "items": {"type": "object", "required": ["claim", "body"], "properties": {"claim": {"type": "string"}, "body": {"type": "string"}, "citations": {"type": "array", "items": {"type": "string"}}}, "additional_properties": false}}},
+      "additional_properties": false
+    },
+    "counterarguments": {
+      "max_occurs": 1,
+      "required": ["items"],
+      "properties": {"title": {"type": "string"}, "items": {"$ref": "titled-items"}},
+      "additional_properties": false
+    },
+    "methodology": {
+      "min_occurs": 1,
+      "max_occurs": 1,
+      "required": ["summary", "methods"],
+      "properties": {"title": {"type": "string"}, "summary": {"type": "string"}, "methods": {"type": "array", "min_items": 1, "items": {"type": "string"}}, "sample": {"type": "string"}},
+      "additional_properties": false
+    },
+    "limitations": {
+      "max_occurs": 1,
+      "required": ["items"],
+      "properties": {"title": {"type": "string"}, "items": {"type": "array", "items": {"type": "string"}}},
+      "additional_properties": false
+    },
+    "recommendations": {
+      "max_occurs": 1,
+      "required": ["items"],
+      "properties": {"title": {"type": "string"}, "items": {"$ref": "titled-items"}},
+      "additional_properties": false
+    },
+    "sources": {"$ref": "sources-block", "min_occurs": 1, "max_occurs": 1},
+    "callout": {"properties": {"tone": {"type": "string"}, "title": {"type": "string"}, "body": {"type": "string"}}, "additional_properties": false}
+  },
+  "definitions": {
+    "finding-items": {"type": "array", "min_items": 1, "items": {"type": "object", "required": ["title", "body"], "properties": {"title": {"type": "string", "min_length": 1}, "body": {"type": "string", "min_length": 1}, "confidence": {"type": "string", "enum": ["low", "medium", "high"]}, "citations": {"type": "array", "items": {"type": "string"}}}, "additional_properties": false}},
+    "titled-items": {"type": "array", "min_items": 1, "items": {"type": "object", "required": ["title"], "properties": {"title": {"type": "string"}, "body": {"type": "string"}, "desc": {"type": "string"}}, "additional_properties": false}},
+    "sources-block": {"required": ["items"], "properties": {"title": {"type": "string"}, "items": {"type": "array", "min_items": 1, "items": {"type": "object", "required": ["id", "title", "url"], "properties": {"id": {"type": "string", "min_length": 1}, "title": {"type": "string", "min_length": 1}, "url": {"type": "string", "min_length": 1}, "publisher": {"type": "string"}, "published_at": {"type": "string"}, "accessed_at": {"type": "string"}}, "additional_properties": false}}}, "additional_properties": false}
+  }
+}

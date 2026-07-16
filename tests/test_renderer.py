@@ -66,6 +66,29 @@ title: Custom CSS
         html = render_html(doc, css=".page { color: red; }")
         self.assertIn("<style>\n.page { color: red; }\n  </style>", html)
 
+    def test_renders_schema_invalid_content_permissively(self):
+        doc = parse_text("""---
+document_type: research-summary
+locale: en
+title: Permissive Render
+---
+
+:::key-findings
+unexpected: Still visible
+:::
+""")
+        html = render_html(doc)
+        self.assertIn('data-block="key-findings"', html)
+        self.assertIn("Still visible", html)
+
+    def test_renders_flagship_examples(self):
+        root = Path(__file__).resolve().parents[1]
+        for name in ("landing-page.md", "research-summary.md", "deep-research.md"):
+            with self.subTest(name=name):
+                html = render_html(parse_file(root / "examples" / name))
+                self.assertIn("<!DOCTYPE html>", html)
+                self.assertIn("<style>", html)
+
     def test_renders_reference_example_tags(self):
         root = Path(__file__).resolve().parents[1]
         html = render_html(parse_file(root / "examples" / "reference.md"))

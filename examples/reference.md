@@ -97,7 +97,7 @@ items:
 title: Render this document
 body: Use the CLI to validate the source and generate standalone HTML.
 button:
-  label: Run momo2 render
+  label: Run momo render
   href: /docs/render
 :::
 

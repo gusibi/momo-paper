@@ -1,29 +1,47 @@
-# Momo Paper 2.0 DSL
+# Momo Paper
 
-Momo Paper 2.0 converts Agent-generated Markdown DSL into standalone HTML.
+Momo Paper is a document renderer for AI Agents. Agents write compact Markdown DSL; Momo Paper validates the structure and renders consistent, print-ready standalone HTML or PDF.
 
 The runtime is a parser and converter. It does not define business components in Python. Tags such as `hero`, `feature-grid`, and `cta` are Agent-facing writing conventions. The parser accepts any valid `:::tag-name` block, validates syntax and metadata, and renders it as HTML with `data-block="tag-name"`.
 
 ## Quick Start
 
-```bash
-cd v2
-PYTHONPATH=. python -m momo_dsl.cli validate examples/landing.md
-PYTHONPATH=. python -m momo_dsl.cli render examples/landing.md -o dist/landing.html
-```
-
-`render` writes a single standalone HTML file with CSS inlined into `<style>`. To use a different visual system, pass a CSS file to inline:
+Python 3.10+ is required. Clone the repository and render the included equity-report example:
 
 ```bash
-PYTHONPATH=. python -m momo_dsl.cli render examples/landing.md -o dist/landing.html --css themes/report.css
+git clone https://github.com/gusibi/momo-paper.git
+cd momo-paper
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -e .
+
+momo validate examples/equity-report.md
+momo render examples/equity-report.md -o dist/equity-report.html
+open dist/equity-report.html  # macOS; use your browser on Linux/Windows
 ```
 
-After package installation:
+`render` writes a standalone HTML file with CSS inlined into `<style>`. No server or account is required.
+
+### Use the self-contained Skill runtime
+
+The bundled Skill includes its own runtime and only needs Python 3.10+. This path does not install a global command:
 
 ```bash
-momo2 validate examples/landing.md
-momo2 render examples/landing.md -o dist/landing.html
+./momo-paper-skill/momo validate examples/equity-report.md
+./momo-paper-skill/momo render examples/equity-report.md -o dist/equity-report.html
 ```
+
+Copy `momo-paper-skill/` into your Agent's skills directory when you want automatic skill discovery. The same package can also be called from any Agent tool layer through its `momo` wrapper.
+
+### Use a custom visual theme
+
+```bash
+momo render examples/equity-report.md -o dist/equity-report.html --css path/to/theme.css
+```
+
+`momo2` remains available as a compatibility alias for existing integrations.
+
+See the [rendered equity-report example](https://momo.eztoolab.com/demo/equity-report/) before installing, or read the [Agent usage guide](https://momo.eztoolab.com/guide/).
 
 ## Minimal Document
 
