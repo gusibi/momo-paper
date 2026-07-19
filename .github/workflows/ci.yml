@@ -28,8 +28,16 @@ jobs:
         run: |
           ./scripts/sync-skill.sh
           git diff --exit-code -- momo-paper-skill
-          ./momo-paper-skill/momo schema list
-          ./momo-paper-skill/momo validate examples/deep-research.md --json
+          ./momo-paper-skill/momo schema list --json
+          for schema in landing-page research-summary deep-research; do
+            case "$schema" in
+              landing-page) input=examples/landing-page.md ;;
+              research-summary) input=examples/research-summary.md ;;
+              deep-research) input=examples/deep-research.md ;;
+            esac
+            ./momo-paper-skill/momo validate "$input" --schema "$schema" --json
+            ./momo-paper-skill/momo render "$input" --schema "$schema" -o "$RUNNER_TEMP/$schema.html"
+          done
 
   lint:
     runs-on: ubuntu-latest

@@ -113,7 +113,7 @@ Declare sources in `:::sources` with a unique `id`. Fields that allow `citations
 
 ```bash
 "$SKILL_DIR/momo" validate input.md --schema deep-research --json
-"$SKILL_DIR/momo" render input.md -o output.html
+"$SKILL_DIR/momo" render input.md --schema deep-research -o output.html
 ```
 
 If validation reports errors, repair the DSL and validate again before rendering the final document.

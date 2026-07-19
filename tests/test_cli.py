@@ -44,12 +44,19 @@ title: Hello
         source = self.tmp / "page.md"
         css = self.tmp / "theme.css"
         output = self.tmp / "out" / "page.html"
-        source.write_text("""---
+        source.write_text(
+            """---
 document_type: landing
 locale: en
 title: CLI Test
 ---
-""", encoding="utf-8")
+
+:::hero
+title: Hello
+:::
+""",
+            encoding="utf-8",
+        )
         css.write_text(".page { color: red; }\n", encoding="utf-8")
 
         self.assertEqual(main(["render", str(source), "-o", str(output), "--css", str(css)]), 0)
@@ -156,6 +163,44 @@ unknown_field: Visible value
         html = output.read_text(encoding="utf-8")
         self.assertIn('data-block="unknown-block"', html)
         self.assertIn("Visible value", html)
+
+    def test_render_rejects_invalid_formal_schema_before_writing_output(self):
+        source = self.tmp / "broken.md"
+        output = self.tmp / "out" / "broken.html"
+        source.write_text(
+            "---\ndocument_type: landing-page\nlocale: en\ntitle: Broken\n---\n",
+            encoding="utf-8",
+        )
+
+        self.assertEqual(
+            main(["render", str(source), "--schema", "landing-page", "-o", str(output)]),
+            1,
+        )
+        self.assertFalse(output.exists())
+        self.assertFalse(output.parent.exists())
+
+    def test_render_accepts_valid_formal_schema(self):
+        source = self.tmp / "landing.md"
+        output = self.tmp / "out" / "landing.html"
+        source.write_text(
+            """---
+document_type: landing-page
+locale: en
+title: Formal landing
+---
+
+:::hero
+title: Hello
+:::
+""",
+            encoding="utf-8",
+        )
+
+        self.assertEqual(
+            main(["render", str(source), "--schema", "landing-page", "-o", str(output)]),
+            0,
+        )
+        self.assertTrue(output.exists())
 
     def test_bench_text_and_json(self):
         source = self.tmp / "page.md"

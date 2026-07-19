@@ -48,13 +48,11 @@ title: Full width
         html = render_html(doc)
         self.assertIn('<div class="block-inner">', html)
         self.assertNotIn("width: min(1120px", html)
-        self.assertNotIn("border-left:", html)
 
         css = get_default_css_path().read_text(encoding="utf-8")
         self.assertIn(".page { width: 100%; min-height: 100vh; }", css)
         self.assertIn(".block-inner", css)
         self.assertIn("font-size: clamp(36px, 6vw, 64px);", css)
-        self.assertNotIn("border-left:", css)
 
     def test_can_inline_custom_css(self):
         doc = parse_text("""---

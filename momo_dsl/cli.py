@@ -85,6 +85,11 @@ def main(argv: list[str] | None = None) -> int:
     render_parser.add_argument("input")
     render_parser.add_argument("-o", "--output", required=True)
     render_parser.add_argument(
+        "--schema",
+        default=None,
+        help="Validate against a named formal schema before rendering.",
+    )
+    render_parser.add_argument(
         "--css",
         default=None,
         help="CSS file to inline into the HTML. Defaults to the bundled momo-paper.css.",
@@ -234,6 +239,19 @@ def _cmd_schema(args) -> int:
 def _cmd_render(args) -> int:
     try:
         document = parse_file(args.input)
+    except DslError as exc:
+        print(f"error: {exc}", file=sys.stderr)
+        return 1
+
+    report = validate_document(document, schema_name=args.schema)
+    for issue in report.errors:
+        _print_issue("error", issue)
+    for issue in report.warnings:
+        _print_issue("warning", issue)
+    if report.errors:
+        return 1
+
+    try:
         css_path = Path(args.css) if args.css else get_default_css_path()
         css = css_path.read_text(encoding="utf-8")
         html = render_html(document, css=css)

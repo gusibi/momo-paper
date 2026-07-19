@@ -1,9 +1,9 @@
 ---
 name: momo-paper
 description: >
-  Generate beautiful, standalone HTML pages and reports from structured Markdown DSL. Use this skill whenever the user wants: landing pages, equity research reports, financial summaries, health/wellness trackers, research documents, visual narratives, documentation sites, or any document-style web page. Trigger when users mention "Momo Paper", "momo2", "Markdown DSL", "HTML report", "web page", "landing page", "financial report", "health report", or ask to generate/render/validate documents. Always use this skill instead of ad-hoc HTML/CSS for document generation—Momo Paper provides structured components, consistent styling, and validation. Default workflow: write Markdown DSL → validate → render standalone HTML with inlined CSS. Use Chinese output when the user speaks Chinese or requests Chinese output.
+  Use when generating, rendering, validating, or revising a document-style web page or report with Momo Paper Markdown DSL, including landing pages, research summaries, financial reports, health trackers, visual narratives, and documentation sites.
 argument-hint: "[output_path] — optional file path for the generated HTML"
-version: 2.0
+version: 2.1
 ---
 
 # Momo Paper
@@ -22,16 +22,17 @@ The runtime is a parser and converter. It does not generate business components 
 
 Use this path for new work unless the user explicitly asks for the legacy JSON/template system.
 
-1. Choose a formal template when the task matches one of the available schemas. Read `references/templates/INDEX.md`, then read only that template's reference.
-2. Use `"$SKILL_DIR/momo" schema list` or `schema describe <name>` when you need machine-readable template details.
-3. Read `references/REFERENCE.md` for open DSL syntax, experimental tags, or repair guidance not covered by a formal template.
+1. For a task that matches a formal template, read `references/templates/INDEX.md`, then read only the selected template reference.
+2. Use `"$SKILL_DIR/momo" schema list` or `schema describe <name> --json` when you need machine-readable template details.
+3. Use `references/REFERENCE.md` for open DSL syntax, experimental tags, or repair guidance not covered by a formal template.
 4. Use `examples/reference.md` when the user wants to see all component examples.
 5. Use `examples/landing-page.md`, `examples/research-summary.md`, or `examples/deep-research.md` for the three formal flagship templates.
 6. Existing finance, health, slides, and other examples remain experimental open-mode documents unless a formal schema reference exists.
-7. Write a Markdown DSL source file. Do not add a schema or DSL version field; `document_type` and distinctive blocks select the current compatible schema.
-8. Validate the source with `--json`. Repair every reported error, then validate again.
-9. Render HTML to a file. See [Output Path](#output-path).
-10. Return only the output file path. Do NOT return the HTML content as a string.
+7. Write a Markdown DSL source file. Do not add a schema or DSL version field; select the formal contract with the CLI `--schema` argument.
+8. Run `validate <input.md> --schema <name> --json`. For every `errors[]` item, repair the source using `code`, `path`, `line`, `block`, and `field`; repeat until `ok` is `true`.
+9. Run `render <input.md> --schema <name> -o <output.html>` only after the formal validation passes. See [Output Path](#output-path).
+10. For an intentionally experimental document, omit `--schema`; free mode preserves valid unknown blocks and fields, but its warnings are not a formal contract.
+11. Return only the output file path. Do NOT return the HTML content as a string.
 
 ### Output Path
 
@@ -44,13 +45,13 @@ The rendered HTML must always be written to a file. The calling Agent receives o
 Example with user-specified path:
 
 ```bash
-"$SKILL_DIR/momo" render input.md -o /Users/me/reports/my-report.html
+"$SKILL_DIR/momo" render input.md --schema <name> -o /Users/me/reports/my-report.html
 ```
 
 Example with default path:
 
 ```bash
-"$SKILL_DIR/momo" render input.md -o dist/output.html
+"$SKILL_DIR/momo" render input.md --schema <name> -o dist/output.html
 ```
 
 ## CLI
@@ -65,11 +66,9 @@ you already know its absolute path from loading this skill), then call the wrapp
 Do NOT hardcode any user-specific or machine-specific path.
 
 ```bash
-# SKILL_DIR = absolute directory of THIS skill (the folder holding this SKILL.md).
-SKILL_DIR=/absolute/path/to/this/momo-paper-skill
-
-"$SKILL_DIR/momo" validate input.md
-"$SKILL_DIR/momo" render  input.md -o output.html
+# Replace <name> with the selected formal Schema, for example landing-page.
+"$SKILL_DIR/momo" validate input.md --schema <name> --json
+"$SKILL_DIR/momo" render  input.md --schema <name> -o output.html
 ```
 
 Additional commands:
@@ -78,9 +77,11 @@ Additional commands:
 - `schema describe <name>` — print one machine schema; add `--json` for raw data.
 - `validate input.md --json` — infer a formal schema when possible and emit all semantic errors and warnings. Add `--schema <name>` to select a contract explicitly.
 - `bench input.md` — compare DSL token cost vs rendered HTML; add `--json` for machine output.
+- `render input.md --schema <name> -o out.html` — validate and render a formal document. It refuses semantic errors before writing output.
+- `render input.md -o out.html` — render an intentionally experimental/free document.
 - `render input.md -o out.pdf --format pdf` — print to PDF. Requires the optional `playwright` dependency (`pip install playwright && playwright install chromium`).
 
-`validate` is strict for a uniquely selected formal template. Experimental or ambiguous documents use free mode with warnings. `render` is permissive: syntactically valid unknown blocks and fields are preserved through generic rendering rather than discarded.
+`validate` is strict for a uniquely selected formal template. Experimental or ambiguous documents use free mode with warnings. For a formal deliverable, always pass the selected schema explicitly to both `validate` and `render`; `render --schema` refuses semantic errors. Without `--schema`, render remains permissive and preserves syntactically valid unknown blocks and fields for intentional experimental documents.
 
 `input.md` / `output.html` may be relative to your current directory or absolute —
 the wrapper does not change the working directory, so you can run it from anywhere.
@@ -90,8 +91,8 @@ the wrapper, the equivalent direct call is (note `runtime` must be resolved agai
 `SKILL_DIR`, not your current directory):
 
 ```bash
-PYTHONPATH="$SKILL_DIR/runtime" python3 -m momo_dsl.cli validate input.md
-PYTHONPATH="$SKILL_DIR/runtime" python3 -m momo_dsl.cli render  input.md -o output.html
+PYTHONPATH="$SKILL_DIR/runtime" python3 -m momo_dsl.cli validate input.md --schema <name> --json
+PYTHONPATH="$SKILL_DIR/runtime" python3 -m momo_dsl.cli render  input.md --schema <name> -o output.html
 ```
 
 > Requires Python >= 3.10 (the runtime uses `str | None` syntax). The wrapper checks
@@ -103,7 +104,7 @@ PYTHONPATH="$SKILL_DIR/runtime" python3 -m momo_dsl.cli render  input.md -o outp
 Rendering writes one standalone HTML file. CSS is inlined into `<style>`. To use another visual system, pass a CSS file to inline:
 
 ```bash
-"$SKILL_DIR/momo" render input.md -o output.html --css "$SKILL_DIR/themes/custom.css"
+"$SKILL_DIR/momo" render input.md --schema <name> -o output.html --css "$SKILL_DIR/themes/custom.css"
 ```
 
 Do not leave the generated page dependent on an external CSS file unless the user explicitly asks for that.
@@ -114,12 +115,14 @@ Every document must start with frontmatter:
 
 ```md
 ---
-document_type: landing
+document_type: landing-page
 locale: zh-CN
 title: Page title
 description: Optional summary
 ---
 ```
+
+For a formal document, use the selected reference's accepted `document_type` and pass its Schema name to both validation and rendering. Experimental documents may use an unregistered type and intentionally run in free mode.
 
 Required fields:
 
@@ -205,15 +208,17 @@ runtime/momo_dsl/styles/momo-paper.css
 
 ## Validation
 
-Before handing off generated or changed DSL, run (`$SKILL_DIR` = this skill's
-directory, see the CLI section above):
+Before handing off generated or changed DSL, run (`$SKILL_DIR` = this skill's directory, see the CLI section above):
 
 ```bash
-"$SKILL_DIR/momo" validate <input.md>
-"$SKILL_DIR/momo" render <input.md> -o <output.html>
+# Formal document: use the same selected Schema for both commands.
+"$SKILL_DIR/momo" validate <input.md> --schema <name> --json
+"$SKILL_DIR/momo" render <input.md> --schema <name> -o <output.html>
 ```
 
-When changing parser, renderer, CLI, examples, or CSS behavior, also run the test
+Read every `errors[]` item from the JSON response and repair `code`, `path`, `line`, `block`, and `field` before retrying. Do not render a formal deliverable until `ok` is `true`.
+
+For an intentionally experimental document, omit `--schema`; review free-mode warnings before rendering.
 suite (this one needs the skill dir as CWD because tests use relative paths):
 
 ```bash

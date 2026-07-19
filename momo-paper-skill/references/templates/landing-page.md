@@ -139,7 +139,7 @@ A document-style responsive landing page with a clear claim, supporting sections
 
 ```bash
 "$SKILL_DIR/momo" validate input.md --schema landing-page --json
-"$SKILL_DIR/momo" render input.md -o output.html
+"$SKILL_DIR/momo" render input.md --schema landing-page -o output.html
 ```
 
 If validation reports errors, repair the DSL and validate again before rendering the final document.

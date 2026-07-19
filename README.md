@@ -6,7 +6,7 @@ The runtime is a parser and converter. It does not define business components in
 
 ## Quick Start
 
-Python 3.10+ is required. Clone the repository and render the included equity-report example:
+Python 3.10+ is required. Clone the repository and generate the formal research-summary example:
 
 ```bash
 git clone https://github.com/gusibi/momo-paper.git
@@ -15,9 +15,10 @@ python3 -m venv .venv
 source .venv/bin/activate
 pip install -e .
 
-momo validate examples/equity-report.md
-momo render examples/equity-report.md -o dist/equity-report.html
-open dist/equity-report.html  # macOS; use your browser on Linux/Windows
+momo schema list
+momo validate examples/research-summary.md --schema research-summary --json
+momo render examples/research-summary.md --schema research-summary -o dist/research-summary.html
+open dist/research-summary.html  # macOS; use your browser on Linux/Windows
 ```
 
 `render` writes a standalone HTML file with CSS inlined into `<style>`. No server or account is required.
@@ -27,8 +28,8 @@ open dist/equity-report.html  # macOS; use your browser on Linux/Windows
 The bundled Skill includes its own runtime and only needs Python 3.10+. This path does not install a global command:
 
 ```bash
-./momo-paper-skill/momo validate examples/equity-report.md
-./momo-paper-skill/momo render examples/equity-report.md -o dist/equity-report.html
+./momo-paper-skill/momo validate examples/research-summary.md --schema research-summary --json
+./momo-paper-skill/momo render examples/research-summary.md --schema research-summary -o dist/research-summary.html
 ```
 
 Copy `momo-paper-skill/` into your Agent's skills directory when you want automatic skill discovery. The same package can also be called from any Agent tool layer through its `momo` wrapper.
@@ -36,7 +37,7 @@ Copy `momo-paper-skill/` into your Agent's skills directory when you want automa
 ### Use a custom visual theme
 
 ```bash
-momo render examples/equity-report.md -o dist/equity-report.html --css path/to/theme.css
+momo render examples/research-summary.md --schema research-summary -o dist/research-summary.html --css path/to/theme.css
 ```
 
 `momo2` remains available as a compatibility alias for existing integrations.

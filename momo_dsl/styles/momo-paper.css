@@ -2,53 +2,59 @@
   color-scheme: light;
 
   /* Ink & Paper */
-  --mp-ink: #172033;
-  --mp-ink-subtle: #4c566a;
-  --mp-paper: #faf8f4;
-  --mp-canvas: #f2efe8;
-  /* Card surface = DESIGN `background`; sits on the `surface` (#f2efe8) section bands. */
-  --mp-surface: #faf8f4;
-  --mp-line: #d8d2c4;
-  --mp-line-hover: #c2bdb0;
-  --mp-line-active: #b1aca1;
+  --mp-ink: #1d1d1f;
+  --mp-ink-subtle: #6e6e73;
+  --mp-paper: #ffffff;
+  --mp-canvas: #f5f5f7;
+  /* Card surface = DESIGN `background`; sits on the `surface` (#f5f5f7) section bands. */
+  --mp-surface: #ffffff;
+  --mp-line: rgba(0, 0, 0, 0.08);
+  --mp-line-hover: rgba(0, 0, 0, 0.16);
+  --mp-line-active: rgba(0, 0, 0, 0.24);
 
   /* Brand & Accent */
-  --mp-brand: #244c7a;
-  --mp-brand-hover: #1f426a;
-  --mp-brand-active: #1a3758;
-  --mp-brand-muted: #dce7f2;
-  --mp-accent: #b65c3a;
-  --mp-accent-muted: #f2e1d9;
+  --mp-brand: #0066cc;
+  --mp-brand-hover: #0055ab;
+  --mp-brand-active: #004a95;
+  --mp-brand-muted: #eaf2fc;
+  --mp-accent: #b25000;
+  --mp-accent-muted: #fbeee2;
 
   /* Semantic state */
-  --mp-success: #2f6b4f;
-  --mp-warning: #a46a21;
-  --mp-danger: #9a3d3d;
-  --mp-info: #3c6587;
+  --mp-success: #248a3d;
+  --mp-warning: #a05a00;
+  --mp-danger: #d70015;
+  --mp-info: #0066cc;
 
   /* Data palette */
-  --mp-data-primary: #244c7a;
-  --mp-data-secondary: #5c7fa3;
-  --mp-data-tertiary: #8eaac3;
-  --mp-data-accent: #b65c3a;
-  --mp-data-positive: #2f6b4f;
-  --mp-data-negative: #9a3d3d;
-  --mp-data-neutral: #7d8798;
+  --mp-data-primary: #0071e3;
+  --mp-data-secondary: #5ac8fa;
+  --mp-data-tertiary: #a5d3f5;
+  --mp-data-accent: #ff9f0a;
+  --mp-data-positive: #248a3d;
+  --mp-data-negative: #d70015;
+  --mp-data-neutral: #86868b;
 
   /* Typography */
-  --mp-font-display: "Noto Serif SC", "Source Han Serif SC", "Songti SC", serif;
-  --mp-font-body: "Inter", "Noto Sans SC", "PingFang SC", sans-serif;
-  --mp-font-metric: "IBM Plex Sans", "Inter", sans-serif;
-  --mp-font-mono: "IBM Plex Mono", "SFMono-Regular", monospace;
+  --mp-font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", "PingFang SC", "Noto Sans SC", system-ui, sans-serif;
+  --mp-font-body: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", "PingFang SC", "Noto Sans SC", system-ui, sans-serif;
+  --mp-font-metric: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", "PingFang SC", system-ui, sans-serif;
+  --mp-font-mono: ui-monospace, "SF Mono", "SFMono-Regular", "IBM Plex Mono", Menlo, monospace;
 
   /* Layout */
   --mp-max: 1120px;
   --mp-reading: 760px;
 
+  /* Radii */
+  --mp-radius-s: 8px;
+  --mp-radius-m: 14px;
+  --mp-radius-l: 18px;
+  --mp-radius-pill: 980px;
+
   /* Elevation */
-  --mp-shadow-raised: 0 1px 3px rgba(23, 32, 51, 0.06), 0 1px 2px rgba(23, 32, 51, 0.04);
-  --mp-shadow-overlay: 0 4px 12px -2px rgba(23, 32, 51, 0.08), 0 2px 4px rgba(23, 32, 51, 0.04);
-  --mp-shadow-modal: 0 8px 24px -4px rgba(23, 32, 51, 0.12), 0 4px 8px rgba(23, 32, 51, 0.06);
+  --mp-shadow-raised: 0 1px 2px rgba(0, 0, 0, 0.04), 0 2px 8px rgba(0, 0, 0, 0.04);
+  --mp-shadow-overlay: 0 4px 16px rgba(0, 0, 0, 0.08), 0 1px 4px rgba(0, 0, 0, 0.04);
+  --mp-shadow-modal: 0 11px 34px rgba(0, 0, 0, 0.14), 0 4px 10px rgba(0, 0, 0, 0.06);
 
   /* Motion */
   --mp-ease: cubic-bezier(0.2, 0, 0, 1);
@@ -60,24 +66,23 @@
   /* Focus */
   --mp-focus-ring: 0 0 0 2px var(--mp-paper), 0 0 0 4px var(--mp-brand);
 
-  /* Chart theming — read by the ECharts runtime (see renderer._render_chart_runtime).
-     Values match the renderer's built-in defaults, so charts are unchanged. */
-  --chart-1: #244c7a;
-  --chart-2: #5c7fa3;
-  --chart-3: #b65c3a;
-  --chart-4: #2f6b4f;
-  --chart-5: #8eaac3;
-  --chart-axis-line: #d8d2c4;
-  --chart-split-line: rgba(76, 86, 106, 0.12);
-  --chart-axis-label: #4c566a;
-  --chart-axis-name: #4c566a;
-  --chart-legend: #4c566a;
-  --chart-data-label: #172033;
-  --chart-up: #2f6b4f;
-  --chart-down: #9a3d3d;
-  --chart-area: rgba(36, 76, 122, 0.12);
-  --chart-center-value: #244c7a;
-  --chart-center-label: #4c566a;
+  /* Chart theming — read by the ECharts runtime (see renderer._render_chart_runtime). */
+  --chart-1: #0071e3;
+  --chart-2: #5ac8fa;
+  --chart-3: #ff9f0a;
+  --chart-4: #34c759;
+  --chart-5: #af52de;
+  --chart-axis-line: #d2d2d7;
+  --chart-split-line: rgba(0, 0, 0, 0.08);
+  --chart-axis-label: #6e6e73;
+  --chart-axis-name: #6e6e73;
+  --chart-legend: #6e6e73;
+  --chart-data-label: #1d1d1f;
+  --chart-up: #248a3d;
+  --chart-down: #d70015;
+  --chart-area: rgba(0, 113, 227, 0.12);
+  --chart-center-value: #0066cc;
+  --chart-center-label: #6e6e73;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -111,8 +116,18 @@ html { scroll-behavior: smooth; }
   position: sticky;
   top: 0;
   z-index: 50;
-  background: var(--mp-paper);
+  background: rgba(255, 255, 255, 0.72);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  backdrop-filter: blur(20px) saturate(180%);
   border-bottom: 1px solid var(--mp-line);
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .dsl-nav {
+    background: var(--mp-paper);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
 }
 
 .nav-inner {
@@ -144,26 +159,23 @@ html { scroll-behavior: smooth; }
 
 .nav-link {
   color: var(--mp-ink-subtle);
-  font-family: var(--mp-font-mono);
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: .03em;
+  font-family: var(--mp-font-body);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0;
   text-decoration: none;
-  text-transform: uppercase;
   padding-block: 4px;
-  border-bottom: 2px solid transparent;
-  transition: color var(--mp-dur-micro) var(--mp-ease), border-color var(--mp-dur-micro) var(--mp-ease);
+  transition: color var(--mp-dur-micro) var(--mp-ease);
 }
 
 .nav-link:hover,
 .nav-link:focus-visible {
-  color: var(--mp-brand);
-  border-bottom-color: var(--mp-brand);
+  color: var(--mp-ink);
 }
 
 .nav-cta {
   background: var(--mp-brand);
-  border-radius: 4px;
+  border-radius: var(--mp-radius-pill);
   color: #fff;
   font-family: var(--mp-font-mono);
   font-size: 12px;
@@ -200,16 +212,16 @@ html { scroll-behavior: smooth; }
   padding-inline: clamp(24px, 5vw, 72px);
 }
 
-.doc-header-inner { padding-block: clamp(40px, 6vw, 72px); }
-.markdown-inner, .block-inner { padding-block: clamp(40px, 5vw, 72px); }
+.doc-header-inner { padding-block: clamp(24px, 3.5vw, 40px); }
+.markdown-inner, .block-inner { padding-block: clamp(24px, 3.5vw, 44px); }
 
 .doc-type,
 .block-kicker,
 .field-key {
-  font-family: var(--mp-font-mono);
-  font-size: 11px;
+  font-family: var(--mp-font-body);
+  font-size: 12px;
   font-weight: 600;
-  letter-spacing: .04em;
+  letter-spacing: .06em;
   text-transform: uppercase;
 }
 
@@ -217,7 +229,7 @@ html { scroll-behavior: smooth; }
 .field-key { color: var(--mp-brand); }
 
 .block-kicker {
-  margin-bottom: 16px;
+  margin-bottom: 10px;
   color: var(--mp-accent);
 }
 
@@ -229,7 +241,7 @@ h1, h2, h3, h4 {
 
 h1 {
   max-width: 860px;
-  margin: 12px 0 14px;
+  margin: 8px 0 10px;
   font-size: clamp(30px, 3.4vw, 42px);
 }
 
@@ -259,9 +271,9 @@ h4 { margin: 0 0 8px; font-size: 16px; }
 /* Article prose — blockquote, code, rule, image (standard Markdown)  */
 /* ------------------------------------------------------------------ */
 
-.markdown-node h2 { margin-top: 40px; }
-.markdown-node h3 { margin-top: 28px; }
-.markdown-node h4 { margin-top: 20px; }
+.markdown-node h2 { margin-top: 28px; }
+.markdown-node h3 { margin-top: 20px; }
+.markdown-node h4 { margin-top: 16px; }
 .markdown-node > h2:first-child,
 .markdown-node > h3:first-child { margin-top: 0; }
 
@@ -324,7 +336,6 @@ h4 { margin: 0 0 8px; font-size: 16px; }
   padding: 4px 0 4px 20px;
   border-inline-start: 3px solid var(--mp-brand);
   color: var(--mp-ink-subtle);
-  font-style: italic;
 }
 
 .markdown-node blockquote p { margin: 0 0 8px; }
@@ -401,7 +412,7 @@ h4 { margin: 0 0 8px; font-size: 16px; }
 .dsl-block[data-block="slide"] .field--eyebrow > p {
   margin: 0 0 16px;
   color: var(--mp-brand);
-  font-family: var(--mp-font-mono);
+  font-family: var(--mp-font-body);
   font-size: 13px;
   font-weight: 600;
   letter-spacing: .08em;
@@ -510,10 +521,10 @@ h4 { margin: 0 0 8px; font-size: 16px; }
 .field--eyebrow > p {
   margin: 0 0 10px;
   color: var(--mp-brand);
-  font-family: var(--mp-font-mono);
+  font-family: var(--mp-font-body);
   font-size: 12px;
   font-weight: 600;
-  letter-spacing: .05em;
+  letter-spacing: .06em;
   text-transform: uppercase;
 }
 
@@ -537,11 +548,11 @@ h4 { margin: 0 0 8px; font-size: 16px; }
 .field--subtitle > p { font-size: 18px; }
 
 .object { display: block; }
-.object > .field + .field { margin-top: 16px; }
+.object > .field + .field { margin-top: 12px; }
 
 .items {
   display: grid;
-  gap: 16px;
+  gap: 12px;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   list-style: none;
   margin: 0;
@@ -552,11 +563,12 @@ h4 { margin: 0 0 8px; font-size: 16px; }
   min-width: 0;
   background: var(--mp-surface);
   border: 1px solid var(--mp-line);
-  border-radius: 8px;
-  padding: 18px;
+  border-radius: var(--mp-radius-m);
+  padding: 14px 16px;
+  box-shadow: var(--mp-shadow-raised);
 }
 
-.item .object > .field + .field { margin-top: 10px; }
+.item .object > .field + .field { margin-top: 6px; }
 
 /* Constrain font sizes inside card items */
 .items .item .field--name > p { font-size: 15px; font-weight: 600; line-height: 1.4; }
@@ -586,8 +598,12 @@ h4 { margin: 0 0 8px; font-size: 16px; }
   align-items: center;
   gap: 10px;
   border: 1px solid var(--mp-line);
-  border-radius: 4px;
-  padding: 10px 14px;
+  border-radius: var(--mp-radius-pill);
+  padding: 11px 22px;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.2;
+  text-decoration: none;
 }
 
 .field--primary-cta > .object,
@@ -608,7 +624,6 @@ h4 { margin: 0 0 8px; font-size: 16px; }
 .field--href { display: none; }
 
 .dsl-block[data-block="hero"] {
-  min-height: 64vh;
   background: var(--mp-ink);
   color: #fff;
 }
@@ -616,7 +631,7 @@ h4 { margin: 0 0 8px; font-size: 16px; }
 .dsl-block[data-block="hero"] .block-inner {
   display: flex;
   align-items: center;
-  min-height: 64vh;
+  padding-block: clamp(48px, 7vw, 88px);
 }
 
 .dsl-block[data-block="hero"] .block-kicker,
@@ -692,7 +707,7 @@ h4 { margin: 0 0 8px; font-size: 16px; }
   background: var(--mp-surface);
   border: 1px solid var(--mp-line);
   border-radius: 8px;
-  padding: 22px;
+  padding: 18px;
 }
 
 .dsl-block[data-block="comparison"] .object,
@@ -722,11 +737,11 @@ h4 { margin: 0 0 8px; font-size: 16px; }
 
 .dsl-block[data-block="cta"] .block-inner {
   display: grid;
-  gap: 20px;
+  gap: 14px;
 }
 
 .dsl-block[data-block="faq"] .items {
-  gap: 16px;
+  gap: 12px;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
 }
 
@@ -734,7 +749,7 @@ h4 { margin: 0 0 8px; font-size: 16px; }
   background: var(--mp-canvas);
   border: 1px solid var(--mp-line);
   border-radius: 8px;
-  padding: 20px 22px;
+  padding: 16px 18px;
 }
 
 .dsl-block[data-block="faq"] .field--question > p {
@@ -827,7 +842,7 @@ h4 { margin: 0 0 8px; font-size: 16px; }
 .dsl-block[data-block="valuation-table"] .field--insight {
   background: var(--mp-brand-muted);
   border-radius: 0 8px 8px 0;
-  padding: 20px 22px;
+  padding: 16px 18px;
 }
 
 .dsl-block[data-block="valuation-table"] .field--insight {
@@ -966,7 +981,7 @@ h4 { margin: 0 0 8px; font-size: 16px; }
 
 .chart-block {
   display: grid;
-  gap: 18px;
+  gap: 14px;
 }
 
 .chart-header {
@@ -1403,7 +1418,7 @@ h4 { margin: 0 0 8px; font-size: 16px; }
   background: var(--mp-paper);
   border: 1px solid var(--mp-line);
   border-radius: 12px;
-  padding: 20px 22px;
+  padding: 18px 20px;
 }
 
 .dsl-block[data-block="risk-matrix"] .field--risks {
@@ -1745,7 +1760,7 @@ h4 { margin: 0 0 8px; font-size: 16px; }
 .dsl-block[data-block="driver-logic"] .field--items .item {
   background: var(--mp-paper);
   border-radius: 12px;
-  padding: 22px 24px 22px 72px;
+  padding: 16px 18px 16px 62px;
   position: relative;
 }
 
@@ -1760,12 +1775,12 @@ h4 { margin: 0 0 8px; font-size: 16px; }
   font-family: var(--mp-font-mono);
   font-size: 13px;
   font-weight: 700;
-  height: 34px;
+  height: 30px;
   justify-content: center;
-  left: 22px;
+  left: 18px;
   position: absolute;
-  top: 22px;
-  width: 34px;
+  top: 16px;
+  width: 30px;
 }
 
 .dsl-block[data-block="driver-logic"] .field--index {
@@ -1975,7 +1990,7 @@ h4 { margin: 0 0 8px; font-size: 16px; }
 }
 
 .dsl-block[data-block="quote"] .block-inner {
-  padding-block: clamp(52px, 7vw, 96px);
+  padding-block: clamp(36px, 5vw, 64px);
 }
 
 .dsl-block[data-block="quote"] .field--text p {
@@ -1997,14 +2012,14 @@ h4 { margin: 0 0 8px; font-size: 16px; }
 }
 
 .dsl-block[data-block="callout"] .block-inner {
-  padding-block: clamp(32px, 5vw, 56px);
+  padding-block: clamp(20px, 3vw, 36px);
 }
 
 .dsl-block[data-block="callout"] .object {
   background: rgba(255, 255, 255, .74);
   border: 1px solid rgba(36, 76, 122, .18);
   border-radius: 8px;
-  padding: clamp(22px, 4vw, 34px);
+  padding: clamp(18px, 3vw, 26px);
 }
 
 .dsl-block[data-block="callout"] .field--tone .field-key {
@@ -2041,7 +2056,7 @@ h4 { margin: 0 0 8px; font-size: 16px; }
   background: var(--mp-surface);
   border: 1px solid var(--mp-line);
   border-radius: 8px;
-  padding: 22px;
+  padding: 18px;
 }
 
 .dsl-block[data-block="before-after"] .field--after,
@@ -2184,7 +2199,7 @@ h4 { margin: 0 0 8px; font-size: 16px; }
   border: 1px solid var(--mp-line);
   border-radius: 8px;
   max-width: 560px;
-  padding: clamp(24px, 5vw, 42px);
+  padding: clamp(20px, 3vw, 30px);
 }
 
 .dsl-block[data-block="metric-card"] .field--label p,
@@ -2595,7 +2610,7 @@ code {
   border: 1px solid color-mix(in srgb, var(--mp-brand) 30%, var(--mp-line));
   border-radius: 12px;
   background: color-mix(in srgb, var(--mp-brand-muted) 55%, var(--mp-paper));
-  padding: clamp(24px, 4vw, 42px);
+  padding: clamp(20px, 3vw, 30px);
 }
 
 .dsl-block[data-block="executive-summary"] .field--title p,
@@ -2635,7 +2650,7 @@ code {
 .dsl-block[data-block="recommendations"] .field--items .items {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 16px;
+  gap: 12px;
 }
 
 .dsl-block[data-block="key-findings"] .field--items .item,
@@ -2646,7 +2661,7 @@ code {
   border: 1px solid var(--mp-line);
   border-radius: 10px;
   background: var(--mp-paper);
-  padding: 22px;
+  padding: 16px 18px;
 }
 
 .dsl-block[data-block="key-findings"] .item .field--title p,
@@ -2693,7 +2708,7 @@ code {
   max-width: 920px;
   border-radius: 10px;
   background: var(--mp-surface);
-  padding: clamp(22px, 4vw, 36px);
+  padding: clamp(18px, 3vw, 26px);
 }
 
 .dsl-block[data-block="methodology"] .field--methods .items,
@@ -2976,12 +2991,13 @@ a { color: var(--mp-brand); }
 
 /* Interactive cards: table rows, legend items, nav anchors */
 .item {
-  transition: border-color var(--mp-dur-micro) var(--mp-ease),
-              box-shadow var(--mp-dur-micro) var(--mp-ease);
+  transition: border-color var(--mp-dur-standard) var(--mp-ease),
+              box-shadow var(--mp-dur-standard) var(--mp-ease);
 }
 
 .item:hover {
-  border-color: var(--mp-brand);
+  border-color: var(--mp-line-hover);
+  box-shadow: var(--mp-shadow-overlay);
 }
 
 /* Disabled state utility class */
@@ -3311,3 +3327,241 @@ a { color: var(--mp-brand); }
 .hljs-link { color: var(--mp-brand); text-decoration: underline; }
 .hljs-emphasis { font-style: italic; }
 .hljs-strong { font-weight: 700; }
+
+/* ================================================================== */
+/* Apple-style polish layer                                            */
+/* Craft pass: unified radii, soft elevation, pill buttons, press      */
+/* feedback. Overrides earlier rules via cascade order only.           */
+/* ================================================================== */
+
+a {
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+
+/* Links that render as buttons or nav chrome never show underlines. */
+.nav-brand,
+.nav-link,
+.nav-cta,
+.field--primary-cta > .object,
+.field--secondary-cta > .object,
+.field--button > .object { text-decoration: none; }
+
+.field--primary-cta > .object,
+.field--button > .object { color: #fff; }
+
+/* Press feedback on tap targets (Apple: respond on pointer-down). */
+.nav-cta,
+.field--primary-cta > .object,
+.field--secondary-cta > .object,
+.field--button > .object {
+  transition: background-color var(--mp-dur-micro) var(--mp-ease),
+              border-color var(--mp-dur-micro) var(--mp-ease),
+              color var(--mp-dur-micro) var(--mp-ease),
+              transform var(--mp-dur-micro) var(--mp-ease);
+}
+
+.nav-cta:active,
+.field--primary-cta > .object:active,
+.field--secondary-cta > .object:active,
+.field--button > .object:active { transform: scale(0.97); }
+
+.nav-cta:hover,
+.nav-cta:focus-visible { background: var(--mp-brand-hover); }
+
+/* Secondary CTA reads as a quiet bordered pill. */
+.field--secondary-cta > .object {
+  background: transparent;
+  border-color: var(--mp-line-hover);
+  color: var(--mp-ink);
+}
+
+.field--secondary-cta > .object:hover {
+  background: var(--mp-canvas);
+  border-color: var(--mp-line-active);
+  color: var(--mp-ink);
+}
+
+/* Unified corner radii on the larger surfaces. */
+.dsl-block[data-block="comparison"] .field--left,
+.dsl-block[data-block="comparison"] .field--right,
+.dsl-block[data-block="before-after"] .field--before,
+.dsl-block[data-block="before-after"] .field--after,
+.dsl-block[data-block="two-columns"] .field--left,
+.dsl-block[data-block="two-columns"] .field--right,
+.dsl-block[data-block="callout"] .object,
+.dsl-block[data-block="metric-card"] .object,
+.dsl-block[data-block="score-summary"] .object,
+.dsl-block[data-block="faq"] .item,
+.dsl-block[data-block="risk-matrix"] .field--risks,
+.dsl-block[data-block="risk-matrix"] .field--catalysts,
+.dsl-block[data-block="methodology"] > .block-inner > .object,
+.dsl-block[data-block="limitations"] > .block-inner > .object,
+.health-item,
+.metric-card,
+.goal-card {
+  border-radius: var(--mp-radius-m);
+}
+
+.chart-surface,
+.dsl-block[data-block="executive-summary"] > .block-inner > .object,
+.report-header--scored {
+  border-radius: var(--mp-radius-l);
+}
+
+/* Soft elevation on standalone panels. */
+.dsl-block[data-block="comparison"] .field--left,
+.dsl-block[data-block="comparison"] .field--right,
+.dsl-block[data-block="before-after"] .field--before,
+.dsl-block[data-block="before-after"] .field--after,
+.dsl-block[data-block="two-columns"] .field--left,
+.dsl-block[data-block="two-columns"] .field--right,
+.dsl-block[data-block="callout"] .object,
+.dsl-block[data-block="metric-card"] .object,
+.dsl-block[data-block="score-summary"] .object,
+.dsl-block[data-block="risk-matrix"] .field--risks,
+.dsl-block[data-block="risk-matrix"] .field--catalysts,
+.chart-surface,
+.metric-card,
+.goal-card {
+  box-shadow: var(--mp-shadow-raised);
+}
+
+/* Flat rows (tables, timelines, watchlists) never carry card shadows. */
+.dsl-block[data-block="table"] .field--rows .item,
+.dsl-block[data-block="valuation-table"] .field--rows .item,
+.dsl-block[data-block="financial-table"] .field--rows .item,
+.dsl-block[data-block="watchlist"] .field--items .item,
+.dsl-block[data-block="catalyst-timeline"] .field--items .item,
+.dsl-block[data-block="methodology"] .field--methods .item,
+.dsl-block[data-block="limitations"] .field--items .item,
+.dsl-block[data-block="pricing"] .field--features .item,
+.dsl-block[data-block="slide"] .field--points .item,
+.dsl-block[data-block="slide"][data-layout="two-col"] .item,
+.dsl-block[data-block="slide"][data-layout="metric"] .field--metrics .item,
+.dsl-block[data-block="risk-matrix"] .field--risks .item,
+.dsl-block[data-block="risk-matrix"] .field--catalysts .item,
+.dsl-block .field--citations .item,
+.dsl-block[data-block="footer-note"] .field--sources .item,
+.dsl-block[data-block="footer"] .field--links .item {
+  box-shadow: none;
+}
+
+.dsl-block[data-block="table"] .field--rows .item:hover,
+.dsl-block[data-block="valuation-table"] .field--rows .item:hover,
+.dsl-block[data-block="financial-table"] .field--rows .item:hover,
+.dsl-block[data-block="watchlist"] .field--items .item:hover,
+.dsl-block[data-block="catalyst-timeline"] .field--items .item:hover {
+  box-shadow: none;
+}
+
+/* Inline code + small chrome. */
+code { border-radius: 6px; background: var(--mp-canvas); border-color: transparent; }
+.markdown-node pre { background: var(--mp-canvas); border-color: transparent; border-radius: var(--mp-radius-m); }
+.markdown-node img { border-radius: var(--mp-radius-m); }
+.markdown-node thead th { background: var(--mp-canvas); }
+.chart-table thead th { background: var(--mp-canvas); }
+
+/* Watchlist / timeline markers become round dots. */
+.dsl-block[data-block="watchlist"] .field--items .item::before,
+.dsl-block[data-block="catalyst-timeline"] .field--items .item::before {
+  border-radius: 999px;
+}
+
+/* Dark bands (hero / quote / footer / research header) on true black-ish ink
+   read closer to Apple's dark sections. Soften their hairlines. */
+.dsl-block[data-block="hero"] .field--secondary-cta > .object {
+  border-color: rgba(255, 255, 255, .4);
+  color: #fff;
+}
+
+.dsl-block[data-block="hero"] .field--secondary-cta > .object:hover {
+  background: rgba(255, 255, 255, .1);
+  border-color: rgba(255, 255, 255, .6);
+  color: #fff;
+}
+
+/* Headline tracking: only large display sizes go negative (SF optical). */
+h1 { letter-spacing: -0.015em; }
+h2 { letter-spacing: -0.01em; }
+h3, h4 { letter-spacing: 0; }
+
+.dsl-block[data-block="hero"] .field--title > p,
+.dsl-block[data-block="slide"] .field--title > p,
+.dsl-block[data-block="research-header"] .field--topic p,
+.dsl-block[data-block="research-question"] .field--question p {
+  letter-spacing: -0.02em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-cta:active,
+  .field--primary-cta > .object:active,
+  .field--secondary-cta > .object:active,
+  .field--button > .object:active { transform: none; }
+}
+
+/* Timeline step numbers render as circled badges instead of bare digits. */
+.dsl-block[data-block="timeline"] .field--step p {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  height: 28px;
+  margin: 0;
+  border-radius: 999px;
+  background: var(--mp-brand-muted);
+  color: var(--mp-brand);
+  font-family: var(--mp-font-metric);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+/* ================================================================== */
+/* Density: collapse doubled band padding between sibling nodes.       */
+/* Each band carries its own top+bottom padding, so two adjacent       */
+/* same-background bands used to stack into a ~90-140px void.          */
+/* ================================================================== */
+
+/* Consecutive prose sections read as one continuous flow. */
+.markdown-node + .markdown-node .markdown-inner {
+  padding-block-start: 0;
+}
+
+/* Prose directly after the doc header sits close to it. */
+.doc-header + .markdown-node .markdown-inner {
+  padding-block-start: clamp(16px, 2vw, 24px);
+}
+
+/* A paper-band block following prose continues the same flow. */
+.markdown-node:not(.markdown-node--label) + .dsl-block[data-block="section"] .block-inner,
+.markdown-node:not(.markdown-node--label) + .dsl-block[data-block="timeline"] .block-inner,
+.markdown-node:not(.markdown-node--label) + .dsl-block[data-block="thesis-panel"] .block-inner {
+  padding-block-start: clamp(8px, 1.5vw, 16px);
+}
+
+/* Consecutive canvas-band blocks (cards, charts, tables) share one band:
+   halve the seam between them. */
+.dsl-block[data-block] + .dsl-block[data-block] .block-inner {
+  padding-block-start: clamp(16px, 2.5vw, 28px);
+}
+
+/* Full-bleed feature bands keep their own generous padding. */
+.dsl-block + .dsl-block[data-block="hero"] .block-inner { padding-block-start: clamp(48px, 7vw, 88px); }
+.dsl-block + .dsl-block[data-block="quote"] .block-inner { padding-block-start: clamp(36px, 5vw, 64px); }
+.dsl-block + .dsl-block[data-block="slide"] .block-inner { padding-block-start: clamp(48px, 8vh, 96px); }
+.dsl-block + .dsl-block[data-block="footer"] .block-inner { padding-block-start: 30px; }
+
+/* Rating chips: hide structural keys, and stop price chips stretching to
+   full row width inside grid parents (thesis-panel, price-drivers). */
+.field--rating > .field-key,
+.field--label > .field-key { display: none; }
+
+.dsl-block[data-block="thesis-panel"] .field--target-price,
+.dsl-block[data-block="thesis-panel"] .field--current-price,
+.dsl-block[data-block="price-drivers"] .field--current,
+.dsl-block[data-block="price-drivers"] .field--target,
+.dsl-block[data-block="price-drivers"] .field--low-52w,
+.dsl-block[data-block="price-drivers"] .field--high-52w {
+  justify-self: start;
+  width: fit-content;
+}

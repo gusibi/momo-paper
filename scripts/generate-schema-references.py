@@ -107,7 +107,7 @@ def _render_schema(schema: dict) -> str:
             "",
             "```bash",
             f'"$SKILL_DIR/momo" validate input.md --schema {schema["name"]} --json',
-            '"$SKILL_DIR/momo" render input.md -o output.html',
+            f'"$SKILL_DIR/momo" render input.md --schema {schema["name"]} -o output.html',
             "```",
             "",
             "If validation reports errors, repair the DSL and validate again before rendering the final document.",
